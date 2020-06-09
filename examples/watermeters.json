@@ -1,0 +1,189 @@
+{
+  "title": "WaterMeters",
+  "configuration": {
+    "widgets": {
+      "e2c3a624-7bf3-ef24-820d-9d64468008ea": {
+        "isSystemType": true,
+        "bundleAlias": "cards",
+        "typeAlias": "entities_table",
+        "type": "latest",
+        "title": "New widget",
+        "sizeX": 24,
+        "sizeY": 6,
+        "config": {
+          "timewindow": {
+            "realtime": {
+              "interval": 1000,
+              "timewindowMs": 86400000
+            },
+            "aggregation": {
+              "type": "NONE",
+              "limit": 200
+            }
+          },
+          "showTitle": true,
+          "backgroundColor": "rgb(255, 255, 255)",
+          "color": "rgba(0, 0, 0, 0.87)",
+          "padding": "4px",
+          "settings": {
+            "enableSearch": true,
+            "displayPagination": true,
+            "defaultPageSize": 10,
+            "defaultSortOrder": "entityName",
+            "displayEntityName": true,
+            "displayEntityType": true,
+            "enableSelectColumnDisplay": true,
+            "entitiesTitle": "Water Meters"
+          },
+          "title": "New Entities table",
+          "dropShadow": true,
+          "enableFullscreen": true,
+          "titleStyle": {
+            "fontSize": "16px",
+            "fontWeight": 400,
+            "padding": "5px 10px 5px 10px"
+          },
+          "useDashboardTimewindow": false,
+          "showLegend": false,
+          "datasources": [
+            {
+              "type": "entity",
+              "dataKeys": [
+                {
+                  "name": "active",
+                  "type": "attribute",
+                  "label": "active",
+                  "color": "#2196f3",
+                  "settings": {
+                    "columnWidth": "0px",
+                    "useCellStyleFunction": false,
+                    "cellStyleFunction": "",
+                    "useCellContentFunction": false,
+                    "cellContentFunction": ""
+                  },
+                  "_hash": 0.8204283590498711
+                },
+                {
+                  "name": "pulseNumber",
+                  "type": "timeseries",
+                  "label": "pulseNumber",
+                  "color": "#4caf50",
+                  "settings": {
+                    "columnWidth": "0px",
+                    "useCellStyleFunction": false,
+                    "cellStyleFunction": "",
+                    "useCellContentFunction": false,
+                    "cellContentFunction": ""
+                  },
+                  "_hash": 0.6779599877223141
+                },
+                {
+                  "name": "rssi",
+                  "type": "timeseries",
+                  "label": "rssi",
+                  "color": "#f44336",
+                  "settings": {
+                    "columnWidth": "0px",
+                    "useCellStyleFunction": false,
+                    "cellStyleFunction": "",
+                    "useCellContentFunction": false,
+                    "cellContentFunction": ""
+                  },
+                  "_hash": 0.9110029445693908
+                }
+              ],
+              "entityAliasId": "5cec3722-227a-ebdd-2fa3-fa51a0057082"
+            }
+          ],
+          "showTitleIcon": false,
+          "titleIcon": null,
+          "iconColor": "rgba(0, 0, 0, 0.87)",
+          "iconSize": "24px",
+          "titleTooltip": "",
+          "widgetStyle": {},
+          "displayTimewindow": true,
+          "actions": {},
+          "enableDataExport": true
+        },
+        "id": "e2c3a624-7bf3-ef24-820d-9d64468008ea"
+      }
+    },
+    "states": {
+      "default": {
+        "name": "WaterMeters",
+        "root": true,
+        "layouts": {
+          "main": {
+            "widgets": {
+              "e2c3a624-7bf3-ef24-820d-9d64468008ea": {
+                "sizeX": 24,
+                "sizeY": 6,
+                "row": 0,
+                "col": 0
+              }
+            },
+            "gridSettings": {
+              "backgroundColor": "#eeeeee",
+              "color": "rgba(0,0,0,0.870588)",
+              "columns": 24,
+              "margins": [
+                10,
+                10
+              ],
+              "backgroundSizeMode": "100%",
+              "autoFillHeight": true,
+              "mobileAutoFillHeight": false,
+              "mobileRowHeight": 70
+            }
+          }
+        }
+      }
+    },
+    "entityAliases": {
+      "5cec3722-227a-ebdd-2fa3-fa51a0057082": {
+        "id": "5cec3722-227a-ebdd-2fa3-fa51a0057082",
+        "alias": "waterMeters",
+        "filter": {
+          "type": "deviceType",
+          "resolveMultiple": true,
+          "deviceType": "waterMeter",
+          "deviceNameFilter": ""
+        }
+      }
+    },
+    "timewindow": {
+      "displayValue": "",
+      "selectedTab": 0,
+      "hideInterval": false,
+      "hideAggregation": false,
+      "hideAggInterval": false,
+      "realtime": {
+        "interval": 1000,
+        "timewindowMs": 60000
+      },
+      "history": {
+        "historyType": 0,
+        "interval": 1000,
+        "timewindowMs": 60000,
+        "fixedTimewindow": {
+          "startTimeMs": 1582458173320,
+          "endTimeMs": 1582544573320
+        }
+      },
+      "aggregation": {
+        "type": "AVG",
+        "limit": 25000
+      }
+    },
+    "settings": {
+      "stateControllerId": "entity",
+      "showTitle": false,
+      "showDashboardsSelect": true,
+      "showEntitiesSelect": true,
+      "showDashboardTimewindow": true,
+      "showDashboardExport": true,
+      "toolbarAlwaysOpen": true
+    }
+  },
+  "name": "WaterMeters"
+}
