@@ -129,19 +129,19 @@ class ApiClient(object):
                 # specified safe chars, encode everything
                 resource_path = resource_path.replace(
                     '{%s}' % k,
-                    quote(str(v), safe=config.safe_chars_for_path_param)
+                    quote(str(k+"="+v), safe=config.safe_chars_for_path_param)
                 ).replace(
                     '{?%s}' % k,
-                    quote(str(v), safe=config.safe_chars_for_path_param)
+                    quote(str("?"+k+"="+v), safe=config.safe_chars_for_path_param)
                 ).replace(
                     '{?%s,' % k,
-                    quote(str(v) + "{", safe=config.safe_chars_for_path_param)
+                    quote(str("?"+k+"="+v) + "{", safe=config.safe_chars_for_path_param)
                 ).replace(
                     ',%s,' % k,
-                    quote("}" + str(v) + "{", safe=config.safe_chars_for_path_param)
+                    quote("}" + str("&"+k+"="+v) + "{", safe=config.safe_chars_for_path_param)
                 ).replace(
                     ',?%s,' % k,
-                    quote("}" + str(v) + "{", safe=config.safe_chars_for_path_param)
+                    quote("}" + str("&"+k+"="+v) + "{", safe=config.safe_chars_for_path_param)
                 ).replace(
                     ',%s}' % k,
                     quote("}" + str(v), safe=config.safe_chars_for_path_param)

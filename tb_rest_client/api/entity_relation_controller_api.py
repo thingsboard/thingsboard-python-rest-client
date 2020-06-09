@@ -166,43 +166,39 @@ class EntityRelationControllerApi(object):
             _request_timeout=params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def delete_relations_using_delete(self, entity_id, entity_type, id, type, **kwargs):  # noqa: E501
+    def delete_relations_using_delete(self, entity_id, entity_type, **kwargs):  # noqa: E501
         """deleteRelations  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.delete_relations_using_delete(entity_id, entity_type, id, type, async_req=True)
+        >>> thread = api.delete_relations_using_delete(entity_id, entity_type, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
         :param str entity_id: entityId (required)
         :param str entity_type: entityType (required)
-        :param str id: (required)
-        :param str type: (required)
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.delete_relations_using_delete_with_http_info(entity_id, entity_type, id, type, **kwargs)  # noqa: E501
+            return self.delete_relations_using_delete_with_http_info(entity_id, entity_type, **kwargs)  # noqa: E501
         else:
-            (data) = self.delete_relations_using_delete_with_http_info(entity_id, entity_type, id, type, **kwargs)  # noqa: E501
+            (data) = self.delete_relations_using_delete_with_http_info(entity_id, entity_type, **kwargs)  # noqa: E501
             return data
 
-    def delete_relations_using_delete_with_http_info(self, entity_id, entity_type, id, type, **kwargs):  # noqa: E501
+    def delete_relations_using_delete_with_http_info(self, entity_id, entity_type, **kwargs):  # noqa: E501
         """deleteRelations  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.delete_relations_using_delete_with_http_info(entity_id, entity_type, id, type, async_req=True)
+        >>> thread = api.delete_relations_using_delete_with_http_info(entity_id, entity_type, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
         :param str entity_id: entityId (required)
         :param str entity_type: entityType (required)
-        :param str id: (required)
-        :param str type: (required)
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -231,14 +227,6 @@ class EntityRelationControllerApi(object):
         if ('entity_type' not in params or
                 params['entity_type'] is None):
             raise ValueError("Missing the required parameter `entity_type` when calling `delete_relations_using_delete`")  # noqa: E501
-        # verify the required parameter 'id' is set
-        if ('id' not in params or
-                params['id'] is None):
-            raise ValueError("Missing the required parameter `id` when calling `delete_relations_using_delete`")  # noqa: E501
-        # verify the required parameter 'type' is set
-        if ('type' not in params or
-                params['type'] is None):
-            raise ValueError("Missing the required parameter `type` when calling `delete_relations_using_delete`")  # noqa: E501
 
         collection_formats = {}
 
@@ -249,10 +237,6 @@ class EntityRelationControllerApi(object):
             query_params.append(('entityId', params['entity_id']))  # noqa: E501
         if 'entity_type' in params:
             query_params.append(('entityType', params['entity_type']))  # noqa: E501
-        if 'id' in params:
-            query_params.append(('id', params['id']))  # noqa: E501
-        if 'type' in params:
-            query_params.append(('type', params['type']))  # noqa: E501
 
         header_params = {}
 
@@ -272,7 +256,7 @@ class EntityRelationControllerApi(object):
         auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
-            '/api/relations{?entityId,entityType,id,type}', 'DELETE',
+            '/api/relations{?entityId,entityType}', 'DELETE',
             path_params,
             query_params,
             header_params,
