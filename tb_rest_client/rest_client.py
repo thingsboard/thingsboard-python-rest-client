@@ -5,7 +5,10 @@ from requests import post
 from threading import Thread
 from logging import getLogger
 
-from tb_rest_client import *
+from tb_rest_client.api import *
+from tb_rest_client.models import *
+from tb_rest_client.configuration import Configuration
+from tb_rest_client.api_client import ApiClient
 
 logger = getLogger(__name__)
 
@@ -23,6 +26,8 @@ class RestClient(Thread):
         self.__password = None
         self.__logged_in = False
         self.__stopped = True
+        self.__configuration = Configuration()
+        self.__configuration.host = self.__base_url
 
     def run(self):
         self.__stopped = False
@@ -55,13 +60,10 @@ class RestClient(Thread):
         token = None
         if isinstance(token_json, dict) and token_json.get("token") is not None:
             token = token_json["token"]
+        self.__configuration.api_key_prefix["X-Authorization"] = "Bearer"
+        self.__configuration.api_key["X-Authorization"] = token
 
-        configuration = Configuration()
-        configuration.host = self.__base_url
-        configuration.api_key_prefix["X-Authorization"] = "Bearer"
-        configuration.api_key["X-Authorization"] = token
-
-        self.api_client = ApiClient(configuration)
+        self.api_client = ApiClient(self.__configuration)
         self.__load_controllers()
 
     def getToken(self):
@@ -72,16 +74,16 @@ class RestClient(Thread):
     def get_admin_settings(self, key, system_by_default=False):
         return self.admin_controller.get_admin_settings_using_get(key=key, system_by_default=system_by_default)
 
-    def save_admin_settings(self, admin_settings):
+    def save_admin_settings(self, admin_settings: AdminSettings):
         return self.admin_controller.save_admin_settings_using_post(admin_settings)
 
-    def send_test_mail(self, admin_settings):
+    def send_test_mail(self, admin_settings: AdminSettings):
         return self.admin_controller.send_test_mail_using_post(admin_settings)
 
     def get_security_settings(self):
         return self.admin_controller.get_security_settings_using_get()
 
-    def save_security_settings(self, security_settings):
+    def save_security_settings(self, security_settings: SecuritySettings):
         return self.admin_controller.save_security_settings_using_post(security_settings)
 
     def check_updates(self):
@@ -256,7 +258,7 @@ class RestClient(Thread):
 
     def activate_user(self, user_id: UserId, password):
         user_id = self.get_id(user_id)
-        activation_request = {"activateToken": self.get_activation_token(user_id), "password":password}
+        activation_request = {"activateToken": self.get_activation_token(user_id).replace("'", '"'), "password":password}
         return self.auth_controller.activate_user_using_post(activation_request)
 
     """Component descriptors endpoints"""
@@ -1172,7 +1174,7 @@ class RestClient(Thread):
 
     def is_customer_white_labeling_allowed(self):
         return self.white_labeling_controller.is_customer_white_labeling_allowed_using_get()
-    
+
     def __load_controllers(self):
         self.auth_controller = AuthControllerApi(self.api_client)
         self.admin_controller = AdminControllerApi(self.api_client)
