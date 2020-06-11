@@ -1,7 +1,7 @@
 import logging
-from tb_rest_client import RestClient
-from tb_rest_client.models import Asset, Device, EntityRelation
-from tb_rest_client.rest import ApiException
+from tb_rest_client_pe import RestClient_CE
+from tb_rest_client_pe.models import Asset, Device, EntityRelation
+from tb_rest_client_pe.rest import ApiException
 
 
 logging.basicConfig(level=logging.DEBUG,
@@ -12,7 +12,7 @@ url = "http://localhost:8080"
 username = "tenant@thingsboard.org"
 password = "tenant"
 
-rest_client = RestClient(base_url=url)
+rest_client = RestClient_CE(base_url=url)
 rest_client.login(username=username, password=password)
 
 try:

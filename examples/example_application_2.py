@@ -1,7 +1,7 @@
 import logging
 from json import load
-from tb_rest_client import *
-from tb_rest_client.rest import ApiException
+from tb_rest_client_pe import *
+from tb_rest_client_pe.rest import ApiException
 
 
 logging.basicConfig(level=logging.DEBUG,
@@ -71,7 +71,7 @@ try:
                 customer_id=customer1.id,
                 email=user_email,
                 additional_info=additional_info)
-    user = rest_client.save_user(user, send_activation_email=False)
+    user = rest_client.save_user(user, send_activation_mail=False)
     rest_client.activate_user(user.id, user_password)
     rest_client.add_entities_to_entity_group(customer1_administrators.id, [user.id.id])
 

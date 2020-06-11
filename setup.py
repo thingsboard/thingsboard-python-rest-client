@@ -13,7 +13,7 @@
 
 from setuptools import setup, find_packages  # noqa: H301
 
-NAME = "tb_rest_client"
+NAME = "tb-rest-client-pe"
 VERSION = "1.0"
 REQUIRES = [
     "certifi>=2017.4.17",
