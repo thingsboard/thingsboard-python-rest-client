@@ -1,7 +1,7 @@
 # coding: utf-8
 
 """
-    ThingsBoard REST API
+    ThingsBoard PE REST API
 
     For instructions how to authorize requests please visit <a href='http://thingsboard.io/docs/reference/rest-api/'>REST API documentation page</a>.  # noqa: E501
 
@@ -26,10 +26,10 @@ REQUIRES = [
 setup(
     name=NAME,
     version=VERSION,
-    description="ThingsBoard REST API",
+    description="ThingsBoard PE REST API client",
     author_email="info@thingsboard.io",
     url="",
-    keywords=["Swagger", "ThingsBoard REST API"],
+    keywords=["IoT", "ThingsBoard", "ThingsBoard PE REST API client"],
     install_requires=REQUIRES,
     packages=find_packages(),
     include_package_data=True,

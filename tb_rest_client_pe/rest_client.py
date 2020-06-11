@@ -234,7 +234,7 @@ class RestClient(Thread):
 
     def get_activation_token(self, user_id: UserId):
         user_id = self.get_id(user_id)
-        return self.user_controller.get_user_token_using_get(user_id)
+        return self.user_controller.get_activation_token_using_get(user_id)
 
     def get_user(self):
         return self.auth_controller.get_user_using_get()

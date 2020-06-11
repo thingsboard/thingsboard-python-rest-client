@@ -1,2 +1,2 @@
-# python_rest_client
-ThingsBoard REST client
+# ThingsBoard PE REST API client
+ThingsBoard PE REST API client

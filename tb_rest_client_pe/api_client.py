@@ -170,12 +170,14 @@ class ApiClient(object):
         # query parameters
         if query_params:
             query_params = self.sanitize_for_serialization(query_params)
+            query_params = [param for param in query_params if (isinstance(param, tuple) and len(param) > 1 and param[1] is not None) or not isinstance(param, tuple)]
             query_params = self.parameters_to_tuples(query_params,
                                                      collection_formats)
 
         # post parameters
         if post_params or files:
             post_params = self.prepare_post_parameters(post_params, files)
+            post_params = [param for param in post_params if (isinstance(param, tuple) and len(param) > 1 and param[1] is not None) or not isinstance(param, tuple)]
             post_params = self.sanitize_for_serialization(post_params)
             post_params = self.parameters_to_tuples(post_params,
                                                     collection_formats)
@@ -247,7 +249,7 @@ class ApiClient(object):
                     for sub_obj in obj]
         elif isinstance(obj, tuple):
             return tuple(self.sanitize_for_serialization(sub_obj)
-                         for sub_obj in obj if sub_obj is not None)
+                         for sub_obj in obj)
         elif isinstance(obj, (datetime.datetime, datetime.date)):
             return obj.isoformat()
 
