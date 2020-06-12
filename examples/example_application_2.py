@@ -1,7 +1,7 @@
 import logging
 from json import load
-from tb_rest_client_pe import *
-from tb_rest_client_pe.rest import ApiException
+from tb_rest_client import *
+from tb_rest_client.rest import ApiException
 
 
 logging.basicConfig(level=logging.DEBUG,

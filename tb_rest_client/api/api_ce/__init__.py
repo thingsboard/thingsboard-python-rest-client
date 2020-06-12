@@ -1,0 +1,26 @@
+from __future__ import absolute_import
+
+# flake8: noqa
+
+# import apis into api_pe package
+from .admin_controller_api import AdminControllerApi
+from .alarm_controller_api import AlarmControllerApi
+from .asset_controller_api import AssetControllerApi
+from .audit_log_controller_api import AuditLogControllerApi
+from .auth_controller_api import AuthControllerApi
+from .component_descriptor_controller_api import ComponentDescriptorControllerApi
+from .customer_controller_api import CustomerControllerApi
+from .dashboard_controller_api import DashboardControllerApi
+from .device_api_controller_api import DeviceApiControllerApi
+from .device_controller_api import DeviceControllerApi
+from .entity_relation_controller_api import EntityRelationControllerApi
+from .entity_view_controller_api import EntityViewControllerApi
+from .event_controller_api import EventControllerApi
+from .queue_controller_api import QueueControllerApi
+from .rpc_controller_api import RpcControllerApi
+from .rule_chain_controller_api import RuleChainControllerApi
+from .telemetry_controller_api import TelemetryControllerApi
+from .tenant_controller_api import TenantControllerApi
+from .user_controller_api import UserControllerApi
+from .widget_type_controller_api import WidgetTypeControllerApi
+from .widgets_bundle_controller_api import WidgetsBundleControllerApi

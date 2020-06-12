@@ -1,7 +1,7 @@
 # coding: utf-8
 
 """
-    ThingsBoard PE REST API
+    ThingsBoard REST API client
 
     For instructions how to authorize requests please visit <a href='http://thingsboard.io/docs/reference/rest-api/'>REST API documentation page</a>.  # noqa: E501
 
@@ -13,7 +13,7 @@
 
 from setuptools import setup, find_packages  # noqa: H301
 
-NAME = "tb-rest-client-pe"
+NAME = "tb-rest-client"
 VERSION = "1.0"
 REQUIRES = [
     "certifi>=2017.4.17",
@@ -26,10 +26,10 @@ REQUIRES = [
 setup(
     name=NAME,
     version=VERSION,
-    description="ThingsBoard PE REST API client",
+    description="ThingsBoard REST API client",
     author_email="info@thingsboard.io",
     url="",
-    keywords=["IoT", "ThingsBoard", "ThingsBoard PE REST API client"],
+    keywords=["IoT", "ThingsBoard", "ThingsBoard REST API client"],
     install_requires=REQUIRES,
     packages=find_packages(),
     include_package_data=True,
