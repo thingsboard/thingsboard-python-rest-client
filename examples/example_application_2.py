@@ -15,6 +15,7 @@
 
 import logging
 from json import load
+# Importing models and REST client class from Professional Edition version
 from tb_rest_client.rest_client_pe import *
 from tb_rest_client.rest import ApiException
 
@@ -24,15 +25,23 @@ logging.basicConfig(level=logging.DEBUG,
                     datefmt='%Y-%m-%d %H:%M:%S')
 
 
+# ThingsBoard REST API URL
 url = "http://localhost:8080"
+
+# Default Tenant Administrator credentials
 username = "tenant@thingsboard.org"
 password = "tenant"
 
 
+# Creating the REST client object with context manager to get auto token refresh
 with RestClientPE(base_url=url) as rest_client:
     try:
+        # Auth with credentials
         rest_client.login(username=username, password=password)
+
+        # Getting current user
         current_user = rest_client.get_user()
+
         # Creating Dashboard Group on the Tenant Level
         shared_dashboards_group = EntityGroup(name="Shared Dashboards", type="DASHBOARD")
         shared_dashboards_group = rest_client.save_entity_group(shared_dashboards_group)
@@ -76,7 +85,6 @@ with RestClientPE(base_url=url) as rest_client:
         # Creating User for Customer 1 with default dashboard from Tenant "Shared Dashboards" group.
         user_email = "user@thingsboard.org"
         user_password = "secret"
-
         additional_info = {
             "defaultDashboardId": dashboard.id.id,
             "defaultDashboardFullscreen": False
@@ -87,6 +95,7 @@ with RestClientPE(base_url=url) as rest_client:
                     additional_info=additional_info)
         user = rest_client.save_user(user, send_activation_mail=False)
         rest_client.activate_user(user.id, user_password)
+
         rest_client.add_entities_to_entity_group(customer1_administrators.id, [user.id.id])
 
     except ApiException as e:
