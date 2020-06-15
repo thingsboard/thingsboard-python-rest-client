@@ -10,6 +10,11 @@ logger = getLogger(__name__)
 class RestClientPE(RestClientBase):
     def __init__(self, base_url):
         super().__init__(base_url)
+
+    def login(self, username, password):
+        super(RestClientPE, self).login(username=username, password=password)
+        self.__load_controllers()
+
     """Admin controller endpoints"""
 
     def get_admin_settings(self, key, system_by_default=False):

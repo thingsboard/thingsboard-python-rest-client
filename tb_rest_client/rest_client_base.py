@@ -28,7 +28,6 @@ class RestClientBase(Thread):
         self.stopped = True
         self.configuration = Configuration()
         self.configuration.host = self.base_url
-        self.start()
 
     def run(self):
         self.stopped = False
@@ -49,6 +48,13 @@ class RestClientBase(Thread):
 
     def stop(self):
         self.stopped = True
+
+    def __enter__(self):
+        self.start()
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.stop()
 
     def login(self, username, password):
         """Authorization on the host and saving the toke information"""

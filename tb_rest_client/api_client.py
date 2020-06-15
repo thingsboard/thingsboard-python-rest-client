@@ -319,15 +319,18 @@ class ApiClient(object):
             else:
                 try:
                     found_class = getattr(tb_rest_client.models.models_pe, klass)
-                    if sorted(list(found_class.attribute_map.values())) == sorted(list(data.keys())):
+                    # if sorted(list(found_class.attribute_map.values())) == sorted(list(data.keys())):
+                    if all(attr in list(found_class.attribute_map.values()) for attr in list(data.keys())):
                         klass = found_class
                     else:
                         found_class = getattr(tb_rest_client.models.models_ce, klass)
-                        if sorted(list(found_class.attribute_map.values())) == sorted(list(data.keys())):
+                        # if sorted(list(found_class.attribute_map.values())) == sorted(list(data.keys())):
+                        if all(attr in list(found_class.attribute_map.values()) for attr in list(data.keys())):
                             klass = found_class
                 except AttributeError:
                     found_class = getattr(tb_rest_client.models.models_ce, klass)
-                    if sorted(list(found_class.attribute_map.values())) == sorted(list(data.keys())):
+                    if all(attr in list(found_class.attribute_map.values()) for attr in list(data.keys())):
+                        # if sorted(list(found_class.attribute_map.values())) == sorted(list(data.keys())):
                         klass = found_class
             return self.__deserialize_data(data, klass)
 
