@@ -23,7 +23,7 @@ pip3 install tb-rest-client
 You can find the examples of the usage in the "examples" folder or on the [our website](https://thingsboard.io/docs/reference/python-rest-client/).
 
 
-**Notate:** There are 2 REST clients for ThingsBoard, they are depend on version of the ThingsBoard, you use.  
+**Note:** There are 2 REST clients for ThingsBoard, they are depend on version of the ThingsBoard, you use.  
 
  - If you use the ThingsBoard Community Edition (ThingsBoard CE) - please use the following command to import the REST client into your script:  
    `from tb_rest_client.rest_client_ce import *`  
