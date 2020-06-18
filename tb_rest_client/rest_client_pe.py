@@ -179,7 +179,7 @@ class RestClientPE(RestClientBase):
 
     def get_entity_groups_by_type(self, group_type):
         group_type = self.get_type(group_type)
-        self.entity_group_controller.get_entity_groups_by_type_using_get(group_type=group_type)
+        return self.entity_group_controller.get_entity_groups_by_type_using_get(group_type=group_type)
 
     def get_entity_groups_by_owner_and_type(self, owner_id, group_type):
         group_type = self.get_type(group_type)
