@@ -287,7 +287,7 @@ class ApiClient(object):
         return self.__deserialize(data, response_type)
 
     def __deserialize(self, data, klass):
-        """Deserializes dict, list, str into an object.
+        """Deserializes dict, list, str into an object..
 
         :param data: dict, list or str.
         :param klass: class literal, or string of class name.
@@ -297,7 +297,23 @@ class ApiClient(object):
         if data is None:
             return None
 
-        if type(klass) == str:
+        if klass == "DeferredResultResponseEntity":
+            return self.__deserialize(data, type(data))
+        #
+        # elif type(klass) == str:
+        #     # convert str to class
+        elif klass in self.NATIVE_TYPES_MAPPING:
+            klass = self.NATIVE_TYPES_MAPPING[klass]
+        elif type(data) == list or klass == list:
+            return_data = [self.__deserialize(sub_data, type(sub_data))
+                    for sub_data in data]
+            return return_data
+
+        elif type(data) == dict or klass == dict:
+            return_data = {k: self.__deserialize(v, type(v))
+                    for k, v in six.iteritems(data)}
+            return return_data
+        elif type(klass) == str:
             if klass.startswith('list['):
                 sub_kls = re.match(r'list\[(.*)\]', klass).group(1)
                 return [self.__deserialize(sub_data, sub_kls)
@@ -311,7 +327,6 @@ class ApiClient(object):
             # convert str to class
             if klass in self.NATIVE_TYPES_MAPPING:
                 klass = self.NATIVE_TYPES_MAPPING[klass]
-            else:
                 try:
                     found_class = getattr(tb_rest_client.models.models_pe, klass)
                     # if sorted(list(found_class.attribute_map.values())) == sorted(list(data.keys())):
@@ -327,7 +342,9 @@ class ApiClient(object):
                     if all(attr in list(found_class.attribute_map.values()) for attr in list(data.keys())):
                         # if sorted(list(found_class.attribute_map.values())) == sorted(list(data.keys())):
                         klass = found_class
-            return self.__deserialize_data(data, klass)
+        # else:
+        #     return self.__deserialize(data, type(data))
+        return self.__deserialize_data(data, klass)
 
     def __deserialize_data(self, data, klass):
         try:
