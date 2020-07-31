@@ -304,12 +304,12 @@ class ApiClient(object):
         #     # convert str to class
         elif klass in self.NATIVE_TYPES_MAPPING:
             klass = self.NATIVE_TYPES_MAPPING[klass]
-        elif type(data) == list or klass == list:
+        elif klass == list:
             return_data = [self.__deserialize(sub_data, type(sub_data))
                     for sub_data in data]
             return return_data
 
-        elif type(data) == dict or klass == dict:
+        elif klass == dict:
             return_data = {k: self.__deserialize(v, type(v))
                     for k, v in six.iteritems(data)}
             return return_data
@@ -327,21 +327,21 @@ class ApiClient(object):
             # convert str to class
             if klass in self.NATIVE_TYPES_MAPPING:
                 klass = self.NATIVE_TYPES_MAPPING[klass]
-                try:
-                    found_class = getattr(tb_rest_client.models.models_pe, klass)
+            try:
+                found_class = getattr(tb_rest_client.models.models_pe, klass)
+                # if sorted(list(found_class.attribute_map.values())) == sorted(list(data.keys())):
+                if all(attr in list(found_class.attribute_map.values()) for attr in list(data.keys())):
+                    klass = found_class
+                else:
+                    found_class = getattr(tb_rest_client.models.models_ce, klass)
                     # if sorted(list(found_class.attribute_map.values())) == sorted(list(data.keys())):
                     if all(attr in list(found_class.attribute_map.values()) for attr in list(data.keys())):
                         klass = found_class
-                    else:
-                        found_class = getattr(tb_rest_client.models.models_ce, klass)
-                        # if sorted(list(found_class.attribute_map.values())) == sorted(list(data.keys())):
-                        if all(attr in list(found_class.attribute_map.values()) for attr in list(data.keys())):
-                            klass = found_class
-                except AttributeError:
-                    found_class = getattr(tb_rest_client.models.models_ce, klass)
-                    if all(attr in list(found_class.attribute_map.values()) for attr in list(data.keys())):
-                        # if sorted(list(found_class.attribute_map.values())) == sorted(list(data.keys())):
-                        klass = found_class
+            except AttributeError:
+                found_class = getattr(tb_rest_client.models.models_ce, klass)
+                if all(attr in list(found_class.attribute_map.values()) for attr in list(data.keys())):
+                    # if sorted(list(found_class.attribute_map.values())) == sorted(list(data.keys())):
+                    klass = found_class
         # else:
         #     return self.__deserialize(data, type(data))
         return self.__deserialize_data(data, klass)
