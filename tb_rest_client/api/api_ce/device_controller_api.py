@@ -511,53 +511,55 @@ class DeviceControllerApi(object):
             _request_timeout=params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def get_customer_devices_using_get(self, customer_id, limit, **kwargs):  # noqa: E501
+    def get_customer_devices_using_get(self, customer_id, **kwargs):  # noqa: E501
         """getCustomerDevices  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api_pe.get_customer_devices_using_get(customer_id, limit, async_req=True)
+        >>> thread = api_pe.get_customer_devices_using_get(customer_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
         :param str customer_id: customerId (required)
-        :param str limit: limit (required)
         :param str type: type
         :param str text_search: textSearch
-        :param str id_offset: idOffset
-        :param str text_offset: textOffset
+        :param str sort_property: sortProperty
+        :param str sort_order: sortOrder
+        :param str page_size: pageSize (required)
+        :param str page: page (required)
         :return: TextPageDataDevice
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.get_customer_devices_using_get_with_http_info(customer_id, limit, **kwargs)  # noqa: E501
+            return self.get_customer_devices_using_get_with_http_info(customer_id, **kwargs)  # noqa: E501
         else:
-            (data) = self.get_customer_devices_using_get_with_http_info(customer_id, limit, **kwargs)  # noqa: E501
+            (data) = self.get_customer_devices_using_get_with_http_info(customer_id, **kwargs)  # noqa: E501
             return data
 
-    def get_customer_devices_using_get_with_http_info(self, customer_id, limit, **kwargs):  # noqa: E501
+    def get_customer_devices_using_get_with_http_info(self, customer_id, **kwargs):  # noqa: E501
         """getCustomerDevices  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api_pe.get_customer_devices_using_get_with_http_info(customer_id, limit, async_req=True)
+        >>> thread = api_pe.get_customer_devices_using_get_with_http_info(customer_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
         :param str customer_id: customerId (required)
-        :param str limit: limit (required)
         :param str type: type
         :param str text_search: textSearch
-        :param str id_offset: idOffset
-        :param str text_offset: textOffset
+        :param str sort_property: sortProperty
+        :param str sort_order: sortOrder
+        :param str page_size: pageSize (required)
+        :param str page: page (required)
         :return: TextPageDataDevice
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['customer_id', 'limit', 'type', 'text_search', 'id_offset', 'text_offset']  # noqa: E501
+        all_params = ['customer_id', 'limit', 'type', 'text_search', 'sort_property', 'sort_order', 'page_size', 'page']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -572,10 +574,14 @@ class DeviceControllerApi(object):
         if ('customer_id' not in params or
                 params['customer_id'] is None):
             raise ValueError("Missing the required parameter `customer_id` when calling `get_customer_devices_using_get`")  # noqa: E501
-        # verify the required parameter 'limit' is set
-        if ('limit' not in params or
-                params['limit'] is None):
-            raise ValueError("Missing the required parameter `limit` when calling `get_customer_devices_using_get`")  # noqa: E501
+        # verify the required parameter 'page_size' is set
+        if ('page_size' not in params or
+                params['page_size'] is None):
+            raise ValueError("Missing the required parameter `page_size` when calling `get_customer_devices_using_get`")  # noqa: E501
+        # verify the required parameter 'page' is set
+        if ('page' not in params or
+                params['page'] is None):
+            raise ValueError("Missing the required parameter `page` when calling `get_customer_devices_using_get`")  # noqa: E501
 
         collection_formats = {}
 
@@ -588,12 +594,14 @@ class DeviceControllerApi(object):
             query_params.append(('type', params['type']))  # noqa: E501
         if 'text_search' in params:
             query_params.append(('textSearch', params['text_search']))  # noqa: E501
-        if 'id_offset' in params:
-            query_params.append(('idOffset', params['id_offset']))  # noqa: E501
-        if 'text_offset' in params:
-            query_params.append(('textOffset', params['text_offset']))  # noqa: E501
-        if 'limit' in params:
-            query_params.append(('limit', params['limit']))  # noqa: E501
+        if 'sort_property' in params:
+            query_params.append(('sortProperty', params['sort_property']))  # noqa: E501
+        if 'sort_order' in params:
+            query_params.append(('sortOrder', params['sort_order']))  # noqa: E501
+        if 'page_size' in params:
+            query_params.append(('pageSize', params['page_size']))  # noqa: E501
+        if 'page' in params:
+            query_params.append(('page', params['page']))  # noqa: E501
 
         header_params = {}
 
@@ -613,7 +621,7 @@ class DeviceControllerApi(object):
         auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
-            '/api/customer/{customerId}/devices{?type,textSearch,idOffset,textOffset,limit}', 'GET',
+            '/api/customer/{customerId}/devices{?type,textSearch,sortProperty,sortOrder,pageSize,page}', 'GET',
             path_params,
             query_params,
             header_params,
