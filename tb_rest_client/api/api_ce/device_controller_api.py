@@ -1150,11 +1150,12 @@ class DeviceControllerApi(object):
             
             params[key] = val
         del params['kwargs']
-        # verify the required parameter 'limit' is set
+        # verify the required parameter 'page_size' is set
         if ('page_size' not in params or
                 params['page_size'] is None):
             raise ValueError("Missing the required parameter `page_size` when calling `get_tenant_devices_using_get`")  # noqa: E501
-        elif ('page' not in params or
+        # verify the required parameter 'page_size' is set
+        if ('page' not in params or
                 params['page'] is None):
             raise ValueError("Missing the required parameter `page` when calling `get_tenant_devices_using_get`")  # noqa: E501
 
