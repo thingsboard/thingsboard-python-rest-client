@@ -220,12 +220,12 @@ class TenantControllerApi(object):
             _request_timeout=params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def get_tenants_using_get(self, **kwargs):  # noqa: E501
+    def get_tenants_using_get(self, page_size, page, **kwargs):  # noqa: E501
         """getTenants  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api_pe.get_tenants_using_get(async_req=True)
+        >>> thread = api_pe.get_tenants_using_get(page_size, page, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
@@ -240,17 +240,17 @@ class TenantControllerApi(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.get_tenants_using_get_with_http_info(**kwargs)  # noqa: E501
+            return self.get_tenants_using_get_with_http_info(page_size, page, **kwargs)  # noqa: E501
         else:
-            (data) = self.get_tenants_using_get_with_http_info(**kwargs)  # noqa: E501
+            (data) = self.get_tenants_using_get_with_http_info(page_size, page, **kwargs)  # noqa: E501
             return data
 
-    def get_tenants_using_get_with_http_info(self, **kwargs):  # noqa: E501
+    def get_tenants_using_get_with_http_info(self, page_size, page, **kwargs):  # noqa: E501
         """getTenants  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api_pe.get_tenants_using_get_with_http_info(async_req=True)
+        >>> thread = api_pe.get_tenants_using_get_with_http_info(page_size, page, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool

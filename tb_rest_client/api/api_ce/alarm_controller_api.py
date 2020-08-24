@@ -499,20 +499,24 @@ class AlarmControllerApi(object):
             _request_timeout=params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def get_alarms_using_get(self, entity_type, entity_id, limit, **kwargs):  # noqa: E501
+    def get_alarms_using_get(self, entity_type, entity_id, page_size, page, **kwargs):  # noqa: E501
         """getAlarms  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api_pe.get_alarms_using_get(entity_type, entity_id, limit, async_req=True)
+        >>> thread = api_pe.get_alarms_using_get(entity_type, entity_id, page_size, page, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
         :param str entity_type: entityType (required)
         :param str entity_id: entityId (required)
-        :param int limit: limit (required)
         :param str search_status: searchStatus
         :param str status: status
+        :param str page_size: pageSize (required)
+        :param str page: page (required)
+        :param str text_search: textSearch
+        :param str sort_property: sortProperty
+        :param str sort_order: sortOrder
         :param int start_time: startTime
         :param int end_time: endTime
         :param bool asc_order: ascOrder
@@ -524,25 +528,29 @@ class AlarmControllerApi(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.get_alarms_using_get_with_http_info(entity_type, entity_id, limit, **kwargs)  # noqa: E501
+            return self.get_alarms_using_get_with_http_info(entity_type, entity_id, page_size, page, **kwargs)  # noqa: E501
         else:
-            (data) = self.get_alarms_using_get_with_http_info(entity_type, entity_id, limit, **kwargs)  # noqa: E501
+            (data) = self.get_alarms_using_get_with_http_info(entity_type, entity_id, page_size, page, **kwargs)  # noqa: E501
             return data
 
-    def get_alarms_using_get_with_http_info(self, entity_type, entity_id, limit, **kwargs):  # noqa: E501
+    def get_alarms_using_get_with_http_info(self, entity_type, entity_id, page_size, page, **kwargs):  # noqa: E501
         """getAlarms  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api_pe.get_alarms_using_get_with_http_info(entity_type, entity_id, limit, async_req=True)
+        >>> thread = api_pe.get_alarms_using_get_with_http_info(entity_type, entity_id, page_size, page, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
         :param str entity_type: entityType (required)
         :param str entity_id: entityId (required)
-        :param int limit: limit (required)
         :param str search_status: searchStatus
         :param str status: status
+        :param str page_size: pageSize (required)
+        :param str page: page (required)
+        :param str text_search: textSearch
+        :param str sort_property: sortProperty
+        :param str sort_order: sortOrder
         :param int start_time: startTime
         :param int end_time: endTime
         :param bool asc_order: ascOrder
@@ -553,7 +561,7 @@ class AlarmControllerApi(object):
                  returns the request thread.
         """
 
-        all_params = ['entity_type', 'entity_id', 'limit', 'search_status', 'status', 'start_time', 'end_time', 'asc_order', 'offset', 'fetch_originator']  # noqa: E501
+        all_params = ['entity_type', 'entity_id', 'search_status', 'status', 'page_size', 'page', 'text_search', 'sort_property', 'sort_order', 'start_time', 'end_time', 'asc_order', 'offset', 'fetch_originator']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -572,10 +580,14 @@ class AlarmControllerApi(object):
         if ('entity_id' not in params or
                 params['entity_id'] is None):
             raise ValueError("Missing the required parameter `entity_id` when calling `get_alarms_using_get`")  # noqa: E501
-        # verify the required parameter 'limit' is set
-        if ('limit' not in params or
-                params['limit'] is None):
-            raise ValueError("Missing the required parameter `limit` when calling `get_alarms_using_get`")  # noqa: E501
+        # verify the required parameter 'page_size' is set
+        if ('page_size' not in params or
+                params['page_size'] is None):
+            raise ValueError("Missing the required parameter `page_size` when calling `get_alarms_using_get`")  # noqa: E501
+        # verify the required parameter 'page' is set
+        if ('page' not in params or
+                params['page'] is None):
+            raise ValueError("Missing the required parameter `page` when calling `get_alarms_using_get`")  # noqa: E501
 
         collection_formats = {}
 
@@ -590,8 +602,16 @@ class AlarmControllerApi(object):
             query_params.append(('searchStatus', params['search_status']))  # noqa: E501
         if 'status' in params:
             query_params.append(('status', params['status']))  # noqa: E501
-        if 'limit' in params:
-            query_params.append(('limit', params['limit']))  # noqa: E501
+        if 'page_size' in params:
+            query_params.append(('pageSize', params['page_size']))  # noqa: E501
+        if 'page' in params:
+            query_params.append(('page', params['page']))  # noqa: E501
+        if 'text_search' in params:
+            query_params.append(('textSearch', params['text_search']))  # noqa: E501
+        if 'sort_property' in params:
+            query_params.append(('sortProperty', params['sort_property']))  # noqa: E501
+        if 'sort_order' in params:
+            query_params.append(('sortOrder', params['sort_order']))  # noqa: E501
         if 'start_time' in params:
             query_params.append(('startTime', params['start_time']))  # noqa: E501
         if 'end_time' in params:
@@ -621,7 +641,7 @@ class AlarmControllerApi(object):
         auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
-            '/api/alarm/{entityType}/{entityId}{?searchStatus,status,limit,startTime,endTime,ascOrder,offset,fetchOriginator}', 'GET',
+            '/api/alarm/{entityType}/{entityId}{?searchStatus,status,pageSize,page,textSearch,sortProperty,sortOrder,startTime,endTime,offset,fetchOriginator}', 'GET',
             path_params,
             query_params,
             header_params,

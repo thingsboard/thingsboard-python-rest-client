@@ -422,53 +422,53 @@ class DashboardControllerApi(object):
             _request_timeout=params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def get_customer_dashboards_using_get(self, customer_id, limit, **kwargs):  # noqa: E501
+    def get_customer_dashboards_using_get(self, customer_id, page_size, page, **kwargs):  # noqa: E501
         """getCustomerDashboards  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api_pe.get_customer_dashboards_using_get(customer_id, limit, async_req=True)
+        >>> thread = api_pe.get_customer_dashboards_using_get(customer_id, page_size, page, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
         :param str customer_id: customerId (required)
-        :param str limit: limit (required)
-        :param int start_time: startTime
-        :param int end_time: endTime
-        :param bool asc_order: ascOrder
-        :param str offset: offset
+        :param str text_search: textSearch
+        :param str sort_property: sortProperty
+        :param str sort_order: sortOrder
+        :param str page_size: pageSize (required)
+        :param str page: page (required)
         :return: TimePageDataDashboardInfo
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.get_customer_dashboards_using_get_with_http_info(customer_id, limit, **kwargs)  # noqa: E501
+            return self.get_customer_dashboards_using_get_with_http_info(customer_id, page_size, page, **kwargs)  # noqa: E501
         else:
-            (data) = self.get_customer_dashboards_using_get_with_http_info(customer_id, limit, **kwargs)  # noqa: E501
+            (data) = self.get_customer_dashboards_using_get_with_http_info(customer_id, page_size, page, **kwargs)  # noqa: E501
             return data
 
-    def get_customer_dashboards_using_get_with_http_info(self, customer_id, limit, **kwargs):  # noqa: E501
+    def get_customer_dashboards_using_get_with_http_info(self, customer_id, page_size, page, **kwargs):  # noqa: E501
         """getCustomerDashboards  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api_pe.get_customer_dashboards_using_get_with_http_info(customer_id, limit, async_req=True)
+        >>> thread = api_pe.get_customer_dashboards_using_get_with_http_info(customer_id, page_size, page, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
         :param str customer_id: customerId (required)
-        :param str limit: limit (required)
-        :param int start_time: startTime
-        :param int end_time: endTime
-        :param bool asc_order: ascOrder
-        :param str offset: offset
+        :param str text_search: textSearch
+        :param str sort_property: sortProperty
+        :param str sort_order: sortOrder
+        :param str page_size: pageSize (required)
+        :param str page: page (required)
         :return: TimePageDataDashboardInfo
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['customer_id', 'limit', 'start_time', 'end_time', 'asc_order', 'offset']  # noqa: E501
+        all_params = ['customer_id', 'text_search', 'sort_property', 'sort_order', 'page_size', 'page']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -483,10 +483,14 @@ class DashboardControllerApi(object):
         if ('customer_id' not in params or
                 params['customer_id'] is None):
             raise ValueError("Missing the required parameter `customer_id` when calling `get_customer_dashboards_using_get`")  # noqa: E501
-        # verify the required parameter 'limit' is set
-        if ('limit' not in params or
-                params['limit'] is None):
-            raise ValueError("Missing the required parameter `limit` when calling `get_customer_dashboards_using_get`")  # noqa: E501
+        # verify the required parameter 'page_size' is set
+        if ('page_size' not in params or
+                params['page_size'] is None):
+            raise ValueError("Missing the required parameter `page_size` when calling `get_customer_dashboards_using_get`")  # noqa: E501
+        # verify the required parameter 'page' is set
+        if ('page' not in params or
+                params['page'] is None):
+            raise ValueError("Missing the required parameter `page` when calling `get_customer_dashboards_using_get`")  # noqa: E501
 
         collection_formats = {}
 
@@ -495,16 +499,16 @@ class DashboardControllerApi(object):
             path_params['customerId'] = params['customer_id']  # noqa: E501
 
         query_params = []
-        if 'start_time' in params:
-            query_params.append(('startTime', params['start_time']))  # noqa: E501
-        if 'end_time' in params:
-            query_params.append(('endTime', params['end_time']))  # noqa: E501
-        if 'asc_order' in params:
-            query_params.append(('ascOrder', params['asc_order']))  # noqa: E501
-        if 'offset' in params:
-            query_params.append(('offset', params['offset']))  # noqa: E501
-        if 'limit' in params:
-            query_params.append(('limit', params['limit']))  # noqa: E501
+        if 'text_search' in params:
+            query_params.append(('textSearch', params['text_search']))  # noqa: E501
+        if 'sort_property' in params:
+            query_params.append(('sortProperty', params['sort_property']))  # noqa: E501
+        if 'sort_order' in params:
+            query_params.append(('sortOrder', params['sort_order']))  # noqa: E501
+        if 'page_size' in params:
+            query_params.append(('pageSize', params['page_size']))  # noqa: E501
+        if 'page' in params:
+            query_params.append(('page', params['page']))  # noqa: E501
 
         header_params = {}
 
@@ -524,7 +528,7 @@ class DashboardControllerApi(object):
         auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
-            '/api/customer/{customerId}/dashboards{?startTime,endTime,ascOrder,offset,limit}', 'GET',
+            '/api/customer/{customerId}/dashboards{?textSearch,sortProperty,sortOrder,pageSize,page}', 'GET',
             path_params,
             query_params,
             header_params,
@@ -895,49 +899,51 @@ class DashboardControllerApi(object):
             _request_timeout=params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def get_tenant_dashboards_using_get(self, limit, **kwargs):  # noqa: E501
+    def get_tenant_dashboards_using_get(self, page_size, page, **kwargs):  # noqa: E501
         """getTenantDashboards  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api_pe.get_tenant_dashboards_using_get(limit, async_req=True)
+        >>> thread = api_pe.get_tenant_dashboards_using_get(page_size, page, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str limit: limit (required)
         :param str text_search: textSearch
-        :param str id_offset: idOffset
-        :param str text_offset: textOffset
+        :param str sort_property: sortProperty
+        :param str sort_order: sortOrder
+        :param str page_size: pageSize (required)
+        :param str page: page (required)
         :return: TextPageDataDashboardInfo
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.get_tenant_dashboards_using_get_with_http_info(limit, **kwargs)  # noqa: E501
+            return self.get_tenant_dashboards_using_get_with_http_info(page_size, page, **kwargs)  # noqa: E501
         else:
-            (data) = self.get_tenant_dashboards_using_get_with_http_info(limit, **kwargs)  # noqa: E501
+            (data) = self.get_tenant_dashboards_using_get_with_http_info(page_size, page, **kwargs)  # noqa: E501
             return data
 
-    def get_tenant_dashboards_using_get_with_http_info(self, limit, **kwargs):  # noqa: E501
+    def get_tenant_dashboards_using_get_with_http_info(self, page_size, page, **kwargs):  # noqa: E501
         """getTenantDashboards  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api_pe.get_tenant_dashboards_using_get_with_http_info(limit, async_req=True)
+        >>> thread = api_pe.get_tenant_dashboards_using_get_with_http_info(page_size, page, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str limit: limit (required)
         :param str text_search: textSearch
-        :param str id_offset: idOffset
-        :param str text_offset: textOffset
+        :param str sort_property: sortProperty
+        :param str sort_order: sortOrder
+        :param str page_size: pageSize (required)
+        :param str page: page (required)
         :return: TextPageDataDashboardInfo
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['limit', 'text_search', 'id_offset', 'text_offset']  # noqa: E501
+        all_params = ['text_search', 'sort_property', 'sort_order', 'page_size', 'page']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -948,10 +954,14 @@ class DashboardControllerApi(object):
             
             params[key] = val
         del params['kwargs']
-        # verify the required parameter 'limit' is set
-        if ('limit' not in params or
-                params['limit'] is None):
-            raise ValueError("Missing the required parameter `limit` when calling `get_tenant_dashboards_using_get`")  # noqa: E501
+        # verify the required parameter 'page_size' is set
+        if ('page_size' not in params or
+                params['page_size'] is None):
+            raise ValueError("Missing the required parameter `page_size` when calling `get_tenant_dashboards_using_get`")  # noqa: E501
+        # verify the required parameter 'page' is set
+        if ('page' not in params or
+                params['page'] is None):
+            raise ValueError("Missing the required parameter `page` when calling `get_tenant_dashboards_using_get`")  # noqa: E501
 
         collection_formats = {}
 
@@ -960,12 +970,14 @@ class DashboardControllerApi(object):
         query_params = []
         if 'text_search' in params:
             query_params.append(('textSearch', params['text_search']))  # noqa: E501
-        if 'id_offset' in params:
-            query_params.append(('idOffset', params['id_offset']))  # noqa: E501
-        if 'text_offset' in params:
-            query_params.append(('textOffset', params['text_offset']))  # noqa: E501
-        if 'limit' in params:
-            query_params.append(('limit', params['limit']))  # noqa: E501
+        if 'sort_property' in params:
+            query_params.append(('sortProperty', params['sort_property']))  # noqa: E501
+        if 'sort_order' in params:
+            query_params.append(('sortOrder', params['sort_order']))  # noqa: E501
+        if 'page_size' in params:
+            query_params.append(('pageSize', params['page_size']))  # noqa: E501
+        if 'page' in params:
+            query_params.append(('page', params['page']))  # noqa: E501
 
         header_params = {}
 
@@ -985,7 +997,7 @@ class DashboardControllerApi(object):
         auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
-            '/api/tenant/dashboards{?textSearch,idOffset,textOffset,limit}', 'GET',
+            '/api/tenant/dashboards{?textSearch,sortProperty,sortOrder,pageSize,page}', 'GET',
             path_params,
             query_params,
             header_params,
@@ -1000,51 +1012,53 @@ class DashboardControllerApi(object):
             _request_timeout=params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def get_tenant_dashboards_using_get1(self, tenant_id, limit, **kwargs):  # noqa: E501
+    def get_tenant_dashboards_using_get1(self, tenant_id, page_size, page, **kwargs):  # noqa: E501
         """getTenantDashboards  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api_pe.get_tenant_dashboards_using_get1(tenant_id, limit, async_req=True)
+        >>> thread = api_pe.get_tenant_dashboards_using_get1(tenant_id, page_size, page, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
         :param str tenant_id: tenantId (required)
-        :param str limit: limit (required)
         :param str text_search: textSearch
-        :param str id_offset: idOffset
-        :param str text_offset: textOffset
+        :param str sort_property: sortProperty
+        :param str sort_order: sortOrder
+        :param str page_size: pageSize (required)
+        :param str page: page (required)
         :return: TextPageDataDashboardInfo
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.get_tenant_dashboards_using_get1_with_http_info(tenant_id, limit, **kwargs)  # noqa: E501
+            return self.get_tenant_dashboards_using_get1_with_http_info(tenant_id, page_size, page, **kwargs)  # noqa: E501
         else:
-            (data) = self.get_tenant_dashboards_using_get1_with_http_info(tenant_id, limit, **kwargs)  # noqa: E501
+            (data) = self.get_tenant_dashboards_using_get1_with_http_info(tenant_id, page_size, page, **kwargs)  # noqa: E501
             return data
 
-    def get_tenant_dashboards_using_get1_with_http_info(self, tenant_id, limit, **kwargs):  # noqa: E501
+    def get_tenant_dashboards_using_get1_with_http_info(self, tenant_id, page_size, page, **kwargs):  # noqa: E501
         """getTenantDashboards  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api_pe.get_tenant_dashboards_using_get1_with_http_info(tenant_id, limit, async_req=True)
+        >>> thread = api_pe.get_tenant_dashboards_using_get1_with_http_info(tenant_id, page_size, page, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
         :param str tenant_id: tenantId (required)
-        :param str limit: limit (required)
         :param str text_search: textSearch
-        :param str id_offset: idOffset
-        :param str text_offset: textOffset
+        :param str sort_property: sortProperty
+        :param str sort_order: sortOrder
+        :param str page_size: pageSize (required)
+        :param str page: page (required)
         :return: TextPageDataDashboardInfo
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['tenant_id', 'limit', 'text_search', 'id_offset', 'text_offset']  # noqa: E501
+        all_params = ['tenant_id', 'text_search', 'sort_property', 'sort_order', 'page_size', 'page']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -1059,10 +1073,14 @@ class DashboardControllerApi(object):
         if ('tenant_id' not in params or
                 params['tenant_id'] is None):
             raise ValueError("Missing the required parameter `tenant_id` when calling `get_tenant_dashboards_using_get1`")  # noqa: E501
-        # verify the required parameter 'limit' is set
-        if ('limit' not in params or
-                params['limit'] is None):
-            raise ValueError("Missing the required parameter `limit` when calling `get_tenant_dashboards_using_get1`")  # noqa: E501
+        # verify the required parameter 'page_size' is set
+        if ('page_size' not in params or
+                params['page_size'] is None):
+            raise ValueError("Missing the required parameter `page_size` when calling `get_tenant_dashboards_using_get1`")  # noqa: E501
+        # verify the required parameter 'page' is set
+        if ('page' not in params or
+                params['page'] is None):
+            raise ValueError("Missing the required parameter `page` when calling `get_tenant_dashboards_using_get1`")  # noqa: E501
 
         collection_formats = {}
 
@@ -1073,12 +1091,14 @@ class DashboardControllerApi(object):
         query_params = []
         if 'text_search' in params:
             query_params.append(('textSearch', params['text_search']))  # noqa: E501
-        if 'id_offset' in params:
-            query_params.append(('idOffset', params['id_offset']))  # noqa: E501
-        if 'text_offset' in params:
-            query_params.append(('textOffset', params['text_offset']))  # noqa: E501
-        if 'limit' in params:
-            query_params.append(('limit', params['limit']))  # noqa: E501
+        if 'sort_property' in params:
+            query_params.append(('sortProperty', params['sort_property']))  # noqa: E501
+        if 'sort_order' in params:
+            query_params.append(('sortOrder', params['sort_order']))  # noqa: E501
+        if 'page_size' in params:
+            query_params.append(('pageSize', params['page_size']))  # noqa: E501
+        if 'page' in params:
+            query_params.append(('page', params['page']))  # noqa: E501
 
         header_params = {}
 
@@ -1098,7 +1118,7 @@ class DashboardControllerApi(object):
         auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
-            '/api/tenant/{tenantId}/dashboards{?textSearch,idOffset,textOffset,limit}', 'GET',
+            '/api/tenant/{tenantId}/dashboards{?textSearch,sortProperty,sortOrder,pageSize,page}', 'GET',
             path_params,
             query_params,
             header_params,
