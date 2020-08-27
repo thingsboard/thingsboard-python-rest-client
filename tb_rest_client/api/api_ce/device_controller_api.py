@@ -533,9 +533,9 @@ class DeviceControllerApi(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.get_customer_devices_using_get_with_http_info(customer_id, **kwargs)  # noqa: E501
+            return self.get_customer_devices_using_get_with_http_info(customer_id, page_size, page, **kwargs)  # noqa: E501
         else:
-            (data) = self.get_customer_devices_using_get_with_http_info(customer_id, **kwargs)  # noqa: E501
+            (data) = self.get_customer_devices_using_get_with_http_info(customer_id, page_size, page, **kwargs)  # noqa: E501
             return data
 
     def get_customer_devices_using_get_with_http_info(self, customer_id, page_size, page, **kwargs):  # noqa: E501
