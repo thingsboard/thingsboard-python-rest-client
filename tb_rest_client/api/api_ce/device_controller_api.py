@@ -559,7 +559,7 @@ class DeviceControllerApi(object):
                  returns the request thread.
         """
 
-        all_params = ['customer_id', 'limit', 'type', 'text_search', 'sort_property', 'sort_order', 'page_size', 'page']  # noqa: E501
+        all_params = ['customer_id', 'type', 'text_search', 'sort_property', 'sort_order', 'page_size', 'page']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')

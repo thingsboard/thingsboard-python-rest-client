@@ -154,7 +154,7 @@ class RestClientBase(Thread):
         asset_id = self.get_id(asset_id)
         return self.asset_controller.delete_asset_using_delete(asset_id)
 
-    def get_tenant_assets(self, type=None, page_size=10, page=0, text_search=None, sort_property=None, sort_order=None,
+    def get_tenant_assets(self, page_size=10, page=0, type=None, text_search=None, sort_property=None, sort_order=None,
                           limit=100000):
         return self.asset_controller.get_tenant_assets_using_get(page_size=str(page_size),
                                                                  page=str(page),
@@ -166,7 +166,7 @@ class RestClientBase(Thread):
     def get_tenant_asset(self, asset_name):
         return self.asset_controller.get_tenant_asset_using_get(asset_name)
 
-    def get_customer_assets(self, customer_id: CustomerId, type, page_size=10, page=0, text_search=None,
+    def get_customer_assets(self, customer_id: CustomerId, page_size=10, page=0, type=None, text_search=None,
                             sort_property=None, sort_order=None, limit=100000):
         customer_id = self.get_id(customer_id)
         return self.asset_controller.get_customer_assets_using_get(customer_id=customer_id,
@@ -392,7 +392,7 @@ class RestClientBase(Thread):
     def get_tenant_device(self, device_name):
         return self.device_controller.get_tenant_device_using_get(device_name)
 
-    def get_customer_devices(self, customer_id: CustomerId, type=None, page_size=None, page=None, text_search=None,
+    def get_customer_devices(self, customer_id: CustomerId, page_size=None, page=None, type=None, text_search=None,
                              sort_property=None, sort_order=None, limit=100000):
         customer_id = self.get_id(customer_id)
         return self.device_controller.get_customer_devices_using_get(customer_id=customer_id,
@@ -498,7 +498,7 @@ class RestClientBase(Thread):
     def get_tenant_entity_view(self, entity_view_name):
         return self.entity_view_controller.get_tenant_entity_view_using_get(entity_view_name=entity_view_name)
 
-    def get_customer_entity_views(self, customer_id: CustomerId, type=None, page_size=10, page=0, text_search=None,
+    def get_customer_entity_views(self, customer_id: CustomerId, page_size=10, page=0, type=None, text_search=None,
                                   sort_property=None, sort_order=None, limit=100000):
         customer_id = self.get_id(customer_id)
         return self.entity_view_controller.get_customer_entity_views_using_get(customer_id=customer_id,
