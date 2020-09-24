@@ -79,7 +79,7 @@ class RestClientBase(Thread):
             self.password = password
             self.logged_in = True
 
-        token_json = post(self.base_url + "/api/auth/login", json={"username": username, "password": password}).json()
+        token_json = post(self.base_url + "/api/auth/login", json={"username": username, "password": password}, verify = self.configuration.verify_ssl).json()
         token = None
         if isinstance(token_json, dict) and token_json.get("token") is not None:
             token = token_json["token"]
