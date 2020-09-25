@@ -34,12 +34,12 @@ class EventControllerApi(object):
             api_client = ApiClient()
         self.api_client = api_client
 
-    def get_events_using_get(self, entity_type, entity_id, event_type, tenant_id, limit, **kwargs):  # noqa: E501
+    def get_events_using_get(self, entity_type, entity_id, event_type, tenant_id, page_size, page, **kwargs):  # noqa: E501
         """getEvents  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api_pe.get_events_using_get(entity_type, entity_id, event_type, tenant_id, limit, async_req=True)
+        >>> thread = api_pe.get_events_using_get(entity_type, entity_id, event_type, tenant_id, page_size, page, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
@@ -47,28 +47,30 @@ class EventControllerApi(object):
         :param str entity_id: entityId (required)
         :param str event_type: eventType (required)
         :param str tenant_id: tenantId (required)
-        :param int limit: limit (required)
+        :param str page_size: pageSize (required)
+        :param str page: page (required)
+        :param str text_search: textSearch
+        :param str sort_property: sortProperty
+        :param str sort_order: sortOrder
         :param int start_time: startTime
         :param int end_time: endTime
-        :param bool asc_order: ascOrder
-        :param str offset: offset
         :return: TimePageDataEvent
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.get_events_using_get_with_http_info(entity_type, entity_id, event_type, tenant_id, limit, **kwargs)  # noqa: E501
+            return self.get_events_using_get_with_http_info(entity_type, entity_id, event_type, tenant_id, page_size, page, **kwargs)  # noqa: E501
         else:
-            (data) = self.get_events_using_get_with_http_info(entity_type, entity_id, event_type, tenant_id, limit, **kwargs)  # noqa: E501
+            (data) = self.get_events_using_get_with_http_info(entity_type, entity_id, event_type, tenant_id, page_size, page, **kwargs)  # noqa: E501
             return data
 
-    def get_events_using_get_with_http_info(self, entity_type, entity_id, event_type, tenant_id, limit, **kwargs):  # noqa: E501
+    def get_events_using_get_with_http_info(self, entity_type, entity_id, event_type, tenant_id, page_size, page, **kwargs):  # noqa: E501
         """getEvents  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api_pe.get_events_using_get_with_http_info(entity_type, entity_id, event_type, tenant_id, limit, async_req=True)
+        >>> thread = api_pe.get_events_using_get_with_http_info(entity_type, entity_id, event_type, tenant_id, page_size, page, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
@@ -76,17 +78,19 @@ class EventControllerApi(object):
         :param str entity_id: entityId (required)
         :param str event_type: eventType (required)
         :param str tenant_id: tenantId (required)
-        :param int limit: limit (required)
+        :param str page_size: pageSize (required)
+        :param str page: page (required)
+        :param str text_search: textSearch
+        :param str sort_property: sortProperty
+        :param str sort_order: sortOrder
         :param int start_time: startTime
         :param int end_time: endTime
-        :param bool asc_order: ascOrder
-        :param str offset: offset
         :return: TimePageDataEvent
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['entity_type', 'entity_id', 'event_type', 'tenant_id', 'limit', 'start_time', 'end_time', 'asc_order', 'offset']  # noqa: E501
+        all_params = ['entity_type', 'entity_id', 'event_type', 'tenant_id', 'page_size', 'page', 'text_search', 'sort_property', 'sort_order', 'start_time', 'end_time']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -113,10 +117,14 @@ class EventControllerApi(object):
         if ('tenant_id' not in params or
                 params['tenant_id'] is None):
             raise ValueError("Missing the required parameter `tenant_id` when calling `get_events_using_get`")  # noqa: E501
-        # verify the required parameter 'limit' is set
-        if ('limit' not in params or
-                params['limit'] is None):
-            raise ValueError("Missing the required parameter `limit` when calling `get_events_using_get`")  # noqa: E501
+        # verify the required parameter 'page_size' is set
+        if ('page_size' not in params or
+                params['page_size'] is None):
+            raise ValueError("Missing the required parameter `page_size` when calling `get_events_using_get`")  # noqa: E501
+        # verify the required parameter 'page' is set
+        if ('page' not in params or
+                params['page'] is None):
+            raise ValueError("Missing the required parameter `page` when calling `get_events_using_get`")  # noqa: E501
 
         collection_formats = {}
 
@@ -131,16 +139,20 @@ class EventControllerApi(object):
         query_params = []
         if 'tenant_id' in params:
             query_params.append(('tenantId', params['tenant_id']))  # noqa: E501
-        if 'limit' in params:
-            query_params.append(('limit', params['limit']))  # noqa: E501
+        if 'page_size' in params:
+            query_params.append(('pageSize', params['page_size']))  # noqa: E501
+        if 'page' in params:
+            query_params.append(('page', params['page']))  # noqa: E501
+        if 'text_search' in params:
+            query_params.append(('textSearch', params['text_search']))  # noqa: E501
+        if 'sort_property' in params:
+            query_params.append(('sortProperty', params['sort_property']))  # noqa: E501
+        if 'sort_order' in params:
+            query_params.append(('sortOrder', params['sort_order']))  # noqa: E501
         if 'start_time' in params:
             query_params.append(('startTime', params['start_time']))  # noqa: E501
         if 'end_time' in params:
             query_params.append(('endTime', params['end_time']))  # noqa: E501
-        if 'asc_order' in params:
-            query_params.append(('ascOrder', params['asc_order']))  # noqa: E501
-        if 'offset' in params:
-            query_params.append(('offset', params['offset']))  # noqa: E501
 
         header_params = {}
 
@@ -160,7 +172,7 @@ class EventControllerApi(object):
         auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
-            '/api/events/{entityType}/{entityId}/{eventType}{?tenantId,limit,startTime,endTime,ascOrder,offset}', 'GET',
+            '/api/events/{entityType}/{entityId}/{eventType}{?tenantId,pageSize,page,textSearch,sortProperty,sortOrder,startTime,endTime}', 'GET',
             path_params,
             query_params,
             header_params,
@@ -175,57 +187,61 @@ class EventControllerApi(object):
             _request_timeout=params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def get_events_using_get1(self, entity_type, entity_id, tenant_id, limit, **kwargs):  # noqa: E501
+    def get_events_using_get1(self, entity_type, entity_id, tenant_id, page_size, page, **kwargs):  # noqa: E501
         """getEvents  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api_pe.get_events_using_get1(entity_type, entity_id, tenant_id, limit, async_req=True)
+        >>> thread = api_pe.get_events_using_get1(entity_type, entity_id, tenant_id, page_size, page, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
         :param str entity_type: entityType (required)
         :param str entity_id: entityId (required)
         :param str tenant_id: tenantId (required)
-        :param int limit: limit (required)
+        :param str page_size: pageSize (required)
+        :param str page: page (required)
+        :param str text_search: textSearch
+        :param str sort_property: sortProperty
+        :param str sort_order: sortOrder
         :param int start_time: startTime
         :param int end_time: endTime
-        :param bool asc_order: ascOrder
-        :param str offset: offset
         :return: TimePageDataEvent
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.get_events_using_get1_with_http_info(entity_type, entity_id, tenant_id, limit, **kwargs)  # noqa: E501
+            return self.get_events_using_get1_with_http_info(entity_type, entity_id, tenant_id, page_size, page, **kwargs)  # noqa: E501
         else:
-            (data) = self.get_events_using_get1_with_http_info(entity_type, entity_id, tenant_id, limit, **kwargs)  # noqa: E501
+            (data) = self.get_events_using_get1_with_http_info(entity_type, entity_id, tenant_id, page_size, page, **kwargs)  # noqa: E501
             return data
 
-    def get_events_using_get1_with_http_info(self, entity_type, entity_id, tenant_id, limit, **kwargs):  # noqa: E501
+    def get_events_using_get1_with_http_info(self, entity_type, entity_id, tenant_id, page_size, page, **kwargs):  # noqa: E501
         """getEvents  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api_pe.get_events_using_get1_with_http_info(entity_type, entity_id, tenant_id, limit, async_req=True)
+        >>> thread = api_pe.get_events_using_get1_with_http_info(entity_type, entity_id, tenant_id, page_size, page, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
         :param str entity_type: entityType (required)
         :param str entity_id: entityId (required)
         :param str tenant_id: tenantId (required)
-        :param int limit: limit (required)
+        :param str page_size: pageSize (required)
+        :param str page: page (required)
+        :param str text_search: textSearch
+        :param str sort_property: sortProperty
+        :param str sort_order: sortOrder
         :param int start_time: startTime
         :param int end_time: endTime
-        :param bool asc_order: ascOrder
-        :param str offset: offset
         :return: TimePageDataEvent
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['entity_type', 'entity_id', 'tenant_id', 'limit', 'start_time', 'end_time', 'asc_order', 'offset']  # noqa: E501
+        all_params = ['entity_type', 'entity_id', 'tenant_id', 'page_size', 'page', 'text_search', 'sort_property', 'sort_order', 'start_time', 'end_time']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -248,10 +264,14 @@ class EventControllerApi(object):
         if ('tenant_id' not in params or
                 params['tenant_id'] is None):
             raise ValueError("Missing the required parameter `tenant_id` when calling `get_events_using_get1`")  # noqa: E501
-        # verify the required parameter 'limit' is set
-        if ('limit' not in params or
-                params['limit'] is None):
-            raise ValueError("Missing the required parameter `limit` when calling `get_events_using_get1`")  # noqa: E501
+        # verify the required parameter 'page_size' is set
+        if ('page_size' not in params or
+                params['page_size'] is None):
+            raise ValueError("Missing the required parameter `page_size` when calling `get_events_using_get1`")  # noqa: E501
+        # verify the required parameter 'page' is set
+        if ('page' not in params or
+                params['page'] is None):
+            raise ValueError("Missing the required parameter `page` when calling `get_events_using_get1`")  # noqa: E501
 
         collection_formats = {}
 
@@ -264,16 +284,20 @@ class EventControllerApi(object):
         query_params = []
         if 'tenant_id' in params:
             query_params.append(('tenantId', params['tenant_id']))  # noqa: E501
-        if 'limit' in params:
-            query_params.append(('limit', params['limit']))  # noqa: E501
+        if 'page_size' in params:
+            query_params.append(('pageSize', params['page_size']))  # noqa: E501
+        if 'page' in params:
+            query_params.append(('page', params['page']))  # noqa: E501
+        if 'text_search' in params:
+            query_params.append(('textSearch', params['text_search']))  # noqa: E501
+        if 'sort_property' in params:
+            query_params.append(('sortProperty', params['sort_property']))  # noqa: E501
+        if 'sort_order' in params:
+            query_params.append(('sortOrder', params['sort_order']))  # noqa: E501
         if 'start_time' in params:
             query_params.append(('startTime', params['start_time']))  # noqa: E501
         if 'end_time' in params:
             query_params.append(('endTime', params['end_time']))  # noqa: E501
-        if 'asc_order' in params:
-            query_params.append(('ascOrder', params['asc_order']))  # noqa: E501
-        if 'offset' in params:
-            query_params.append(('offset', params['offset']))  # noqa: E501
 
         header_params = {}
 
@@ -293,7 +317,7 @@ class EventControllerApi(object):
         auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
-            '/api/events/{entityType}/{entityId}{?tenantId,limit,startTime,endTime,ascOrder,offset}', 'GET',
+            '/api/events/{entityType}/{entityId}{?tenantId,pageSize,page,textSearch,sortProperty,sortOrder,startTime,endTime}', 'GET',
             path_params,
             query_params,
             header_params,
