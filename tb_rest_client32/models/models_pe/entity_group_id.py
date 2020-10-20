@@ -35,12 +35,12 @@ class EntityGroupId(EntityId):
         'entity_type': 'str',
         'id':  'str'
     }
-
-
     attribute_map = {
         'entity_type': 'entityType',
         'id':  'id'
     }
+    def __init__(self,  entity_type, id):
+        super().__init__(entity_type, id)
     def __init__(self, id=None):
 
         self._id = None

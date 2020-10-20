@@ -179,9 +179,9 @@ from .tenant_profile import TenantProfile
 from .tenant_profile_data import TenantProfileData
 from .tenant_profile_id import TenantProfileId
 from .ts_value import TsValue
+from .update_message import UpdateMessage
 from .uri import URI
 from .url import URL
-from .update_message import UpdateMessage
 from .user import User
 from .user_id import UserId
 from .user_password_policy import UserPasswordPolicy

@@ -14,10 +14,8 @@
 #      limitations under the License.
 #
 
-import pprint
 import re  # noqa: F401
 
-import six
 from tb_rest_client.models.models_ce import EntityId
 
 
@@ -40,3 +38,5 @@ class EventId(EntityId):
         'entity_type': 'entityType',
         'id':  'id'
     }
+    def __init__(self,  entity_type, id):
+        super().__init__(entity_type, id)

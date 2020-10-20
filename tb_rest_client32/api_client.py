@@ -331,7 +331,7 @@ class ApiClient(object):
             try:
                 klass = self.find_class(data, klass)
             except AttributeError:
-                return
+                return self.__deserialize_data(data, klass)
         # else:
         #     return self.__deserialize(data, type(data))
         return self.__deserialize_data(data, klass)
@@ -367,6 +367,8 @@ class ApiClient(object):
                 return self.__deserialize_datatime(data)
             else:
                 return self.__deserialize_model(data, klass)
+        except TypeError:
+            return data
         except Exception as e:
             return e
 

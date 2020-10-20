@@ -71,11 +71,13 @@ class EntityId(object):
         :param entity_type: The entity_type of this EntityId.  # noqa: E501
         :type: str
         """
-        allowed_values = ["TENANT", "CUSTOMER", "USER", "DASHBOARD", "ASSET", "DEVICE", "ALARM", "RULE_CHAIN", "RULE_NODE", "ENTITY_VIEW", "WIDGETS_BUNDLE", "WIDGET_TYPE", "TENANT_PROFILE", "DEVICE_PROFILE"]  # noqa: E501
+        allowed_values = ["TENANT", "CUSTOMER", "USER", "DASHBOARD", "ASSET", "DEVICE", "ALARM", "RULE_CHAIN",
+                          "RULE_NODE", "ENTITY_VIEW", "WIDGETS_BUNDLE", "WIDGET_TYPE", "TENANT_PROFILE",
+                          "DEVICE_PROFILE"]  # noqa: E501
         if entity_type not in allowed_values:
             raise ValueError(
                 "Invalid value for `entity_type` ({0}), must be one of {1}"  # noqa: E501
-                .format(entity_type, allowed_values)
+                    .format(entity_type, allowed_values)
             )
 
         self._entity_type = entity_type
