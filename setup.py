@@ -17,8 +17,8 @@
 from setuptools import setup, find_packages  # noqa: H301
 from os import path
 
-NAME = "tb-rest-client"
-VERSION = "1.1.1"
+NAME = "tb-rest-client32"
+VERSION = "1"
 REQUIRES = [
     "certifi>=2017.4.17",
     "python-dateutil>=2.1",

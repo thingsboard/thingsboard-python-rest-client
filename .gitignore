@@ -1,0 +1,6 @@
+/build/
+/dist/
+/tb_rest_client.egg-info/
+/tb_rest_client32.egg-info/
+__pycache__
+.idea/

@@ -12,11 +12,12 @@
 #      See the License for the specific language governing permissions and
 #      limitations under the License.
 #
+#
 
 import logging
 # Importing models and REST client class from Community Edition version
-from tb_rest_client.rest_client_ce import *
-from tb_rest_client.rest import ApiException
+from tb_rest_client32.rest_client_ce import *
+from tb_rest_client32.rest import ApiException
 
 
 logging.basicConfig(level=logging.DEBUG,
