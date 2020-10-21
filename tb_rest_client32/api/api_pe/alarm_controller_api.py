@@ -504,7 +504,7 @@ class AlarmControllerApi(object):
         :param async_req bool
         :param str entity_type: entityType (required)
         :param str entity_id: entityId (required)
-        :param int page_size: pageSize (required)
+        :param str page_size: pageSize (required)
         :param str page: Page (required)
         :param str search_status: searchStatus
         :param str status: status
@@ -537,7 +537,7 @@ class AlarmControllerApi(object):
         :param async_req bool
         :param str entity_type: entityType (required)
         :param str entity_id: entityId (required)
-        :param int page_size: pageSize (required)
+        :param str page_size: pageSize (required)
         :param str page: Page (required)
         :param str search_status: searchStatus
         :param str status: status

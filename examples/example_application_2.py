@@ -55,7 +55,7 @@ with RestClientPE(base_url=url) as rest_client:
         dashboard = rest_client.save_dashboard(dashboard)
 
         # Adding Dashboard to the Shared Dashboards Group
-        rest_client.add_entities_to_entity_group(shared_dashboards_group.id, [dashboard.id.id])
+        rest_client.add_entities_to_entity_group(shared_dashboards_group, [dashboard.id.id])
 
         # Creating Customer 1
         customer1 = Customer(title="Customer 1")
@@ -66,7 +66,7 @@ with RestClientPE(base_url=url) as rest_client:
         device = rest_client.save_device(device)
 
         # Fetching automatically created "Customer Administrators" Group.
-        customer1_administrators = rest_client.get_entity_group_info_by_owner_and_name_and_type(customer1.id, "USER", "Customer Administrators")
+        customer1_administrators = rest_client.get_entity_group_by_owner_and_name_and_type(customer1.id, "USER", "Customer Administrators")
 
         # Creating Read-Only Role
         read_only_role = Role(name="Read-Only", permissions=['READ', 'READ_ATTRIBUTES', 'READ_TELEMETRY', 'READ_CREDENTIALS'], type="GROUP")
@@ -97,7 +97,7 @@ with RestClientPE(base_url=url) as rest_client:
         user = rest_client.save_user(user, send_activation_mail=False)
         rest_client.activate_user(user.id, user_password)
 
-        rest_client.add_entities_to_entity_group(customer1_administrators.id, [user.id.id])
+        rest_client.add_entities_to_entity_group(customer1_administrators, [user.id.id])
 
     except ApiException as e:
         logging.exception(e)

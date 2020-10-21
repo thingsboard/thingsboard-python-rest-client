@@ -318,7 +318,7 @@ class BlobEntityControllerApi(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param int page_size: pageSize (required)
+        :param str page_size: pageSize (required)
         :param str page: Page (required)
         :param str type: type
         :param str text_search: textSearch
@@ -346,7 +346,7 @@ class BlobEntityControllerApi(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param int page_size: pageSize (required)
+        :param str page_size: pageSize (required)
         :param str page: Page (required)
         :param str type: type
         :param str text_search: textSearch

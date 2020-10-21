@@ -45,7 +45,7 @@ with RestClientCE(base_url=url) as rest_client:
         logging.info("Asset was created:\n%r\n", asset)
 
         # creating a Device
-        device = Device(name="Thermometer 1", type="thermometer")
+        device = Device(name="Thermometer 11", type="thermometer")
         device = rest_client.save_device(device)
 
         logging.info(" Device was created:\n%r\n", device)

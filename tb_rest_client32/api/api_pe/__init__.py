@@ -59,6 +59,7 @@ from .t_mobile_iot_cdp_integration_controller_api import TMobileIotCdpIntegratio
 from .telemetry_controller_api import TelemetryControllerApi
 from .tenant_controller_api import TenantControllerApi
 from .tenant_profile_controller_api import TenantProfileControllerApi
+from .trail_controller_api import TrailControllerApi
 from .thing_park_integration_controller_api import ThingParkIntegrationControllerApi
 from .user_controller_api import UserControllerApi
 from .user_permissions_controller_api import UserPermissionsControllerApi

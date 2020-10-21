@@ -46,7 +46,7 @@ class EventControllerApi(object):
         :param str entity_id: entityId (required)
         :param str event_type: eventType (required)
         :param str tenant_id: tenantId (required)
-        :param int page_size: pageSize (required)
+        :param str page_size: pageSize (required)
         :param str page: Page (required)
         :param str text_search: textSearch
         :param str sort_property: sortProperty
@@ -77,7 +77,7 @@ class EventControllerApi(object):
         :param str entity_id: entityId (required)
         :param str event_type: eventType (required)
         :param str tenant_id: tenantId (required)
-        :param int page_size: pageSize (required)
+        :param str page_size: pageSize (required)
         :param str page: Page (required)
         :param str text_search: textSearch
         :param str sort_property: sortProperty
@@ -197,7 +197,7 @@ class EventControllerApi(object):
         :param str entity_type: entityType (required)
         :param str entity_id: entityId (required)
         :param str tenant_id: tenantId (required)
-        :param int page_size: pageSize (required)
+        :param str page_size: pageSize (required)
         :param str page: Page (required)
         :param str text_search: textSearch
         :param str sort_property: sortProperty
@@ -227,7 +227,7 @@ class EventControllerApi(object):
         :param str entity_type: entityType (required)
         :param str entity_id: entityId (required)
         :param str tenant_id: tenantId (required)
-        :param int page_size: pageSize (required)
+        :param str page_size: pageSize (required)
         :param str page: Page (required)
         :param str text_search: textSearch
         :param str sort_property: sortProperty

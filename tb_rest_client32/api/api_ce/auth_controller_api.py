@@ -44,7 +44,7 @@ class AuthControllerApi(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param str activate_request: activateRequest (required)
+        :param dict activate_request: activateRequest (required)
         :param bool send_activation_mail: sendActivationMail
         :return: str
                  If the method is called asynchronously,
