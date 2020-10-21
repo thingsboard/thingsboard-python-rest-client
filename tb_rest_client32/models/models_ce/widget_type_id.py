@@ -16,7 +16,7 @@
 
 import re  # noqa: F401
 
-from tb_rest_client.models.models_ce import EntityId
+from .entity_id import EntityId
 
 
 class WidgetTypeId(EntityId):

@@ -15,7 +15,7 @@ import pprint
 import re  # noqa: F401
 
 import six
-from tb_rest_client.models.models_ce import EntityId
+from .entity_id import EntityId
 
 
 class ConverterId(EntityId):
