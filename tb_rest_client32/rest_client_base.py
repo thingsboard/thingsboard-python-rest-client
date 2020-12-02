@@ -669,6 +669,9 @@ class RestClientBase(Thread):
     def send_test_mail(self, admin_settings, **kwargs):
         return self.admin_controller.send_test_mail_using_post(admin_settings, **kwargs)
 
+    def send_test_sms(self, message, numberTo, providerConfiguration, **kwargs):
+        return self.admin_controller.send_test_sms_using_post(message, numberTo, providerConfiguration, **kwargs)
+
     ##################################
 
     def find_by_query(self, query, **kwargs):

@@ -294,9 +294,9 @@ class EntityGroupControllerApi(object):
                 params['page'] is None):
             raise ValueError("Missing the required parameter `page` when calling `get_entities_using_get`")  # noqa: E501
 
-        if 'page_size' in params and params['page_size'] < 1:  # noqa: E501
+        if 'page_size' in params and int(params['page_size']) < 1:  # noqa: E501
             raise ValueError("Invalid value for parameter `page_size` when calling `get_entities_using_get`, must be a value greater than or equal to `1`")  # noqa: E501
-        if 'page' in params and params['page'] < 0:  # noqa: E501
+        if 'page' in params and int(params['page']) < 0:  # noqa: E501
             raise ValueError("Invalid value for parameter `page` when calling `get_entities_using_get`, must be a value greater than or equal to `0`")  # noqa: E501
         collection_formats = {}
 
