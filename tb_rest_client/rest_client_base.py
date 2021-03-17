@@ -32,7 +32,8 @@ logger = getLogger(__name__)
 class RestClientBase(Thread):
     def __init__(self, base_url):
         super().__init__()
-        if base_url.startswith("http"):
+        # httpsomething dns record doesn't bother us anymore
+        if base_url.startswith("http://"):
             self.base_url = base_url
         else:
             self.base_url = "http://" + base_url
@@ -79,7 +80,8 @@ class RestClientBase(Thread):
             self.password = password
             self.logged_in = True
 
-        token_json = post(self.base_url + "/api/auth/login", json={"username": username, "password": password}, verify = self.configuration.verify_ssl).json()
+        token_json = post(self.base_url + "/api/auth/login", json={
+                          "username": username, "password": password}, verify=self.configuration.verify_ssl).json()
         token = None
         if isinstance(token_json, dict) and token_json.get("token") is not None:
             token = token_json["token"]
@@ -157,7 +159,8 @@ class RestClientBase(Thread):
     def get_tenant_assets(self, page_size=10, page=0, type=None, text_search=None, sort_property=None, sort_order=None,
                           limit=100000):
         return self.asset_controller.get_tenant_assets_using_get(page_size=str(page_size),
-                                                                 page=str(page),
+                                                                 page=str(
+                                                                     page),
                                                                  type=type,
                                                                  text_search=text_search,
                                                                  sort_property=sort_property,
@@ -170,8 +173,10 @@ class RestClientBase(Thread):
                             sort_property=None, sort_order=None, limit=100000):
         customer_id = self.get_id(customer_id)
         return self.asset_controller.get_customer_assets_using_get(customer_id=customer_id,
-                                                                   page_size=str(page_size),
-                                                                   page=str(page),
+                                                                   page_size=str(
+                                                                       page_size),
+                                                                   page=str(
+                                                                       page),
                                                                    type=type,
                                                                    text_search=text_search,
                                                                    sort_property=sort_property,
@@ -200,12 +205,15 @@ class RestClientBase(Thread):
                                       action_types=None):
         customer_id = self.get_id(customer_id)
         return self.audit_log_controller.get_audit_logs_by_customer_id_using_get(customer_id=customer_id,
-                                                                                 page_size=str(page_size),
-                                                                                 page=str(page),
+                                                                                 page_size=str(
+                                                                                     page_size),
+                                                                                 page=str(
+                                                                                     page),
                                                                                  text_search=text_search,
                                                                                  sort_property=sort_property,
                                                                                  sort_order=sort_order,
-                                                                                 limit=str(limit),
+                                                                                 limit=str(
+                                                                                     limit),
                                                                                  start_time=start_time,
                                                                                  end_time=end_time,
                                                                                  action_types=action_types)
@@ -214,11 +222,14 @@ class RestClientBase(Thread):
                                   sort_order=None, limit=100000, start_time=None, end_time=None, action_types=None):
         user_id = self.get_id(user_id)
         return self.audit_log_controller.get_audit_logs_by_user_id_using_get(user_id=user_id,
-                                                                             page_size=str(page_size),
-                                                                             page=str(page),
+                                                                             page_size=str(
+                                                                                 page_size),
+                                                                             page=str(
+                                                                                 page),
                                                                              text_search=text_search,
                                                                              sort_property=sort_property,
-                                                                             sort_order=sort_order, limit=str(limit),
+                                                                             sort_order=sort_order, limit=str(
+                                                                                 limit),
                                                                              start_time=start_time,
                                                                              end_time=end_time,
                                                                              action_types=action_types)
@@ -228,11 +239,14 @@ class RestClientBase(Thread):
                                     action_types=None):
         return self.audit_log_controller.get_audit_logs_by_entity_id_using_get(entity_type=entity_id.entity_type,
                                                                                entity_id=entity_id.id,
-                                                                               page_size=str(page_size),
-                                                                               page=str(page),
+                                                                               page_size=str(
+                                                                                   page_size),
+                                                                               page=str(
+                                                                                   page),
                                                                                text_search=text_search,
                                                                                sort_property=sort_property,
-                                                                               sort_order=sort_order, limit=str(limit),
+                                                                               sort_order=sort_order, limit=str(
+                                                                                   limit),
                                                                                start_time=start_time,
                                                                                end_time=end_time,
                                                                                action_types=action_types)
@@ -240,10 +254,12 @@ class RestClientBase(Thread):
     def get_audit_logs(self, page_size=10, page=0, text_search=None, sort_property=None, sort_order=None, limit=100000,
                        start_time=None, end_time=None, action_types=None):
         return self.audit_log_controller.get_audit_logs_using_get(page_size=str(page_size),
-                                                                  page=str(page),
+                                                                  page=str(
+                                                                      page),
                                                                   text_search=text_search,
                                                                   sort_property=sort_property,
-                                                                  sort_order=sort_order, limit=str(limit),
+                                                                  sort_order=sort_order, limit=str(
+                                                                      limit),
                                                                   start_time=start_time,
                                                                   end_time=end_time,
                                                                   action_types=action_types)
@@ -259,8 +275,10 @@ class RestClientBase(Thread):
         self.auth_controller.logout_using_post()
 
     def change_password(self, current_password, new_password):
-        change_password_request = '{"currentPassword": "%s","newPassword": "%s"}' % (current_password, new_password)
-        self.auth_controller.change_password_using_post(change_password_request)
+        change_password_request = '{"currentPassword": "%s","newPassword": "%s"}' % (
+            current_password, new_password)
+        self.auth_controller.change_password_using_post(
+            change_password_request)
 
     def get_user_password_policy(self):
         return self.auth_controller.get_user_password_policy_using_get()
@@ -270,7 +288,8 @@ class RestClientBase(Thread):
         return self.auth_controller.check_activate_token_using_get(activation_token)
 
     def request_reset_password_by_email(self, email: str):
-        self.auth_controller.request_reset_password_by_email_using_post('{"email":"%s"}' % email)
+        self.auth_controller.request_reset_password_by_email_using_post(
+            '{"email":"%s"}' % email)
 
     def activate_user(self, user_id: UserId, password):
         user_id = self.get_id(user_id)
@@ -309,7 +328,8 @@ class RestClientBase(Thread):
 
     def delete_customer(self, customer_id: CustomerId):
         customer_id = self.get_id(customer_id)
-        self.customer_controller.delete_customer_using_delete(customer_id=customer_id)
+        self.customer_controller.delete_customer_using_delete(
+            customer_id=customer_id)
 
     def get_customers(self, page_size=10, page=0, text_search=None, sort_property=None, sort_order=None, limit=100000):
         return self.customer_controller.get_customers_using_get(page_size=str(page_size),
@@ -349,14 +369,17 @@ class RestClientBase(Thread):
         if tenant_id is not None:
             tenant_id = self.get_id(tenant_id)
             return self.dashboard_controller.get_tenant_dashboards_using_get1(tenant_id=tenant_id,
-                                                                              page_size=str(page_size),
-                                                                              page=str(page),
+                                                                              page_size=str(
+                                                                                  page_size),
+                                                                              page=str(
+                                                                                  page),
                                                                               text_search=text_search,
                                                                               sort_property=sort_property,
                                                                               sort_order=sort_order, limit=str(limit))
         else:
             return self.dashboard_controller.get_tenant_dashboards_using_get(page_size=str(page_size),
-                                                                             page=str(page),
+                                                                             page=str(
+                                                                                 page),
                                                                              text_search=text_search,
                                                                              sort_property=sort_property,
                                                                              sort_order=sort_order, limit=str(limit))
@@ -384,7 +407,8 @@ class RestClientBase(Thread):
     def get_tenant_devices(self, page_size=10, page=0, text_search=None, sort_property=None, sort_order=None,
                            limit=100000):
         return self.device_controller.get_tenant_devices_using_get(page_size=str(page_size),
-                                                                   page=str(page),
+                                                                   page=str(
+                                                                       page),
                                                                    text_search=text_search,
                                                                    sort_property=sort_property,
                                                                    sort_order=sort_order, limit=str(limit))
@@ -396,8 +420,10 @@ class RestClientBase(Thread):
                              sort_property=None, sort_order=None, limit=100000):
         customer_id = self.get_id(customer_id)
         return self.device_controller.get_customer_devices_using_get(customer_id=customer_id,
-                                                                     page_size=str(page_size),
-                                                                     page=str(page),
+                                                                     page_size=str(
+                                                                         page_size),
+                                                                     page=str(
+                                                                         page),
                                                                      type=type,
                                                                      text_search=text_search,
                                                                      sort_property=sort_property,
@@ -413,7 +439,8 @@ class RestClientBase(Thread):
         sub_customer_id = self.get_id(sub_customer_id)
         try:
             return self.device_controller.claim_device_using_post(device_name,
-                                                                  claim_request='{"secret_key": "%s"}' % (secret_key,),
+                                                                  claim_request='{"secret_key": "%s"}' % (
+                                                                      secret_key,),
                                                                   sub_customer_id=sub_customer_id)
         except AttributeError:
             return self.device_controller.claim_device_using_post1(device_name=device_name,
@@ -493,7 +520,8 @@ class RestClientBase(Thread):
 
     def delete_entity_view(self, entity_view_id: EntityViewId):
         entity_view_id = self.get_id(entity_view_id)
-        self.entity_view_controller.delete_entity_view_using_delete(entity_view_id=entity_view_id)
+        self.entity_view_controller.delete_entity_view_using_delete(
+            entity_view_id=entity_view_id)
 
     def get_tenant_entity_view(self, entity_view_name):
         return self.entity_view_controller.get_tenant_entity_view_using_get(entity_view_name=entity_view_name)
@@ -502,8 +530,10 @@ class RestClientBase(Thread):
                                   sort_property=None, sort_order=None, limit=100000):
         customer_id = self.get_id(customer_id)
         return self.entity_view_controller.get_customer_entity_views_using_get(customer_id=customer_id,
-                                                                               page_size=str(page_size),
-                                                                               page=str(page),
+                                                                               page_size=str(
+                                                                                   page_size),
+                                                                               page=str(
+                                                                                   page),
                                                                                type=type,
                                                                                text_search=text_search,
                                                                                sort_property=sort_property,
@@ -512,7 +542,8 @@ class RestClientBase(Thread):
     def get_tenant_entity_views(self, page_size=10, page=0, type=None, text_search=None, sort_property=None,
                                 sort_order=None, limit=100000):
         return self.entity_view_controller.get_tenant_entity_views_using_get(page_size=str(page_size),
-                                                                             page=str(page),
+                                                                             page=str(
+                                                                                 page),
                                                                              type=type,
                                                                              text_search=text_search,
                                                                              sort_property=sort_property,
@@ -585,14 +616,16 @@ class RestClientBase(Thread):
     def get_rule_chains(self, page_size=10, page=0, text_search=None, sort_property=None, sort_order=None,
                         limit=100000):
         return self.rule_chain_controller.get_rule_chains_using_get(page_size=str(page_size),
-                                                                    page=str(page),
+                                                                    page=str(
+                                                                        page),
                                                                     text_search=text_search,
                                                                     sort_property=sort_property,
                                                                     sort_order=sort_order, limit=str(limit))
 
     def delete_rule_chain(self, rule_chain_id: RuleChainId):
         rule_chain_id = self.get_id(rule_chain_id)
-        self.rule_chain_controller.delete_rule_chain_using_delete(rule_chain_id)
+        self.rule_chain_controller.delete_rule_chain_using_delete(
+            rule_chain_id)
 
     def get_latest_rule_node_debug_input(self, rule_node_id: RuleNodeId):
         rule_node_id = self.get_id(rule_node_id)
@@ -601,7 +634,8 @@ class RestClientBase(Thread):
     def test_script(self, input_params):
         if isinstance(input_params, dict):
             input_params = dumps(input_params)
-        self.rule_chain_controller.test_script_using_post(input_params=input_params)
+        self.rule_chain_controller.test_script_using_post(
+            input_params=input_params)
 
     """Telemetry endpoints"""
 
@@ -637,7 +671,8 @@ class RestClientBase(Thread):
                                                                       start_ts=start_ts,
                                                                       end_ts=end_ts,
                                                                       interval=interval,
-                                                                      limit=str(limit),
+                                                                      limit=str(
+                                                                          limit),
                                                                       agg=aggregation,
                                                                       use_strict_data_types=use_strict_data_types)
 
@@ -711,7 +746,8 @@ class RestClientBase(Thread):
                           sort_order=None, limit=100000):
         tenant_id = self.get_id(tenant_id)
         return self.user_controller.get_tenant_admins_using_get(tenant_id=tenant_id,
-                                                                page_size=str(page_size),
+                                                                page_size=str(
+                                                                    page_size),
                                                                 page=str(page),
                                                                 text_search=text_search,
                                                                 sort_property=sort_property,
@@ -749,8 +785,10 @@ class RestClientBase(Thread):
                            sort_order=None, limit=100000):
         customer_id = self.get_id(customer_id)
         return self.user_controller.get_customer_users_using_get(customer_id=customer_id,
-                                                                 page_size=str(page_size),
-                                                                 page=str(page),
+                                                                 page_size=str(
+                                                                     page_size),
+                                                                 page=str(
+                                                                     page),
                                                                  text_search=text_search,
                                                                  sort_property=sort_property,
                                                                  sort_order=sort_order, limit=str(limit))
@@ -771,12 +809,14 @@ class RestClientBase(Thread):
 
     def delete_widgets_bundle(self, widgets_bundle_id: WidgetsBundleId):
         widgets_bundle_id = self.get_id(widgets_bundle_id)
-        self.widgets_bundle_controller.delete_widgets_bundle_using_delete(widgets_bundle_id=widgets_bundle_id)
+        self.widgets_bundle_controller.delete_widgets_bundle_using_delete(
+            widgets_bundle_id=widgets_bundle_id)
 
     def get_widgets_bundles(self, page_size=10, page=0, text_search=None, sort_property=None, sort_order=None,
                             limit=100000):
         return self.widgets_bundle_controller.get_widgets_bundles_using_get(page_size=str(page_size),
-                                                                            page=str(page),
+                                                                            page=str(
+                                                                                page),
                                                                             text_search=text_search,
                                                                             sort_property=sort_property,
                                                                             sort_order=sort_order, limit=str(limit))
@@ -792,7 +832,8 @@ class RestClientBase(Thread):
 
     def delete_widget_type(self, widget_type_id: WidgetTypeId):
         widget_type_id = self.get_id(widget_type_id)
-        self.widget_type_controller.delete_widget_type_using_delete(widget_type_id=widget_type_id)
+        self.widget_type_controller.delete_widget_type_using_delete(
+            widget_type_id=widget_type_id)
 
     def get_bundle_widget_types(self, is_system, bundle_alias):
         is_system = str(is_system).lower()
@@ -810,11 +851,13 @@ class RestClientBase(Thread):
         self.alarm_controller = AlarmControllerApi(self.api_client)
         self.asset_controller = AssetControllerApi(self.api_client)
         self.audit_log_controller = AuditLogControllerApi(self.api_client)
-        self.component_descriptor_controller = ComponentDescriptorControllerApi(self.api_client)
+        self.component_descriptor_controller = ComponentDescriptorControllerApi(
+            self.api_client)
         self.customer_controller = CustomerControllerApi(self.api_client)
         self.dashboard_controller = DashboardControllerApi(self.api_client)
         self.device_controller = DeviceControllerApi(self.api_client)
-        self.entity_relation_controller = EntityRelationControllerApi(self.api_client)
+        self.entity_relation_controller = EntityRelationControllerApi(
+            self.api_client)
         self.entity_view_controller = EntityViewControllerApi(self.api_client)
         self.event_controller = EventControllerApi(self.api_client)
         self.queue_controller = QueueControllerApi(self.api_client)
@@ -824,7 +867,8 @@ class RestClientBase(Thread):
         self.tenant_controller = TenantControllerApi(self.api_client)
         self.user_controller = UserControllerApi(self.api_client)
         self.widget_type_controller = WidgetTypeControllerApi(self.api_client)
-        self.widgets_bundle_controller = WidgetsBundleControllerApi(self.api_client)
+        self.widgets_bundle_controller = WidgetsBundleControllerApi(
+            self.api_client)
 
     @staticmethod
     def get_type(type):
