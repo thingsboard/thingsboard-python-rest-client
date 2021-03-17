@@ -32,7 +32,8 @@ logger = getLogger(__name__)
 class RestClientBase(Thread):
     def __init__(self, base_url):
         super().__init__()
-        if base_url.startswith("http"):
+        # httpsomething dns record doesn't bother us anymore
+        if base_url.startswith("http://"):
             self.base_url = base_url
         else:
             self.base_url = "http://" + base_url
