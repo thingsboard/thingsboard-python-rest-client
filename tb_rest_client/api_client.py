@@ -329,18 +329,20 @@ class ApiClient(object):
                 klass = self.NATIVE_TYPES_MAPPING[klass]
             try:
                 found_class = getattr(tb_rest_client.models.models_pe, klass)
-                # if sorted(list(found_class.attribute_map.values())) == sorted(list(data.keys())):
-                if all(attr in list(found_class.attribute_map.values()) for attr in list(data.keys())):
+                if sorted(list(found_class.attribute_map.values())) == sorted(list(data.keys())):
                     klass = found_class
+
+                # if all(attr in list(found_class.attribute_map.values()) for attr in list(data.keys())):
+                #     klass = found_class
                 else:
                     found_class = getattr(tb_rest_client.models.models_ce, klass)
                     # if sorted(list(found_class.attribute_map.values())) == sorted(list(data.keys())):
-                    if all(attr in list(found_class.attribute_map.values()) for attr in list(data.keys())):
-                        klass = found_class
+                    klass = found_class
+
             except AttributeError:
                 found_class = getattr(tb_rest_client.models.models_ce, klass)
-                if all(attr in list(found_class.attribute_map.values()) for attr in list(data.keys())):
-                    # if sorted(list(found_class.attribute_map.values())) == sorted(list(data.keys())):
+                # if all(attr in list(found_class.attribute_map.values()) for attr in list(data.keys())):
+                if sorted(list(found_class.attribute_map.values())) == sorted(list(data.keys())):
                     klass = found_class
         # else:
         #     return self.__deserialize(data, type(data))
