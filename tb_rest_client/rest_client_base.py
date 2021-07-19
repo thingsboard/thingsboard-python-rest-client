@@ -79,7 +79,8 @@ class RestClientBase(Thread):
             self.password = password
             self.logged_in = True
 
-        token_json = post(self.base_url + "/api/auth/login", json={"username": username, "password": password}, verify = self.configuration.verify_ssl).json()
+        token_json = post(self.base_url + "/api/auth/login", json={"username": username, "password": password},
+                          verify=self.configuration.verify_ssl).json()
         token = None
         if isinstance(token_json, dict) and token_json.get("token") is not None:
             token = token_json["token"]
@@ -391,6 +392,18 @@ class RestClientBase(Thread):
 
     def get_tenant_device(self, device_name):
         return self.device_controller.get_tenant_device_using_get(device_name)
+
+    def get_customer_device_infos(self, customer_id: CustomerId, page_size: int, page: int, type=None, text_search=None,
+                                  sort_property=None, sort_order=None):
+        customer_id = self.get_id(customer_id)
+
+        return self.device_controller.get_customer_device_infos_using_get(customer_id=customer_id,
+                                                                          page_size=str(page_size),
+                                                                          page=str(page),
+                                                                          type=type,
+                                                                          text_search=text_search,
+                                                                          sort_property=sort_property,
+                                                                          sort_order=sort_order)
 
     def get_customer_devices(self, customer_id: CustomerId, page_size=None, page=None, type=None, text_search=None,
                              sort_property=None, sort_order=None, limit=100000):
