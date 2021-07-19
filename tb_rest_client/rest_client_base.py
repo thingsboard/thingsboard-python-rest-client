@@ -393,6 +393,9 @@ class RestClientBase(Thread):
     def get_tenant_device(self, device_name):
         return self.device_controller.get_tenant_device_using_get(device_name)
 
+    def get_device_info_by_id(self, device_id: DeviceId):
+        return self.device_controller.get_device_info_by_id_using_get(device_id=device_id.id)
+
     def get_customer_device_infos(self, customer_id: CustomerId, page_size: int, page: int, type=None, text_search=None,
                                   sort_property=None, sort_order=None):
         customer_id = self.get_id(customer_id)
