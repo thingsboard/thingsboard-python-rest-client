@@ -393,6 +393,9 @@ class RestClientBase(Thread):
     def get_tenant_device(self, device_name):
         return self.device_controller.get_tenant_device_using_get(device_name)
 
+    def unassign_device_from_edge(self, edge_id, device_id):
+        return self.device_controller.unassign_device_from_edge_using_delete(edge_id=edge_id, device_id=device_id)
+
     def get_device_info_by_id(self, device_id: DeviceId):
         return self.device_controller.get_device_info_by_id_using_get(device_id=device_id.id)
 

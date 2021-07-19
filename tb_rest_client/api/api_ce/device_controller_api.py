@@ -514,7 +514,126 @@ class DeviceControllerApi(object):
             _request_timeout=params.get('_request_timeout'),
             collection_formats=collection_formats)
 
+    def unassign_device_from_edge_using_delete(self, edge_id, device_id, **kwargs):
+        """unassignDeviceFromEdge
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api_pe.unassign_device_from_edge_using_delete(edge_id, device_id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str edge_id: edgeId (required)
+        :param str device_id: DeviceId (required)
+        :return: TextPageDataDevice
+                If the method is called asynchronously,
+                returns the request thread.
+        """
+
+        kwargs['_return_http_data_only'] = True
+
+        if kwargs.get('async_req'):
+            return self.unassign_device_from_edge_using_delete_with_http_info(edge_id, device_id, **kwargs)
+        else:
+            (data) = self.unassign_device_from_edge_using_delete_with_http_info(edge_id, device_id, **kwargs)
+            return data
+
+    def unassign_device_from_edge_using_delete_with_http_info(self, edge_id, device_id, **kwargs):
+        """getCustomerDeviceInfos
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api_pe.unassign_device_from_edge_using_delete(edge_id, device_id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str edge_id: EdgeId (required)
+        :param str device_id: DeviceId (required)
+        :return: TextPageDataDevice
+                If the method is called asynchronously,
+                returns the request thread.
+        """
+
+        all_params = ['device_id']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'device_id' is set
+        if ('device_id' not in params or
+                params['device_id'] is None):
+            raise ValueError(
+                "Missing the required parameter `device_id` when calling `unassign_device_from_edge_using_delete`")  # noqa: E501
+        if ('edge_id' not in params or
+                params['edge_id'] is None):
+            raise ValueError(
+                "Missing the required parameter `edge_id` when calling `unassign_device_from_edge_using_delete`")
+
+        collection_formats = {}
+
+        path_params = {}
+
+        if 'device_id' in params:
+            path_params['deviceId'] = params['device_id']  # noqa: E501
+
+        if 'edge_id' in params:
+            path_params['edgeId'] = params['edge_id']
+
+        query_params = []
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['*/*'])  # noqa: E501
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/edge/{edgeId}/device/{deviceId}', 'DELETE',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='Device',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
     def get_device_info_by_id_using_get(self, device_id, **kwargs):
+        """getDeviceInfoById
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api_pe.get_device_info_by_id_using_get(device_id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str device_id: DeviceId (required)
+        :return: TextPageDataDevice
+                If the method is called asynchronously,
+                returns the request thread.
+        """
+
         kwargs['_return_http_data_only'] = True
 
         if kwargs.get('async_req'):
@@ -524,6 +643,20 @@ class DeviceControllerApi(object):
             return data
 
     def get_device_info_by_id_using_get_with_http_info(self, device_id, **kwargs):
+        """getDeviceInfoById
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api_pe.get_customer_device_infos_using_get(customer_id, page_size, page, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str device_id: DeviceId (required)
+        :return: TextPageDataDevice
+                If the method is called asynchronously,
+                returns the request thread.
+        """
+
         all_params = ['device_id']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
@@ -669,7 +802,7 @@ class DeviceControllerApi(object):
         if 'type' in params:
             query_params.append(('type', params['type']))  # noqa: E501
         if 'device_profile_id' in params:
-            query_params.append(('device_profile_id', params['device_profile_id']))
+            query_params.append(('deviceProfileId', params['device_profile_id']))
         if 'text_search' in params:
             query_params.append(('textSearch', params['text_search']))  # noqa: E501
         if 'sort_property' in params:
