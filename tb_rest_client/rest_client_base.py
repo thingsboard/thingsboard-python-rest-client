@@ -396,6 +396,13 @@ class RestClientBase(Thread):
     def assign_device_to_edge(self, edge_id, device_id):
         return self.device_controller.assign_device_to_edge_using_post(edge_id=edge_id, device_id=device_id)
 
+    def get_edge_devices(self, edge_id, page_size: int, page: int, type=None, text_search=None, sort_property=None,
+                         sort_order=None, start_time=None, end_time=None):
+        return self.device_controller.get_edge_devices_using_get(edge_id=edge_id, page_size=str(page_size),
+                                                                 page=str(page), type=type, text_search=text_search,
+                                                                 sort_property=sort_property, sort_order=sort_order,
+                                                                 start_time=start_time, end_time=end_time)
+
     def unassign_device_from_edge(self, edge_id, device_id):
         return self.device_controller.unassign_device_from_edge_using_delete(edge_id=edge_id, device_id=device_id)
 
