@@ -398,6 +398,14 @@ class RestClientBase(Thread):
         dashboard_id = self.get_id(dashboard_id)
         return self.dashboard_controller.assign_dashboard_to_edge_using_post(edge_id=edge_id, dashboard_id=dashboard_id)
 
+    def get_edge_dashboards(self, edge_id: str, page_size: int, page: int, text_search=None, sort_property=None,
+                            sort_order=None, start_time=None, end_time=None):
+        return self.dashboard_controller.get_edge_dashboards_using_get(edge_id=edge_id, page_size=str(page_size),
+                                                                       page=str(page), text_search=text_search,
+                                                                       sort_property=sort_property,
+                                                                       sort_order=sort_order, start_time=start_time,
+                                                                       end_time=end_time)
+
     def get_tenant_dashboards(self, tenant_id=None, page_size=10, page=0, text_search=None, sort_property=None,
                               sort_order=None, limit=100000):
         if tenant_id is not None:
