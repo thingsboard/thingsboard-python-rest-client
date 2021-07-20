@@ -451,6 +451,15 @@ class RestClientBase(Thread):
     def reclaim_device(self, device_name):
         self.device_controller.re_claim_device_using_delete(device_name)
 
+    def get_tenant_device_infos(self, page_size: int, page: int, type=None, device_profile_id=None, text_search=None,
+                                sort_property=None, sort_order=None):
+        return self.device_controller.get_tenant_device_infos_using_get(page_size=str(page_size),
+                                                                        page=str(page), type=type,
+                                                                        device_profile_id=device_profile_id,
+                                                                        text_search=text_search,
+                                                                        sort_property=sort_property,
+                                                                        sort_order=sort_order)
+
     """Relation endpoints"""
 
     def save_relation(self, relation: EntityRelation):
