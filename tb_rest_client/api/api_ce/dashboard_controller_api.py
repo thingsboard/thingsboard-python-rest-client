@@ -1419,6 +1419,111 @@ class DashboardControllerApi(object):
             _request_timeout=params.get('_request_timeout'),
             collection_formats=collection_formats)
 
+    def assign_dashboard_to_edge_using_post(self, edge_id, dashboard_id, **kwargs):
+        """assignDashboardToEdge  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api_pe.assign_dashboard_to_edge_using_post(edge_id, dashboard_id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str edge_id: edgeId (required)
+        :param str dashboard_id: dashboardId (required)
+        :return: Dashboard
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.assign_dashboard_to_edge_using_post_with_http_info(edge_id, dashboard_id,
+                                                                           **kwargs)  # noqa: E501
+        else:
+            (data) = self.assign_dashboard_to_edge_using_post_with_http_info(edge_id, dashboard_id,
+                                                                             **kwargs)  # noqa: E501
+            return data
+
+    def assign_dashboard_to_edge_using_post_with_http_info(self, edge_id, dashboard_id, **kwargs):
+        """assignDashboardToEdge  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api_pe.assign_dashboard_to_edge_using_post_with_http_info(edge_id, dashboard_id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str edge_id: edgeId (required)
+        :param str dashboard_id: dashboardId
+        :return: Dashboard
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['edge_id', 'dashboard_id']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'dashboard_id' is set
+        if ('edge_id' not in params or
+                params['edge_id'] is None):
+            raise ValueError(
+                "Missing the required parameter `edge_id` when calling `assign_dashboard_to_edge_using_post_with_http_info`")  # noqa: E501
+        # verify the required parameter 'str_customer_ids' is set
+        if ('dashboard_id' not in params or
+                params['dashboard_id'] is None):
+            raise ValueError(
+                "Missing the required parameter `dashboard_id` when calling `assign_dashboard_to_edge_using_post_with_http_info`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+        if 'edge_id' in params:
+            path_params['edgeId'] = params['edge_id']  # noqa: E501
+        if 'dashboard_id' in params:
+            path_params['dashboardId'] = params['dashboard_id']  # noqa: E501
+
+        query_params = []
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['*/*'])  # noqa: E501
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/edge/{edgeId}/dashboard/{dashboardId}', 'POST',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='Dashboard',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
     def remove_dashboard_customers_using_post(self, dashboard_id, str_customer_ids, **kwargs):  # noqa: E501
         """removeDashboardCustomers  # noqa: E501
 
