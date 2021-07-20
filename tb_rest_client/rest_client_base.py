@@ -365,6 +365,9 @@ class RestClientBase(Thread):
     def get_home_dashboard(self):
         return self.dashboard_controller.get_home_dashboard_using_get()
 
+    def get_home_dashboard_info(self):
+        return self.dashboard_controller.get_home_dashboard_info_using_get()
+
     def get_server_time(self):
         return self.dashboard_controller.get_server_time_using_get()
 
