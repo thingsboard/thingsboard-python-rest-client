@@ -186,6 +186,13 @@ class RestClientBase(Thread):
                                                                sort_property=sort_property, sort_order=sort_order,
                                                                start_time=start_time, end_time=end_time)
 
+    def get_tenant_asset_infos(self, page_size: int, page: int, type=None, text_search=None, sort_property=None,
+                               sort_order=None):
+        return self.asset_controller.get_tenant_asset_infos_using_get(page_size=str(page_size), page=str(page),
+                                                                      type=type, text_search=text_search,
+                                                                      sort_property=sort_property,
+                                                                      sort_order=sort_order)
+
     def get_tenant_assets(self, page_size=10, page=0, type=None, text_search=None, sort_property=None, sort_order=None,
                           limit=100000):
         return self.asset_controller.get_tenant_assets_using_get(page_size=str(page_size),
