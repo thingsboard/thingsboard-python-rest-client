@@ -544,9 +544,9 @@ class RestClientBase(Thread):
                                                                      to_type=to_id.entity_type,
                                                                      relation_type_group=relation_type_group)
 
-    def delete_relations(self, entity_id: EntityId):
+    def delete_relations(self, entity_id: EntityId, id, type):
         self.entity_relation_controller.delete_relations_using_delete(entity_type=entity_id.entity_type,
-                                                                      entity_id=entity_id.id)
+                                                                      entity_id=entity_id.id, id=id, type=type)
 
     def get_relations(self, from_id, relation_type, to_id, relation_type_group):
         return self.entity_relation_controller.get_relation_using_get(from_id=from_id.id,
