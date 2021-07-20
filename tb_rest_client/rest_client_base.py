@@ -403,6 +403,9 @@ class RestClientBase(Thread):
                                                                  sort_property=sort_property, sort_order=sort_order,
                                                                  start_time=start_time, end_time=end_time)
 
+    def assign_device_to_tenant(self, tenant_id: TenantId, device_id: DeviceId):
+        return self.device_controller.assign_device_to_tenant_using_post(tenant_id=tenant_id, device_id=device_id)
+
     def unassign_device_from_edge(self, edge_id, device_id):
         return self.device_controller.unassign_device_from_edge_using_delete(edge_id=edge_id, device_id=device_id)
 
