@@ -1379,7 +1379,7 @@ class DashboardControllerApi(object):
         for key, val in six.iteritems(params['kwargs']):
             params[key] = val
         del params['kwargs']
-        # verify the required parameter 'tenant_id' is set
+        # verify the required parameter 'edge_id' is set
         if ('edge_id' not in params or
                 params['edge_id'] is None):
             raise ValueError(
