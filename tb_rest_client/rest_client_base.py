@@ -409,6 +409,10 @@ class RestClientBase(Thread):
     def get_tenant_home_dashboard_info(self):
         return self.dashboard_controller.get_tenant_home_dashboard_info_using_get()
 
+    def set_tenant_home_dashboard_info(self, home_dashboard_info):
+        return self.dashboard_controller.set_tenant_home_dashboard_info_using_post(
+            home_dashboard_info=home_dashboard_info)
+
     def get_tenant_dashboards(self, tenant_id=None, page_size=10, page=0, text_search=None, sort_property=None,
                               sort_order=None, limit=100000):
         if tenant_id is not None:
