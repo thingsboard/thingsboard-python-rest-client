@@ -406,6 +406,9 @@ class RestClientBase(Thread):
                                                                        sort_order=sort_order, start_time=start_time,
                                                                        end_time=end_time)
 
+    def get_tenant_home_dashboard_info(self):
+        return self.dashboard_controller.get_tenant_home_dashboard_info_using_get()
+
     def get_tenant_dashboards(self, tenant_id=None, page_size=10, page=0, text_search=None, sort_property=None,
                               sort_order=None, limit=100000):
         if tenant_id is not None:
