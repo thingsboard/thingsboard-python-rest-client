@@ -389,6 +389,11 @@ class RestClientBase(Thread):
         dashboard_id = self.get_id(dashboard_id)
         self.dashboard_controller.delete_dashboard_using_delete(dashboard_id)
 
+    def unassign_dashboard_from_edge(self, edge_id: str, dashboard_id: DashboardId):
+        dashboard_id = self.get_id(dashboard_id)
+        return self.dashboard_controller.unassign_dashboard_from_edge_using_delete(edge_id=edge_id,
+                                                                                   dashboard_id=dashboard_id)
+
     def get_tenant_dashboards(self, tenant_id=None, page_size=10, page=0, text_search=None, sort_property=None,
                               sort_order=None, limit=100000):
         if tenant_id is not None:
