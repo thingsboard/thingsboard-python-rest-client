@@ -159,6 +159,11 @@ class RestClientBase(Thread):
         asset_id = self.get_id(asset_id)
         return self.asset_controller.get_asset_info_by_id_using_get(asset_id)
 
+    def get_customer_asset_infos(self, customer_id: CustomerId, page_size: int, page: int):
+        customer_id = self.get_id(customer_id)
+        return self.asset_controller.get_customer_asset_infos_using_get(customer_id, page_size=str(page_size),
+                                                                        page=str(page))
+
     def save_asset(self, asset):
         return self.asset_controller.save_asset_using_post(asset)
 

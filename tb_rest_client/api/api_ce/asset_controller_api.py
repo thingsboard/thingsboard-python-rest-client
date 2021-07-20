@@ -51,9 +51,11 @@ class AssetControllerApi(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.assign_asset_to_customer_using_post_with_http_info(customer_id, asset_id, **kwargs)  # noqa: E501
+            return self.assign_asset_to_customer_using_post_with_http_info(customer_id, asset_id,
+                                                                           **kwargs)  # noqa: E501
         else:
-            (data) = self.assign_asset_to_customer_using_post_with_http_info(customer_id, asset_id, **kwargs)  # noqa: E501
+            (data) = self.assign_asset_to_customer_using_post_with_http_info(customer_id, asset_id,
+                                                                             **kwargs)  # noqa: E501
             return data
 
     def assign_asset_to_customer_using_post_with_http_info(self, customer_id, asset_id, **kwargs):  # noqa: E501
@@ -80,17 +82,18 @@ class AssetControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'customer_id' is set
         if ('customer_id' not in params or
                 params['customer_id'] is None):
-            raise ValueError("Missing the required parameter `customer_id` when calling `assign_asset_to_customer_using_post`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `customer_id` when calling `assign_asset_to_customer_using_post`")  # noqa: E501
         # verify the required parameter 'asset_id' is set
         if ('asset_id' not in params or
                 params['asset_id'] is None):
-            raise ValueError("Missing the required parameter `asset_id` when calling `assign_asset_to_customer_using_post`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `asset_id` when calling `assign_asset_to_customer_using_post`")  # noqa: E501
 
         collection_formats = {}
 
@@ -179,13 +182,13 @@ class AssetControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'asset_id' is set
         if ('asset_id' not in params or
                 params['asset_id'] is None):
-            raise ValueError("Missing the required parameter `asset_id` when calling `assign_asset_to_public_customer_using_post`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `asset_id` when calling `assign_asset_to_public_customer_using_post`")  # noqa: E501
 
         collection_formats = {}
 
@@ -272,13 +275,13 @@ class AssetControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'asset_id' is set
         if ('asset_id' not in params or
                 params['asset_id'] is None):
-            raise ValueError("Missing the required parameter `asset_id` when calling `delete_asset_using_delete`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `asset_id` when calling `delete_asset_using_delete`")  # noqa: E501
 
         collection_formats = {}
 
@@ -365,13 +368,13 @@ class AssetControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'query' is set
         if ('query' not in params or
                 params['query'] is None):
-            raise ValueError("Missing the required parameter `query` when calling `find_by_query_using_post`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `query` when calling `find_by_query_using_post`")  # noqa: E501
 
         collection_formats = {}
 
@@ -458,13 +461,13 @@ class AssetControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'asset_id' is set
         if ('asset_id' not in params or
                 params['asset_id'] is None):
-            raise ValueError("Missing the required parameter `asset_id` when calling `get_asset_by_id_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `asset_id` when calling `get_asset_by_id_using_get`")  # noqa: E501
 
         collection_formats = {}
 
@@ -549,7 +552,6 @@ class AssetControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
 
@@ -636,13 +638,13 @@ class AssetControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'asset_ids' is set
         if ('asset_ids' not in params or
                 params['asset_ids'] is None):
-            raise ValueError("Missing the required parameter `asset_ids` when calling `get_assets_by_ids_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `asset_ids` when calling `get_assets_by_ids_using_get`")  # noqa: E501
 
         collection_formats = {}
 
@@ -707,9 +709,11 @@ class AssetControllerApi(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.get_customer_assets_using_get_with_http_info(customer_id, page_size, page, **kwargs)  # noqa: E501
+            return self.get_customer_assets_using_get_with_http_info(customer_id, page_size, page,
+                                                                     **kwargs)  # noqa: E501
         else:
-            (data) = self.get_customer_assets_using_get_with_http_info(customer_id, page_size, page, **kwargs)  # noqa: E501
+            (data) = self.get_customer_assets_using_get_with_http_info(customer_id, page_size, page,
+                                                                       **kwargs)  # noqa: E501
             return data
 
     def get_customer_assets_using_get_with_http_info(self, customer_id, page_size, page, **kwargs):  # noqa: E501
@@ -733,7 +737,8 @@ class AssetControllerApi(object):
                  returns the request thread.
         """
 
-        all_params = ['customer_id', 'type', 'text_search', 'sort_property', 'sort_order', 'page_size', 'page']  # noqa: E501
+        all_params = ['customer_id', 'type', 'text_search', 'sort_property', 'sort_order', 'page_size',
+                      'page']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -741,21 +746,23 @@ class AssetControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'customer_id' is set
         if ('customer_id' not in params or
                 params['customer_id'] is None):
-            raise ValueError("Missing the required parameter `customer_id` when calling `get_customer_assets_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `customer_id` when calling `get_customer_assets_using_get`")  # noqa: E501
         # verify the required parameter 'page_size' is set
         if ('page_size' not in params or
                 params['page_size'] is None):
-            raise ValueError("Missing the required parameter `page_size` when calling `get_customer_assets_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `page_size` when calling `get_customer_assets_using_get`")  # noqa: E501
         # verify the required parameter 'page' is set
         if ('page' not in params or
                 params['page'] is None):
-            raise ValueError("Missing the required parameter `page` when calling `get_customer_assets_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `page` when calling `get_customer_assets_using_get`")  # noqa: E501
 
         collection_formats = {}
 
@@ -854,13 +861,13 @@ class AssetControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'asset_name' is set
         if ('asset_name' not in params or
                 params['asset_name'] is None):
-            raise ValueError("Missing the required parameter `asset_name` when calling `get_tenant_asset_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `asset_name` when calling `get_tenant_asset_using_get`")  # noqa: E501
 
         collection_formats = {}
 
@@ -957,17 +964,18 @@ class AssetControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'page_size' is set
         if ('page_size' not in params or
                 params['page_size'] is None):
-            raise ValueError("Missing the required parameter `page_size` when calling `get_tenant_assets_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `page_size` when calling `get_tenant_assets_using_get`")  # noqa: E501
         # verify the required parameter 'page' is set
         if ('page' not in params or
                 params['page'] is None):
-            raise ValueError("Missing the required parameter `page` when calling `get_tenant_assets_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `page` when calling `get_tenant_assets_using_get`")  # noqa: E501
 
         collection_formats = {}
 
@@ -1114,6 +1122,93 @@ class AssetControllerApi(object):
             _request_timeout=params.get('_request_timeout'),
             collection_formats=collection_formats)
 
+    def get_customer_asset_infos_using_get(self, customer_id, page_size, page, **kwargs):
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.get_customer_asset_infos_using_get_with_http_info(customer_id, page_size,
+                                                                          page, **kwargs)  # noqa: E501
+        else:
+            (data) = self.get_customer_asset_infos_using_get_with_http_info(customer_id, page_size,
+                                                                            page, **kwargs)  # noqa: E501
+            return data
+
+    def get_customer_asset_infos_using_get_with_http_info(self, customer_id, page_size, page, **kwargs):
+        all_params = ['customer_id', 'type', 'text_search', 'sort_property', 'sort_order', 'page_size',
+                      'page']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'asset_id' is set
+        if 'customer_id' not in params or params['customer_id'] is None:
+            raise ValueError(
+                "Missing the required parameter `customer_id` when calling `get_customer_asset_infos_using_get`")  # noqa: E501
+        if 'page_size' not in params or params['page_size'] is None:
+            raise ValueError(
+                "Missing the required parameter `page_size` when calling `get_customer_asset_infos_using_get`")
+        if 'page' not in params or params['page'] is None:
+            raise ValueError(
+                "Missing the required parameter `page` when calling `get_customer_asset_infos_using_get`")
+
+        collection_formats = {}
+
+        path_params = {}
+        if 'customer_id' in params:
+            path_params['customerId'] = params['customer_id']  # noqa: E501
+
+        query_params = []
+
+        if 'type' in params:
+            query_params.append(('type', params['type']))  # noqa: E501
+        if 'text_search' in params:
+            query_params.append(('textSearch', params['text_search']))  # noqa: E501
+        if 'sort_property' in params:
+            query_params.append(('sortProperty', params['sort_property']))  # noqa: E501
+        if 'sort_order' in params:
+            query_params.append(('sortOrder', params['sort_order']))  # noqa: E501
+        if 'page_size' in params:
+            query_params.append(('pageSize', params['page_size']))  # noqa: E501
+        if 'page' in params:
+            query_params.append(('page', params['page']))  # noqa: E501
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['*/*'])  # noqa: E501
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/customer/{customerId}/assetInfos{?type,textSearch,sortProperty,sortOrder,pageSize,page}', 'GET',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='Asset',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
     def save_asset_using_post(self, asset, **kwargs):  # noqa: E501
         """saveAsset  # noqa: E501
 
@@ -1158,13 +1253,13 @@ class AssetControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'asset' is set
         if ('asset' not in params or
                 params['asset'] is None):
-            raise ValueError("Missing the required parameter `asset` when calling `save_asset_using_post`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `asset` when calling `save_asset_using_post`")  # noqa: E501
 
         collection_formats = {}
 
@@ -1251,13 +1346,13 @@ class AssetControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'asset_id' is set
         if ('asset_id' not in params or
                 params['asset_id'] is None):
-            raise ValueError("Missing the required parameter `asset_id` when calling `unassign_asset_from_customer_using_delete`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `asset_id` when calling `unassign_asset_from_customer_using_delete`")  # noqa: E501
 
         collection_formats = {}
 
