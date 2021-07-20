@@ -171,6 +171,10 @@ class RestClientBase(Thread):
         asset_id = self.get_id(asset_id)
         return self.asset_controller.delete_asset_using_delete(asset_id)
 
+    def unassign_asset_from_edge(self, edge_id: str, asset_id: AssetId):
+        asset_id = self.get_id(asset_id)
+        return self.asset_controller.unassign_asset_from_edge_using_delete(edge_id, asset_id)
+
     def get_tenant_assets(self, page_size=10, page=0, type=None, text_search=None, sort_property=None, sort_order=None,
                           limit=100000):
         return self.asset_controller.get_tenant_assets_using_get(page_size=str(page_size),
