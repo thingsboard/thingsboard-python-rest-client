@@ -1123,6 +1123,26 @@ class AssetControllerApi(object):
             collection_formats=collection_formats)
 
     def get_customer_asset_infos_using_get(self, customer_id, page_size, page, **kwargs):
+        """getCustomerAssetInfos  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api_pe.get_customer_asset_infos_using_get(customer_id, page_size, page, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str customer_id: customerId (required)
+        :param str type: type
+        :param str text_search: textSearch
+        :param str sort_property: sortProperty
+        :param str sort_order: sortOrder
+        :param str page_size: pageSize (required)
+        :param str page: page (required)
+        :return: Asset
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
             return self.get_customer_asset_infos_using_get_with_http_info(customer_id, page_size,
@@ -1133,6 +1153,26 @@ class AssetControllerApi(object):
             return data
 
     def get_customer_asset_infos_using_get_with_http_info(self, customer_id, page_size, page, **kwargs):
+        """getCustomerAssetInfos  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api_pe.get_customer_asset_infos_using_get_with_http_info(customer_id, page_size, page, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str customer_id: customerId (required)
+        :param str type: type
+        :param str text_search: textSearch
+        :param str sort_property: sortProperty
+        :param str sort_order: sortOrder
+        :param str page_size: pageSize (required)
+        :param str page: page (required)
+        :return: Asset
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
         all_params = ['customer_id', 'type', 'text_search', 'sort_property', 'sort_order', 'page_size',
                       'page']  # noqa: E501
         all_params.append('async_req')
