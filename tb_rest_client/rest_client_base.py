@@ -179,6 +179,13 @@ class RestClientBase(Thread):
         asset_id = self.get_id(asset_id)
         return self.asset_controller.assign_asset_to_edge_using_post(edge_id, asset_id)
 
+    def get_edge_assets(self, edge_id: str, page_size: int, page: int, type=None, text_search=None, sort_property=None,
+                        sort_order=None, start_time=None, end_time=None):
+        return self.asset_controller.get_edge_assets_using_get(edge_id=edge_id, page_size=str(page_size),
+                                                               page=str(page), type=type, text_search=text_search,
+                                                               sort_property=sort_property, sort_order=sort_order,
+                                                               start_time=start_time, end_time=end_time)
+
     def get_tenant_assets(self, page_size=10, page=0, type=None, text_search=None, sort_property=None, sort_order=None,
                           limit=100000):
         return self.asset_controller.get_tenant_assets_using_get(page_size=str(page_size),
