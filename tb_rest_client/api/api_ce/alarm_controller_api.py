@@ -78,13 +78,13 @@ class AlarmControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'alarm_id' is set
         if ('alarm_id' not in params or
                 params['alarm_id'] is None):
-            raise ValueError("Missing the required parameter `alarm_id` when calling `ack_alarm_using_post`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `alarm_id` when calling `ack_alarm_using_post`")  # noqa: E501
 
         collection_formats = {}
 
@@ -171,13 +171,13 @@ class AlarmControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'alarm_id' is set
         if ('alarm_id' not in params or
                 params['alarm_id'] is None):
-            raise ValueError("Missing the required parameter `alarm_id` when calling `clear_alarm_using_post`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `alarm_id` when calling `clear_alarm_using_post`")  # noqa: E501
 
         collection_formats = {}
 
@@ -264,13 +264,13 @@ class AlarmControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'alarm_id' is set
         if ('alarm_id' not in params or
                 params['alarm_id'] is None):
-            raise ValueError("Missing the required parameter `alarm_id` when calling `delete_alarm_using_delete`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `alarm_id` when calling `delete_alarm_using_delete`")  # noqa: E501
 
         collection_formats = {}
 
@@ -357,13 +357,13 @@ class AlarmControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'alarm_id' is set
         if ('alarm_id' not in params or
                 params['alarm_id'] is None):
-            raise ValueError("Missing the required parameter `alarm_id` when calling `get_alarm_by_id_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `alarm_id` when calling `get_alarm_by_id_using_get`")  # noqa: E501
 
         collection_formats = {}
 
@@ -450,13 +450,13 @@ class AlarmControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'alarm_id' is set
         if ('alarm_id' not in params or
                 params['alarm_id'] is None):
-            raise ValueError("Missing the required parameter `alarm_id` when calling `get_alarm_info_by_id_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `alarm_id` when calling `get_alarm_info_by_id_using_get`")  # noqa: E501
 
         collection_formats = {}
 
@@ -528,9 +528,11 @@ class AlarmControllerApi(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.get_alarms_using_get_with_http_info(entity_type, entity_id, page_size, page, **kwargs)  # noqa: E501
+            return self.get_alarms_using_get_with_http_info(entity_type, entity_id, page_size, page,
+                                                            **kwargs)  # noqa: E501
         else:
-            (data) = self.get_alarms_using_get_with_http_info(entity_type, entity_id, page_size, page, **kwargs)  # noqa: E501
+            (data) = self.get_alarms_using_get_with_http_info(entity_type, entity_id, page_size, page,
+                                                              **kwargs)  # noqa: E501
             return data
 
     def get_alarms_using_get_with_http_info(self, entity_type, entity_id, page_size, page, **kwargs):  # noqa: E501
@@ -561,7 +563,9 @@ class AlarmControllerApi(object):
                  returns the request thread.
         """
 
-        all_params = ['entity_type', 'entity_id', 'search_status', 'status', 'page_size', 'page', 'text_search', 'sort_property', 'sort_order', 'start_time', 'end_time', 'asc_order', 'offset', 'fetch_originator']  # noqa: E501
+        all_params = ['entity_type', 'entity_id', 'search_status', 'status', 'page_size', 'page', 'text_search',
+                      'sort_property', 'sort_order', 'start_time', 'end_time', 'asc_order', 'offset',
+                      'fetch_originator']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -569,21 +573,22 @@ class AlarmControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'entity_type' is set
-        if ('entity_type' not in params or
-                params['entity_type'] is None):
-            raise ValueError("Missing the required parameter `entity_type` when calling `get_alarms_using_get`")  # noqa: E501
+        if 'entity_type' not in params or params['entity_type'] is None:
+            raise ValueError(
+                "Missing the required parameter `entity_type` when calling `get_alarms_using_get`")  # noqa: E501
         # verify the required parameter 'entity_id' is set
         if ('entity_id' not in params or
                 params['entity_id'] is None):
-            raise ValueError("Missing the required parameter `entity_id` when calling `get_alarms_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `entity_id` when calling `get_alarms_using_get`")  # noqa: E501
         # verify the required parameter 'page_size' is set
         if ('page_size' not in params or
                 params['page_size'] is None):
-            raise ValueError("Missing the required parameter `page_size` when calling `get_alarms_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `page_size` when calling `get_alarms_using_get`")  # noqa: E501
         # verify the required parameter 'page' is set
         if ('page' not in params or
                 params['page'] is None):
@@ -641,7 +646,145 @@ class AlarmControllerApi(object):
         auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
-            '/api/alarm/{entityType}/{entityId}{?searchStatus,status,pageSize,page,textSearch,sortProperty,sortOrder,startTime,endTime,offset,fetchOriginator}', 'GET',
+            '/api/alarm/{entityType}/{entityId}{?searchStatus,status,pageSize,page,textSearch,sortProperty,sortOrder,startTime,endTime,offset,fetchOriginator}',
+            'GET',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='TimePageDataAlarmInfo',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
+    def get_all_alarms_using_get(self, page_size, page, **kwargs):
+        """getAllAlarms  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api_pe.get_all_alarms_using_get(page_size, page, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str search_status: searchStatus
+        :param str status: status
+        :param str page_size: pageSize (required)
+        :param str page: page (required)
+        :param str text_search: textSearch
+        :param str sort_property: sortProperty
+        :param str sort_order: sortOrder
+        :param int start_time: startTime
+        :param int end_time: endTime
+        :param bool fetch_originator: fetchOriginator
+        :return: TimePageDataAlarmInfo
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.get_all_alarms_using_get_with_http_info(page_size, page, **kwargs)  # noqa: E501
+        else:
+            (data) = self.get_all_alarms_using_get_with_http_info(page_size, page, **kwargs)  # noqa: E501
+            return data
+
+    def get_all_alarms_using_get_with_http_info(self, page_size, page, **kwargs):
+        """getAllAlarms  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api_pe.get_all_alarms_using_get_with_http_info(page_size, page, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str search_status: searchStatus
+        :param str status: status
+        :param str page_size: pageSize (required)
+        :param str page: page (required)
+        :param str text_search: textSearch
+        :param str sort_property: sortProperty
+        :param str sort_order: sortOrder
+        :param int start_time: startTime
+        :param int end_time: endTime
+        :param bool fetch_originator: fetchOriginator
+        :return: TimePageDataAlarmInfo
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['search_status', 'status', 'page_size', 'page', 'text_search',
+                      'sort_property', 'sort_order', 'start_time', 'end_time', 'fetch_originator']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            params[key] = val
+        del params['kwargs']
+
+        # verify the required parameter 'page_size' is set
+        if ('page_size' not in params or
+                params['page_size'] is None):
+            raise ValueError(
+                "Missing the required parameter `page_size` when calling `get_alarms_using_get`")  # noqa: E501
+        # verify the required parameter 'page' is set
+        if ('page' not in params or
+                params['page'] is None):
+            raise ValueError("Missing the required parameter `page` when calling `get_alarms_using_get`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+
+        query_params = []
+        if 'search_status' in params:
+            query_params.append(('searchStatus', params['search_status']))  # noqa: E501
+        if 'status' in params:
+            query_params.append(('status', params['status']))  # noqa: E501
+        if 'page_size' in params:
+            query_params.append(('pageSize', params['page_size']))  # noqa: E501
+        if 'page' in params:
+            query_params.append(('page', params['page']))  # noqa: E501
+        if 'text_search' in params:
+            query_params.append(('textSearch', params['text_search']))  # noqa: E501
+        if 'sort_property' in params:
+            query_params.append(('sortProperty', params['sort_property']))  # noqa: E501
+        if 'sort_order' in params:
+            query_params.append(('sortOrder', params['sort_order']))  # noqa: E501
+        if 'start_time' in params:
+            query_params.append(('startTime', params['start_time']))  # noqa: E501
+        if 'end_time' in params:
+            query_params.append(('endTime', params['end_time']))  # noqa: E501
+        if 'fetch_originator' in params:
+            query_params.append(('fetchOriginator', params['fetch_originator']))  # noqa: E501
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['*/*'])  # noqa: E501
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/alarms{?searchStatus,status,pageSize,page,textSearch,sortProperty,sortOrder,startTime,endTime,fetchOriginator}',
+            'GET',
             path_params,
             query_params,
             header_params,
@@ -675,9 +818,11 @@ class AlarmControllerApi(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.get_highest_alarm_severity_using_get_with_http_info(entity_type, entity_id, **kwargs)  # noqa: E501
+            return self.get_highest_alarm_severity_using_get_with_http_info(entity_type, entity_id,
+                                                                            **kwargs)  # noqa: E501
         else:
-            (data) = self.get_highest_alarm_severity_using_get_with_http_info(entity_type, entity_id, **kwargs)  # noqa: E501
+            (data) = self.get_highest_alarm_severity_using_get_with_http_info(entity_type, entity_id,
+                                                                              **kwargs)  # noqa: E501
             return data
 
     def get_highest_alarm_severity_using_get_with_http_info(self, entity_type, entity_id, **kwargs):  # noqa: E501
@@ -706,17 +851,18 @@ class AlarmControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'entity_type' is set
         if ('entity_type' not in params or
                 params['entity_type'] is None):
-            raise ValueError("Missing the required parameter `entity_type` when calling `get_highest_alarm_severity_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `entity_type` when calling `get_highest_alarm_severity_using_get`")  # noqa: E501
         # verify the required parameter 'entity_id' is set
         if ('entity_id' not in params or
                 params['entity_id'] is None):
-            raise ValueError("Missing the required parameter `entity_id` when calling `get_highest_alarm_severity_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `entity_id` when calling `get_highest_alarm_severity_using_get`")  # noqa: E501
 
         collection_formats = {}
 
@@ -809,13 +955,13 @@ class AlarmControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'alarm' is set
         if ('alarm' not in params or
                 params['alarm'] is None):
-            raise ValueError("Missing the required parameter `alarm` when calling `save_alarm_using_post`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `alarm` when calling `save_alarm_using_post`")  # noqa: E501
 
         collection_formats = {}
 

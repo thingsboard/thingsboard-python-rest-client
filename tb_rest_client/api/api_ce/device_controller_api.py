@@ -443,7 +443,8 @@ class DeviceControllerApi(object):
 
     def get_edge_devices_using_get_with_http_info(self, edge_id, **kwargs):
         all_params = ['edge_id', 'type', 'text_search', 'sort_property', 'sort_order', 'start_time', 'end_time'
-                      'page_size', 'page']
+                                                                                                     'page_size',
+                      'page']
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -453,7 +454,7 @@ class DeviceControllerApi(object):
         for key, val in six.iteritems(params['kwargs']):
             params[key] = val
         del params['kwargs']
-  
+
         if ('edge_id' not in params or
                 params['edge_id'] is None):
             raise ValueError(
@@ -738,7 +739,7 @@ class DeviceControllerApi(object):
             return data
 
     def unassign_device_from_edge_using_delete_with_http_info(self, edge_id, device_id, **kwargs):
-        """getCustomerDeviceInfos
+        """unassignDeviceFromEdge
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
@@ -964,8 +965,7 @@ class DeviceControllerApi(object):
                 returns the request thread.
         """
         all_params = ['customer_id', 'type', 'device_profile_id', 'text_search', 'sort_property', 'sort_order',
-                      'page_size',
-                      'page']
+                      'page_size', 'page']
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -1683,7 +1683,8 @@ class DeviceControllerApi(object):
                  returns the request thread.
         """
 
-        all_params = ['type', 'device_profile_id', 'text_search', 'sort_property', 'sort_order', 'page_size', 'page']  # noqa: E501
+        all_params = ['type', 'device_profile_id', 'text_search', 'sort_property', 'sort_order', 'page_size',
+                      'page']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -1777,7 +1778,8 @@ class DeviceControllerApi(object):
         if kwargs.get('async_req'):
             return self.assign_device_to_tenant_using_post_with_http_info(tenant_id, device_id, **kwargs)  # noqa: E501
         else:
-            (data) = self.assign_device_to_tenant_using_post_with_http_info(tenant_id, device_id, **kwargs)  # noqa: E501
+            (data) = self.assign_device_to_tenant_using_post_with_http_info(tenant_id, device_id,
+                                                                            **kwargs)  # noqa: E501
             return data
 
     def assign_device_to_tenant_using_post_with_http_info(self, tenant_id, device_id, **kwargs):

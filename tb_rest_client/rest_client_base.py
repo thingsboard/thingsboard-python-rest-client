@@ -133,6 +133,13 @@ class RestClientBase(Thread):
                                                           fetch_originator=fetch_originator,
                                                           limit=limit)
 
+    def get_all_alarms(self, page_size: int, page: int, text_search=None, sort_property=None, sort_order=None,
+                       start_time=None, end_time=None, fetch_originator=None):
+        return self.alarm_controller.get_all_alarms_using_get(page_size=str(page_size), page=str(page),
+                                                              text_search=text_search, sort_property=sort_property,
+                                                              sort_order=sort_order, start_time=start_time,
+                                                              end_time=end_time, fetch_originator=fetch_originator)
+
     def get_highest_alarm_severity(self, entity_id: EntityId, search_status, status):
         return self.alarm_controller.get_highest_alarm_severity_using_get(entity_type=entity_id.entity_type,
                                                                           entity_id=entity_id.id,
