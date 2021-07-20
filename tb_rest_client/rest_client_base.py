@@ -670,6 +670,21 @@ class RestClientBase(Thread):
         return self.rpc_controller.handle_two_way_device_rpc_request_using_post(device_id=device_id,
                                                                                 request_body=request_body)
 
+    def get_persisted_rpc(self, rpc_id: str):
+        return self.rpc_controller.get_persisted_rpc_using_get(rpc_id=rpc_id)
+
+    def delete_resource(self, rpc_id: str):
+        return self.rpc_controller.delete_resource_using_delete(rpc_id=rpc_id)
+
+    def get_persisted_rpc_by_device(self, device_id: DeviceId, page_size: int, page: int, rpc_status: str,
+                                    text_search=None, sort_property=None, sort_order=None):
+        device_id = self.get_id(device_id)
+        return self.rpc_controller.get_persisted_rpc_by_device_using_get(device_id=device_id, page_size=str(page_size),
+                                                                         page=str(page), rpc_status=rpc_status,
+                                                                         text_search=text_search,
+                                                                         sort_property=sort_property,
+                                                                         sort_order=sort_order)
+
     """Rule chain endpoints"""
 
     def get_rule_chain_by_id(self, rule_chain_id: RuleChainId):
