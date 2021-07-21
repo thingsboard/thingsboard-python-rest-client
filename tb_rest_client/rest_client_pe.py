@@ -53,7 +53,8 @@ class RestClientPE(RestClientBase):
 
     """ Dashboard endpoints """
 
-    def get_user_dashboards(self, user_id: UserId, operation, page_size=10, page=0, text_search=None, sort_property=None, sort_order=None, limit=100000):
+    def get_user_dashboards(self, user_id: UserId, operation, page_size=10, page=0, text_search=None,
+                            sort_property=None, sort_order=None, limit=100000):
         user_id = self.get_id(user_id)
         return self.dashboard_controller.get_user_dashboards_using_get(page_size=str(page_size),
                                                                        page=str(page),
@@ -63,7 +64,8 @@ class RestClientPE(RestClientBase):
                                                                        operation=operation,
                                                                        user_id=user_id)
 
-    def get_group_dashboards(self, entity_group_id: EntityGroupId, page_size=10, page=0, text_search=None, sort_property=None, sort_order=None, limit=100000):
+    def get_group_dashboards(self, entity_group_id: EntityGroupId, page_size=10, page=0, text_search=None,
+                             sort_property=None, sort_order=None, limit=100000):
         entity_group_id = self.get_id(entity_group_id)
         return self.dashboard_controller.get_group_dashboards_using_get(entity_group_id=entity_group_id,
                                                                         page_size=str(page_size),
@@ -96,7 +98,8 @@ class RestClientPE(RestClientBase):
         blob_entity_id = self.get_id(blob_entity_id)
         self.blob_entity_controller.delete_blob_entity_using_delete(blob_entity_id=blob_entity_id)
 
-    def get_blob_entities(self, type, page_size=10, page=0, text_search=None, sort_property=None, sort_order=None, start_time=None, end_time=None):
+    def get_blob_entities(self, type, page_size=10, page=0, text_search=None, sort_property=None, sort_order=None,
+                          start_time=None, end_time=None):
         return self.blob_entity_controller.get_blob_entities_using_get(page_size=page_size,
                                                                        page=page,
                                                                        type=type,
@@ -162,7 +165,8 @@ class RestClientPE(RestClientBase):
         return self.custom_translation_controller.get_current_custom_translation_using_get()
 
     def save_custom_translation(self, custom_translation: CustomTranslation):
-        return self.custom_translation_controller.save_custom_translation_using_post(custom_translation=custom_translation)
+        return self.custom_translation_controller.save_custom_translation_using_post(
+            custom_translation=custom_translation)
 
     """Entity group endpoints"""
 
@@ -183,22 +187,25 @@ class RestClientPE(RestClientBase):
 
     def get_entity_groups_by_owner_and_type(self, owner_id, group_type):
         group_type = self.get_type(group_type)
-        return self.entity_group_controller.get_entity_groups_by_owner_and_type_using_get(owner_type=owner_id.entity_type,
-                                                                                          owner_id=owner_id.id,
-                                                                                          group_type=group_type)
+        return self.entity_group_controller.get_entity_groups_by_owner_and_type_using_get(
+            owner_type=owner_id.entity_type,
+            owner_id=owner_id.id,
+            group_type=group_type)
 
     def get_entity_group_all_by_owner_and_type(self, owner_id, group_type):
         group_type = self.get_type(group_type)
-        return self.entity_group_controller.get_entity_group_all_by_owner_and_type_using_get(owner_type=owner_id.entity_type,
-                                                                                             owner_id=owner_id.id,
-                                                                                             group_type=group_type)
+        return self.entity_group_controller.get_entity_group_all_by_owner_and_type_using_get(
+            owner_type=owner_id.entity_type,
+            owner_id=owner_id.id,
+            group_type=group_type)
 
     def get_entity_group_info_by_owner_and_name_and_type(self, owner_id, group_type, group_name):
         group_type = self.get_type(group_type)
-        return self.entity_group_controller.get_enitity_group_by_owner_and_name_and_type_using_get(owner_type=owner_id.entity_type,
-                                                                                                   owner_id=owner_id.id,
-                                                                                                   group_type=group_type,
-                                                                                                   group_name=group_name)
+        return self.entity_group_controller.get_enitity_group_by_owner_and_name_and_type_using_get(
+            owner_type=owner_id.entity_type,
+            owner_id=owner_id.id,
+            group_type=group_type,
+            group_name=group_name)
 
     def add_entities_to_entity_group(self, entity_group_id: EntityGroupId, entity_ids):
         entity_group_id = self.get_id(entity_group_id)
@@ -216,7 +223,8 @@ class RestClientPE(RestClientBase):
         return self.entity_group_controller.get_group_entity_using_get(entity_group_id=entity_group_id,
                                                                        entity_id=entity_id)
 
-    def get_entities(self, entity_group_id: EntityGroupId, page_size=10, page=0, text_search=None, sort_property=None, sort_order=None):
+    def get_entities(self, entity_group_id: EntityGroupId, page_size=10, page=0, text_search=None, sort_property=None,
+                     sort_order=None):
         entity_group_id = self.get_id(entity_group_id)
         return self.entity_group_controller.get_entities_using_get(entity_group_id=entity_group_id,
                                                                    page_size=str(page_size),
@@ -251,7 +259,8 @@ class RestClientPE(RestClientBase):
 
     def get_group_permission_by_id(self, group_permission_id: GroupPermissionId):
         group_permission_id = self.get_id(group_permission_id)
-        return self.group_permission_controller.get_group_permission_by_id_using_get(group_permission_id=group_permission_id)
+        return self.group_permission_controller.get_group_permission_by_id_using_get(
+            group_permission_id=group_permission_id)
 
     def save_group_permission(self, group_permission: GroupPermission):
         return self.group_permission_controller.save_group_permission_using_post(group_permission=group_permission)
@@ -280,6 +289,9 @@ class RestClientPE(RestClientBase):
     def save_integration(self, integration: Integration):
         return self.integration_controller.save_integration_using_post(integration=integration)
 
+    def check_integration_connection(self, integration: Integration):
+        return self.integration_controller.check_integration_connection_using_post(integration=integration)
+
     def get_integrations(self, page_size=10, page=0, text_search=None, sort_property=None, sort_order=None):
         return self.integration_controller.get_integrations_using_get(page_size=str(page_size),
                                                                       page=str(page),
@@ -296,8 +308,8 @@ class RestClientPE(RestClientBase):
 
     """ Device endpoints """
 
-
-    def get_user_devices(self, device_type, page_size=10, page=0, text_search=None, sort_property=None, sort_order=None, limit=100000):
+    def get_user_devices(self, device_type, page_size=10, page=0, text_search=None, sort_property=None, sort_order=None,
+                         limit=100000):
         return self.device_controller.get_user_devices_using_get(type=device_type,
                                                                  page_size=str(page_size),
                                                                  page=str(page),
@@ -307,7 +319,8 @@ class RestClientPE(RestClientBase):
 
     """ Entity view endpoints """
 
-    def get_user_entity_views(self, entity_view_type, page_size=10, page=0, text_search=None, sort_property=None, sort_order=None, limit=100000):
+    def get_user_entity_views(self, entity_view_type, page_size=10, page=0, text_search=None, sort_property=None,
+                              sort_order=None, limit=100000):
         entity_view_type = self.get_type(entity_view_type)
         return self.entity_view_controller.get_user_entity_views_using_get(type=entity_view_type,
                                                                            page_size=str(page_size),
@@ -319,29 +332,32 @@ class RestClientPE(RestClientBase):
     def get_entity_views_by_ids(self, entity_view_ids):
         return self.entity_view_controller.get_entity_views_by_ids_using_get(entity_view_ids=entity_view_ids)
 
-
     """ Owner enpoints"""
 
     def change_owner_to_tenant(self, owner_id, entity_id):
         owner_id = self.get_id(owner_id)
         entity_type = self.get_type(entity_id)
         entity_id = self.get_id(entity_id)
-        self.owner_controller.change_owner_to_tenant_using_post(owner_id=owner_id, entity_id=entity_id, entity_type=entity_type)
+        self.owner_controller.change_owner_to_tenant_using_post(owner_id=owner_id, entity_id=entity_id,
+                                                                entity_type=entity_type)
 
     def change_owner_to_customer(self, owner_id, entity_id):
         owner_id = self.get_id(owner_id)
         entity_type = self.get_type(entity_id)
         entity_id = self.get_id(entity_id)
-        self.owner_controller.change_owner_to_customer_using_post(owner_id=owner_id, entity_id=entity_id, entity_type=entity_type)
+        self.owner_controller.change_owner_to_customer_using_post(owner_id=owner_id, entity_id=entity_id,
+                                                                  entity_type=entity_type)
 
     """ Reports endpoints """
 
     def download_dashboard_report(self, dashboard_id: DashboardId, report_params):
         dashboard_id = self.get_id(dashboard_id)
-        return self.report_controller.download_dashboard_report_using_post(dashboard_id=dashboard_id, report_params=report_params)
+        return self.report_controller.download_dashboard_report_using_post(dashboard_id=dashboard_id,
+                                                                           report_params=report_params)
 
     def download_test_report(self, report_config, reports_server_endpoint_url):
-        return self.report_controller.download_test_report_using_post(report_config=report_config, reports_server_endpoint_url=reports_server_endpoint_url)
+        return self.report_controller.download_test_report_using_post(report_config=report_config,
+                                                                      reports_server_endpoint_url=reports_server_endpoint_url)
 
     """ Roles endpoints """
 
@@ -372,7 +388,8 @@ class RestClientPE(RestClientBase):
 
     """ User endpoints """
 
-    def get_all_customer_users(self, page_size=10, page=0, text_search=None, sort_property=None, sort_order=None, limit=100000):
+    def get_all_customer_users(self, page_size=10, page=0, text_search=None, sort_property=None, sort_order=None,
+                               limit=100000):
         return self.user_controller.get_all_customer_users_using_get(page_size=str(page_size),
                                                                      page=str(page),
                                                                      text_search=text_search,
@@ -400,21 +417,28 @@ class RestClientPE(RestClientBase):
         elif timeout is None:
             entity_type = self.get_type(entity_id)
             entity_id = self.get_type(entity_id)
-            return self.rule_engine_controller.handle_rule_engine_request_using_post2(entity_id=entity_id, entity_type=entity_type, request_body=request_body)
+            return self.rule_engine_controller.handle_rule_engine_request_using_post2(entity_id=entity_id,
+                                                                                      entity_type=entity_type,
+                                                                                      request_body=request_body)
         else:
             entity_type = self.get_type(entity_id)
             entity_id = self.get_type(entity_id)
-            return self.rule_engine_controller.handle_rule_engine_request_using_post1(entity_id=entity_id, entity_type=entity_type, request_body=request_body, timeout=timeout)
+            return self.rule_engine_controller.handle_rule_engine_request_using_post1(entity_id=entity_id,
+                                                                                      entity_type=entity_type,
+                                                                                      request_body=request_body,
+                                                                                      timeout=timeout)
 
     """ Scheduler endpoints """
 
     def get_scheduler_event_info_by_id(self, scheduler_event_id: SchedulerEventId):
         scheduler_event_id = self.get_id(scheduler_event_id)
-        return self.scheduler_event_controller.get_scheduler_event_info_by_id_using_get(scheduler_event_id=scheduler_event_id)
+        return self.scheduler_event_controller.get_scheduler_event_info_by_id_using_get(
+            scheduler_event_id=scheduler_event_id)
 
     def get_scheduler_event_by_id(self, scheduler_event_id: SchedulerEventId):
         scheduler_event_id = self.get_id(scheduler_event_id)
-        return self.scheduler_event_controller.get_scheduler_event_by_id_using_get(scheduler_event_id=scheduler_event_id)
+        return self.scheduler_event_controller.get_scheduler_event_by_id_using_get(
+            scheduler_event_id=scheduler_event_id)
 
     def save_scheduler_event(self, scheduler_event: SchedulerEvent):
         return self.scheduler_event_controller.save_scheduler_event_using_post(scheduler_event=scheduler_event)
@@ -427,12 +451,14 @@ class RestClientPE(RestClientBase):
         return self.scheduler_event_controller.get_scheduler_events_using_get(type=type)
 
     def get_scheduler_events_by_ids(self, scheduler_event_ids):
-        return self.scheduler_event_controller.get_scheduler_events_by_ids_using_get(scheduler_event_ids=scheduler_event_ids)
+        return self.scheduler_event_controller.get_scheduler_events_by_ids_using_get(
+            scheduler_event_ids=scheduler_event_ids)
 
     """ Self registration endpoints. """
 
     def save_self_registration_params(self, self_registration_params: SelfRegistrationParams):
-        return self.self_registration_controller.save_self_registration_params_using_post(self_registration_params=self_registration_params)
+        return self.self_registration_controller.save_self_registration_params_using_post(
+            self_registration_params=self_registration_params)
 
     def get_self_registration_params(self):
         return self.self_registration_controller.get_self_registration_params_using_get()
@@ -447,10 +473,10 @@ class RestClientPE(RestClientBase):
 
     def sign_up(self, sign_up_request: SignUpRequest):
         return self.sign_up_controller.sign_up_using_post(sign_up_request=sign_up_request)
-    
+
     def resend_email_activation(self, email: str):
         return self.sign_up_controller.resend_email_activation_using_post(email=email)
-    
+
     def activate_email(self, email_code):
         return self.sign_up_controller.activate_email_using_get(email_code=email_code)
 
@@ -466,10 +492,12 @@ class RestClientPE(RestClientBase):
     """ White label endpoints. """
 
     def get_white_label_params(self, logo_image_checksum, favicon_checksum):
-        return self.white_labeling_controller.get_white_label_params_using_get(logo_image_checksum=logo_image_checksum, favicon_checksum=favicon_checksum)
+        return self.white_labeling_controller.get_white_label_params_using_get(logo_image_checksum=logo_image_checksum,
+                                                                               favicon_checksum=favicon_checksum)
 
     def get_login_white_label_params(self, logo_image_checksum, favicon_checksum):
-        return self.white_labeling_controller.get_login_white_label_params_using_get(logo_image_checksum=logo_image_checksum, favicon_checksum=favicon_checksum)
+        return self.white_labeling_controller.get_login_white_label_params_using_get(
+            logo_image_checksum=logo_image_checksum, favicon_checksum=favicon_checksum)
 
     def get_current_white_label_params(self):
         return self.white_labeling_controller.get_current_white_label_params_using_get()
@@ -478,13 +506,16 @@ class RestClientPE(RestClientBase):
         return self.white_labeling_controller.get_current_login_white_label_params_using_get()
 
     def save_white_label_params(self, white_labeling_params: WhiteLabelingParams):
-        return self.white_labeling_controller.save_white_label_params_using_post(white_labeling_params=white_labeling_params)
+        return self.white_labeling_controller.save_white_label_params_using_post(
+            white_labeling_params=white_labeling_params)
 
     def save_login_white_label_params(self, login_white_labeling_params: LoginWhiteLabelingParams):
-        return self.white_labeling_controller.save_login_white_label_params_using_post(login_white_labeling_params=login_white_labeling_params)
+        return self.white_labeling_controller.save_login_white_label_params_using_post(
+            login_white_labeling_params=login_white_labeling_params)
 
     def preview_white_label_params(self, white_labeling_params: WhiteLabelingParams):
-        return self.white_labeling_controller.preview_white_label_params_using_post(white_labeling_params=white_labeling_params)
+        return self.white_labeling_controller.preview_white_label_params_using_post(
+            white_labeling_params=white_labeling_params)
 
     def is_white_labeling_allowed(self):
         return self.white_labeling_controller.is_white_labeling_allowed_using_get()

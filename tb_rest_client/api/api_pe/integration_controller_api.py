@@ -78,13 +78,13 @@ class IntegrationControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'integration_id' is set
         if ('integration_id' not in params or
                 params['integration_id'] is None):
-            raise ValueError("Missing the required parameter `integration_id` when calling `delete_integration_using_delete`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `integration_id` when calling `delete_integration_using_delete`")  # noqa: E501
 
         collection_formats = {}
 
@@ -171,13 +171,13 @@ class IntegrationControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'integration_id' is set
         if ('integration_id' not in params or
                 params['integration_id'] is None):
-            raise ValueError("Missing the required parameter `integration_id` when calling `get_integration_by_id_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `integration_id` when calling `get_integration_by_id_using_get`")  # noqa: E501
 
         collection_formats = {}
 
@@ -264,13 +264,13 @@ class IntegrationControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'routing_key' is set
         if ('routing_key' not in params or
                 params['routing_key'] is None):
-            raise ValueError("Missing the required parameter `routing_key` when calling `get_integration_by_routing_key_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `routing_key` when calling `get_integration_by_routing_key_using_get`")  # noqa: E501
 
         collection_formats = {}
 
@@ -357,13 +357,13 @@ class IntegrationControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'integration_ids' is set
         if ('integration_ids' not in params or
                 params['integration_ids'] is None):
-            raise ValueError("Missing the required parameter `integration_ids` when calling `get_integrations_by_ids_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `integration_ids` when calling `get_integrations_by_ids_using_get`")  # noqa: E501
 
         collection_formats = {}
 
@@ -458,17 +458,18 @@ class IntegrationControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'page_size' is set
         if ('page_size' not in params or
                 params['page_size'] is None):
-            raise ValueError("Missing the required parameter `page_size` when calling `get_integrations_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `page_size` when calling `get_integrations_using_get`")  # noqa: E501
         # verify the required parameter 'page' is set
         if ('page' not in params or
                 params['page'] is None):
-            raise ValueError("Missing the required parameter `page` when calling `get_integrations_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `page` when calling `get_integrations_using_get`")  # noqa: E501
 
         collection_formats = {}
 
@@ -512,6 +513,100 @@ class IntegrationControllerApi(object):
             post_params=form_params,
             files=local_var_files,
             response_type='PageDataIntegration',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
+    def check_integration_connection_using_post(self, integration, **kwargs):
+        """checkIntegrationConnection  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api_pe.check_integration_connection_using_post(integration, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param Integration integration: integration (required)
+        :return: Integration
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.check_integration_connection_using_post_with_http_info(integration, **kwargs)  # noqa: E501
+        else:
+            (data) = self.check_integration_connection_using_post_with_http_info(integration, **kwargs)  # noqa: E501
+            return data
+
+    def check_integration_connection_using_post_with_http_info(self, integration, **kwargs):
+        """checkIntegrationConnection  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api_pe.check_integration_connection_using_post_with_http_info(integration, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param Integration integration: integration (required)
+        :return: Integration
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['integration']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'integration' is set
+        if ('integration' not in params or
+                params['integration'] is None):
+            raise ValueError(
+                "Missing the required parameter `integration` when calling `check_integration_connection_using_post`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+
+        query_params = []
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        if 'integration' in params:
+            body_params = params['integration']
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['*/*'])  # noqa: E501
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/integration/check', 'POST',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='Integration',  # noqa: E501
             auth_settings=auth_settings,
             async_req=params.get('async_req'),
             _return_http_data_only=params.get('_return_http_data_only'),
@@ -563,13 +658,13 @@ class IntegrationControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'integration' is set
         if ('integration' not in params or
                 params['integration'] is None):
-            raise ValueError("Missing the required parameter `integration` when calling `save_integration_using_post`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `integration` when calling `save_integration_using_post`")  # noqa: E501
 
         collection_formats = {}
 
