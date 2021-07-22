@@ -51,12 +51,15 @@ class EntityGroupControllerApi(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.add_entities_to_entity_group_using_post_with_http_info(entity_group_id, str_entity_ids, **kwargs)  # noqa: E501
+            return self.add_entities_to_entity_group_using_post_with_http_info(entity_group_id, str_entity_ids,
+                                                                               **kwargs)  # noqa: E501
         else:
-            (data) = self.add_entities_to_entity_group_using_post_with_http_info(entity_group_id, str_entity_ids, **kwargs)  # noqa: E501
+            (data) = self.add_entities_to_entity_group_using_post_with_http_info(entity_group_id, str_entity_ids,
+                                                                                 **kwargs)  # noqa: E501
             return data
 
-    def add_entities_to_entity_group_using_post_with_http_info(self, entity_group_id, str_entity_ids, **kwargs):  # noqa: E501
+    def add_entities_to_entity_group_using_post_with_http_info(self, entity_group_id, str_entity_ids,
+                                                               **kwargs):  # noqa: E501
         """addEntitiesToEntityGroup  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -80,17 +83,18 @@ class EntityGroupControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'entity_group_id' is set
         if ('entity_group_id' not in params or
                 params['entity_group_id'] is None):
-            raise ValueError("Missing the required parameter `entity_group_id` when calling `add_entities_to_entity_group_using_post`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `entity_group_id` when calling `add_entities_to_entity_group_using_post`")  # noqa: E501
         # verify the required parameter 'str_entity_ids' is set
         if ('str_entity_ids' not in params or
                 params['str_entity_ids'] is None):
-            raise ValueError("Missing the required parameter `str_entity_ids` when calling `add_entities_to_entity_group_using_post`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `str_entity_ids` when calling `add_entities_to_entity_group_using_post`")  # noqa: E501
 
         collection_formats = {}
 
@@ -179,13 +183,13 @@ class EntityGroupControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'entity_group_id' is set
         if ('entity_group_id' not in params or
                 params['entity_group_id'] is None):
-            raise ValueError("Missing the required parameter `entity_group_id` when calling `delete_entity_group_using_delete`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `entity_group_id` when calling `delete_entity_group_using_delete`")  # noqa: E501
 
         collection_formats = {}
 
@@ -228,7 +232,8 @@ class EntityGroupControllerApi(object):
             _request_timeout=params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def get_enitity_group_by_owner_and_name_and_type_using_get(self, owner_type, owner_id, group_type, group_name, **kwargs):  # noqa: E501
+    def get_enitity_group_by_owner_and_name_and_type_using_get(self, owner_type, owner_id, group_type, group_name,
+                                                               **kwargs):  # noqa: E501
         """getEnitityGroupByOwnerAndNameAndType  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -247,12 +252,17 @@ class EntityGroupControllerApi(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.get_enitity_group_by_owner_and_name_and_type_using_get_with_http_info(owner_type, owner_id, group_type, group_name, **kwargs)  # noqa: E501
+            return self.get_enitity_group_by_owner_and_name_and_type_using_get_with_http_info(owner_type, owner_id,
+                                                                                              group_type, group_name,
+                                                                                              **kwargs)  # noqa: E501
         else:
-            (data) = self.get_enitity_group_by_owner_and_name_and_type_using_get_with_http_info(owner_type, owner_id, group_type, group_name, **kwargs)  # noqa: E501
+            (data) = self.get_enitity_group_by_owner_and_name_and_type_using_get_with_http_info(owner_type, owner_id,
+                                                                                                group_type, group_name,
+                                                                                                **kwargs)  # noqa: E501
             return data
 
-    def get_enitity_group_by_owner_and_name_and_type_using_get_with_http_info(self, owner_type, owner_id, group_type, group_name, **kwargs):  # noqa: E501
+    def get_enitity_group_by_owner_and_name_and_type_using_get_with_http_info(self, owner_type, owner_id, group_type,
+                                                                              group_name, **kwargs):  # noqa: E501
         """getEnitityGroupByOwnerAndNameAndType  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -278,25 +288,28 @@ class EntityGroupControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'owner_type' is set
         if ('owner_type' not in params or
                 params['owner_type'] is None):
-            raise ValueError("Missing the required parameter `owner_type` when calling `get_enitity_group_by_owner_and_name_and_type_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `owner_type` when calling `get_enitity_group_by_owner_and_name_and_type_using_get`")  # noqa: E501
         # verify the required parameter 'owner_id' is set
         if ('owner_id' not in params or
                 params['owner_id'] is None):
-            raise ValueError("Missing the required parameter `owner_id` when calling `get_enitity_group_by_owner_and_name_and_type_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `owner_id` when calling `get_enitity_group_by_owner_and_name_and_type_using_get`")  # noqa: E501
         # verify the required parameter 'group_type' is set
         if ('group_type' not in params or
                 params['group_type'] is None):
-            raise ValueError("Missing the required parameter `group_type` when calling `get_enitity_group_by_owner_and_name_and_type_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `group_type` when calling `get_enitity_group_by_owner_and_name_and_type_using_get`")  # noqa: E501
         # verify the required parameter 'group_name' is set
         if ('group_name' not in params or
                 params['group_name'] is None):
-            raise ValueError("Missing the required parameter `group_name` when calling `get_enitity_group_by_owner_and_name_and_type_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `group_name` when calling `get_enitity_group_by_owner_and_name_and_type_using_get`")  # noqa: E501
 
         collection_formats = {}
 
@@ -368,7 +381,8 @@ class EntityGroupControllerApi(object):
         if kwargs.get('async_req'):
             return self.get_entities_using_get_with_http_info(entity_group_id, page_size, page, **kwargs)  # noqa: E501
         else:
-            (data) = self.get_entities_using_get_with_http_info(entity_group_id, page_size, page, **kwargs)  # noqa: E501
+            (data) = self.get_entities_using_get_with_http_info(entity_group_id, page_size, page,
+                                                                **kwargs)  # noqa: E501
             return data
 
     def get_entities_using_get_with_http_info(self, entity_group_id, page_size, page, **kwargs):  # noqa: E501
@@ -391,7 +405,8 @@ class EntityGroupControllerApi(object):
                  returns the request thread.
         """
 
-        all_params = ['entity_group_id', 'page_size', 'page', 'text_search', 'sort_property', 'sort_order']  # noqa: E501
+        all_params = ['entity_group_id', 'page_size', 'page', 'text_search', 'sort_property',
+                      'sort_order']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -399,26 +414,30 @@ class EntityGroupControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'entity_group_id' is set
         if ('entity_group_id' not in params or
                 params['entity_group_id'] is None):
-            raise ValueError("Missing the required parameter `entity_group_id` when calling `get_entities_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `entity_group_id` when calling `get_entities_using_get`")  # noqa: E501
         # verify the required parameter 'page_size' is set
         if ('page_size' not in params or
                 params['page_size'] is None):
-            raise ValueError("Missing the required parameter `page_size` when calling `get_entities_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `page_size` when calling `get_entities_using_get`")  # noqa: E501
         # verify the required parameter 'page' is set
         if ('page' not in params or
                 params['page'] is None):
-            raise ValueError("Missing the required parameter `page` when calling `get_entities_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `page` when calling `get_entities_using_get`")  # noqa: E501
 
         if 'page_size' in params and params['page_size'] < 1.0:  # noqa: E501
-            raise ValueError("Invalid value for parameter `page_size` when calling `get_entities_using_get`, must be a value greater than or equal to `1.0`")  # noqa: E501
+            raise ValueError(
+                "Invalid value for parameter `page_size` when calling `get_entities_using_get`, must be a value greater than or equal to `1.0`")  # noqa: E501
         if 'page' in params and params['page'] < 0.0:  # noqa: E501
-            raise ValueError("Invalid value for parameter `page` when calling `get_entities_using_get`, must be a value greater than or equal to `0.0`")  # noqa: E501
+            raise ValueError(
+                "Invalid value for parameter `page` when calling `get_entities_using_get`, must be a value greater than or equal to `0.0`")  # noqa: E501
         collection_formats = {}
 
         path_params = {}
@@ -470,7 +489,8 @@ class EntityGroupControllerApi(object):
             _request_timeout=params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def get_entity_group_all_by_owner_and_type_using_get(self, owner_type, owner_id, group_type, **kwargs):  # noqa: E501
+    def get_entity_group_all_by_owner_and_type_using_get(self, owner_type, owner_id, group_type,
+                                                         **kwargs):  # noqa: E501
         """getEntityGroupAllByOwnerAndType  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -488,12 +508,17 @@ class EntityGroupControllerApi(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.get_entity_group_all_by_owner_and_type_using_get_with_http_info(owner_type, owner_id, group_type, **kwargs)  # noqa: E501
+            return self.get_entity_group_all_by_owner_and_type_using_get_with_http_info(owner_type, owner_id,
+                                                                                        group_type,
+                                                                                        **kwargs)  # noqa: E501
         else:
-            (data) = self.get_entity_group_all_by_owner_and_type_using_get_with_http_info(owner_type, owner_id, group_type, **kwargs)  # noqa: E501
+            (data) = self.get_entity_group_all_by_owner_and_type_using_get_with_http_info(owner_type, owner_id,
+                                                                                          group_type,
+                                                                                          **kwargs)  # noqa: E501
             return data
 
-    def get_entity_group_all_by_owner_and_type_using_get_with_http_info(self, owner_type, owner_id, group_type, **kwargs):  # noqa: E501
+    def get_entity_group_all_by_owner_and_type_using_get_with_http_info(self, owner_type, owner_id, group_type,
+                                                                        **kwargs):  # noqa: E501
         """getEntityGroupAllByOwnerAndType  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -518,21 +543,23 @@ class EntityGroupControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'owner_type' is set
         if ('owner_type' not in params or
                 params['owner_type'] is None):
-            raise ValueError("Missing the required parameter `owner_type` when calling `get_entity_group_all_by_owner_and_type_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `owner_type` when calling `get_entity_group_all_by_owner_and_type_using_get`")  # noqa: E501
         # verify the required parameter 'owner_id' is set
         if ('owner_id' not in params or
                 params['owner_id'] is None):
-            raise ValueError("Missing the required parameter `owner_id` when calling `get_entity_group_all_by_owner_and_type_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `owner_id` when calling `get_entity_group_all_by_owner_and_type_using_get`")  # noqa: E501
         # verify the required parameter 'group_type' is set
         if ('group_type' not in params or
                 params['group_type'] is None):
-            raise ValueError("Missing the required parameter `group_type` when calling `get_entity_group_all_by_owner_and_type_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `group_type` when calling `get_entity_group_all_by_owner_and_type_using_get`")  # noqa: E501
 
         collection_formats = {}
 
@@ -623,13 +650,13 @@ class EntityGroupControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'entity_group_id' is set
         if ('entity_group_id' not in params or
                 params['entity_group_id'] is None):
-            raise ValueError("Missing the required parameter `entity_group_id` when calling `get_entity_group_by_id_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `entity_group_id` when calling `get_entity_group_by_id_using_get`")  # noqa: E501
 
         collection_formats = {}
 
@@ -716,13 +743,13 @@ class EntityGroupControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'entity_group_ids' is set
         if ('entity_group_ids' not in params or
                 params['entity_group_ids'] is None):
-            raise ValueError("Missing the required parameter `entity_group_ids` when calling `get_entity_groups_by_ids_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `entity_group_ids` when calling `get_entity_groups_by_ids_using_get`")  # noqa: E501
 
         collection_formats = {}
 
@@ -783,12 +810,15 @@ class EntityGroupControllerApi(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.get_entity_groups_by_owner_and_type_using_get_with_http_info(owner_type, owner_id, group_type, **kwargs)  # noqa: E501
+            return self.get_entity_groups_by_owner_and_type_using_get_with_http_info(owner_type, owner_id, group_type,
+                                                                                     **kwargs)  # noqa: E501
         else:
-            (data) = self.get_entity_groups_by_owner_and_type_using_get_with_http_info(owner_type, owner_id, group_type, **kwargs)  # noqa: E501
+            (data) = self.get_entity_groups_by_owner_and_type_using_get_with_http_info(owner_type, owner_id, group_type,
+                                                                                       **kwargs)  # noqa: E501
             return data
 
-    def get_entity_groups_by_owner_and_type_using_get_with_http_info(self, owner_type, owner_id, group_type, **kwargs):  # noqa: E501
+    def get_entity_groups_by_owner_and_type_using_get_with_http_info(self, owner_type, owner_id, group_type,
+                                                                     **kwargs):  # noqa: E501
         """getEntityGroupsByOwnerAndType  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -813,21 +843,23 @@ class EntityGroupControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'owner_type' is set
         if ('owner_type' not in params or
                 params['owner_type'] is None):
-            raise ValueError("Missing the required parameter `owner_type` when calling `get_entity_groups_by_owner_and_type_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `owner_type` when calling `get_entity_groups_by_owner_and_type_using_get`")  # noqa: E501
         # verify the required parameter 'owner_id' is set
         if ('owner_id' not in params or
                 params['owner_id'] is None):
-            raise ValueError("Missing the required parameter `owner_id` when calling `get_entity_groups_by_owner_and_type_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `owner_id` when calling `get_entity_groups_by_owner_and_type_using_get`")  # noqa: E501
         # verify the required parameter 'group_type' is set
         if ('group_type' not in params or
                 params['group_type'] is None):
-            raise ValueError("Missing the required parameter `group_type` when calling `get_entity_groups_by_owner_and_type_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `group_type` when calling `get_entity_groups_by_owner_and_type_using_get`")  # noqa: E501
 
         collection_formats = {}
 
@@ -918,13 +950,13 @@ class EntityGroupControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'group_type' is set
         if ('group_type' not in params or
                 params['group_type'] is None):
-            raise ValueError("Missing the required parameter `group_type` when calling `get_entity_groups_by_type_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `group_type` when calling `get_entity_groups_by_type_using_get`")  # noqa: E501
 
         collection_formats = {}
 
@@ -984,9 +1016,11 @@ class EntityGroupControllerApi(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.get_entity_groups_for_entity_using_get_with_http_info(entity_type, entity_id, **kwargs)  # noqa: E501
+            return self.get_entity_groups_for_entity_using_get_with_http_info(entity_type, entity_id,
+                                                                              **kwargs)  # noqa: E501
         else:
-            (data) = self.get_entity_groups_for_entity_using_get_with_http_info(entity_type, entity_id, **kwargs)  # noqa: E501
+            (data) = self.get_entity_groups_for_entity_using_get_with_http_info(entity_type, entity_id,
+                                                                                **kwargs)  # noqa: E501
             return data
 
     def get_entity_groups_for_entity_using_get_with_http_info(self, entity_type, entity_id, **kwargs):  # noqa: E501
@@ -1013,17 +1047,18 @@ class EntityGroupControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'entity_type' is set
         if ('entity_type' not in params or
                 params['entity_type'] is None):
-            raise ValueError("Missing the required parameter `entity_type` when calling `get_entity_groups_for_entity_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `entity_type` when calling `get_entity_groups_for_entity_using_get`")  # noqa: E501
         # verify the required parameter 'entity_id' is set
         if ('entity_id' not in params or
                 params['entity_id'] is None):
-            raise ValueError("Missing the required parameter `entity_id` when calling `get_entity_groups_for_entity_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `entity_id` when calling `get_entity_groups_for_entity_using_get`")  # noqa: E501
 
         collection_formats = {}
 
@@ -1114,17 +1149,18 @@ class EntityGroupControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'entity_group_id' is set
         if ('entity_group_id' not in params or
                 params['entity_group_id'] is None):
-            raise ValueError("Missing the required parameter `entity_group_id` when calling `get_group_entity_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `entity_group_id` when calling `get_group_entity_using_get`")  # noqa: E501
         # verify the required parameter 'entity_id' is set
         if ('entity_id' not in params or
                 params['entity_id'] is None):
-            raise ValueError("Missing the required parameter `entity_id` when calling `get_group_entity_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `entity_id` when calling `get_group_entity_using_get`")  # noqa: E501
 
         collection_formats = {}
 
@@ -1221,13 +1257,13 @@ class EntityGroupControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'page_size' is set
         if ('page_size' not in params or
                 params['page_size'] is None):
-            raise ValueError("Missing the required parameter `page_size` when calling `get_owners_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `page_size` when calling `get_owners_using_get`")  # noqa: E501
         # verify the required parameter 'page' is set
         if ('page' not in params or
                 params['page'] is None):
@@ -1326,13 +1362,13 @@ class EntityGroupControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'entity_group_id' is set
         if ('entity_group_id' not in params or
                 params['entity_group_id'] is None):
-            raise ValueError("Missing the required parameter `entity_group_id` when calling `make_entity_group_private_using_post`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `entity_group_id` when calling `make_entity_group_private_using_post`")  # noqa: E501
 
         collection_formats = {}
 
@@ -1419,13 +1455,13 @@ class EntityGroupControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'entity_group_id' is set
         if ('entity_group_id' not in params or
                 params['entity_group_id'] is None):
-            raise ValueError("Missing the required parameter `entity_group_id` when calling `make_entity_group_public_using_post`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `entity_group_id` when calling `make_entity_group_public_using_post`")  # noqa: E501
 
         collection_formats = {}
 
@@ -1485,12 +1521,15 @@ class EntityGroupControllerApi(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.remove_entities_from_entity_group_using_post_with_http_info(entity_group_id, str_entity_ids, **kwargs)  # noqa: E501
+            return self.remove_entities_from_entity_group_using_post_with_http_info(entity_group_id, str_entity_ids,
+                                                                                    **kwargs)  # noqa: E501
         else:
-            (data) = self.remove_entities_from_entity_group_using_post_with_http_info(entity_group_id, str_entity_ids, **kwargs)  # noqa: E501
+            (data) = self.remove_entities_from_entity_group_using_post_with_http_info(entity_group_id, str_entity_ids,
+                                                                                      **kwargs)  # noqa: E501
             return data
 
-    def remove_entities_from_entity_group_using_post_with_http_info(self, entity_group_id, str_entity_ids, **kwargs):  # noqa: E501
+    def remove_entities_from_entity_group_using_post_with_http_info(self, entity_group_id, str_entity_ids,
+                                                                    **kwargs):  # noqa: E501
         """removeEntitiesFromEntityGroup  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -1514,17 +1553,18 @@ class EntityGroupControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'entity_group_id' is set
         if ('entity_group_id' not in params or
                 params['entity_group_id'] is None):
-            raise ValueError("Missing the required parameter `entity_group_id` when calling `remove_entities_from_entity_group_using_post`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `entity_group_id` when calling `remove_entities_from_entity_group_using_post`")  # noqa: E501
         # verify the required parameter 'str_entity_ids' is set
         if ('str_entity_ids' not in params or
                 params['str_entity_ids'] is None):
-            raise ValueError("Missing the required parameter `str_entity_ids` when calling `remove_entities_from_entity_group_using_post`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `str_entity_ids` when calling `remove_entities_from_entity_group_using_post`")  # noqa: E501
 
         collection_formats = {}
 
@@ -1613,13 +1653,13 @@ class EntityGroupControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'entity_group' is set
         if ('entity_group' not in params or
                 params['entity_group'] is None):
-            raise ValueError("Missing the required parameter `entity_group` when calling `save_entity_group_using_post`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `entity_group` when calling `save_entity_group_using_post`")  # noqa: E501
 
         collection_formats = {}
 
@@ -1662,7 +1702,8 @@ class EntityGroupControllerApi(object):
             _request_timeout=params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def share_entity_group_to_child_owner_user_group_using_post(self, entity_group_id, user_group_id, role_id, **kwargs):  # noqa: E501
+    def share_entity_group_to_child_owner_user_group_using_post(self, entity_group_id, user_group_id, role_id,
+                                                                **kwargs):  # noqa: E501
         """shareEntityGroupToChildOwnerUserGroup  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -1680,12 +1721,17 @@ class EntityGroupControllerApi(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.share_entity_group_to_child_owner_user_group_using_post_with_http_info(entity_group_id, user_group_id, role_id, **kwargs)  # noqa: E501
+            return self.share_entity_group_to_child_owner_user_group_using_post_with_http_info(entity_group_id,
+                                                                                               user_group_id, role_id,
+                                                                                               **kwargs)  # noqa: E501
         else:
-            (data) = self.share_entity_group_to_child_owner_user_group_using_post_with_http_info(entity_group_id, user_group_id, role_id, **kwargs)  # noqa: E501
+            (data) = self.share_entity_group_to_child_owner_user_group_using_post_with_http_info(entity_group_id,
+                                                                                                 user_group_id, role_id,
+                                                                                                 **kwargs)  # noqa: E501
             return data
 
-    def share_entity_group_to_child_owner_user_group_using_post_with_http_info(self, entity_group_id, user_group_id, role_id, **kwargs):  # noqa: E501
+    def share_entity_group_to_child_owner_user_group_using_post_with_http_info(self, entity_group_id, user_group_id,
+                                                                               role_id, **kwargs):  # noqa: E501
         """shareEntityGroupToChildOwnerUserGroup  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -1710,21 +1756,23 @@ class EntityGroupControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'entity_group_id' is set
         if ('entity_group_id' not in params or
                 params['entity_group_id'] is None):
-            raise ValueError("Missing the required parameter `entity_group_id` when calling `share_entity_group_to_child_owner_user_group_using_post`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `entity_group_id` when calling `share_entity_group_to_child_owner_user_group_using_post`")  # noqa: E501
         # verify the required parameter 'user_group_id' is set
         if ('user_group_id' not in params or
                 params['user_group_id'] is None):
-            raise ValueError("Missing the required parameter `user_group_id` when calling `share_entity_group_to_child_owner_user_group_using_post`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `user_group_id` when calling `share_entity_group_to_child_owner_user_group_using_post`")  # noqa: E501
         # verify the required parameter 'role_id' is set
         if ('role_id' not in params or
                 params['role_id'] is None):
-            raise ValueError("Missing the required parameter `role_id` when calling `share_entity_group_to_child_owner_user_group_using_post`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `role_id` when calling `share_entity_group_to_child_owner_user_group_using_post`")  # noqa: E501
 
         collection_formats = {}
 
@@ -1764,6 +1812,136 @@ class EntityGroupControllerApi(object):
             post_params=form_params,
             files=local_var_files,
             response_type=None,  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
+    def get_entity_group_by_owner_and_name_and_type_using_get(self, owner_type, owner_id, group_type, group_name,
+                                                              **kwargs):
+        """getEntityGroupByOwnerAndNameAndType  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api_pe.get_entity_group_by_owner_and_name_and_type_using_get(owner_type, owner_id, group_type, group_name, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str owner_type: ownerType (required)
+        :param str owner_id: ownerId (required)
+        :param str group_type: groupType (required)
+        :param str group_name: groupName (required)
+        :return: EntityGroup
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.get_entity_group_by_owner_and_name_and_type_using_get_with_http_info(owner_type, owner_id,
+                                                                                             group_type, group_name,
+                                                                                             **kwargs)  # noqa: E501
+        else:
+            (data) = self.get_entity_group_by_owner_and_name_and_type_using_get_with_http_info(owner_type, owner_id,
+                                                                                               group_type, group_name,
+                                                                                               **kwargs)  # noqa: E501
+            return data
+
+    def get_entity_group_by_owner_and_name_and_type_using_get_with_http_info(self, owner_type, owner_id, group_type,
+                                                                             group_name, **kwargs):
+        """getEntityGroupByOwnerAndNameAndType  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api_pe.get_entity_group_by_owner_and_name_and_type_using_get_with_http_info(owner_type, owner_id, group_type, group_name, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str owner_type: ownerType (required)
+        :param str owner_id: ownerId (required)
+        :param str group_type: groupType (required)
+        :param str group_name: groupName (required)
+        :return: EntityGroup
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['owner_type', 'owner_id', 'group_type', 'group_name']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'owner_type' is set
+        if ('owner_type' not in params or
+                params['owner_type'] is None):
+            raise ValueError(
+                "Missing the required parameter `owner_type` when calling `get_entity_group_by_owner_and_name_and_type_using_get`")  # noqa: E501
+        # verify the required parameter 'owner_id' is set
+        if ('owner_id' not in params or
+                params['owner_id'] is None):
+            raise ValueError(
+                "Missing the required parameter `owner_id` when calling `get_entity_group_by_owner_and_name_and_type_using_get`")  # noqa: E501
+        # verify the required parameter 'group_type' is set
+        if ('group_type' not in params or
+                params['group_type'] is None):
+            raise ValueError(
+                "Missing the required parameter `group_type` when calling `get_entity_group_by_owner_and_name_and_type_using_get`")  # noqa: E501
+        if params['group_type'] in ['CUSTOMER', 'ASSET', 'DEVICE', 'USER', 'ENTITY_VIEW', 'DASHBOARD']:
+            raise ValueError(
+                "The required parameter `group_type` only can be one of ['CUSTOMER', 'ASSET', 'DEVICE', 'USER', 'ENTITY_VIEW', 'DASHBOARD']")  # noqa: E501
+        # verify the required parameter 'group_name' is set
+        if ('group_name' not in params or
+                params['group_name'] is None):
+            raise ValueError(
+                "Missing the required parameter `group_name` when calling `get_entity_group_by_owner_and_name_and_type_using_get`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+        if 'owner_type' in params:
+            path_params['ownerType'] = params['owner_type']  # noqa: E501
+        if 'owner_id' in params:
+            path_params['ownerId'] = params['owner_id']  # noqa: E501
+        if 'group_type' in params:
+            path_params['groupType'] = params['group_type']  # noqa: E501
+        if 'group_name' in params:
+            path_params['groupName'] = params['group_name']  # noqa: E501
+
+        query_params = []
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['*/*'])  # noqa: E501
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/entityGroup/{ownerType}/{ownerId}/{groupType}/{groupName}', 'GET',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='EntityGroup',  # noqa: E501
             auth_settings=auth_settings,
             async_req=params.get('async_req'),
             _return_http_data_only=params.get('_return_http_data_only'),

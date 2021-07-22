@@ -102,7 +102,7 @@ class RestClientPE(RestClientBase):
 
     """ Blob Entity endpoints"""
 
-    def get_blob_entity_info(self, blob_entity_id: BlobEntityId):
+    def get_blob_entity_info_by_id(self, blob_entity_id: BlobEntityId):
         blob_entity_id = self.get_id(blob_entity_id)
         return self.blob_entity_controller.get_blob_entity_info_by_id_using_get(blob_entity_id=blob_entity_id)
 
@@ -152,7 +152,7 @@ class RestClientPE(RestClientBase):
         converter_id = self.get_id(converter_id)
         self.converter_controller.get_latest_converter_debug_input_using_get(converter_id=converter_id)
 
-    def test_uplink_converter(self, input_params):
+    def test_up_link_converter(self, input_params):
         return self.converter_controller.test_up_link_converter_using_post(input_params=input_params)
 
     def test_downlink_converter(self, input_params):
@@ -271,6 +271,10 @@ class RestClientPE(RestClientBase):
         entity_group_id = self.get_id(entity_group_id)
         self.entity_group_controller.make_entity_group_private_using_post(entity_group_id=entity_group_id)
 
+    def get_entity_group_by_owner_and_name_and_type(self, owner_id, group_type: str, group_name: str):
+        return self.entity_group_controller.get_entity_group_by_owner_and_name_and_type_using_get(
+            owner_type=owner_id.entity_type, owner_id=owner_id.id, group_type=group_type, group_name=group_name)
+
     """ Group permissions endpoints"""
 
     def get_group_permission_by_id(self, group_permission_id: GroupPermissionId):
@@ -292,6 +296,11 @@ class RestClientPE(RestClientBase):
     def get_entity_group_permissions(self, entity_group_id: EntityGroupId):
         entity_group_id = self.get_id(entity_group_id)
         return self.group_permission_controller.get_entity_group_permissions_using_get(entity_group_id=entity_group_id)
+
+    def get_group_permission_info_by_id(self, group_permission_id: GroupPermissionId, is_user_group: bool):
+        group_permission_id = self.get_id(group_permission_id)
+        return self.group_permission_controller.get_group_permission_info_by_id_using_get(
+            group_permission_id=group_permission_id, is_user_group=str(is_user_group).lower())
 
     """ Integration endpoints. """
 
@@ -493,6 +502,9 @@ class RestClientPE(RestClientBase):
     def get_privacy_policy(self):
         return self.self_registration_controller.get_privacy_policy_using_get()
 
+    def get_terms_of_use(self):
+        return self.self_registration_controller.get_terms_of_use_using_get()
+
     """ Sign up endpoints. """
 
     def sign_up(self, sign_up_request: SignUpRequest):
@@ -510,8 +522,203 @@ class RestClientPE(RestClientBase):
     def privacy_policy_accepted(self):
         return self.sign_up_controller.privacy_policy_accepted_using_get()
 
-    def accept_privace_policy(self):
+    def accept_privacy_policy(self):
         return self.sign_up_controller.accept_privacy_policy_using_post()
+
+    """ HTTP integration endpoints """
+
+    def process_http_request(self, routing_key, suffix, request_params, request_headers):
+        return self.http_integration_controller.process_request_using_post3(routing_key=routing_key, suffix=suffix,
+                                                                            request_params=request_params,
+                                                                            request_headers=request_headers)
+
+    def check_http_status(self, routing_key, request_params, request_headers):
+        return self.http_integration_controller.check_status_using_get(routing_key=routing_key,
+                                                                       request_params=request_params,
+                                                                       request_headers=request_headers)
+
+    """ Ocean connect endpoints """
+
+    def post_ocean_connect_process_request(self, routing_key, msg, request_headers):
+        return self.ocean_connect_integration_controller.process_request_using_post4(routing_key=routing_key, msg=msg,
+                                                                                     request_headers=request_headers)
+
+    def delete_ocean_connect_process_request(self, routing_key, msg, request_headers):
+        return self.ocean_connect_integration_controller.process_request_using_delete(routing_key=routing_key, msg=msg,
+                                                                                      request_headers=request_headers)
+
+    def get_ocean_connect_process_request(self, routing_key, msg, request_headers):
+        return self.ocean_connect_integration_controller.process_request_using_get(routing_key=routing_key, msg=msg,
+                                                                                   request_headers=request_headers)
+
+    def head_ocean_connect_process_request(self, routing_key, msg, request_headers):
+        return self.ocean_connect_integration_controller.process_request_using_head(routing_key=routing_key, msg=msg,
+                                                                                    request_headers=request_headers)
+
+    def options_ocean_connect_process_request(self, routing_key, msg, request_headers):
+        return self.ocean_connect_integration_controller.process_request_using_options(routing_key=routing_key, msg=msg,
+                                                                                       request_headers=request_headers)
+
+    def patch_ocean_connect_process_request(self, routing_key, msg, request_headers):
+        return self.ocean_connect_integration_controller.process_request_using_patch(routing_key=routing_key, msg=msg,
+                                                                                     request_headers=request_headers)
+
+    def put_ocean_connect_process_request(self, routing_key, msg, request_headers):
+        return self.ocean_connect_integration_controller.process_request_using_put(routing_key=routing_key, msg=msg,
+                                                                                   request_headers=request_headers)
+
+    """ Sig fox integration endpoints """
+
+    def delete_sig_fox_process_request(self, routing_key, msg, request_headers):
+        return self.sigfox_integration_controller.process_request_using_delete1(routing_key=routing_key, msg=msg,
+                                                                                request_headers=request_headers)
+
+    def get_sig_fox_process_request(self, routing_key, msg, request_headers):
+        return self.sigfox_integration_controller.process_request_using_get1(routing_key=routing_key, msg=msg,
+                                                                             request_headers=request_headers)
+
+    def head_sig_fox_process_request(self, routing_key, msg, request_headers):
+        return self.sigfox_integration_controller.process_request_using_head1(routing_key=routing_key, msg=msg,
+                                                                              request_headers=request_headers)
+
+    def options_sig_fox_process_request(self, routing_key, msg, request_headers):
+        return self.sigfox_integration_controller.process_request_using_options1(routing_key=routing_key, msg=msg,
+                                                                                 request_headers=request_headers)
+
+    def patch_sig_fox_process_request(self, routing_key, msg, request_headers):
+        return self.sigfox_integration_controller.process_request_using_patch1(routing_key=routing_key, msg=msg,
+                                                                               request_headers=request_headers)
+
+    def post_sig_fox_process_request(self, routing_key, msg, request_headers):
+        return self.sigfox_integration_controller.process_request_using_post5(routing_key=routing_key, msg=msg,
+                                                                              request_headers=request_headers)
+
+    def put_sig_fox_process_request(self, routing_key, msg, request_headers):
+        return self.sigfox_integration_controller.process_request_using_put1(routing_key=routing_key, msg=msg,
+                                                                             request_headers=request_headers)
+
+    """ T mobile iot cdp integration endpoints """
+
+    def delete_t_mobile_iot_cdp_process_request(self, routing_key, msg, request_headers):
+        return self.tmobile_iot_cdp_integration_controller.process_request_using_delete2(routing_key=routing_key,
+                                                                                         msg=msg,
+                                                                                         request_headers=request_headers)
+
+    def get_t_mobile_iot_cdp_process_request(self, routing_key, msg, request_headers):
+        return self.tmobile_iot_cdp_integration_controller.process_request_using_get2(routing_key=routing_key,
+                                                                                      msg=msg,
+                                                                                      request_headers=request_headers)
+
+    def head_t_mobile_iot_cdp_process_request(self, routing_key, msg, request_headers):
+        return self.tmobile_iot_cdp_integration_controller.process_request_using_head2(routing_key=routing_key,
+                                                                                       msg=msg,
+                                                                                       request_headers=request_headers)
+
+    def options_t_mobile_iot_cdp_process_request(self, routing_key, msg, request_headers):
+        return self.tmobile_iot_cdp_integration_controller.process_request_using_options2(routing_key=routing_key,
+                                                                                          msg=msg,
+                                                                                          request_headers=request_headers)
+
+    def patch_t_mobile_iot_cdp_process_request(self, routing_key, msg, request_headers):
+        return self.tmobile_iot_cdp_integration_controller.process_request_using_patch2(routing_key=routing_key,
+                                                                                        msg=msg,
+                                                                                        request_headers=request_headers)
+
+    def post_t_mobile_iot_cdp_process_request(self, routing_key, msg, request_headers):
+        return self.tmobile_iot_cdp_integration_controller.process_request_using_post6(routing_key=routing_key,
+                                                                                       msg=msg,
+                                                                                       request_headers=request_headers)
+
+    def put_t_mobile_iot_cdp_process_request(self, routing_key, msg, request_headers):
+        return self.tmobile_iot_cdp_integration_controller.process_request_using_put2(routing_key=routing_key,
+                                                                                      msg=msg,
+                                                                                      request_headers=request_headers)
+
+    """ Thing park integration endpoints """
+
+    def delete_thing_park_process_request(self, routing_key, all_request_params, msg, request_headers):
+        return self.thingpark_integration_controller.process_request_using_delete3(routing_key=routing_key,
+                                                                                   all_request_params=all_request_params,
+                                                                                   msg=msg,
+                                                                                   request_headers=request_headers)
+
+    def get_thing_park_process_request(self, routing_key, all_request_params, msg, request_headers):
+        return self.thingpark_integration_controller.process_request_using_get3(routing_key=routing_key,
+                                                                                all_request_params=all_request_params,
+                                                                                msg=msg,
+                                                                                request_headers=request_headers)
+
+    def head_thing_park_process_request(self, routing_key, all_request_params, msg, request_headers):
+        return self.thingpark_integration_controller.process_request_using_head3(routing_key=routing_key,
+                                                                                 all_request_params=all_request_params,
+                                                                                 msg=msg,
+                                                                                 request_headers=request_headers)
+
+    def options_thing_park_process_request(self, routing_key, all_request_params, msg, request_headers):
+        return self.thingpark_integration_controller.process_request_using_options3(routing_key=routing_key,
+                                                                                    all_request_params=all_request_params,
+                                                                                    msg=msg,
+                                                                                    request_headers=request_headers)
+
+    def patch_thing_park_process_request(self, routing_key, all_request_params, msg, request_headers):
+        return self.thingpark_integration_controller.process_request_using_patch3(routing_key=routing_key,
+                                                                                  all_request_params=all_request_params,
+                                                                                  msg=msg,
+                                                                                  request_headers=request_headers)
+
+    def post_thing_park_process_request(self, routing_key, all_request_params, msg, request_headers):
+        return self.thingpark_integration_controller.process_request_using_post7(routing_key=routing_key,
+                                                                                 all_request_params=all_request_params,
+                                                                                 msg=msg,
+                                                                                 request_headers=request_headers)
+
+    def put_thing_park_process_request(self, routing_key, all_request_params, msg, request_headers):
+        return self.thingpark_integration_controller.process_request_using_put3(routing_key=routing_key,
+                                                                                all_request_params=all_request_params,
+                                                                                msg=msg,
+                                                                                request_headers=request_headers)
+
+    def delete_thing_park_process_request_tpe(self, routing_key, all_request_params, msg, request_headers):
+        return self.thingpark_integration_controller.process_request_tpe_using_delete(routing_key=routing_key,
+                                                                                      all_request_params=all_request_params,
+                                                                                      msg=msg,
+                                                                                      request_headers=request_headers)
+
+    def get_thing_park_process_request_tpe(self, routing_key, all_request_params, msg, request_headers):
+        return self.thingpark_integration_controller.process_request_tpe_using_get(routing_key=routing_key,
+                                                                                   all_request_params=all_request_params,
+                                                                                   msg=msg,
+                                                                                   request_headers=request_headers)
+
+    def head_thing_park_process_request_tpe(self, routing_key, all_request_params, msg, request_headers):
+        return self.thingpark_integration_controller.process_request_tpe_using_head(routing_key=routing_key,
+                                                                                    all_request_params=all_request_params,
+                                                                                    msg=msg,
+                                                                                    request_headers=request_headers)
+
+    def options_thing_park_process_request_tpe(self, routing_key, all_request_params, msg, request_headers):
+        return self.thingpark_integration_controller.process_request_tpe_using_options(routing_key=routing_key,
+                                                                                       all_request_params=all_request_params,
+                                                                                       msg=msg,
+                                                                                       request_headers=request_headers)
+
+    def patch_thing_park_process_request_tpe(self, routing_key, all_request_params, msg, request_headers):
+        return self.thingpark_integration_controller.process_request_tpe_using_patch(routing_key=routing_key,
+                                                                                     all_request_params=all_request_params,
+                                                                                     msg=msg,
+                                                                                     request_headers=request_headers)
+
+    def post_thing_park_process_request_tpe(self, routing_key, all_request_params, msg, request_headers):
+        return self.thingpark_integration_controller.process_request_tpe_using_post(routing_key=routing_key,
+                                                                                    all_request_params=all_request_params,
+                                                                                    msg=msg,
+                                                                                    request_headers=request_headers)
+
+    def put_thing_park_process_request_tpe(self, routing_key, all_request_params, msg, request_headers):
+        return self.thingpark_integration_controller.process_request_tpe_using_put(routing_key=routing_key,
+                                                                                   all_request_params=all_request_params,
+                                                                                   msg=msg,
+                                                                                   request_headers=request_headers)
 
     """ White label endpoints. """
 
@@ -546,6 +753,13 @@ class RestClientPE(RestClientBase):
 
     def is_customer_white_labeling_allowed(self):
         return self.white_labeling_controller.is_customer_white_labeling_allowed_using_get()
+
+    def get_login_theme_css(self, palette_settings: PaletteSettings, dark_foreground=None):
+        return self.white_labeling_controller.get_login_theme_css_using_post(palette_settings=palette_settings,
+                                                                             dark_foreground=dark_foreground)
+
+    def get_app_theme_css(self, palette_settings: PaletteSettings):
+        return self.white_labeling_controller.get_app_theme_css_using_post(palette_settings=palette_settings)
 
     def __load_controllers(self):
         self.auth_controller = AuthControllerApi(self.api_client)
