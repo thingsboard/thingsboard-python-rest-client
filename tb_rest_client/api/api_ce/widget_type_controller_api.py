@@ -78,13 +78,13 @@ class WidgetTypeControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'widget_type_id' is set
         if ('widget_type_id' not in params or
                 params['widget_type_id'] is None):
-            raise ValueError("Missing the required parameter `widget_type_id` when calling `delete_widget_type_using_delete`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `widget_type_id` when calling `delete_widget_type_using_delete`")  # noqa: E501
 
         collection_formats = {}
 
@@ -144,9 +144,11 @@ class WidgetTypeControllerApi(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.get_bundle_widget_types_using_get_with_http_info(is_system, bundle_alias, **kwargs)  # noqa: E501
+            return self.get_bundle_widget_types_using_get_with_http_info(is_system, bundle_alias,
+                                                                         **kwargs)  # noqa: E501
         else:
-            (data) = self.get_bundle_widget_types_using_get_with_http_info(is_system, bundle_alias, **kwargs)  # noqa: E501
+            (data) = self.get_bundle_widget_types_using_get_with_http_info(is_system, bundle_alias,
+                                                                           **kwargs)  # noqa: E501
             return data
 
     def get_bundle_widget_types_using_get_with_http_info(self, is_system, bundle_alias, **kwargs):  # noqa: E501
@@ -173,17 +175,18 @@ class WidgetTypeControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'is_system' is set
         if ('is_system' not in params or
                 params['is_system'] is None):
-            raise ValueError("Missing the required parameter `is_system` when calling `get_bundle_widget_types_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `is_system` when calling `get_bundle_widget_types_using_get`")  # noqa: E501
         # verify the required parameter 'bundle_alias' is set
         if ('bundle_alias' not in params or
                 params['bundle_alias'] is None):
-            raise ValueError("Missing the required parameter `bundle_alias` when calling `get_bundle_widget_types_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `bundle_alias` when calling `get_bundle_widget_types_using_get`")  # noqa: E501
 
         collection_formats = {}
 
@@ -272,13 +275,13 @@ class WidgetTypeControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'widget_type_id' is set
         if ('widget_type_id' not in params or
                 params['widget_type_id'] is None):
-            raise ValueError("Missing the required parameter `widget_type_id` when calling `get_widget_type_by_id_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `widget_type_id` when calling `get_widget_type_by_id_using_get`")  # noqa: E501
 
         collection_formats = {}
 
@@ -341,7 +344,8 @@ class WidgetTypeControllerApi(object):
         if kwargs.get('async_req'):
             return self.get_widget_type_using_get_with_http_info(is_system, bundle_alias, alias, **kwargs)  # noqa: E501
         else:
-            (data) = self.get_widget_type_using_get_with_http_info(is_system, bundle_alias, alias, **kwargs)  # noqa: E501
+            (data) = self.get_widget_type_using_get_with_http_info(is_system, bundle_alias, alias,
+                                                                   **kwargs)  # noqa: E501
             return data
 
     def get_widget_type_using_get_with_http_info(self, is_system, bundle_alias, alias, **kwargs):  # noqa: E501
@@ -369,21 +373,23 @@ class WidgetTypeControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'is_system' is set
         if ('is_system' not in params or
                 params['is_system'] is None):
-            raise ValueError("Missing the required parameter `is_system` when calling `get_widget_type_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `is_system` when calling `get_widget_type_using_get`")  # noqa: E501
         # verify the required parameter 'bundle_alias' is set
         if ('bundle_alias' not in params or
                 params['bundle_alias'] is None):
-            raise ValueError("Missing the required parameter `bundle_alias` when calling `get_widget_type_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `bundle_alias` when calling `get_widget_type_using_get`")  # noqa: E501
         # verify the required parameter 'alias' is set
         if ('alias' not in params or
                 params['alias'] is None):
-            raise ValueError("Missing the required parameter `alias` when calling `get_widget_type_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `alias` when calling `get_widget_type_using_get`")  # noqa: E501
 
         collection_formats = {}
 
@@ -474,13 +480,13 @@ class WidgetTypeControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'widget_type' is set
         if ('widget_type' not in params or
                 params['widget_type'] is None):
-            raise ValueError("Missing the required parameter `widget_type` when calling `save_widget_type_using_post`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `widget_type` when calling `save_widget_type_using_post`")  # noqa: E501
 
         collection_formats = {}
 
@@ -516,6 +522,220 @@ class WidgetTypeControllerApi(object):
             post_params=form_params,
             files=local_var_files,
             response_type='WidgetType',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
+    def get_bundle_widget_types_details_using_get(self, is_system, bundle_alias, **kwargs):
+        """getBundleWidgetTypesDetails  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api_pe.get_bundle_widget_types_details_using_get(is_system, bundle_alias, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str is_system: isSystem (required)
+        :param str bundle_alias: bundleAlias (required)
+        :return: list[WidgetType]
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.get_bundle_widget_types_details_using_get_with_http_info(is_system, bundle_alias,
+                                                                                 **kwargs)  # noqa: E501
+        else:
+            (data) = self.get_bundle_widget_types_details_using_get_with_http_info(is_system, bundle_alias,
+                                                                                   **kwargs)  # noqa: E501
+            return data
+
+    def get_bundle_widget_types_details_using_get_with_http_info(self, is_system, bundle_alias, **kwargs):
+        """getBundleWidgetTypesDetails  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api_pe.get_bundle_widget_types_details_using_get_with_http_info(is_system, bundle_alias, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str is_system: isSystem (required)
+        :param str bundle_alias: bundleAlias (required)
+        :return: list[WidgetType]
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['is_system', 'bundle_alias']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'is_system' is set
+        if ('is_system' not in params or
+                params['is_system'] is None):
+            raise ValueError(
+                "Missing the required parameter `is_system` when calling `get_bundle_widget_types_details_using_get`")  # noqa: E501
+        # verify the required parameter 'bundle_alias' is set
+        if ('bundle_alias' not in params or
+                params['bundle_alias'] is None):
+            raise ValueError(
+                "Missing the required parameter `bundle_alias` when calling `get_bundle_widget_types_details_using_get`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+
+        query_params = []
+
+        if 'is_system' in params:
+            query_params.append(('isSystem', params['is_system']))  # noqa: E501
+        if 'bundle_alias' in params:
+            query_params.append(('bundleAlias', params['bundle_alias']))  # noqa: E501
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['*/*'])  # noqa: E501
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/widgetTypesDetails{?isSystem,bundleAlias}', 'GET',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='list[WidgetType]',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
+    def get_bundle_widget_types_infos_using_get(self, is_system, bundle_alias, **kwargs):
+        """getBundleWidgetTypesInfos  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api_pe.get_bundle_widget_types_infos_using_get(is_system, bundle_alias, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str is_system: isSystem (required)
+        :param str bundle_alias: bundleAlias (required)
+        :return: list[WidgetType]
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.get_bundle_widget_types_infos_using_get_with_http_info(is_system, bundle_alias,
+                                                                               **kwargs)  # noqa: E501
+        else:
+            (data) = self.get_bundle_widget_types_infos_using_get_with_http_info(is_system, bundle_alias,
+                                                                                 **kwargs)  # noqa: E501
+            return data
+
+    def get_bundle_widget_types_infos_using_get_with_http_info(self, is_system, bundle_alias, **kwargs):
+        """getBundleWidgetTypesInfos  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api_pe.get_bundle_widget_types_infos_using_get_with_http_info(is_system, bundle_alias, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str is_system: isSystem (required)
+        :param str bundle_alias: bundleAlias (required)
+        :return: list[WidgetType]
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['is_system', 'bundle_alias']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'is_system' is set
+        if ('is_system' not in params or
+                params['is_system'] is None):
+            raise ValueError(
+                "Missing the required parameter `is_system` when calling `get_bundle_widget_types_details_using_get`")  # noqa: E501
+        # verify the required parameter 'bundle_alias' is set
+        if ('bundle_alias' not in params or
+                params['bundle_alias'] is None):
+            raise ValueError(
+                "Missing the required parameter `bundle_alias` when calling `get_bundle_widget_types_details_using_get`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+
+        query_params = []
+
+        if 'is_system' in params:
+            query_params.append(('isSystem', params['is_system']))  # noqa: E501
+        if 'bundle_alias' in params:
+            query_params.append(('bundleAlias', params['bundle_alias']))  # noqa: E501
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['*/*'])  # noqa: E501
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/widgetTypesInfos{?isSystem,bundleAlias}', 'GET',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='list[WidgetType]',  # noqa: E501
             auth_settings=auth_settings,
             async_req=params.get('async_req'),
             _return_http_data_only=params.get('_return_http_data_only'),

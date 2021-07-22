@@ -163,7 +163,7 @@ class ComponentDescriptorControllerApi(object):
                  returns the request thread.
         """
 
-        all_params = ['component_type']  # noqa: E501
+        all_params = ['component_type', 'rule_chain_type']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -187,6 +187,9 @@ class ComponentDescriptorControllerApi(object):
 
         query_params = []
 
+        if 'rule_chain_type' in params:
+            query_params.append(('ruleChainType', params['rule_chain_type']))  # noqa: E501
+
         header_params = {}
 
         form_params = []
@@ -205,7 +208,7 @@ class ComponentDescriptorControllerApi(object):
         auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
-            '/api/components/{componentType}', 'GET',
+            '/api/components/{componentType}{?ruleChainType}', 'GET',
             path_params,
             query_params,
             header_params,
@@ -256,7 +259,7 @@ class ComponentDescriptorControllerApi(object):
                  returns the request thread.
         """
 
-        all_params = ['component_types']  # noqa: E501
+        all_params = ['component_types', 'rule_chain_type']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -279,6 +282,8 @@ class ComponentDescriptorControllerApi(object):
         query_params = []
         if 'component_types' in params:
             query_params.append(('componentTypes', params['component_types']))  # noqa: E501
+        if 'rule_chain_type' in params:
+            query_params.append(('ruleChainType', params['rule_chain_type']))  # noqa: E501
 
         header_params = {}
 
@@ -298,7 +303,7 @@ class ComponentDescriptorControllerApi(object):
         auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
-            '/api/components{?componentTypes}', 'GET',
+            '/api/components{?ruleChainType,componentTypes}', 'GET',
             path_params,
             query_params,
             header_params,

@@ -31,25 +31,38 @@ class RestClientPE(RestClientBase):
         super(RestClientPE, self).login(username=username, password=password)
         self.__load_controllers()
 
-    """Admin controller endpoints"""
+    """ Asset endpoints """
 
-    def get_admin_settings(self, key, system_by_default=False):
-        return self.admin_controller.get_admin_settings_using_get(key=key, system_by_default=system_by_default)
+    def save_asset(self, asset: Asset, entity_group_id=None):
+        return self.asset_controller.save_asset_using_post(asset, entity_group_id=entity_group_id)
 
-    def save_admin_settings(self, admin_settings: AdminSettings):
-        return self.admin_controller.save_admin_settings_using_post(admin_settings)
+    def get_user_assets(self, page_size: int, page: int, type=None, text_search=None, sort_property=None,
+                        sort_order=None):
+        return self.asset_controller.get_user_assets_using_get(page_size=str(page_size), page=str(page), type=type,
+                                                               text_search=text_search, sort_property=sort_property,
+                                                               sort_order=sort_order)
 
-    def send_test_mail(self, admin_settings: AdminSettings):
-        return self.admin_controller.send_test_mail_using_post(admin_settings)
+    """ Customer endpoints """
 
-    def get_security_settings(self):
-        return self.admin_controller.get_security_settings_using_get()
+    def save_customer(self, customer: Customer, entity_group_id=None):
+        return self.customer_controller.save_customer_using_post(customer=customer, entity_group_id=entity_group_id)
 
-    def save_security_settings(self, security_settings: SecuritySettings):
-        return self.admin_controller.save_security_settings_using_post(security_settings)
+    def get_customers_by_ids(self, customer_ids):
+        return self.customer_controller.getCustomersByIds(customer_ids=customer_ids)
 
-    def check_updates(self):
-        return self.admin_controller.check_updates_using_get()
+    def get_customers_by_entity_group_id(self, entity_group_id, page_size: int, page: int, text_search=None,
+                                         sort_property=None, sort_order=None):
+        return self.customer_controller.get_customers_by_entity_group_id_using_get(entity_group_id=entity_group_id,
+                                                                                   page_size=str(page_size),
+                                                                                   page=str(page),
+                                                                                   text_search=text_search,
+                                                                                   sort_property=sort_property,
+                                                                                   sort_order=sort_order)
+
+    def get_user_customers(self, page_size: int, page: int, text_search=None, sort_property=None, sort_order=None):
+        return self.customer_controller.get_user_customers_using_get(page_size=str(page_size), page=str(page),
+                                                                     text_search=text_search,
+                                                                     sort_property=sort_property, sort_order=sort_order)
 
     """ Dashboard endpoints """
 
@@ -78,6 +91,9 @@ class RestClientPE(RestClientBase):
         if isinstance(dashboards_ids, list):
             dashboards_ids = ",".join(dashboards_ids)
         return self.dashboard_controller.get_dashboards_by_ids_using_get(dashboard_ids=dashboards_ids)
+
+    def save_dashboard(self, dashboard: Dashboard, entity_group_id=None):
+        return self.dashboard_controller.save_dashboard_using_post(dashboard=dashboard, entity_group_id=entity_group_id)
 
     """ Tenant endpoints """
 
@@ -168,7 +184,7 @@ class RestClientPE(RestClientBase):
         return self.custom_translation_controller.save_custom_translation_using_post(
             custom_translation=custom_translation)
 
-    """Entity group endpoints"""
+    """ Entity group endpoints """
 
     def get_entity_group_by_id(self, entity_group_id: EntityGroupId):
         entity_group_id = self.get_id(entity_group_id)
@@ -332,7 +348,11 @@ class RestClientPE(RestClientBase):
     def get_entity_views_by_ids(self, entity_view_ids):
         return self.entity_view_controller.get_entity_views_by_ids_using_get(entity_view_ids=entity_view_ids)
 
-    """ Owner enpoints"""
+    def save_entity_view(self, entity_view: EntityView, entity_group_id):
+        return self.entity_view_controller.save_entity_view_using_post(entity_view=entity_view,
+                                                                       entity_group_id=entity_group_id)
+
+    """ Owner endpoints"""
 
     def change_owner_to_tenant(self, owner_id, entity_id):
         owner_id = self.get_id(owner_id)
@@ -408,6 +428,10 @@ class RestClientPE(RestClientBase):
 
     def get_allowed_permissions(self):
         return self.user_permissions_controller.get_allowed_permissions_using_get()
+
+    def save_user(self, user: User, send_activation_mail, entity_group_id=None):
+        return self.user_controller.save_user_using_post(user=user, send_activation_mail=send_activation_mail,
+                                                         entity_group_id=entity_group_id)
 
     """ Rule engine endpoints"""
 

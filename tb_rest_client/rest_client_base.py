@@ -93,6 +93,26 @@ class RestClientBase(Thread):
     def get_token(self):
         return self.token_info["token"]
 
+    """Admin controller endpoints (for ce and pe)"""
+
+    def get_security_settings(self):
+        return self.admin_controller.get_security_settings_using_get()
+
+    def save_security_settings(self, security_settings: SecuritySettings):
+        return self.admin_controller.save_security_settings_using_post(security_settings)
+
+    def save_admin_settings(self, admin_settings: AdminSettings):
+        return self.admin_controller.save_admin_settings_using_post(admin_settings)
+
+    def send_test_mail(self, admin_settings: AdminSettings):
+        return self.admin_controller.send_test_mail_using_post(admin_settings)
+
+    def get_admin_settings(self, key, system_by_default=False):
+        return self.admin_controller.get_admin_settings_using_get(key=key, system_by_default=system_by_default)
+
+    def check_updates(self):
+        return self.admin_controller.check_updates_using_get()
+
     """Alarm controller endpoints"""
 
     def get_alarm_by_id(self, alarm_id: AlarmId):
@@ -133,13 +153,6 @@ class RestClientBase(Thread):
                                                           fetch_originator=fetch_originator,
                                                           limit=limit)
 
-    def get_all_alarms(self, page_size: int, page: int, text_search=None, sort_property=None, sort_order=None,
-                       start_time=None, end_time=None, fetch_originator=None):
-        return self.alarm_controller.get_all_alarms_using_get(page_size=str(page_size), page=str(page),
-                                                              text_search=text_search, sort_property=sort_property,
-                                                              sort_order=sort_order, start_time=start_time,
-                                                              end_time=end_time, fetch_originator=fetch_originator)
-
     def get_highest_alarm_severity(self, entity_id: EntityId, search_status, status):
         return self.alarm_controller.get_highest_alarm_severity_using_get(entity_type=entity_id.entity_type,
                                                                           entity_id=entity_id.id,
@@ -155,43 +168,9 @@ class RestClientBase(Thread):
         asset_id = self.get_id(asset_id)
         return self.asset_controller.get_asset_by_id_using_get(asset_id)
 
-    def get_asset_info_by_id(self, asset_id: AssetId):
-        asset_id = self.get_id(asset_id)
-        return self.asset_controller.get_asset_info_by_id_using_get(asset_id)
-
-    def get_customer_asset_infos(self, customer_id: CustomerId, page_size: int, page: int):
-        customer_id = self.get_id(customer_id)
-        return self.asset_controller.get_customer_asset_infos_using_get(customer_id, page_size=str(page_size),
-                                                                        page=str(page))
-
-    def save_asset(self, asset):
-        return self.asset_controller.save_asset_using_post(asset)
-
     def delete_asset(self, asset_id: AssetId):
         asset_id = self.get_id(asset_id)
         return self.asset_controller.delete_asset_using_delete(asset_id)
-
-    def unassign_asset_from_edge(self, edge_id: str, asset_id: AssetId):
-        asset_id = self.get_id(asset_id)
-        return self.asset_controller.unassign_asset_from_edge_using_delete(edge_id, asset_id)
-
-    def assign_asset_to_edge(self, edge_id: str, asset_id: AssetId):
-        asset_id = self.get_id(asset_id)
-        return self.asset_controller.assign_asset_to_edge_using_post(edge_id, asset_id)
-
-    def get_edge_assets(self, edge_id: str, page_size: int, page: int, type=None, text_search=None, sort_property=None,
-                        sort_order=None, start_time=None, end_time=None):
-        return self.asset_controller.get_edge_assets_using_get(edge_id=edge_id, page_size=str(page_size),
-                                                               page=str(page), type=type, text_search=text_search,
-                                                               sort_property=sort_property, sort_order=sort_order,
-                                                               start_time=start_time, end_time=end_time)
-
-    def get_tenant_asset_infos(self, page_size: int, page: int, type=None, text_search=None, sort_property=None,
-                               sort_order=None):
-        return self.asset_controller.get_tenant_asset_infos_using_get(page_size=str(page_size), page=str(page),
-                                                                      type=type, text_search=text_search,
-                                                                      sort_property=sort_property,
-                                                                      sort_order=sort_order)
 
     def get_tenant_assets(self, page_size=10, page=0, type=None, text_search=None, sort_property=None, sort_order=None,
                           limit=100000):
@@ -323,11 +302,13 @@ class RestClientBase(Thread):
         return self.component_descriptor_controller.get_component_descriptor_by_clazz_using_get(
             component_descriptor_class_name)
 
-    def get_component_descriptors_by_type(self, component_type):
-        return self.component_descriptor_controller.get_component_descriptors_by_type_using_get(component_type)
+    def get_component_descriptors_by_type(self, component_type, rule_chain_type=None):
+        return self.component_descriptor_controller.get_component_descriptors_by_type_using_get(component_type,
+                                                                                                rule_chain_type=rule_chain_type)
 
-    def get_component_descriptors_by_types(self, component_types):
-        return self.component_descriptor_controller.get_component_descriptors_by_types_using_get(component_types)
+    def get_component_descriptors_by_types(self, component_types, rule_chain_type=None):
+        return self.component_descriptor_controller.get_component_descriptors_by_types_using_get(component_types,
+                                                                                                 rule_chain_type=rule_chain_type)
 
     """Customers endpoints"""
 
@@ -342,9 +323,6 @@ class RestClientBase(Thread):
     def get_customer_title_by_id(self, customer_id: CustomerId):
         customer_id = self.get_id(customer_id)
         return self.customer_controller.get_customer_title_by_id_using_get(customer_id)
-
-    def save_customer(self, customer: Customer):
-        return self.customer_controller.save_customer_using_post(customer)
 
     def delete_customer(self, customer_id: CustomerId):
         customer_id = self.get_id(customer_id)
@@ -365,9 +343,6 @@ class RestClientBase(Thread):
     def get_home_dashboard(self):
         return self.dashboard_controller.get_home_dashboard_using_get()
 
-    def get_home_dashboard_info(self):
-        return self.dashboard_controller.get_home_dashboard_info_using_get()
-
     def get_server_time(self):
         return self.dashboard_controller.get_server_time_using_get()
 
@@ -382,29 +357,9 @@ class RestClientBase(Thread):
         dashboard_id = self.get_id(dashboard_id)
         return self.dashboard_controller.get_dashboard_by_id_using_get(dashboard_id)
 
-    def save_dashboard(self, dashboard: Dashboard):
-        return self.dashboard_controller.save_dashboard_using_post(dashboard)
-
     def delete_dashboard(self, dashboard_id: DashboardId):
         dashboard_id = self.get_id(dashboard_id)
         self.dashboard_controller.delete_dashboard_using_delete(dashboard_id)
-
-    def unassign_dashboard_from_edge(self, edge_id: str, dashboard_id: DashboardId):
-        dashboard_id = self.get_id(dashboard_id)
-        return self.dashboard_controller.unassign_dashboard_from_edge_using_delete(edge_id=edge_id,
-                                                                                   dashboard_id=dashboard_id)
-
-    def assign_dashboard_to_edge(self, edge_id: str, dashboard_id: DashboardId):
-        dashboard_id = self.get_id(dashboard_id)
-        return self.dashboard_controller.assign_dashboard_to_edge_using_post(edge_id=edge_id, dashboard_id=dashboard_id)
-
-    def get_edge_dashboards(self, edge_id: str, page_size: int, page: int, text_search=None, sort_property=None,
-                            sort_order=None, start_time=None, end_time=None):
-        return self.dashboard_controller.get_edge_dashboards_using_get(edge_id=edge_id, page_size=str(page_size),
-                                                                       page=str(page), text_search=text_search,
-                                                                       sort_property=sort_property,
-                                                                       sort_order=sort_order, start_time=start_time,
-                                                                       end_time=end_time)
 
     def get_tenant_home_dashboard_info(self):
         return self.dashboard_controller.get_tenant_home_dashboard_info_using_get()
@@ -461,36 +416,8 @@ class RestClientBase(Thread):
     def get_tenant_device(self, device_name):
         return self.device_controller.get_tenant_device_using_get(device_name)
 
-    def assign_device_to_edge(self, edge_id, device_id):
-        return self.device_controller.assign_device_to_edge_using_post(edge_id=edge_id, device_id=device_id)
-
-    def get_edge_devices(self, edge_id, page_size: int, page: int, type=None, text_search=None, sort_property=None,
-                         sort_order=None, start_time=None, end_time=None):
-        return self.device_controller.get_edge_devices_using_get(edge_id=edge_id, page_size=str(page_size),
-                                                                 page=str(page), type=type, text_search=text_search,
-                                                                 sort_property=sort_property, sort_order=sort_order,
-                                                                 start_time=start_time, end_time=end_time)
-
     def assign_device_to_tenant(self, tenant_id: TenantId, device_id: DeviceId):
         return self.device_controller.assign_device_to_tenant_using_post(tenant_id=tenant_id, device_id=device_id)
-
-    def unassign_device_from_edge(self, edge_id, device_id):
-        return self.device_controller.unassign_device_from_edge_using_delete(edge_id=edge_id, device_id=device_id)
-
-    def get_device_info_by_id(self, device_id: DeviceId):
-        return self.device_controller.get_device_info_by_id_using_get(device_id=device_id.id)
-
-    def get_customer_device_infos(self, customer_id: CustomerId, page_size: int, page: int, type=None, text_search=None,
-                                  sort_property=None, sort_order=None):
-        customer_id = self.get_id(customer_id)
-
-        return self.device_controller.get_customer_device_infos_using_get(customer_id=customer_id,
-                                                                          page_size=str(page_size),
-                                                                          page=str(page),
-                                                                          type=type,
-                                                                          text_search=text_search,
-                                                                          sort_property=sort_property,
-                                                                          sort_order=sort_order)
 
     def get_customer_devices(self, customer_id: CustomerId, page_size=None, page=None, type=None, text_search=None,
                              sort_property=None, sort_order=None, limit=100000):
@@ -522,15 +449,6 @@ class RestClientBase(Thread):
     def reclaim_device(self, device_name):
         self.device_controller.re_claim_device_using_delete(device_name)
 
-    def get_tenant_device_infos(self, page_size: int, page: int, type=None, device_profile_id=None, text_search=None,
-                                sort_property=None, sort_order=None):
-        return self.device_controller.get_tenant_device_infos_using_get(page_size=str(page_size),
-                                                                        page=str(page), type=type,
-                                                                        device_profile_id=device_profile_id,
-                                                                        text_search=text_search,
-                                                                        sort_property=sort_property,
-                                                                        sort_order=sort_order)
-
     """Relation endpoints"""
 
     def save_relation(self, relation: EntityRelation):
@@ -548,7 +466,7 @@ class RestClientBase(Thread):
         self.entity_relation_controller.delete_relations_using_delete(entity_type=entity_id.entity_type,
                                                                       entity_id=entity_id.id, id=id, type=type)
 
-    def get_relations(self, from_id, relation_type, to_id, relation_type_group):
+    def get_relation(self, from_id, relation_type, to_id, relation_type_group):
         return self.entity_relation_controller.get_relation_using_get(from_id=from_id.id,
                                                                       from_type=from_id.entity_type,
                                                                       relation_type=relation_type,
@@ -596,9 +514,6 @@ class RestClientBase(Thread):
     def get_entity_view_by_id(self, entity_view_id: EntityViewId):
         entity_view_id = self.get_id(entity_view_id)
         return self.entity_view_controller.get_entity_view_by_id_using_get(entity_view_id=entity_view_id)
-
-    def save_entity_view(self, entity_view: EntityView):
-        return self.entity_view_controller.save_entity_view_using_post(entity_view=entity_view)
 
     def delete_entity_view(self, entity_view_id: EntityViewId):
         entity_view_id = self.get_id(entity_view_id)
@@ -670,22 +585,7 @@ class RestClientBase(Thread):
         return self.rpc_controller.handle_two_way_device_rpc_request_using_post(device_id=device_id,
                                                                                 request_body=request_body)
 
-    def get_persisted_rpc(self, rpc_id: str):
-        return self.rpc_controller.get_persisted_rpc_using_get(rpc_id=rpc_id)
-
-    def delete_resource(self, rpc_id: str):
-        return self.rpc_controller.delete_resource_using_delete(rpc_id=rpc_id)
-
-    def get_persisted_rpc_by_device(self, device_id: DeviceId, page_size: int, page: int, rpc_status: str,
-                                    text_search=None, sort_property=None, sort_order=None):
-        device_id = self.get_id(device_id)
-        return self.rpc_controller.get_persisted_rpc_by_device_using_get(device_id=device_id, page_size=str(page_size),
-                                                                         page=str(page), rpc_status=rpc_status,
-                                                                         text_search=text_search,
-                                                                         sort_property=sort_property,
-                                                                         sort_order=sort_order)
-
-    """Rule chain endpoints"""
+    """ Rule chain endpoints """
 
     def get_rule_chain_by_id(self, rule_chain_id: RuleChainId):
         rule_chain_id = self.get_id(rule_chain_id)
@@ -726,6 +626,9 @@ class RestClientBase(Thread):
         if isinstance(input_params, dict):
             input_params = dumps(input_params)
         self.rule_chain_controller.test_script_using_post(input_params=input_params)
+
+    def export_rule_chains(self, limit: int):
+        return self.rule_chain_controller.export_rule_chains_using_get(limit=str(limit))
 
     """Telemetry endpoints"""
 
@@ -841,6 +744,15 @@ class RestClientBase(Thread):
                                                                 sort_property=sort_property,
                                                                 sort_order=sort_order, limit=str(limit))
 
+    def get_tenant_info_by_id(self, tenant_id: TenantId):
+        tenant_id = self.get_id(tenant_id)
+        return self.tenant_controller.get_tenant_info_by_id_using_get(tenant_id=tenant_id)
+
+    def get_tenant_infos(self, page_size: int, page: int, text_search=None, sort_property=None, sort_order=None):
+        return self.tenant_controller.get_tenant_infos_using_get(page_size=str(page_size), page=str(page),
+                                                                 text_search=text_search, sort_property=sort_property,
+                                                                 sort_order=sort_order)
+
     """ User endpoints. """
 
     def get_user_by_id(self, user_id: UserId):
@@ -853,10 +765,6 @@ class RestClientBase(Thread):
     def get_user_token(self, user_id: UserId):
         user_id = self.get_id(user_id)
         return self.user_controller.get_user_token_using_get(user_id=user_id)
-
-    def save_user(self, user: User, send_activation_mail, entity_group_id=None):
-        return self.user_controller.save_user_using_post(user=user, send_activation_mail=send_activation_mail,
-                                                         entity_group_id=entity_group_id)
 
     def send_activation_email(self, email):
         self.user_controller.send_activation_email_using_post(email=email)
@@ -886,7 +794,7 @@ class RestClientBase(Thread):
 
     """ Widget endpoints. """
 
-    def get_widgets_budle_by_id(self, widgets_bundle_id: WidgetsBundleId):
+    def get_widgets_bundle_by_id(self, widgets_bundle_id: WidgetsBundleId):
         widgets_bundle_id = self.get_id(widgets_bundle_id)
         return self.widgets_bundle_controller.get_widgets_bundle_by_id_using_get(widgets_bundle_id=widgets_bundle_id)
 
@@ -927,6 +835,21 @@ class RestClientBase(Thread):
         is_system = str(is_system).lower()
         return self.widget_type_controller.get_widget_type_using_get(is_system=is_system, bundle_alias=bundle_alias,
                                                                      alias=alias)
+
+    def get_bundle_widget_types_details(self, is_system, bundle_alias):
+        is_system = str(is_system).lower()
+        return self.widget_type_controller.get_bundle_widget_types_details_using_get(is_system=is_system,
+                                                                                     bundle_alias=bundle_alias)
+
+    def get_bundle_widget_types_infos(self, is_system, bundle_alias):
+        is_system = str(is_system).lower()
+        return self.widget_type_controller.get_bundle_widget_types_infos_using_get(is_system=is_system,
+                                                                                   bundle_alias=bundle_alias)
+
+    """ Queue endpoints """
+
+    def get_tenant_queues_by_service_type(self, service_type: str):
+        return self.queue_controller.get_tenant_queues_by_service_type_using_get(service_type=service_type)
 
     def __load_controllers(self):
         self.auth_controller = AuthControllerApi(self.api_client)
