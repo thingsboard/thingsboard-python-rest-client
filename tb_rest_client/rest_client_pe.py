@@ -42,6 +42,42 @@ class RestClientPE(RestClientBase):
                                                                text_search=text_search, sort_property=sort_property,
                                                                sort_order=sort_order)
 
+    """ Billing endpoints """
+
+    def send_account_activated_email(self, send_account_activated_email_request):
+        return self.billing_endpoint_controller.send_account_activated_email_using_post(
+            send_account_activated_email_request=send_account_activated_email_request)
+
+    def send_activation_email(self, send_activation_email_request):
+        return self.billing_endpoint_controller.send_activation_email_using_post(
+            send_activation_email_request=send_activation_email_request)
+
+    def send_password_was_reset_email(self, send_password_was_reset_email_request):
+        return self.billing_endpoint_controller.send_password_was_reset_email_using_post(
+            send_password_was_reset_email_request=send_password_was_reset_email_request)
+
+    def send_reset_password_email(self, send_reset_password_email_request):
+        return self.billing_endpoint_controller.send_reset_password_email_using_post(
+            send_reset_password_email_request=send_reset_password_email_request)
+
+    def tenant_has_billing_read(self):
+        return self.billing_endpoint_controller.tenant_has_billing_read_using_get()
+
+    def tenant_has_billing_write(self):
+        return self.billing_endpoint_controller.tenant_has_billing_write_using_get()
+
+    def check_tenant_can_update_plan(self, can_update_plan_request):
+        return self.billing_endpoint_controller.check_tenant_can_update_plan_using_post(
+            can_update_plan_request=can_update_plan_request)
+
+    def notify_tenant_plan_changed(self, tenant_plan_changed_request):
+        return self.billing_endpoint_controller.notify_tenant_plan_changed_using_post(
+            tenant_plan_changed_request=tenant_plan_changed_request)
+
+    def notify_tenant_state_changed(self, tenant_state_changed_request):
+        return self.billing_endpoint_controller.notify_tenant_state_changed_using_post(
+            tenant_state_changed_request=tenant_state_changed_request)
+
     """ Customer endpoints """
 
     def save_customer(self, customer: Customer, entity_group_id=None):
@@ -63,6 +99,47 @@ class RestClientPE(RestClientBase):
         return self.customer_controller.get_user_customers_using_get(page_size=str(page_size), page=str(page),
                                                                      text_search=text_search,
                                                                      sort_property=sort_property, sort_order=sort_order)
+
+    """ Chirp stack integration endpoints """
+
+    def delete_chirp_stack_process_request(self, routing_key, msg, request_headers):
+        return self.chirp_stack_integration_controller.process_request_using_delete(routing_key=routing_key, msg=msg,
+                                                                                    request_headers=request_headers)
+
+    def get_chirp_stack_process_request(self, routing_key, msg, request_headers):
+        return self.chirp_stack_integration_controller.process_request_using_get(routing_key=routing_key, msg=msg,
+                                                                                 request_headers=request_headers)
+
+    def head_chirp_stack_process_request(self, routing_key, msg, request_headers):
+        return self.chirp_stack_integration_controller.process_request_using_head(routing_key=routing_key, msg=msg,
+                                                                                  request_headers=request_headers)
+
+    def options_chirp_stack_process_request(self, routing_key, msg, request_headers):
+        return self.chirp_stack_integration_controller.process_request_using_options(routing_key=routing_key, msg=msg,
+                                                                                     request_headers=request_headers)
+
+    def patch_chirp_stack_process_request(self, routing_key, msg, request_headers):
+        return self.chirp_stack_integration_controller.process_request_using_patch(routing_key=routing_key, msg=msg,
+                                                                                   request_headers=request_headers)
+
+    def post_chirp_stack_process_request(self, routing_key, msg, request_headers):
+        return self.chirp_stack_integration_controller.process_request_using_post(routing_key=routing_key, msg=msg,
+                                                                                  request_headers=request_headers)
+
+    def put_chirp_stack_process_request(self, routing_key, msg, request_headers):
+        return self.chirp_stack_integration_controller.process_request_using_put(routing_key=routing_key, msg=msg,
+                                                                                 request_headers=request_headers)
+
+    """ Cloud endpoints """
+
+    def tenant_has_white_label_read(self):
+        return self.cloud_endpoint_controller.tenant_has_white_label_read_using_get()
+
+    def tenant_has_white_label_write(self):
+        return self.cloud_endpoint_controller.tenant_has_white_label_write_using_get()
+
+    def tenant_white_labeling_allowed(self):
+        return self.cloud_endpoint_controller.tenant_white_labeling_allowed_using_get()
 
     """ Dashboard endpoints """
 
@@ -537,6 +614,36 @@ class RestClientPE(RestClientBase):
                                                                        request_params=request_params,
                                                                        request_headers=request_headers)
 
+    """ Loriot integration endpoints """
+
+    def delete_loriot_process_request(self, routing_key, msg, request_headers):
+        return self.loriot_integration_controller.process_request_using_delete1(routing_key=routing_key, msg=msg,
+                                                                                request_headers=request_headers)
+
+    def get_loriot_process_request(self, routing_key, msg, request_headers):
+        return self.loriot_integration_controller.process_request_using_get1(routing_key=routing_key, msg=msg,
+                                                                             request_headers=request_headers)
+
+    def head_loriot_process_request(self, routing_key, msg, request_headers):
+        return self.loriot_integration_controller.process_request_using_head1(routing_key=routing_key, msg=msg,
+                                                                              request_headers=request_headers)
+
+    def options_loriot_process_request(self, routing_key, msg, request_headers):
+        return self.loriot_integration_controller.process_request_using_options1(routing_key=routing_key, msg=msg,
+                                                                                 request_headers=request_headers)
+
+    def patch_loriot_process_request(self, routing_key, msg, request_headers):
+        return self.loriot_integration_controller.process_request_using_patch1(routing_key=routing_key, msg=msg,
+                                                                               request_headers=request_headers)
+
+    def post_loriot_process_request(self, routing_key, msg, request_headers):
+        return self.loriot_integration_controller.process_request_using_post7(routing_key=routing_key, msg=msg,
+                                                                              request_headers=request_headers)
+
+    def put_loriot_process_request(self, routing_key, msg, request_headers):
+        return self.loriot_integration_controller.process_request_using_put1(routing_key=routing_key, msg=msg,
+                                                                             request_headers=request_headers)
+
     """ Ocean connect endpoints """
 
     def post_ocean_connect_process_request(self, routing_key, msg, request_headers):
@@ -633,6 +740,37 @@ class RestClientPE(RestClientBase):
         return self.tmobile_iot_cdp_integration_controller.process_request_using_put2(routing_key=routing_key,
                                                                                       msg=msg,
                                                                                       request_headers=request_headers)
+
+    """ Solution endpoints """
+
+    def get_solution_template_details(self, solution_template_id: str):
+        return self.solution_controller.get_solution_template_details_using_get(
+            solution_template_id=solution_template_id)
+
+    def get_solution_template_infos(self):
+        return self.solution_controller.get_solution_template_infos_using_get()
+
+    def get_solution_template_instructions(self, solution_template_id: str):
+        return self.solution_controller.get_solution_template_instructions_using_get(
+            solution_template_id=solution_template_id)
+
+    def delete_solution_template(self, solution_template_id):
+        return self.solution_controller.delete_solution_template_using_delete(solution_template_id=solution_template_id)
+
+    def install_solution_template(self, solution_template_id):
+        return self.solution_controller.install_solution_template_using_post(solution_template_id=solution_template_id)
+
+    """ Subscription endpoints """
+
+    def get_tenant_profile_data(self):
+        return self.subscription_controller.get_tenant_profile_data_using_get()
+
+    def get_tenant_subscription_usage(self):
+        return self.solution_controller.get_tenant_subscription_usage_using_get()
+
+    def get_tenant_profile_data_by_id(self, tenant_profile_id: TenantProfileId):
+        tenant_profile_id = self.get_id(tenant_profile_id)
+        return self.subscription_controller.get_tenant_profile_data_by_id_using_get(tenant_profile_id=tenant_profile_id)
 
     """ Thing park integration endpoints """
 
@@ -767,41 +905,33 @@ class RestClientPE(RestClientBase):
         self.alarm_controller = AlarmControllerApi(self.api_client)
         self.asset_controller = AssetControllerApi(self.api_client)
         self.audit_log_controller = AuditLogControllerApi(self.api_client)
-        self.blob_entity_controller = BlobEntityControllerApi(self.api_client)
         self.component_descriptor_controller = ComponentDescriptorControllerApi(self.api_client)
-        self.converter_controller = ConverterControllerApi(self.api_client)
-        self.custom_menu_controller = CustomMenuControllerApi(self.api_client)
-        self.custom_translation_controller = CustomTranslationControllerApi(self.api_client)
         self.customer_controller = CustomerControllerApi(self.api_client)
+        self.chirp_stack_integration_controller = ChirpStackIntegrationControllerApi(self.api_client)
+        self.cloud_endpoint_controller = CloudEndpointControllerApi(self.api_client)
         self.dashboard_controller = DashboardControllerApi(self.api_client)
         self.device_controller = DeviceControllerApi(self.api_client)
-        self.entity_group_controller = EntityGroupControllerApi(self.api_client)
+        self.device_profile_controller = DeviceProfileControllerApi(self.api_client)
+        self.edge_controller = EdgeControllerApi(self.api_client)
+        self.edge_event_controller = EdgeEventControllerApi(self.api_client)
         self.entity_relation_controller = EntityRelationControllerApi(self.api_client)
         self.entity_view_controller = EntityViewControllerApi(self.api_client)
+        self.entity_query_controller = EntityQueryControllerApi(self.api_client)
         self.event_controller = EventControllerApi(self.api_client)
-        self.group_permission_controller = GroupPermissionControllerApi(self.api_client)
-        self.http_integration_controller = HttpIntegrationControllerApi(self.api_client)
-        self.integration_controller = IntegrationControllerApi(self.api_client)
-        self.ocean_connect_integration_controller = OceanConnectIntegrationControllerApi(self.api_client)
-        self.owner_controller = OwnerControllerApi(self.api_client)
         self.queue_controller = QueueControllerApi(self.api_client)
-        self.report_controller = ReportControllerApi(self.api_client)
-        self.role_controller = RoleControllerApi(self.api_client)
         self.rpc_controller = RpcControllerApi(self.api_client)
+        self.lwm_2m_controller = Lwm2mControllerApi(self.api_client)
+        self.loriot_integration_controller = LoriotIntegrationControllerApi(self.api_client)
+        self.ota_package_controller = OtaPackageControllerApi(self.api_client)
+        self.tb_resource_controller = TbResourceControllerApi(self.api_client)
         self.rule_chain_controller = RuleChainControllerApi(self.api_client)
-        self.rule_engine_controller = RuleEngineControllerApi(self.api_client)
-        self.scheduler_event_controller = SchedulerEventControllerApi(self.api_client)
-        self.self_registration_controller = SelfRegistrationControllerApi(self.api_client)
-        self.sigfox_integration_controller = SigFoxIntegrationControllerApi(self.api_client)
-        self.sign_up_controller = SignUpControllerApi(self.api_client)
-        self.tmobile_iot_cdp_integration_controller = TMobileIotCdpIntegrationControllerApi(self.api_client)
         self.telemetry_controller = TelemetryControllerApi(self.api_client)
         self.tenant_controller = TenantControllerApi(self.api_client)
-        self.thingpark_integration_controller = ThingParkIntegrationControllerApi(self.api_client)
-        self.trail_controller = TrailControllerApi(self.api_client)
+        self.tenant_profile_controller = TenantProfileControllerApi(self.api_client)
         self.user_controller = UserControllerApi(self.api_client)
-        self.user_permissions_controller = UserPermissionsControllerApi(self.api_client)
-        self.white_labeling_controller = WhiteLabelingControllerApi(self.api_client)
+        self.solution_controller = SolutionControllerApi(self.api_client)
+        self.subscription_controller = SubscriptionControllerApi(self.api_client)
+        self.billing_endpoint_controller = BillingEndpointControllerApi(self.api_client)
         self.widget_type_controller = WidgetTypeControllerApi(self.api_client)
         self.widgets_bundle_controller = WidgetsBundleControllerApi(self.api_client)
 
