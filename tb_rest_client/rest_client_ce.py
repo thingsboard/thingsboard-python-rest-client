@@ -199,6 +199,114 @@ class RestClientCE(RestClientBase):
                                                                         sort_property=sort_property,
                                                                         sort_order=sort_order)
 
+    """ Edge endpoints """
+
+    def unassign_edge_from_customer(self, edge_id: EdgeId):
+        edge_id = self.get_id(edge_id)
+        return self.edge_controller.unassign_edge_from_customer_using_delete(edge_id=edge_id)
+
+    def assign_edge_to_public_customer(self, edge_id: EdgeId):
+        edge_id = self.get_id(edge_id)
+        return self.edge_controller.assign_edge_to_public_customer_using_post(edge_id=edge_id)
+
+    def assign_edge_to_customer(self, customer_id: CustomerId, edge_id: EdgeId):
+        customer_id = self.get_id(customer_id)
+        edge_id = self.get_id(edge_id)
+        return self.edge_controller.edge_controllerassign_edge_to_customer_using_post(customer_id=customer_id,
+                                                                                      edge_id=edge_id)
+
+    def get_customer_edge_infos(self, customer_id: CustomerId, page_size: int, page: int, type=None, text_search=None,
+                                sort_property=None, sort_order=None):
+        customer_id = self.get_id(customer_id)
+        return self.edge_controller.get_customer_edge_infos_using_get(customer_id=customer_id, page_size=str(page_size),
+                                                                      page=str(page), type=type,
+                                                                      text_search=text_search,
+                                                                      sort_property=sort_property,
+                                                                      sort_order=sort_order)
+
+    def get_customer_edges(self, customer_id: CustomerId, page_size: int, page: int, type=None, text_search=None,
+                           sort_property=None, sort_order=None):
+        customer_id = self.get_id(customer_id)
+        return self.edge_controller.get_customer_edges_using_get(customer_id=customer_id, page_size=str(page_size),
+                                                                 page=str(page), type=type, text_search=text_search,
+                                                                 sort_property=sort_property, sort_order=sort_order)
+
+    def save_edge(self, edge: Edge):
+        return self.edge_controller.save_edge_using_post(edge=edge)
+
+    def get_edge_info_by_id(self, edge_id: EdgeId):
+        edge_id = self.get_id(edge_id)
+        return self.edge_controller.get_edge_info_by_id_using_get(edge_id=edge_id)
+
+    def find_missing_to_related_rule_chains(self, edge_id: EdgeId):
+        edge_id = self.get_id(edge_id)
+        return self.edge_controller.find_missing_to_related_rule_chains_using_get(edge_id=edge_id)
+
+    def sync_edge(self, edge_id: EdgeId):
+        edge_id = self.get_id(edge_id)
+        return self.edge_controller.sync_edge_using_post(edge_id=edge_id)
+
+    def get_edge_types(self):
+        return self.edge_controller.get_edge_types_using_get()
+
+    def delete_edge(self, edge_id: EdgeId):
+        return self.edge_controller.delete_edge_using_delete(edge_id=edge_id)
+
+    def get_edge_by_id(self, edge_id: EdgeId):
+        edge_id = self.get_id(edge_id)
+        return self.edge_controller.get_edge_by_id_using_get(edge_id=edge_id)
+
+    def set_root_rule_chain(self, edge_id: EdgeId, rule_chain_id: RuleChainId):
+        edge_id = self.get_id(edge_id)
+        rule_chain_id = self.get_id(rule_chain_id)
+        return self.edge_controller.set_root_rule_chain_using_post(edge_id=edge_id, rule_chain_id=rule_chain_id)
+
+    def find_by_query_edge(self, query):
+        return self.edge_controller.find_by_query_using_post2(query=query)
+
+    def is_edges_support_enabled(self):
+        return self.edge_controller.is_edges_support_enabled_using_get()
+
+    def get_edges_by_ids(self, edge_ids):
+        return self.edge_controller.get_edges_by_ids_using_get(edge_ids=edge_ids)
+
+    def get_edges(self, page_size: int, page: int, text_search=None, sort_property=None, sort_order=None):
+        return self.edge_controller.get_edges_using_get(page_size=str(page_size), page=str(page),
+                                                        text_search=text_search, sort_property=sort_property,
+                                                        sort_order=sort_order)
+
+    def activate_instance(self, license_secret, release_date):
+        return self.edge_controller.activate_instance_using_post(license_secret=license_secret,
+                                                                 release_date=release_date)
+
+    def check_instance(self, request):
+        return self.edge_controller.check_instance_using_post(request=request)
+
+    def get_tenant_edge_infos(self, page_size: int, page: int, type=None, text_search=None, sort_property=None,
+                              sort_order=None):
+        return self.edge_controller.get_tenant_edge_infos_using_get(page_size=str(page_size), page=str(page), type=type,
+                                                                    text_search=text_search,
+                                                                    sort_property=sort_property, sort_order=sort_order)
+
+    def get_tenant_edge(self, edge_name: str):
+        return self.edge_controller.get_tenant_edge_using_get(edge_name=edge_name)
+
+    def get_tenant_edges(self, page_size: int, page: int, type=None, text_search=None, sort_property=None,
+                         sort_order=None):
+        return self.edge_controller.get_tenant_edges_using_get(page_size=str(page_size), page=str(page), type=type,
+                                                               text_search=text_search,
+                                                               sort_property=sort_property, sort_order=sort_order)
+
+    """ Edge event endpoints"""
+
+    def get_edge_events(self, edge_id: EdgeId, page_size: int, page: int, text_search=None, sort_property=None,
+                        sort_order=None, start_time=None, end_time=None):
+        edge_id = self.get_id(edge_id)
+        return self.edge_event_controller.get_edge_events_using_get(edge_id=edge_id, page_size=str(page_size),
+                                                                    page=str(page), text_search=text_search,
+                                                                    sort_property=sort_property, sort_order=sort_order,
+                                                                    start_time=start_time, end_time=end_time)
+
     """ Entity View endpoints """
 
     def assign_entity_view_to_customer(self, customer_id: CustomerId, entity_view_id: EntityViewId):
@@ -252,6 +360,98 @@ class RestClientCE(RestClientBase):
                                                                                   text_search=text_search,
                                                                                   sort_property=sort_property,
                                                                                   sort_order=sort_order)
+
+    """ Lwm 2m endpoints """
+
+    def save_device_with_credentials(self, device_with_device_credentials):
+        return self.lwm_2m_controller.save_device_with_credentials_using_post(
+            device_with_device_credentials=device_with_device_credentials)
+
+    def get_lwm2m_bootstrap_security_info(self, is_bootstrap_server: bool):
+        return self.lwm_2m_controller.get_lwm2m_bootstrap_security_info_using_get(
+            is_bootstrap_server=str(is_bootstrap_server))
+
+    """ OTA package endpoints """
+
+    def save_ota_package_info(self, ota_package_info: OtaPackageInfo):
+        return self.ota_package_controller.save_ota_package_info_using_post(ota_package_info=ota_package_info)
+
+    def get_ota_package_info_by_id(self, ota_package_id: OtaPackageId):
+        ota_package_id = self.get_id(ota_package_id)
+        return self.ota_package_controller.get_ota_package_info_by_id_using_get(ota_package_id=ota_package_id)
+
+    def delete_ota_package(self, ota_package_id: OtaPackageId):
+        ota_package_id = self.get_id(ota_package_id)
+        return self.ota_package_controller.delete_ota_package_using_delete(ota_package_id=ota_package_id)
+
+    def get_ota_package_by_id(self, ota_package_id: OtaPackageId):
+        ota_package_id = self.get_id(ota_package_id)
+        return self.ota_package_controller.get_ota_package_by_id_using_get(ota_package_id=ota_package_id)
+
+    def download_ota_package(self, ota_package_id: OtaPackageId):
+        ota_package_id = self.get_id(ota_package_id)
+        return self.ota_package_controller.download_ota_package_using_get(ota_package_id=ota_package_id)
+
+    def save_ota_package_data(self, ota_package_id: OtaPackageId, checksum_algorithm: str, file: File, checksum=None):
+        ota_package_id = self.get_id(ota_package_id)
+        return self.ota_package_controller.save_ota_package_data_using_post(ota_package_id=ota_package_id,
+                                                                            checksum_algorithm=checksum_algorithm,
+                                                                            file=file, checksum=checksum)
+
+    def get_ota_packages(self, page_size: int, page: int, type=None, device_profile_id=None, text_search=None,
+                         sort_property=None, sort_order=None):
+        if device_profile_id is not None and type is not None:
+            device_profile_id = self.get_id(device_profile_id)
+            return self.ota_package_controller.get_ota_packages_using_get(device_profile_id=device_profile_id,
+                                                                          type=type,
+                                                                          page_size=str(page_size), page=str(page),
+                                                                          text_search=text_search,
+                                                                          sort_property=sort_property,
+                                                                          sort_order=sort_order)
+
+        return self.ota_package_controller.get_ota_packages_using_get1(page_size=str(page_size), page=str(page),
+                                                                       text_search=text_search,
+                                                                       sort_property=sort_property,
+                                                                       sort_order=sort_order)
+
+    """ TB resource endpoints """
+
+    def save_resource(self, resource: Resource):
+        return self.tb_resource_controller.save_resource_using_post(resource=resource)
+
+    def get_resource_info_by_id(self, resource_id: ResourceId):
+        resource_id = self.get_id(resource_id)
+        return self.tb_resource_controller.get_resource_info_by_id_using_get(resource_id=resource_id)
+
+    def get_lwm2m_list_objects_page(self, page_size: int, page: int, text_search=None, sort_property=None,
+                                    sort_order=None):
+        return self.tb_resource_controller.get_lwm2m_list_objects_page_using_get(page_size=str(page_size),
+                                                                                 page=str(page),
+                                                                                 text_search=text_search,
+                                                                                 sort_property=sort_property,
+                                                                                 sort_order=sort_order)
+
+    def get_lwm2m_list_objects(self, sort_order: str, sort_property: str, object_ids=None):
+        return self.tb_resource_controller.get_lwm2m_list_objects_page_using_get(sort_order=sort_order,
+                                                                                 sort_property=sort_property,
+                                                                                 object_ids=object_ids)
+
+    def delete_resource(self, resource_id: ResourceId):
+        resource_id = self.get_id(resource_id)
+        return self.tb_resource_controller.delete_resource_using_delete1(resource_id=resource_id)
+
+    def get_resource_by_id(self, resource_id: ResourceId):
+        resource_id = self.get_id(resource_id)
+        return self.tb_resource_controller.get_resource_by_id_using_get(resource_id=resource_id)
+
+    def download_resource(self, resource_id: ResourceId):
+        resource_id = self.get_id(resource_id)
+        return self.tb_resource_controller.download_resource_using_get(resource_id=resource_id)
+
+    def get_resources(self, page_size: int, page: int, text_search=None, sort_property=None, sort_order=None):
+        return self.tb_resource_controller.get_resources_using_get(page_size=str(page_size), page=str(page),
+                                                                   text_search=text_search, sort_property=sort_property,
+                                                                   sort_order=sort_order)
 
     """ RPC endpoints """
 
