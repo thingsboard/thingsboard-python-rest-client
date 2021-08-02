@@ -53,7 +53,8 @@ class Device(object):
         'type': 'type'
     }
 
-    def __init__(self, additional_info=None, created_time=None, customer_id=None, id=None, label=None, name=None, tenant_id=None, type=None):  # noqa: E501
+    def __init__(self, additional_info=None, created_time=None, customer_id=None, id=None, label=None, name=None,
+                 tenant_id=None, type=None):  # noqa: E501
         """Device - a model defined in Swagger"""  # noqa: E501
 
         self._additional_info = None

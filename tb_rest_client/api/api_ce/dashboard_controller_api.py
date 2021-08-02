@@ -51,9 +51,11 @@ class DashboardControllerApi(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.add_dashboard_customers_using_post_with_http_info(dashboard_id, str_customer_ids, **kwargs)  # noqa: E501
+            return self.add_dashboard_customers_using_post_with_http_info(dashboard_id, str_customer_ids,
+                                                                          **kwargs)  # noqa: E501
         else:
-            (data) = self.add_dashboard_customers_using_post_with_http_info(dashboard_id, str_customer_ids, **kwargs)  # noqa: E501
+            (data) = self.add_dashboard_customers_using_post_with_http_info(dashboard_id, str_customer_ids,
+                                                                            **kwargs)  # noqa: E501
             return data
 
     def add_dashboard_customers_using_post_with_http_info(self, dashboard_id, str_customer_ids, **kwargs):  # noqa: E501
@@ -80,17 +82,18 @@ class DashboardControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'dashboard_id' is set
         if ('dashboard_id' not in params or
                 params['dashboard_id'] is None):
-            raise ValueError("Missing the required parameter `dashboard_id` when calling `add_dashboard_customers_using_post`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `dashboard_id` when calling `add_dashboard_customers_using_post`")  # noqa: E501
         # verify the required parameter 'str_customer_ids' is set
         if ('str_customer_ids' not in params or
                 params['str_customer_ids'] is None):
-            raise ValueError("Missing the required parameter `str_customer_ids` when calling `add_dashboard_customers_using_post`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `str_customer_ids` when calling `add_dashboard_customers_using_post`")  # noqa: E501
 
         collection_formats = {}
 
@@ -152,9 +155,11 @@ class DashboardControllerApi(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.assign_dashboard_to_customer_using_post_with_http_info(customer_id, dashboard_id, **kwargs)  # noqa: E501
+            return self.assign_dashboard_to_customer_using_post_with_http_info(customer_id, dashboard_id,
+                                                                               **kwargs)  # noqa: E501
         else:
-            (data) = self.assign_dashboard_to_customer_using_post_with_http_info(customer_id, dashboard_id, **kwargs)  # noqa: E501
+            (data) = self.assign_dashboard_to_customer_using_post_with_http_info(customer_id, dashboard_id,
+                                                                                 **kwargs)  # noqa: E501
             return data
 
     def assign_dashboard_to_customer_using_post_with_http_info(self, customer_id, dashboard_id, **kwargs):  # noqa: E501
@@ -181,17 +186,18 @@ class DashboardControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'customer_id' is set
         if ('customer_id' not in params or
                 params['customer_id'] is None):
-            raise ValueError("Missing the required parameter `customer_id` when calling `assign_dashboard_to_customer_using_post`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `customer_id` when calling `assign_dashboard_to_customer_using_post`")  # noqa: E501
         # verify the required parameter 'dashboard_id' is set
         if ('dashboard_id' not in params or
                 params['dashboard_id'] is None):
-            raise ValueError("Missing the required parameter `dashboard_id` when calling `assign_dashboard_to_customer_using_post`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `dashboard_id` when calling `assign_dashboard_to_customer_using_post`")  # noqa: E501
 
         collection_formats = {}
 
@@ -236,6 +242,172 @@ class DashboardControllerApi(object):
             _request_timeout=params.get('_request_timeout'),
             collection_formats=collection_formats)
 
+    def get_home_dashboard_using_get(self, **kwargs):
+        """getHomeDashboard  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api_pe.get_home_dashboard_using_get(async_req=True)
+        >>> result = thread.get()
+
+        :return: Dashboard
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.get_home_dashboard_using_get_with_http_info(**kwargs)  # noqa: E501
+        else:
+            (data) = self.get_home_dashboard_using_get_with_http_info(**kwargs)  # noqa: E501
+            return data
+
+    def get_home_dashboard_using_get_with_http_info(self, **kwargs):
+        """getHomeDashboard  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api_pe.get_home_dashboard_using_get_with_http_info(async_req=True)
+        >>> result = thread.get()
+
+        :return: Dashboard
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = []  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            params[key] = val
+        del params['kwargs']
+
+        collection_formats = {}
+
+        path_params = {}
+
+        query_params = []
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['*/*'])  # noqa: E501
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/dashboard/home', 'GET',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='Dashboard',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
+    def get_home_dashboard_info_using_get(self, **kwargs):
+        """getHomeDashboardInfo  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api_pe.get_home_dashboard_info_using_get(async_req=True)
+        >>> result = thread.get()
+
+        :return: Dashboard
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.get_home_dashboard_info_using_get_with_http_info(**kwargs)  # noqa: E501
+        else:
+            (data) = self.get_home_dashboard_info_using_get_with_http_info(**kwargs)  # noqa: E501
+            return data
+
+    def get_home_dashboard_info_using_get_with_http_info(self, **kwargs):
+        """getHomeDashboardInfo  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api_pe.get_home_dashboard_info_using_get_with_http_info(async_req=True)
+        >>> result = thread.get()
+
+        :return: Dashboard
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = []  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            params[key] = val
+        del params['kwargs']
+
+        collection_formats = {}
+
+        path_params = {}
+
+        query_params = []
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['*/*'])  # noqa: E501
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/dashboard/home/info', 'GET',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='Dashboard',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
     def assign_dashboard_to_public_customer_using_post(self, dashboard_id, **kwargs):  # noqa: E501
         """assignDashboardToPublicCustomer  # noqa: E501
 
@@ -252,9 +424,11 @@ class DashboardControllerApi(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.assign_dashboard_to_public_customer_using_post_with_http_info(dashboard_id, **kwargs)  # noqa: E501
+            return self.assign_dashboard_to_public_customer_using_post_with_http_info(dashboard_id,
+                                                                                      **kwargs)  # noqa: E501
         else:
-            (data) = self.assign_dashboard_to_public_customer_using_post_with_http_info(dashboard_id, **kwargs)  # noqa: E501
+            (data) = self.assign_dashboard_to_public_customer_using_post_with_http_info(dashboard_id,
+                                                                                        **kwargs)  # noqa: E501
             return data
 
     def assign_dashboard_to_public_customer_using_post_with_http_info(self, dashboard_id, **kwargs):  # noqa: E501
@@ -280,13 +454,13 @@ class DashboardControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'dashboard_id' is set
         if ('dashboard_id' not in params or
                 params['dashboard_id'] is None):
-            raise ValueError("Missing the required parameter `dashboard_id` when calling `assign_dashboard_to_public_customer_using_post`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `dashboard_id` when calling `assign_dashboard_to_public_customer_using_post`")  # noqa: E501
 
         collection_formats = {}
 
@@ -373,13 +547,13 @@ class DashboardControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'dashboard_id' is set
         if ('dashboard_id' not in params or
                 params['dashboard_id'] is None):
-            raise ValueError("Missing the required parameter `dashboard_id` when calling `delete_dashboard_using_delete`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `dashboard_id` when calling `delete_dashboard_using_delete`")  # noqa: E501
 
         collection_formats = {}
 
@@ -443,9 +617,11 @@ class DashboardControllerApi(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.get_customer_dashboards_using_get_with_http_info(customer_id, page_size, page, **kwargs)  # noqa: E501
+            return self.get_customer_dashboards_using_get_with_http_info(customer_id, page_size, page,
+                                                                         **kwargs)  # noqa: E501
         else:
-            (data) = self.get_customer_dashboards_using_get_with_http_info(customer_id, page_size, page, **kwargs)  # noqa: E501
+            (data) = self.get_customer_dashboards_using_get_with_http_info(customer_id, page_size, page,
+                                                                           **kwargs)  # noqa: E501
             return data
 
     def get_customer_dashboards_using_get_with_http_info(self, customer_id, page_size, page, **kwargs):  # noqa: E501
@@ -476,21 +652,23 @@ class DashboardControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'customer_id' is set
         if ('customer_id' not in params or
                 params['customer_id'] is None):
-            raise ValueError("Missing the required parameter `customer_id` when calling `get_customer_dashboards_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `customer_id` when calling `get_customer_dashboards_using_get`")  # noqa: E501
         # verify the required parameter 'page_size' is set
         if ('page_size' not in params or
                 params['page_size'] is None):
-            raise ValueError("Missing the required parameter `page_size` when calling `get_customer_dashboards_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `page_size` when calling `get_customer_dashboards_using_get`")  # noqa: E501
         # verify the required parameter 'page' is set
         if ('page' not in params or
                 params['page'] is None):
-            raise ValueError("Missing the required parameter `page` when calling `get_customer_dashboards_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `page` when calling `get_customer_dashboards_using_get`")  # noqa: E501
 
         collection_formats = {}
 
@@ -587,13 +765,13 @@ class DashboardControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'dashboard_id' is set
         if ('dashboard_id' not in params or
                 params['dashboard_id'] is None):
-            raise ValueError("Missing the required parameter `dashboard_id` when calling `get_dashboard_by_id_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `dashboard_id` when calling `get_dashboard_by_id_using_get`")  # noqa: E501
 
         collection_formats = {}
 
@@ -680,13 +858,13 @@ class DashboardControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'dashboard_id' is set
         if ('dashboard_id' not in params or
                 params['dashboard_id'] is None):
-            raise ValueError("Missing the required parameter `dashboard_id` when calling `get_dashboard_info_by_id_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `dashboard_id` when calling `get_dashboard_info_by_id_using_get`")  # noqa: E501
 
         collection_formats = {}
 
@@ -771,7 +949,6 @@ class DashboardControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
 
@@ -856,7 +1033,6 @@ class DashboardControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
 
@@ -892,6 +1068,102 @@ class DashboardControllerApi(object):
             post_params=form_params,
             files=local_var_files,
             response_type='int',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
+    def set_tenant_home_dashboard_info_using_post(self, home_dashboard_info, **kwargs):
+        """setTenantHomeDashboardInfo  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api_pe.set_tenant_home_dashboard_info_using_post(home_dashboard_info, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param home_dashboard_info: homeDashboardInfo
+        :return: None
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.set_tenant_home_dashboard_info_using_post_with_http_info(home_dashboard_info,
+                                                                                 **kwargs)  # noqa: E501
+        else:
+            (data) = self.set_tenant_home_dashboard_info_using_post_with_http_info(home_dashboard_info,
+                                                                                   **kwargs)  # noqa: E501
+            return data
+
+    def set_tenant_home_dashboard_info_using_post_with_http_info(self, home_dashboard_info, **kwargs):
+        """setTenantHomeDashboardInfo  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api_pe.set_tenant_home_dashboard_info_using_post_with_http_info(home_dashboard_info, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param home_dashboard_info: homeDashboardInfo
+        :return: None
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['home_dashboard_info']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'dashboard' is set
+        if ('home_dashboard_info' not in params or
+                params['home_dashboard_info'] is None):
+            raise ValueError(
+                "Missing the required parameter `home_dashboard_info` when calling `set_tenant_home_dashboard_info_using_post`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+
+        query_params = []
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        if 'home_dashboard_info' in params:
+            body_params = params['home_dashboard_info']
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['*/*'])  # noqa: E501
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/tenant/dashboard/home/info', 'POST',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='Dashboard',  # noqa: E501
             auth_settings=auth_settings,
             async_req=params.get('async_req'),
             _return_http_data_only=params.get('_return_http_data_only'),
@@ -951,17 +1223,18 @@ class DashboardControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'page_size' is set
         if ('page_size' not in params or
                 params['page_size'] is None):
-            raise ValueError("Missing the required parameter `page_size` when calling `get_tenant_dashboards_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `page_size` when calling `get_tenant_dashboards_using_get`")  # noqa: E501
         # verify the required parameter 'page' is set
         if ('page' not in params or
                 params['page'] is None):
-            raise ValueError("Missing the required parameter `page` when calling `get_tenant_dashboards_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `page` when calling `get_tenant_dashboards_using_get`")  # noqa: E501
 
         collection_formats = {}
 
@@ -1031,11 +1304,14 @@ class DashboardControllerApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
+
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.get_tenant_dashboards_using_get1_with_http_info(tenant_id, page_size, page, **kwargs)  # noqa: E501
+            return self.get_tenant_dashboards_using_get1_with_http_info(tenant_id, page_size, page,
+                                                                        **kwargs)  # noqa: E501
         else:
-            (data) = self.get_tenant_dashboards_using_get1_with_http_info(tenant_id, page_size, page, **kwargs)  # noqa: E501
+            (data) = self.get_tenant_dashboards_using_get1_with_http_info(tenant_id, page_size, page,
+                                                                          **kwargs)  # noqa: E501
             return data
 
     def get_tenant_dashboards_using_get1_with_http_info(self, tenant_id, page_size, page, **kwargs):  # noqa: E501
@@ -1066,21 +1342,23 @@ class DashboardControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'tenant_id' is set
         if ('tenant_id' not in params or
                 params['tenant_id'] is None):
-            raise ValueError("Missing the required parameter `tenant_id` when calling `get_tenant_dashboards_using_get1`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `tenant_id` when calling `get_tenant_dashboards_using_get1`")  # noqa: E501
         # verify the required parameter 'page_size' is set
         if ('page_size' not in params or
                 params['page_size'] is None):
-            raise ValueError("Missing the required parameter `page_size` when calling `get_tenant_dashboards_using_get1`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `page_size` when calling `get_tenant_dashboards_using_get1`")  # noqa: E501
         # verify the required parameter 'page' is set
         if ('page' not in params or
                 params['page'] is None):
-            raise ValueError("Missing the required parameter `page` when calling `get_tenant_dashboards_using_get1`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `page` when calling `get_tenant_dashboards_using_get1`")  # noqa: E501
 
         collection_formats = {}
 
@@ -1133,6 +1411,434 @@ class DashboardControllerApi(object):
             _request_timeout=params.get('_request_timeout'),
             collection_formats=collection_formats)
 
+    def get_edge_dashboards_using_get(self, edge_id, page_size, page, **kwargs):
+        """getEdgeDashboards  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api_pe.get_edge_dashboards_using_get(edge_id, page_size, page, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str edge_id: edgeId (required)
+        :param str text_search: textSearch
+        :param str sort_property: sortProperty
+        :param str sort_order: sortOrder
+        :param str start_time: startTime
+        :param str end_time: endTime
+        :param str page_size: pageSize (required)
+        :param str page: page (required)
+        :return: TextPageDataDashboardInfo
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.get_edge_dashboards_using_get_with_http_info(edge_id, page_size, page,
+                                                                     **kwargs)  # noqa: E501
+        else:
+            (data) = self.get_edge_dashboards_using_get_with_http_info(edge_id, page_size, page,
+                                                                       **kwargs)  # noqa: E501
+            return data
+
+    def get_edge_dashboards_using_get_with_http_info(self, edge_id, page_size, page, **kwargs):
+        """getEdgeDashboards  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api_pe.get_edge_dashboards_using_get_with_http_info(edge_id, page_size, page, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str edge_id: edgeId (required)
+        :param str text_search: textSearch
+        :param str sort_property: sortProperty
+        :param str sort_order: sortOrder
+        :param str start_time: startTime
+        :param str end_time: endTime
+        :param str page_size: pageSize (required)
+        :param str page: page (required)
+        :return: TextPageDataDashboardInfo
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['edge_id', 'text_search', 'sort_property', 'sort_order', 'start_time', 'end_time', 'page_size',
+                      'page']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'edge_id' is set
+        if ('edge_id' not in params or
+                params['edge_id'] is None):
+            raise ValueError(
+                "Missing the required parameter `edge_id` when calling `get_edge_dashboards_using_get`")  # noqa: E501
+        # verify the required parameter 'page_size' is set
+        if ('page_size' not in params or
+                params['page_size'] is None):
+            raise ValueError(
+                "Missing the required parameter `page_size` when calling `get_edge_dashboards_using_get`")  # noqa: E501
+        # verify the required parameter 'page' is set
+        if ('page' not in params or
+                params['page'] is None):
+            raise ValueError(
+                "Missing the required parameter `page` when calling `get_edge_dashboards_using_get`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+        if 'edge_id' in params:
+            path_params['edgeId'] = params['edge_id']  # noqa: E501
+
+        query_params = []
+        if 'text_search' in params:
+            query_params.append(('textSearch', params['text_search']))  # noqa: E501
+        if 'sort_property' in params:
+            query_params.append(('sortProperty', params['sort_property']))  # noqa: E501
+        if 'sort_order' in params:
+            query_params.append(('sortOrder', params['sort_order']))  # noqa: E501
+        if 'start_time' in params:
+            query_params.append(('startTime', params['start_time']))  # noqa: E501
+        if 'end_time' in params:
+            query_params.append(('endTime', params['end_time']))  # noqa: E501
+        if 'page_size' in params:
+            query_params.append(('pageSize', params['page_size']))  # noqa: E501
+        if 'page' in params:
+            query_params.append(('page', params['page']))  # noqa: E501
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['*/*'])  # noqa: E501
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/edge/{edgeId}/dashboards{?textSearch,sortProperty,sortOrder,startTime,endTime,pageSize,page}', 'GET',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='TextPageDataDashboardInfo',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
+    def get_tenant_home_dashboard_info_using_get(self, **kwargs):
+        """getTenantHomeDashboardInfo  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api_pe.get_tenant_home_dashboard_info_using_get(async_req=True)
+        >>> result = thread.get()
+
+        :return: Dashboard
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.get_tenant_home_dashboard_info_using_get_with_http_info(**kwargs)  # noqa: E501
+        else:
+            (data) = self.get_tenant_home_dashboard_info_using_get_with_http_info(**kwargs)  # noqa: E501
+            return data
+
+    def get_tenant_home_dashboard_info_using_get_with_http_info(self, **kwargs):
+        """getTenantHomeDashboardInfo  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api_pe.get_tenant_home_dashboard_info_using_get_with_http_info(async_req=True)
+        >>> result = thread.get()
+
+        :return: Dashboard
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = []  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            params[key] = val
+        del params['kwargs']
+
+        collection_formats = {}
+
+        path_params = {}
+
+        query_params = []
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['*/*'])  # noqa: E501
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/tenant/dashboard/home/info', 'GET',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='Dashboard',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
+    def unassign_dashboard_from_edge_using_delete(self, edge_id, dashboard_id, **kwargs):
+        """unassignDashboardFromEdge  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api_pe.unassign_dashboard_from_edge_using_delete(edge_id, dashboard_id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str edge_id: edgeId (required)
+        :param str dashboard_id: dashboardId (required)
+        :return: None
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.unassign_dashboard_from_edge_using_delete_with_http_info(edge_id, dashboard_id,
+                                                                                 **kwargs)  # noqa: E501
+        else:
+            (data) = self.unassign_dashboard_from_edge_using_delete_with_http_info(edge_id, dashboard_id,
+                                                                                   **kwargs)  # noqa: E501
+            return data
+
+    def unassign_dashboard_from_edge_using_delete_with_http_info(self, edge_id, dashboard_id, **kwargs):
+        """unassignDashboardFromEdge  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api_pe.unassign_dashboard_from_edge_using_delete_with_http_info(edge_id, dashboard_id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str edge_id: edgeId (required)
+        :param str dashboard_id: dashboardId
+        :return: None
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['edge_id', 'dashboard_id']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'dashboard_id' is set
+        if ('edge_id' not in params or
+                params['edge_id'] is None):
+            raise ValueError(
+                "Missing the required parameter `edge_id` when calling `unassign_dashboard_from_edge_using_delete`")  # noqa: E501
+        # verify the required parameter 'str_customer_ids' is set
+        if ('dashboard_id' not in params or
+                params['dashboard_id'] is None):
+            raise ValueError(
+                "Missing the required parameter `dashboard_id` when calling `unassign_dashboard_from_edge_using_delete`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+        if 'edge_id' in params:
+            path_params['edgeId'] = params['edge_id']  # noqa: E501
+        if 'dashboard_id' in params:
+            path_params['dashboardId'] = params['dashboard_id']  # noqa: E501
+
+        query_params = []
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['*/*'])  # noqa: E501
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/edge/{edgeId}/dashboard/{dashboardId}', 'DELETE',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type=None,  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
+    def assign_dashboard_to_edge_using_post(self, edge_id, dashboard_id, **kwargs):
+        """assignDashboardToEdge  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api_pe.assign_dashboard_to_edge_using_post(edge_id, dashboard_id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str edge_id: edgeId (required)
+        :param str dashboard_id: dashboardId (required)
+        :return: Dashboard
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.assign_dashboard_to_edge_using_post_with_http_info(edge_id, dashboard_id,
+                                                                           **kwargs)  # noqa: E501
+        else:
+            (data) = self.assign_dashboard_to_edge_using_post_with_http_info(edge_id, dashboard_id,
+                                                                             **kwargs)  # noqa: E501
+            return data
+
+    def assign_dashboard_to_edge_using_post_with_http_info(self, edge_id, dashboard_id, **kwargs):
+        """assignDashboardToEdge  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api_pe.assign_dashboard_to_edge_using_post_with_http_info(edge_id, dashboard_id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str edge_id: edgeId (required)
+        :param str dashboard_id: dashboardId
+        :return: Dashboard
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['edge_id', 'dashboard_id']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'dashboard_id' is set
+        if ('edge_id' not in params or
+                params['edge_id'] is None):
+            raise ValueError(
+                "Missing the required parameter `edge_id` when calling `assign_dashboard_to_edge_using_post_with_http_info`")  # noqa: E501
+        # verify the required parameter 'str_customer_ids' is set
+        if ('dashboard_id' not in params or
+                params['dashboard_id'] is None):
+            raise ValueError(
+                "Missing the required parameter `dashboard_id` when calling `assign_dashboard_to_edge_using_post_with_http_info`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+        if 'edge_id' in params:
+            path_params['edgeId'] = params['edge_id']  # noqa: E501
+        if 'dashboard_id' in params:
+            path_params['dashboardId'] = params['dashboard_id']  # noqa: E501
+
+        query_params = []
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['*/*'])  # noqa: E501
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/edge/{edgeId}/dashboard/{dashboardId}', 'POST',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='Dashboard',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
     def remove_dashboard_customers_using_post(self, dashboard_id, str_customer_ids, **kwargs):  # noqa: E501
         """removeDashboardCustomers  # noqa: E501
 
@@ -1148,14 +1854,18 @@ class DashboardControllerApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
+
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.remove_dashboard_customers_using_post_with_http_info(dashboard_id, str_customer_ids, **kwargs)  # noqa: E501
+            return self.remove_dashboard_customers_using_post_with_http_info(dashboard_id, str_customer_ids,
+                                                                             **kwargs)  # noqa: E501
         else:
-            (data) = self.remove_dashboard_customers_using_post_with_http_info(dashboard_id, str_customer_ids, **kwargs)  # noqa: E501
+            (data) = self.remove_dashboard_customers_using_post_with_http_info(dashboard_id, str_customer_ids,
+                                                                               **kwargs)  # noqa: E501
             return data
 
-    def remove_dashboard_customers_using_post_with_http_info(self, dashboard_id, str_customer_ids, **kwargs):  # noqa: E501
+    def remove_dashboard_customers_using_post_with_http_info(self, dashboard_id, str_customer_ids,
+                                                             **kwargs):  # noqa: E501
         """removeDashboardCustomers  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -1179,17 +1889,18 @@ class DashboardControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'dashboard_id' is set
         if ('dashboard_id' not in params or
                 params['dashboard_id'] is None):
-            raise ValueError("Missing the required parameter `dashboard_id` when calling `remove_dashboard_customers_using_post`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `dashboard_id` when calling `remove_dashboard_customers_using_post`")  # noqa: E501
         # verify the required parameter 'str_customer_ids' is set
         if ('str_customer_ids' not in params or
                 params['str_customer_ids'] is None):
-            raise ValueError("Missing the required parameter `str_customer_ids` when calling `remove_dashboard_customers_using_post`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `str_customer_ids` when calling `remove_dashboard_customers_using_post`")  # noqa: E501
 
         collection_formats = {}
 
@@ -1278,13 +1989,13 @@ class DashboardControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'dashboard' is set
         if ('dashboard' not in params or
                 params['dashboard'] is None):
-            raise ValueError("Missing the required parameter `dashboard` when calling `save_dashboard_using_post`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `dashboard` when calling `save_dashboard_using_post`")  # noqa: E501
 
         collection_formats = {}
 
@@ -1344,12 +2055,15 @@ class DashboardControllerApi(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.unassign_dashboard_from_customer_using_delete_with_http_info(customer_id, dashboard_id, **kwargs)  # noqa: E501
+            return self.unassign_dashboard_from_customer_using_delete_with_http_info(customer_id, dashboard_id,
+                                                                                     **kwargs)  # noqa: E501
         else:
-            (data) = self.unassign_dashboard_from_customer_using_delete_with_http_info(customer_id, dashboard_id, **kwargs)  # noqa: E501
+            (data) = self.unassign_dashboard_from_customer_using_delete_with_http_info(customer_id, dashboard_id,
+                                                                                       **kwargs)  # noqa: E501
             return data
 
-    def unassign_dashboard_from_customer_using_delete_with_http_info(self, customer_id, dashboard_id, **kwargs):  # noqa: E501
+    def unassign_dashboard_from_customer_using_delete_with_http_info(self, customer_id, dashboard_id,
+                                                                     **kwargs):  # noqa: E501
         """unassignDashboardFromCustomer  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -1373,17 +2087,18 @@ class DashboardControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'customer_id' is set
         if ('customer_id' not in params or
                 params['customer_id'] is None):
-            raise ValueError("Missing the required parameter `customer_id` when calling `unassign_dashboard_from_customer_using_delete`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `customer_id` when calling `unassign_dashboard_from_customer_using_delete`")  # noqa: E501
         # verify the required parameter 'dashboard_id' is set
         if ('dashboard_id' not in params or
                 params['dashboard_id'] is None):
-            raise ValueError("Missing the required parameter `dashboard_id` when calling `unassign_dashboard_from_customer_using_delete`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `dashboard_id` when calling `unassign_dashboard_from_customer_using_delete`")  # noqa: E501
 
         collection_formats = {}
 
@@ -1444,9 +2159,11 @@ class DashboardControllerApi(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.unassign_dashboard_from_public_customer_using_delete_with_http_info(dashboard_id, **kwargs)  # noqa: E501
+            return self.unassign_dashboard_from_public_customer_using_delete_with_http_info(dashboard_id,
+                                                                                            **kwargs)  # noqa: E501
         else:
-            (data) = self.unassign_dashboard_from_public_customer_using_delete_with_http_info(dashboard_id, **kwargs)  # noqa: E501
+            (data) = self.unassign_dashboard_from_public_customer_using_delete_with_http_info(dashboard_id,
+                                                                                              **kwargs)  # noqa: E501
             return data
 
     def unassign_dashboard_from_public_customer_using_delete_with_http_info(self, dashboard_id, **kwargs):  # noqa: E501
@@ -1472,13 +2189,13 @@ class DashboardControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'dashboard_id' is set
         if ('dashboard_id' not in params or
                 params['dashboard_id'] is None):
-            raise ValueError("Missing the required parameter `dashboard_id` when calling `unassign_dashboard_from_public_customer_using_delete`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `dashboard_id` when calling `unassign_dashboard_from_public_customer_using_delete`")  # noqa: E501
 
         collection_formats = {}
 
@@ -1538,12 +2255,15 @@ class DashboardControllerApi(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.update_dashboard_customers_using_post_with_http_info(dashboard_id, str_customer_ids, **kwargs)  # noqa: E501
+            return self.update_dashboard_customers_using_post_with_http_info(dashboard_id, str_customer_ids,
+                                                                             **kwargs)  # noqa: E501
         else:
-            (data) = self.update_dashboard_customers_using_post_with_http_info(dashboard_id, str_customer_ids, **kwargs)  # noqa: E501
+            (data) = self.update_dashboard_customers_using_post_with_http_info(dashboard_id, str_customer_ids,
+                                                                               **kwargs)  # noqa: E501
             return data
 
-    def update_dashboard_customers_using_post_with_http_info(self, dashboard_id, str_customer_ids, **kwargs):  # noqa: E501
+    def update_dashboard_customers_using_post_with_http_info(self, dashboard_id, str_customer_ids,
+                                                             **kwargs):  # noqa: E501
         """updateDashboardCustomers  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -1567,17 +2287,18 @@ class DashboardControllerApi(object):
 
         params = locals()
         for key, val in six.iteritems(params['kwargs']):
-            
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'dashboard_id' is set
         if ('dashboard_id' not in params or
                 params['dashboard_id'] is None):
-            raise ValueError("Missing the required parameter `dashboard_id` when calling `update_dashboard_customers_using_post`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `dashboard_id` when calling `update_dashboard_customers_using_post`")  # noqa: E501
         # verify the required parameter 'str_customer_ids' is set
         if ('str_customer_ids' not in params or
                 params['str_customer_ids'] is None):
-            raise ValueError("Missing the required parameter `str_customer_ids` when calling `update_dashboard_customers_using_post`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `str_customer_ids` when calling `update_dashboard_customers_using_post`")  # noqa: E501
 
         collection_formats = {}
 

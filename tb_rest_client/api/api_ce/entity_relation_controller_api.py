@@ -163,7 +163,7 @@ class EntityRelationControllerApi(object):
             _request_timeout=params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def delete_relations_using_delete(self, entity_id, entity_type, **kwargs):  # noqa: E501
+    def delete_relations_using_delete(self, entity_id, entity_type, id, type, **kwargs):  # noqa: E501
         """deleteRelations  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -174,18 +174,20 @@ class EntityRelationControllerApi(object):
         :param async_req bool
         :param str entity_id: entityId (required)
         :param str entity_type: entityType (required)
+        :param str id: id (required)
+        :param str type: type (required)
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.delete_relations_using_delete_with_http_info(entity_id, entity_type, **kwargs)  # noqa: E501
+            return self.delete_relations_using_delete_with_http_info(entity_id, entity_type, id, type, **kwargs)  # noqa: E501
         else:
-            (data) = self.delete_relations_using_delete_with_http_info(entity_id, entity_type, **kwargs)  # noqa: E501
+            (data) = self.delete_relations_using_delete_with_http_info(entity_id, entity_type, id, type, **kwargs)  # noqa: E501
             return data
 
-    def delete_relations_using_delete_with_http_info(self, entity_id, entity_type, **kwargs):  # noqa: E501
+    def delete_relations_using_delete_with_http_info(self, entity_id, entity_type, id, type, **kwargs):  # noqa: E501
         """deleteRelations  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -196,6 +198,8 @@ class EntityRelationControllerApi(object):
         :param async_req bool
         :param str entity_id: entityId (required)
         :param str entity_type: entityType (required)
+        :param str id: id (required)
+        :param str type: type (required)
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -212,6 +216,7 @@ class EntityRelationControllerApi(object):
             
             params[key] = val
         del params['kwargs']
+
         # verify the required parameter 'entity_id' is set
         if ('entity_id' not in params or
                 params['entity_id'] is None):
@@ -220,6 +225,15 @@ class EntityRelationControllerApi(object):
         if ('entity_type' not in params or
                 params['entity_type'] is None):
             raise ValueError("Missing the required parameter `entity_type` when calling `delete_relations_using_delete`")  # noqa: E501
+        # verify the required parameter 'entity_type' is set
+        if ('id' not in params or
+                params['id'] is None):
+            raise ValueError("Missing the required parameter `id` when calling `delete_relations_using_delete`")  # noqa: E501
+        # verify the required parameter 'entity_type' is set
+        if ('type' not in params or
+                params['type'] is None):
+            raise ValueError("Missing the required parameter `type` when calling `delete_relations_using_delete`")  # noqa: E501
+
 
         collection_formats = {}
 
@@ -230,6 +244,10 @@ class EntityRelationControllerApi(object):
             query_params.append(('entityId', params['entity_id']))  # noqa: E501
         if 'entity_type' in params:
             query_params.append(('entityType', params['entity_type']))  # noqa: E501
+        if 'id' in params:
+            query_params.append(('id', params['id']))  # noqa: E501
+        if 'type' in params:
+            query_params.append(('type', params['type']))  # noqa: E501
 
         header_params = {}
 
