@@ -22,8 +22,11 @@ from .admin_controller_api import AdminControllerApi
 from .alarm_controller_api import AlarmControllerApi
 from .asset_controller_api import AssetControllerApi
 from .audit_log_controller_api import AuditLogControllerApi
+from .billing_endpoint_controller_api import BillingEndpointControllerApi
 from .blob_entity_controller_api import BlobEntityControllerApi
+from .cloud_endpoint_controller_api import CloudEndpointControllerApi
 from .converter_controller_api import ConverterControllerApi
+from .chirp_stack_integration_controller_api import ChirpStackIntegrationControllerApi
 from .custom_menu_controller_api import CustomMenuControllerApi
 from .custom_translation_controller_api import CustomTranslationControllerApi
 from .customer_controller_api import CustomerControllerApi
@@ -35,6 +38,7 @@ from .event_controller_api import EventControllerApi
 from .group_permission_controller_api import GroupPermissionControllerApi
 from .http_integration_controller_api import HttpIntegrationControllerApi
 from .integration_controller_api import IntegrationControllerApi
+from .loriot_integration_controller_api import LoriotIntegrationControllerApi
 from .ocean_connect_integration_controller_api import OceanConnectIntegrationControllerApi
 from .owner_controller_api import OwnerControllerApi
 from .report_controller_api import ReportControllerApi
@@ -44,6 +48,8 @@ from .rule_engine_controller_api import RuleEngineControllerApi
 from .scheduler_event_controller_api import SchedulerEventControllerApi
 from .self_registration_controller_api import SelfRegistrationControllerApi
 from .sig_fox_integration_controller_api import SigFoxIntegrationControllerApi
+from .solution_controller_api import SolutionControllerApi
+from .subscription_controller_api import SubscriptionControllerApi
 from .sign_up_controller_api import SignUpControllerApi
 from .t_mobile_iot_cdp_integration_controller_api import TMobileIotCdpIntegrationControllerApi
 from .tenant_controller_api import TenantControllerApi

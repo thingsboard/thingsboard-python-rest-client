@@ -518,43 +518,43 @@ class BillingEndpointControllerApi(object):
             _request_timeout=params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def send_password_was_reset_email_using_post(self, send_passoword_was_reset_email_request, **kwargs):  # noqa: E501
+    def send_password_was_reset_email_using_post(self, send_password_was_reset_email_request, **kwargs):  # noqa: E501
         """sendPasswordWasResetEmail  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.send_password_was_reset_email_using_post(send_passoword_was_reset_email_request, async_req=True)
+        >>> thread = api.send_password_was_reset_email_using_post(send_password_was_reset_email_request, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str send_passoword_was_reset_email_request: sendPassowordWasResetEmailRequest (required)
+        :param str send_password_was_reset_email_request: sendPassowordWasResetEmailRequest (required)
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.send_password_was_reset_email_using_post_with_http_info(send_passoword_was_reset_email_request, **kwargs)  # noqa: E501
+            return self.send_password_was_reset_email_using_post_with_http_info(send_password_was_reset_email_request, **kwargs)  # noqa: E501
         else:
-            (data) = self.send_password_was_reset_email_using_post_with_http_info(send_passoword_was_reset_email_request, **kwargs)  # noqa: E501
+            (data) = self.send_password_was_reset_email_using_post_with_http_info(send_password_was_reset_email_request, **kwargs)  # noqa: E501
             return data
 
-    def send_password_was_reset_email_using_post_with_http_info(self, send_passoword_was_reset_email_request, **kwargs):  # noqa: E501
+    def send_password_was_reset_email_using_post_with_http_info(self, send_password_was_reset_email_request, **kwargs):  # noqa: E501
         """sendPasswordWasResetEmail  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.send_password_was_reset_email_using_post_with_http_info(send_passoword_was_reset_email_request, async_req=True)
+        >>> thread = api.send_password_was_reset_email_using_post_with_http_info(send_password_was_reset_email_request, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str send_passoword_was_reset_email_request: sendPassowordWasResetEmailRequest (required)
+        :param str send_password_was_reset_email_request: sendPassowordWasResetEmailRequest (required)
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['send_passoword_was_reset_email_request']  # noqa: E501
+        all_params = ['send_password_was_reset_email_request']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -569,10 +569,10 @@ class BillingEndpointControllerApi(object):
                 )
             params[key] = val
         del params['kwargs']
-        # verify the required parameter 'send_passoword_was_reset_email_request' is set
-        if self.api_client.client_side_validation and ('send_passoword_was_reset_email_request' not in params or
-                                                       params['send_passoword_was_reset_email_request'] is None):  # noqa: E501
-            raise ValueError("Missing the required parameter `send_passoword_was_reset_email_request` when calling `send_password_was_reset_email_using_post`")  # noqa: E501
+        # verify the required parameter 'send_password_was_reset_email_request' is set
+        if self.api_client.client_side_validation and ('send_password_was_reset_email_request' not in params or
+                                                       params['send_password_was_reset_email_request'] is None):  # noqa: E501
+            raise ValueError("Missing the required parameter `send_password_was_reset_email_request` when calling `send_password_was_reset_email_using_post`")  # noqa: E501
 
         collection_formats = {}
 
@@ -586,8 +586,8 @@ class BillingEndpointControllerApi(object):
         local_var_files = {}
 
         body_params = None
-        if 'send_passoword_was_reset_email_request' in params:
-            body_params = params['send_passoword_was_reset_email_request']
+        if 'send_password_was_reset_email_request' in params:
+            body_params = params['send_password_was_reset_email_request']
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(
             ['*/*'])  # noqa: E501

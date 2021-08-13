@@ -44,8 +44,12 @@ from .deferred_result_response_entity import DeferredResultResponseEntity
 from .device import Device
 from .device_credentials import DeviceCredentials
 from .device_credentials_id import DeviceCredentialsId
+from .device_profile import DeviceProfile
+from .device_profile_id import DeviceProfileId
 from .device_id import DeviceId
 from .device_search_query import DeviceSearchQuery
+from .edge import Edge
+from .edge_id import EdgeId
 from .entity_group_id import EntityGroupId
 from .entity_id import EntityId
 from .entity_relation import EntityRelation
@@ -61,6 +65,12 @@ from .event_id import EventId
 from .group_permission_id import GroupPermissionId
 from .integration_id import IntegrationId
 from .node_connection_info import NodeConnectionInfo
+from .ota_package_info import OtaPackageInfo
+from .ota_package import OtaPackage
+from .ota_package_id import OtaPackageId
+from .file import File
+from .tb_resource import TbResource as Resource
+from .tb_resource_id import TbResourceId as ResourceId
 from .o_auth2_client_info import OAuth2ClientInfo
 from .o_auth2_integration_id import OAuth2IntegrationId
 from .relations_search_parameters import RelationsSearchParameters
@@ -78,6 +88,10 @@ from .short_customer_info import ShortCustomerInfo
 from .telemetry_entity_view import TelemetryEntityView
 from .tenant import Tenant
 from .tenant_id import TenantId
+from .tenant_profile import TenantProfile
+from .tenant_profile_id import TenantProfileId
+from .tenant_profile_data import TenantProfileData
+from .tenant_profile_configuration import TenantProfileConfiguration
 from .text_page_data_asset import TextPageDataAsset
 from .text_page_data_customer import TextPageDataCustomer
 from .text_page_data_dashboard_info import TextPageDataDashboardInfo

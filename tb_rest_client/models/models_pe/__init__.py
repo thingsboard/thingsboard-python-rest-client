@@ -138,6 +138,10 @@ from .self_registration_params import SelfRegistrationParams
 from .short_entity_view import ShortEntityView
 from .sign_up_request import SignUpRequest
 from .sign_up_self_registration_params import SignUpSelfRegistrationParams
+from .tenant_profile import TenantProfile
+from .tenant_profile_configuration import TenantProfileConfiguration
+from .tenant_profile_data import TenantProfileData
+from .tenant_solution_template_instructions import TenantSolutionTemplateInstructions
 from .uri import URI
 from .url import URL
 from .user import User

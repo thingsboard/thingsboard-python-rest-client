@@ -377,7 +377,7 @@ class RestClientPE(RestClientBase):
     def get_group_permission_info_by_id(self, group_permission_id: GroupPermissionId, is_user_group: bool):
         group_permission_id = self.get_id(group_permission_id)
         return self.group_permission_controller.get_group_permission_info_by_id_using_get(
-            group_permission_id=group_permission_id, is_user_group=str(is_user_group).lower())
+            group_permission_id=group_permission_id, is_user_group=is_user_group)
 
     """ Integration endpoints. """
 
@@ -766,7 +766,7 @@ class RestClientPE(RestClientBase):
         return self.subscription_controller.get_tenant_profile_data_using_get()
 
     def get_tenant_subscription_usage(self):
-        return self.solution_controller.get_tenant_subscription_usage_using_get()
+        return self.subscription_controller.get_tenant_subscription_usage_using_get()
 
     def get_tenant_profile_data_by_id(self, tenant_profile_id: TenantProfileId):
         tenant_profile_id = self.get_id(tenant_profile_id)
@@ -905,7 +905,11 @@ class RestClientPE(RestClientBase):
         self.alarm_controller = AlarmControllerApi(self.api_client)
         self.asset_controller = AssetControllerApi(self.api_client)
         self.audit_log_controller = AuditLogControllerApi(self.api_client)
+        self.blob_entity_controller = BlobEntityControllerApi(self.api_client)
         self.component_descriptor_controller = ComponentDescriptorControllerApi(self.api_client)
+        self.converter_controller = ConverterControllerApi(self.api_client)
+        self.custom_menu_controller = CustomMenuControllerApi(self.api_client)
+        self.custom_translation_controller = CustomTranslationControllerApi(self.api_client)
         self.customer_controller = CustomerControllerApi(self.api_client)
         self.chirp_stack_integration_controller = ChirpStackIntegrationControllerApi(self.api_client)
         self.cloud_endpoint_controller = CloudEndpointControllerApi(self.api_client)
@@ -914,26 +918,43 @@ class RestClientPE(RestClientBase):
         self.device_profile_controller = DeviceProfileControllerApi(self.api_client)
         self.edge_controller = EdgeControllerApi(self.api_client)
         self.edge_event_controller = EdgeEventControllerApi(self.api_client)
+        self.entity_group_controller = EntityGroupControllerApi(self.api_client)
         self.entity_relation_controller = EntityRelationControllerApi(self.api_client)
         self.entity_view_controller = EntityViewControllerApi(self.api_client)
         self.entity_query_controller = EntityQueryControllerApi(self.api_client)
         self.event_controller = EventControllerApi(self.api_client)
+        self.group_permission_controller = GroupPermissionControllerApi(self.api_client)
         self.queue_controller = QueueControllerApi(self.api_client)
+        self.integration_controller = IntegrationControllerApi(self.api_client)
+        self.role_controller = RoleControllerApi(self.api_client)
         self.rpc_controller = RpcControllerApi(self.api_client)
+        self.scheduler_event_controller = SchedulerEventControllerApi(self.api_client)
+        self.self_registration_controller = SelfRegistrationControllerApi(self.api_client)
+        self.sigfox_integration_controller = SigFoxIntegrationControllerApi(self.api_client)
+        self.sign_up_controller = SignUpControllerApi(self.api_client)
+        self.http_integration_controller = HttpIntegrationControllerApi(self.api_client)
         self.lwm_2m_controller = Lwm2mControllerApi(self.api_client)
         self.loriot_integration_controller = LoriotIntegrationControllerApi(self.api_client)
+        self.owner_controller = OwnerControllerApi(self.api_client)
+        self.ocean_connect_integration_controller = OceanConnectIntegrationControllerApi(self.api_client)
+        self.report_controller = ReportControllerApi(self.api_client)
+        self.rule_engine_controller = RuleEngineControllerApi(self.api_client)
         self.ota_package_controller = OtaPackageControllerApi(self.api_client)
         self.tb_resource_controller = TbResourceControllerApi(self.api_client)
         self.rule_chain_controller = RuleChainControllerApi(self.api_client)
         self.telemetry_controller = TelemetryControllerApi(self.api_client)
         self.tenant_controller = TenantControllerApi(self.api_client)
         self.tenant_profile_controller = TenantProfileControllerApi(self.api_client)
+        self.tmobile_iot_cdp_integration_controller = TMobileIotCdpIntegrationControllerApi(self.api_client)
+        self.thingpark_integration_controller = ThingParkIntegrationControllerApi(self.api_client)
+        self.user_permissions_controller = UserPermissionsControllerApi(self.api_client)
         self.user_controller = UserControllerApi(self.api_client)
         self.solution_controller = SolutionControllerApi(self.api_client)
         self.subscription_controller = SubscriptionControllerApi(self.api_client)
         self.billing_endpoint_controller = BillingEndpointControllerApi(self.api_client)
         self.widget_type_controller = WidgetTypeControllerApi(self.api_client)
         self.widgets_bundle_controller = WidgetsBundleControllerApi(self.api_client)
+        self.white_labeling_controller = WhiteLabelingControllerApi(self.api_client)
 
     @staticmethod
     def get_type(type):

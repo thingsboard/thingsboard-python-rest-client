@@ -321,7 +321,7 @@ class RestClientCE(RestClientBase):
         return self.entity_view_controller.assign_entity_view_to_public_customer_using_post(
             entity_view_id=entity_view_id)
 
-    def get_customer_entity_view_infos(self, customer_id: CusomerId, page_size: int, page: int, type=None,
+    def get_customer_entity_view_infos(self, customer_id: CustomerId, page_size: int, page: int, type=None,
                                        text_search=None, sort_property=None, sort_order=None):
         return self.entity_view_controller.get_customer_entity_view_infos_using_get(customer_id=customer_id,
                                                                                     page_size=str(page_size),
