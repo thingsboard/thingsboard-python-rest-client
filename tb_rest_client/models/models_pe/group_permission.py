@@ -41,7 +41,6 @@ class GroupPermission(object):
         'role_id': 'RoleId',
         'tenant_id': 'TenantId',
         'user_group_id': 'EntityGroupId',
-        'is_public': 'bool'
     }
 
     attribute_map = {
@@ -53,11 +52,10 @@ class GroupPermission(object):
         'public': 'public',
         'role_id': 'roleId',
         'tenant_id': 'tenantId',
-        'user_group_id': 'userGroupId',
-        'is_public': 'isPublic'
+        'user_group_id': 'userGroupId'
     }
 
-    def __init__(self, created_time=None, entity_group_id=None, entity_group_type=None, id=None, name=None, public=None, role_id=None, tenant_id=None, user_group_id=None, is_public=False):  # noqa: E501
+    def __init__(self, created_time=None, entity_group_id=None, entity_group_type=None, id=None, name=None, public=None, role_id=None, tenant_id=None, user_group_id=None):  # noqa: E501
         """GroupPermission - a model defined in Swagger"""  # noqa: E501
 
         self._created_time = None
@@ -69,7 +67,6 @@ class GroupPermission(object):
         self._role_id = None
         self._tenant_id = None
         self._user_group_id = None
-        self._is_public = None
         self.discriminator = None
 
         if created_time is not None:
@@ -90,7 +87,6 @@ class GroupPermission(object):
             self.tenant_id = tenant_id
         if user_group_id is not None:
             self.user_group_id = user_group_id
-        self.is_public = is_public
 
     @property
     def created_time(self):
@@ -286,29 +282,6 @@ class GroupPermission(object):
         """
 
         self._user_group_id = user_group_id
-
-    @property
-    def is_public(self):
-        """Gets the is_public of this GroupPermission.  # noqa: E501
-
-
-        :return: The is_public of this GroupPermission.  # noqa: E501
-        :rtype: bool
-        """
-        return self._is_public
-
-    @is_public.setter
-    def is_public(self, is_public):
-        """Sets the is_public of this GroupPermission.
-
-
-        :param is_public: The is_public of this GroupPermission.  # noqa: E501
-        :type: bool
-        """
-        if is_public is None:
-            raise ValueError("Invalid value for `is_public`, must not be `None`")  # noqa: E501
-
-        self._is_public = is_public
 
     def to_dict(self):
         """Returns the model properties as a dict"""
