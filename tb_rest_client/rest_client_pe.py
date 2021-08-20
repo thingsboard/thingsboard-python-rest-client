@@ -733,27 +733,27 @@ class RestClientPE(RestClientBase):
     def get_tenant_home_dashboard_info(self, ):
         return self.dashboard_controller.get_tenant_home_dashboard_info_using_get()
 
-    def _check_integration_connection_post(self, body: Integration):
+    def check_integration_connection_post(self, body: Integration):
         return self.integration_controller.check_integration_connection_using_post(body=body)
 
-    def _delete_integration_delete(self, integration_id: IntegrationId):
+    def delete_integration_delete(self, integration_id: IntegrationId):
         integration_id = self.get_id(integration_id)
         return self.integration_controller.delete_integration_using_delete(integration_id=integration_id)
 
-    def _get_integration_by_id_get(self, integration_id: IntegrationId):
+    def get_integration_by_id_get(self, integration_id: IntegrationId):
         integration_id = self.get_id(integration_id)
         return self.integration_controller.get_integration_by_id_using_get(integration_id=integration_id)
 
-    def _get_integration_by_routing_key_get(self, routing_key: str):
+    def get_integration_by_routing_key_get(self, routing_key: str):
         return self.integration_controller.get_integration_by_routing_key_using_get(routing_key=routing_key)
 
-    def _get_integrations_by_ids_get(self, integration_ids: list):
+    def get_integrations_by_ids_get(self, integration_ids: list):
         return self.integration_controller.get_integrations_by_ids_using_get(integration_ids=integration_ids)
 
-    def _get_integrations_get(self, page_size: str, page: str, text_search=None, sort_property=None, sort_order=None):
+    def get_integrations_get(self, page_size: str, page: str, text_search=None, sort_property=None, sort_order=None):
         return self.integration_controller.get_integrations_using_get(page_size=page_size, page=page, text_search=text_search, sort_property=sort_property, sort_order=sort_order)
 
-    def _save_integration_post(self, body: Integration):
+    def save_integration_post(self, body: Integration):
         return self.integration_controller.save_integration_using_post(body=body)
 
     def get_current_custom_menu(self, ):
