@@ -342,8 +342,8 @@ class ApiClient(object):
             except AttributeError:
                 found_class = getattr(tb_rest_client.models.models_ce, klass)
                 # if all(attr in list(found_class.attribute_map.values()) for attr in list(data.keys())):
-                if sorted(list(found_class.attribute_map.values())) == sorted(list(data.keys())):
-                    klass = found_class
+                # if sorted(list(found_class.attribute_map.values())) == sorted(list(data.keys())):
+                klass = found_class
         # else:
         #     return self.__deserialize(data, type(data))
         return self.__deserialize_data(data, klass)
