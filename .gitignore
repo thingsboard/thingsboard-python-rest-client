@@ -12,6 +12,9 @@
 .idea/**/usage.statistics.xml
 .idea/**/dictionaries
 .idea/**/shelf
+.idea/
+s.py
+watermeters.json
 
 # AWS User-specific
 .idea/**/aws.xml
