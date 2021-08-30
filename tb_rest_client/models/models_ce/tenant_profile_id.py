@@ -14,7 +14,7 @@ import pprint
 import re  # noqa: F401
 
 import six
-from . import EntityId
+from .entity_id import EntityId
 
 
 class TenantProfileId(EntityId):
