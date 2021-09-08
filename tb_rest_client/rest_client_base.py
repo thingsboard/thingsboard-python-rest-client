@@ -14,8 +14,8 @@
 #      limitations under the License.
 #
 
-from json import dumps
 from time import time, sleep
+from typing import List
 
 from requests import post
 from threading import Thread

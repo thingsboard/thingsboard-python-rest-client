@@ -14,6 +14,7 @@
 #      limitations under the License.
 #
 
+from typing import List
 from tb_rest_client.rest_client_base import *
 
 logger = getLogger(__name__)
@@ -479,7 +480,7 @@ class RestClientCE(RestClientBase):
     def get_home_dashboard(self, ):
         return self.dashboard_controller.get_home_dashboard_using_get()
 
-    def add_dashboard_customers(self, body: list[str], dashboard_id: DashboardId):
+    def add_dashboard_customers(self, body: List[str], dashboard_id: DashboardId):
         dashboard_id = self.get_id(dashboard_id)
         return self.dashboard_controller.add_dashboard_customers_using_post(body=body, dashboard_id=dashboard_id)
 
@@ -520,7 +521,7 @@ class RestClientCE(RestClientBase):
         customer_id = self.get_id(customer_id)
         return self.dashboard_controller.get_customer_dashboards_using_get(customer_id=customer_id, page_size=page_size, page=page, mobile=mobile, text_search=text_search, sort_property=sort_property, sort_order=sort_order)
 
-    def remove_dashboard_customers(self, body: list[str], dashboard_id: DashboardId):
+    def remove_dashboard_customers(self, body: List[str], dashboard_id: DashboardId):
         dashboard_id = self.get_id(dashboard_id)
         return self.dashboard_controller.remove_dashboard_customers_using_post(body=body, dashboard_id=dashboard_id)
 

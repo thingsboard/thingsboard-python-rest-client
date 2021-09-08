@@ -13,6 +13,7 @@
 #      See the License for the specific language governing permissions and
 #      limitations under the License.
 #
+from typing import List
 
 from tb_rest_client.rest_client_base import *
 
@@ -328,7 +329,7 @@ class RestClientPE(RestClientBase):
         user_group_id = self.get_id(user_group_id)
         return self.group_permission_controller.get_user_group_permissions_using_get(user_group_id=user_group_id)
 
-    def load_user_group_permission_infos(self, body: list[GroupPermission]):
+    def load_user_group_permission_infos(self, body: List[GroupPermission]):
         return self.group_permission_controller.load_user_group_permission_infos_using_post(body=body)
 
     def save_group_permission(self, body: GroupPermission):
@@ -711,7 +712,7 @@ class RestClientPE(RestClientBase):
         entity_group_id = self.get_id(entity_group_id)
         return self.dashboard_controller.get_group_dashboards_using_get(entity_group_id=entity_group_id, page_size=page_size, page=page, text_search=text_search, sort_property=sort_property, sort_order=sort_order)
 
-    def import_group_dashboards(self, body: list[Dashboard], entity_group_id: EntityGroupId, overwrite=None):
+    def import_group_dashboards(self, body: List[Dashboard], entity_group_id: EntityGroupId, overwrite=None):
         entity_group_id = self.get_id(entity_group_id)
         return self.dashboard_controller.import_group_dashboards_using_post(body=body, entity_group_id=entity_group_id, overwrite=overwrite)
 
@@ -949,7 +950,7 @@ class RestClientPE(RestClientBase):
     def get_ota_packages_v1(self, page_size: int, page: int, text_search=None, sort_property=None, sort_order=None):
         return self.ota_package_controller.get_ota_packages_using_get1(page_size=page_size, page=page, text_search=text_search, sort_property=sort_property, sort_order=sort_order)
 
-    def add_entities_to_entity_group(self, body: list[str], entity_group_id: EntityGroupId):
+    def add_entities_to_entity_group(self, body: List[str], entity_group_id: EntityGroupId):
         entity_group_id = self.get_id(entity_group_id)
         return self.entity_group_controller.add_entities_to_entity_group_using_post(body=body, entity_group_id=entity_group_id)
 
@@ -1016,7 +1017,7 @@ class RestClientPE(RestClientBase):
         entity_group_id = self.get_id(entity_group_id)
         return self.entity_group_controller.make_entity_group_public_using_post(entity_group_id=entity_group_id)
 
-    def remove_entities_from_entity_group(self, body: list[str], entity_group_id: EntityGroupId):
+    def remove_entities_from_entity_group(self, body: List[str], entity_group_id: EntityGroupId):
         entity_group_id = self.get_id(entity_group_id)
         return self.entity_group_controller.remove_entities_from_entity_group_using_post(body=body, entity_group_id=entity_group_id)
 
