@@ -202,7 +202,7 @@ class Configuration(object):
 
         if self.refresh_api_key_hook:
             self.refresh_api_key_hook(self)
-        
+
         key = self.api_key.get(identifier)
         if key:
             prefix = self.api_key_prefix.get(identifier)
@@ -241,9 +241,9 @@ class Configuration(object):
 
         :return: The report for debugging.
         """
-        return "Python SDK Debug Report:\n"\
-               "OS: {env}\n"\
-               "Python Version: {pyversion}\n"\
-               "Version of the API: 2.0\n"\
-               "SDK Package Version: 1.0.0".\
-               format(env=sys.platform, pyversion=sys.version)
+        return "Python SDK Debug Report:\n" \
+               "OS: {env}\n" \
+               "Python Version: {pyversion}\n" \
+               "Version of the API: 2.0\n" \
+               "SDK Package Version: 1.0.0". \
+            format(env=sys.platform, pyversion=sys.version)
