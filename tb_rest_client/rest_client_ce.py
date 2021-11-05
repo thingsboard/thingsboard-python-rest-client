@@ -14,7 +14,6 @@
 #      limitations under the License.
 #
 
-from typing import List
 from tb_rest_client.rest_client_base import *
 
 logger = getLogger(__name__)
@@ -173,23 +172,23 @@ class RestClientCE(RestClientBase):
 
     def get_persisted_rpc(self, rpc_id: RpcId):
         rpc_id = self.get_id(rpc_id)
-        return self.rpc_v_2_controller.get_persisted_rpc_using_get(rpc_id=rpc_id)
+        return self.rpc_v2_controller.get_persisted_rpc_using_get(rpc_id=rpc_id)
 
     def handle_two_way_device_rpc_request_v1(self, body: str, device_id: DeviceId):
         device_id = self.get_id(device_id)
-        return self.rpc_v_2_controller.handle_two_way_device_rpc_request_using_post1(body=body, device_id=device_id)
+        return self.rpc_v2_controller.handle_two_way_device_rpc_request_using_post1(body=body, device_id=device_id)
 
     def handle_one_way_device_rpc_request_v1(self, body: str, device_id: DeviceId):
         device_id = self.get_id(device_id)
-        return self.rpc_v_2_controller.handle_one_way_device_rpc_request_using_post1(body=body, device_id=device_id)
+        return self.rpc_v2_controller.handle_one_way_device_rpc_request_using_post1(body=body, device_id=device_id)
 
     def delete_resource(self, rpc_id: RpcId):
         rpc_id = self.get_id(rpc_id)
-        return self.rpc_v_2_controller.delete_resource_using_delete(rpc_id=rpc_id)
+        return self.rpc_v2_controller.delete_resource_using_delete(rpc_id=rpc_id)
 
     def get_persisted_rpc_by_device(self, device_id: DeviceId, page_size: int, page: int, rpc_status: str, text_search=None, sort_property=None, sort_order=None):
         device_id = self.get_id(device_id)
-        return self.rpc_v_2_controller.get_persisted_rpc_by_device_using_get(device_id=device_id, page_size=page_size, page=page, rpc_status=rpc_status, text_search=text_search, sort_property=sort_property, sort_order=sort_order)
+        return self.rpc_v2_controller.get_persisted_rpc_by_device_using_get(device_id=device_id, page_size=page_size, page=page, rpc_status=rpc_status, text_search=text_search, sort_property=sort_property, sort_order=sort_order)
 
     def get_edge_events(self, edge_id: EdgeId, page_size: int, page: int, text_search=None, sort_property=None, sort_order=None, start_time=None, end_time=None):
         edge_id = self.get_id(edge_id)
@@ -551,10 +550,10 @@ class RestClientCE(RestClientBase):
         return self.dashboard_controller.unassign_dashboard_from_customer_using_delete(customer_id=customer_id, dashboard_id=dashboard_id)
 
     def get_lwm2m_bootstrap_security_info(self, is_bootstrap_server: bool):
-        return self.lwm_2m_controller.get_lwm2m_bootstrap_security_info_using_get(is_bootstrap_server=is_bootstrap_server)
+        return self.lwm2m_controller.get_lwm2m_bootstrap_security_info_using_get(is_bootstrap_server=is_bootstrap_server)
 
     def save_device_with_credentials(self, object=None):
-        return self.lwm_2m_controller.save_device_with_credentials_using_post(object=object)
+        return self.lwm2m_controller.save_device_with_credentials_using_post(object=object)
 
     def get_tenants(self, page_size: str, page: str, text_search=None, sort_property=None, sort_order=None):
         return self.tenant_controller.get_tenants_using_get(page_size=page_size, page=page, text_search=text_search, sort_property=sort_property, sort_order=sort_order)
