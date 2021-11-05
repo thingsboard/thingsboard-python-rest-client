@@ -13,7 +13,6 @@
 #      See the License for the specific language governing permissions and
 #      limitations under the License.
 #
-from typing import List
 
 from tb_rest_client.rest_client_base import *
 
@@ -200,23 +199,23 @@ class RestClientPE(RestClientBase):
 
     def get_persisted_rpc(self, rpc_id: RpcId):
         rpc_id = self.get_id(rpc_id)
-        return self.rpc_v_2_controller.get_persisted_rpc_using_get(rpc_id=rpc_id)
+        return self.rpc_v2_controller.get_persisted_rpc_using_get(rpc_id=rpc_id)
 
     def handle_two_way_device_rpc_request_v1(self, body: str, device_id: DeviceId):
         device_id = self.get_id(device_id)
-        return self.rpc_v_2_controller.handle_two_way_device_rpc_request_using_post1(body=body, device_id=device_id)
+        return self.rpc_v2_controller.handle_two_way_device_rpc_request_using_post1(body=body, device_id=device_id)
 
     def handle_one_way_device_rpc_request_v1(self, body: str, device_id: DeviceId):
         device_id = self.get_id(device_id)
-        return self.rpc_v_2_controller.handle_one_way_device_rpc_request_using_post1(body=body, device_id=device_id)
+        return self.rpc_v2_controller.handle_one_way_device_rpc_request_using_post1(body=body, device_id=device_id)
 
     def delete_resource(self, rpc_id: RpcId):
         rpc_id = self.get_id(rpc_id)
-        return self.rpc_v_2_controller.delete_resource_using_delete(rpc_id=rpc_id)
+        return self.rpc_v2_controller.delete_resource_using_delete(rpc_id=rpc_id)
 
     def get_persisted_rpc_by_device(self, device_id: DeviceId, page_size: int, page: int, rpc_status: str, text_search=None, sort_property=None, sort_order=None):
         device_id = self.get_id(device_id)
-        return self.rpc_v_2_controller.get_persisted_rpc_by_device_using_get(device_id=device_id, page_size=page_size, page=page, rpc_status=rpc_status, text_search=text_search, sort_property=sort_property, sort_order=sort_order)
+        return self.rpc_v2_controller.get_persisted_rpc_by_device_using_get(device_id=device_id, page_size=page_size, page=page, rpc_status=rpc_status, text_search=text_search, sort_property=sort_property, sort_order=sort_order)
 
     def get_edge_events(self, edge_id: EdgeId, page_size: str, page: str, text_search=None, sort_property=None, sort_order=None, start_time=None, end_time=None):
         edge_id = self.get_id(edge_id)
@@ -767,11 +766,11 @@ class RestClientPE(RestClientBase):
         return self.custom_menu_controller.save_custom_menu_using_post(body=body)
 
     def get_lwm2m_bootstrap_security_info(self, is_bootstrap_server: bool):
-        return self.lwm_2m_controller.get_lwm2m_bootstrap_security_info_using_get(is_bootstrap_server=is_bootstrap_server)
+        return self.lwm2m_controller.get_lwm2m_bootstrap_security_info_using_get(is_bootstrap_server=is_bootstrap_server)
 
     def save_device_with_credentials(self, entity_group_id=None, object=None):
         entity_group_id = self.get_id(entity_group_id)
-        return self.lwm_2m_controller.save_device_with_credentials_using_post(entity_group_id=entity_group_id, object=object)
+        return self.lwm2m_controller.save_device_with_credentials_using_post(entity_group_id=entity_group_id, object=object)
 
     def get_current_custom_translation(self, ):
         return self.custom_translation_controller.get_current_custom_translation_using_get()

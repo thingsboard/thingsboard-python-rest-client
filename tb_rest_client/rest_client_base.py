@@ -96,13 +96,13 @@ class RestClientBase(Thread):
 
     def delete_client_registration_template(self, client_registration_template_id: EntityId):
         client_registration_template_id = self.get_id(client_registration_template_id)
-        return self.o_auth_2_config_template_controller.delete_client_registration_template_using_delete(client_registration_template_id=client_registration_template_id)
+        return self.o_auth2_config_template_controller.delete_client_registration_template_using_delete(client_registration_template_id=client_registration_template_id)
 
     def get_client_registration_templates(self, ):
-        return self.o_auth_2_config_template_controller.get_client_registration_templates_using_get()
+        return self.o_auth2_config_template_controller.get_client_registration_templates_using_get()
 
     def save_client_registration_template(self, body: OAuth2ClientRegistrationTemplate):
-        return self.o_auth_2_config_template_controller.save_client_registration_template_using_post(body=body)
+        return self.o_auth2_config_template_controller.save_client_registration_template_using_post(body=body)
 
     def get_asset_types(self, ):
         return self.asset_controller.get_asset_types_using_get()
@@ -391,23 +391,23 @@ class RestClientBase(Thread):
 
     def get_persisted_rpc(self, rpc_id: RpcId):
         rpc_id = self.get_id(rpc_id)
-        return self.rpc_v_2_controller.get_persisted_rpc_using_get(rpc_id=rpc_id)
+        return self.rpc_v2_controller.get_persisted_rpc_using_get(rpc_id=rpc_id)
 
     def handle_two_way_device_rpc_request_v1(self, body: str, device_id: DeviceId):
         device_id = self.get_id(device_id)
-        return self.rpc_v_2_controller.handle_two_way_device_rpc_request_using_post1(body=body, device_id=device_id)
+        return self.rpc_v2_controller.handle_two_way_device_rpc_request_using_post1(body=body, device_id=device_id)
 
     def delete_resource(self, rpc_id: RpcId):
         rpc_id = self.get_id(rpc_id)
-        return self.rpc_v_2_controller.delete_resource_using_delete(rpc_id=rpc_id)
+        return self.rpc_v2_controller.delete_resource_using_delete(rpc_id=rpc_id)
 
     def handle_one_way_device_rpc_request_v1(self, body: str, device_id: DeviceId):
         device_id = self.get_id(device_id)
-        return self.rpc_v_2_controller.handle_one_way_device_rpc_request_using_post1(body=body, device_id=device_id)
+        return self.rpc_v2_controller.handle_one_way_device_rpc_request_using_post1(body=body, device_id=device_id)
 
     def get_persisted_rpc_by_device(self, device_id: DeviceId, page_size: int, page: int, rpc_status: str, text_search=None, sort_property=None, sort_order=None):
         device_id = self.get_id(device_id)
-        return self.rpc_v_2_controller.get_persisted_rpc_by_device_using_get(device_id=device_id, page_size=page_size, page=page, rpc_status=rpc_status, text_search=text_search, sort_property=sort_property, sort_order=sort_order)
+        return self.rpc_v2_controller.get_persisted_rpc_by_device_using_get(device_id=device_id, page_size=page_size, page=page, rpc_status=rpc_status, text_search=text_search, sort_property=sort_property, sort_order=sort_order)
 
     def delete_customer(self, customer_id: CustomerId):
         customer_id = self.get_id(customer_id)
@@ -470,11 +470,11 @@ class RestClientBase(Thread):
 
     def handle_one_way_device_rpc_request(self, body: str, device_id: DeviceId):
         device_id = self.get_id(device_id)
-        return self.rpc_v_1_controller.handle_one_way_device_rpc_request_using_post(body=body, device_id=device_id)
+        return self.rpc_v1_controller.handle_one_way_device_rpc_request_using_post(body=body, device_id=device_id)
 
     def handle_two_way_device_rpc_request(self, body: str, device_id: DeviceId):
         device_id = self.get_id(device_id)
-        return self.rpc_v_1_controller.handle_two_way_device_rpc_request_using_post(body=body, device_id=device_id)
+        return self.rpc_v1_controller.handle_two_way_device_rpc_request_using_post(body=body, device_id=device_id)
 
     def get_tenant_devices(self, page_size: str, page: str, type=None, text_search=None, sort_property=None, sort_order=None):
         return self.device_controller.get_tenant_devices_using_get(page_size=page_size, page=page, type=type, text_search=text_search, sort_property=sort_property, sort_order=sort_order)
@@ -655,16 +655,16 @@ class RestClientBase(Thread):
         return self.tb_resource_controller.save_resource_using_post(body=body)
 
     def get_current_o_auth2_info(self, ):
-        return self.o_auth_2_controller.get_current_o_auth2_info_using_get()
+        return self.o_auth2_controller.get_current_o_auth2_info_using_get()
 
     def get_login_processing_url(self, ):
-        return self.o_auth_2_controller.get_login_processing_url_using_get()
+        return self.o_auth2_controller.get_login_processing_url_using_get()
 
     def get_o_auth2_clients(self, pkg_name=None, platform=None):
-        return self.o_auth_2_controller.get_o_auth2_clients_using_post(pkg_name=pkg_name, platform=platform)
+        return self.o_auth2_controller.get_o_auth2_clients_using_post(pkg_name=pkg_name, platform=platform)
 
     def save_o_auth2_info(self, body: OAuth2Info):
-        return self.o_auth_2_controller.save_o_auth2_info_using_post(body=body)
+        return self.o_auth2_controller.save_o_auth2_info_using_post(body=body)
 
     def delete_tenant_profile(self, tenant_profile_id: TenantProfileId):
         tenant_profile_id = self.get_id(tenant_profile_id)
@@ -835,7 +835,7 @@ class RestClientBase(Thread):
         return self.audit_log_controller.get_audit_logs_using_get(page_size=page_size, page=page, text_search=text_search, sort_property=sort_property, sort_order=sort_order, start_time=start_time, end_time=end_time, action_types=action_types)
 
     def get_lwm2m_bootstrap_security_info(self, is_bootstrap_server: bool):
-        return self.lwm_2m_controller.get_lwm2m_bootstrap_security_info_using_get(is_bootstrap_server=is_bootstrap_server)
+        return self.lwm2m_controller.get_lwm2m_bootstrap_security_info_using_get(is_bootstrap_server=is_bootstrap_server)
 
     def get_component_descriptor_by_clazz(self, component_descriptor_clazz: str):
         return self.component_descriptor_controller.get_component_descriptor_by_clazz_using_get(component_descriptor_clazz=component_descriptor_clazz)
@@ -896,7 +896,6 @@ class RestClientBase(Thread):
 
     def get_ota_packages_v1(self, page_size: int, page: int, text_search=None, sort_property=None, sort_order=None):
         return self.ota_package_controller.get_ota_packages_using_get1(page_size=page_size, page=page, text_search=text_search, sort_property=sort_property, sort_order=sort_order)
-
 
     def __load_controllers(self):
         self.audit_log_controller = AuditLogControllerApi(self.api_client)
