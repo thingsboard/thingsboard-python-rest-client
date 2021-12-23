@@ -100,10 +100,8 @@ class Configuration(object):
     @property
     def logger_file(self):
         """The logger file.
-
         If the logger_file is None, then add stream handler and remove file
         handler. Otherwise, add file handler and remove stream handler.
-
         :param value: The logger_file path.
         :type: str
         """
@@ -112,10 +110,8 @@ class Configuration(object):
     @logger_file.setter
     def logger_file(self, value):
         """The logger file.
-
         If the logger_file is None, then add stream handler and remove file
         handler. Otherwise, add file handler and remove stream handler.
-
         :param value: The logger_file path.
         :type: str
         """
@@ -142,7 +138,6 @@ class Configuration(object):
     @property
     def debug(self):
         """Debug status
-
         :param value: The debug status, True or False.
         :type: bool
         """
@@ -151,7 +146,6 @@ class Configuration(object):
     @debug.setter
     def debug(self, value):
         """Debug status
-
         :param value: The debug status, True or False.
         :type: bool
         """
@@ -173,9 +167,7 @@ class Configuration(object):
     @property
     def logger_format(self):
         """The logger format.
-
         The logger_formatter will be updated when sets logger_format.
-
         :param value: The format string.
         :type: str
         """
@@ -184,9 +176,7 @@ class Configuration(object):
     @logger_format.setter
     def logger_format(self, value):
         """The logger format.
-
         The logger_formatter will be updated when sets logger_format.
-
         :param value: The format string.
         :type: str
         """
@@ -195,7 +185,6 @@ class Configuration(object):
 
     def get_api_key_with_prefix(self, identifier):
         """Gets API key (with prefix if set).
-
         :param identifier: The identifier of apiKey.
         :return: The token for api_pe key authentication.
         """
@@ -213,7 +202,6 @@ class Configuration(object):
 
     def get_basic_auth_token(self):
         """Gets HTTP basic authentication header (string).
-
         :return: The token for basic HTTP authentication.
         """
         return urllib3.util.make_headers(
@@ -222,7 +210,6 @@ class Configuration(object):
 
     def auth_settings(self):
         """Gets Auth Settings dict for api_pe client.
-
         :return: The Auth Settings information dict.
         """
         return {
@@ -238,7 +225,6 @@ class Configuration(object):
 
     def to_debug_report(self):
         """Gets the essential information for debugging.
-
         :return: The report for debugging.
         """
         return "Python SDK Debug Report:\n" \
