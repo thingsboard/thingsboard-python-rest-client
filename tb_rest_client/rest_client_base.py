@@ -117,6 +117,7 @@ class RestClientBase(Thread):
             token = token_json["token"]
         self.configuration.api_key_prefix["X-Authorization"] = "Bearer"
         self.configuration.api_key["X-Authorization"] = token
+        self.token_info['token'] = token
 
         self.api_client = ApiClient(self.configuration)
         self.__load_controllers()
