@@ -224,7 +224,6 @@ class ApiClient(object):
 
     def sanitize_for_serialization(self, obj):
         """Builds a JSON POST object.
-
         If obj is None, return None.
         If obj is str, int, long, float, bool, return directly.
         If obj is datetime.datetime, datetime.date
@@ -232,7 +231,6 @@ class ApiClient(object):
         If obj is list, sanitize each element in the list.
         If obj is dict, return the dict.
         If obj is swagger model, return the properties dict.
-
         :param obj: The data to serialize.
         :return: The serialized form of data.
         """
@@ -266,11 +264,9 @@ class ApiClient(object):
 
     def deserialize(self, response, response_type):
         """Deserializes response into an object.
-
         :param response: RESTResponse object to be deserialized.
         :param response_type: class literal for
             deserialized object, or string of class name.
-
         :return: deserialized object.
         """
         # handle file downloading
@@ -288,10 +284,8 @@ class ApiClient(object):
 
     def __deserialize(self, data, klass):
         """Deserializes dict, list, str into an object..
-
         :param data: dict, list or str.
         :param klass: class literal, or string of class name.
-
         :return: object.
         """
         if data is None:
@@ -370,9 +364,7 @@ class ApiClient(object):
                  _return_http_data_only=None, collection_formats=None,
                  _preload_content=True, _request_timeout=None):
         """Makes the HTTP request (synchronous) and returns deserialized data.
-
         To make an async request, set the async_req parameter.
-
         :param resource_path: Path to method endpoint.
         :param method: Method to call.
         :param path_params: Path parameters in the url.
@@ -486,7 +478,6 @@ class ApiClient(object):
 
     def parameters_to_tuples(self, params, collection_formats):
         """Get parameters as list of tuples, formatting collections.
-
         :param params: Parameters as dict or list of two-tuples
         :param dict collection_formats: Parameter collection formats
         :return: Parameters as list of tuples, collections formatted
@@ -516,7 +507,6 @@ class ApiClient(object):
 
     def prepare_post_parameters(self, post_params=None, files=None):
         """Builds form parameters.
-
         :param post_params: Normal form parameters.
         :param files: File parameters.
         :return: Form parameters with files.
@@ -544,7 +534,6 @@ class ApiClient(object):
 
     def select_header_accept(self, accepts):
         """Returns `Accept` based on an array of accepts provided.
-
         :param accepts: List of headers.
         :return: Accept (e.g. application/json).
         """
@@ -560,7 +549,6 @@ class ApiClient(object):
 
     def select_header_content_type(self, content_types):
         """Returns `Content-Type` based on an array of content_types provided.
-
         :param content_types: List of content-types.
         :return: Content-Type (e.g. application/json).
         """
@@ -576,7 +564,6 @@ class ApiClient(object):
 
     def update_params_for_auth(self, headers, querys, auth_settings):
         """Updates header and query params based on authentication setting.
-
         :param headers: Header parameters dict to be updated.
         :param querys: Query parameters tuple list to be updated.
         :param auth_settings: Authentication setting identifiers list.
@@ -600,10 +587,8 @@ class ApiClient(object):
 
     def __deserialize_file(self, response):
         """Deserializes body to file
-
         Saves response body into a file in a temporary folder,
         using the filename from the `Content-Disposition` header if provided.
-
         :param response:  RESTResponse.
         :return: file path.
         """
@@ -624,10 +609,8 @@ class ApiClient(object):
 
     def __deserialize_primitive(self, data, klass):
         """Deserializes string to primitive type.
-
         :param data: str.
         :param klass: class literal.
-
         :return: int, long, float, str, bool.
         """
         try:
@@ -639,14 +622,12 @@ class ApiClient(object):
 
     def __deserialize_object(self, value):
         """Return a original value.
-
         :return: object.
         """
         return value
 
     def __deserialize_date(self, string):
         """Deserializes string to date.
-
         :param string: str.
         :return: date.
         """
@@ -663,9 +644,7 @@ class ApiClient(object):
 
     def __deserialize_datatime(self, string):
         """Deserializes string to datetime.
-
         The string should be in iso8601 datetime format.
-
         :param string: str.
         :return: datetime.
         """
@@ -688,7 +667,6 @@ class ApiClient(object):
 
     def __deserialize_model(self, data, klass):
         """Deserializes list or dict to model.
-
         :param data: dict, list.
         :param klass: class literal.
         :return: model object.

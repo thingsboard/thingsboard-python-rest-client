@@ -43,4 +43,3 @@ from .component_descriptor_controller_api import ComponentDescriptorControllerAp
 from .tenant_controller_api import TenantControllerApi
 from .tenant_controller_api import TenantControllerApi
 from .ota_package_controller_api import OtaPackageControllerApi
-from .ota_package_controller_api import OtaPackageControllerApi

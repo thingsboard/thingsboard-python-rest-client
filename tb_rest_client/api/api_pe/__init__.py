@@ -50,3 +50,5 @@ from .white_labeling_controller_api import WhiteLabelingControllerApi
 from .ota_package_controller_api import OtaPackageControllerApi
 from .ota_package_controller_api import OtaPackageControllerApi
 from .entity_group_controller_api import EntityGroupControllerApi
+from .subscription_controller_api import SubscriptionControllerApi
+from .solution_controller_api import SolutionControllerApi
