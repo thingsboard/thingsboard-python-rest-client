@@ -96,6 +96,9 @@ class RestClientPE(RestClientBase):
                                                                    page=page, type=type, text_search=text_search,
                                                                    sort_property=sort_property, sort_order=sort_order)
 
+    def process_asset_bulk_import(self, body=None):
+        return self.asset_controller.process_asset_bulk_import_using_post(body=body)
+
     def get_tenant_asset(self, asset_name: str):
         return self.asset_controller.get_tenant_asset_using_get(asset_name=asset_name)
 
