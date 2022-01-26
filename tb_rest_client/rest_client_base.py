@@ -14,6 +14,8 @@
 #      limitations under the License.
 #
 
+import jwt
+from json import dumps
 from time import time, sleep
 
 from requests import post
@@ -115,6 +117,11 @@ class RestClientBase(Thread):
         token = None
         if isinstance(token_json, dict) and token_json.get("token") is not None:
             token = token_json["token"]
+            self.token_info["token"] = token
+            # get token - signature verification is not needed
+            parsed_token = jwt.decode(token, options={"verify_signature": False})
+            self.token_info["refreshToken"] = parsed_token['exp']
+
         self.configuration.api_key_prefix["X-Authorization"] = "Bearer"
         self.configuration.api_key["X-Authorization"] = token
         self.token_info['token'] = token
