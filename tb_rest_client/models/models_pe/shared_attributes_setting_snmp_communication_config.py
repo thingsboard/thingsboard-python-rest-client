@@ -15,7 +15,7 @@ import re  # noqa: F401
 
 import six
 
-from tb_rest_client.models.models_pe import SnmpCommunicationConfig
+from .snmp_communication_config import SnmpCommunicationConfig
 
 
 class SharedAttributesSettingSnmpCommunicationConfig(SnmpCommunicationConfig):

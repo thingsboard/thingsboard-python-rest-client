@@ -15,7 +15,7 @@ import re  # noqa: F401
 
 import six
 
-from tb_rest_client.models.models_pe import TransportPayloadTypeConfiguration
+from .transport_payload_type_configuration import TransportPayloadTypeConfiguration
 
 
 class ProtoTransportPayloadConfiguration(TransportPayloadTypeConfiguration):

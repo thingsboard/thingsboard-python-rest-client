@@ -15,7 +15,7 @@ import re  # noqa: F401
 
 import six
 
-from tb_rest_client.models.models_pe import DeviceConfiguration
+from .device_configuration import DeviceConfiguration
 
 
 class DefaultDeviceConfiguration(DeviceConfiguration):

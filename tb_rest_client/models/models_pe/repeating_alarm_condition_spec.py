@@ -15,7 +15,7 @@ import re  # noqa: F401
 
 import six
 
-from tb_rest_client.models.models_pe import AlarmConditionSpec
+from .alarm_condition_spec import AlarmConditionSpec
 
 
 class RepeatingAlarmConditionSpec(AlarmConditionSpec):
