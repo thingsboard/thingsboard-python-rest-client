@@ -14,15 +14,14 @@ import pprint
 import re  # noqa: F401
 
 import six
-from tb_rest_client.models.models_pe.transport_payload_type_configuration import \
-    TransportPayloadTypeConfiguration  # noqa: F401,E501
+
+from tb_rest_client.models.models_pe import TransportPayloadTypeConfiguration
 
 
 class JsonTransportPayloadConfiguration(TransportPayloadTypeConfiguration):
     """
-     Do not edit the class manually.
-    """
-    """
+    Do not edit the class manually.
+
     Attributes:
       swagger_types (dict): The key is attribute name
                             and the value is attribute type.

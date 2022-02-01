@@ -14,14 +14,14 @@ import pprint
 import re  # noqa: F401
 
 import six
-from tb_rest_client.models.models_pe.key_filter_predicate import KeyFilterPredicate  # noqa: F401,E501
+
+from tb_rest_client.models.models_pe import KeyFilterPredicate
 
 
 class ComplexFilterPredicate(KeyFilterPredicate):
     """
     Do not edit the class manually.
-    """
-    """
+
     Attributes:
       swagger_types (dict): The key is attribute name
                             and the value is attribute type.

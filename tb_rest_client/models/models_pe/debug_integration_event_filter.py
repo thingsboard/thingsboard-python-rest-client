@@ -14,14 +14,14 @@ import pprint
 import re  # noqa: F401
 
 import six
-from tb_rest_client.models.models_pe.event_filter import EventFilter  # noqa: F401,E501
+
+from tb_rest_client.models.models_pe import EventFilter
 
 
 class DebugIntegrationEventFilter(EventFilter):
     """
     Do not edit the class manually.
-    """
-    """
+
     Attributes:
       swagger_types (dict): The key is attribute name
                             and the value is attribute type.
@@ -52,8 +52,7 @@ class DebugIntegrationEventFilter(EventFilter):
     if hasattr(EventFilter, "attribute_map"):
         attribute_map.update(EventFilter.attribute_map)
 
-    def __init__(self, error=None, message=None, status=None, type=None, event_type=None, server=None, error_str=None,
-                 *args, **kwargs):  # noqa: E501
+    def __init__(self, error=None, message=None, status=None, type=None, event_type=None, server=None, error_str=None, *args, **kwargs):  # noqa: E501
         """DebugIntegrationEventFilter - a model defined in Swagger"""  # noqa: E501
         self._error = None
         self._message = None
@@ -184,12 +183,11 @@ class DebugIntegrationEventFilter(EventFilter):
         """
         if event_type is None:
             raise ValueError("Invalid value for `event_type`, must not be `None`")  # noqa: E501
-        allowed_values = ["DEBUG_CONVERTER", "DEBUG_INTEGRATION", "DEBUG_RULE_CHAIN", "DEBUG_RULE_NODE", "ERROR",
-                          "LC_EVENT", "STATS"]  # noqa: E501
+        allowed_values = ["DEBUG_CONVERTER", "DEBUG_INTEGRATION", "DEBUG_RULE_CHAIN", "DEBUG_RULE_NODE", "ERROR", "LC_EVENT", "STATS"]  # noqa: E501
         if event_type not in allowed_values:
             raise ValueError(
                 "Invalid value for `event_type` ({0}), must be one of {1}"  # noqa: E501
-                    .format(event_type, allowed_values)
+                .format(event_type, allowed_values)
             )
 
         self._event_type = event_type

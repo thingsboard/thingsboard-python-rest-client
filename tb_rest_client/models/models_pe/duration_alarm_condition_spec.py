@@ -14,14 +14,14 @@ import pprint
 import re  # noqa: F401
 
 import six
-from tb_rest_client.models.models_pe.alarm_condition_spec import AlarmConditionSpec  # noqa: F401,E501
+
+from tb_rest_client.models.models_pe import AlarmConditionSpec
 
 
 class DurationAlarmConditionSpec(AlarmConditionSpec):
     """
     Do not edit the class manually.
-    """
-    """
+
     Attributes:
       swagger_types (dict): The key is attribute name
                             and the value is attribute type.

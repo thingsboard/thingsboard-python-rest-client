@@ -28,6 +28,7 @@ from tb_rest_client.api_client import ApiClient
                             and the value is json key in definition.
     """
     swagger_types = {
+        'allow_whitespaces': 'bool',
         'minimum_digits': 'int',
         'minimum_length': 'int',
         'minimum_lowercase_letters': 'int',
@@ -38,6 +39,7 @@ from tb_rest_client.api_client import ApiClient
     }
 
     attribute_map = {
+        'allow_whitespaces': 'allowWhitespaces',
         'minimum_digits': 'minimumDigits',
         'minimum_length': 'minimumLength',
         'minimum_lowercase_letters': 'minimumLowercaseLetters',
@@ -47,8 +49,9 @@ from tb_rest_client.api_client import ApiClient
         'password_reuse_frequency_days': 'passwordReuseFrequencyDays'
     }
 
-    def __init__(self, minimum_digits=None, minimum_length=None, minimum_lowercase_letters=None, minimum_special_characters=None, minimum_uppercase_letters=None, password_expiration_period_days=None, password_reuse_frequency_days=None):  # noqa: E501
+    def __init__(self, allow_whitespaces=None, minimum_digits=None, minimum_length=None, minimum_lowercase_letters=None, minimum_special_characters=None, minimum_uppercase_letters=None, password_expiration_period_days=None, password_reuse_frequency_days=None):  # noqa: E501
         """UserPasswordPolicy - a model defined in Swagger"""  # noqa: E501
+        self._allow_whitespaces = None
         self._minimum_digits = None
         self._minimum_length = None
         self._minimum_lowercase_letters = None
@@ -57,6 +60,8 @@ from tb_rest_client.api_client import ApiClient
         self._password_expiration_period_days = None
         self._password_reuse_frequency_days = None
         self.discriminator = None
+        if allow_whitespaces is not None:
+            self.allow_whitespaces = allow_whitespaces
         if minimum_digits is not None:
             self.minimum_digits = minimum_digits
         if minimum_length is not None:
@@ -71,6 +76,29 @@ from tb_rest_client.api_client import ApiClient
             self.password_expiration_period_days = password_expiration_period_days
         if password_reuse_frequency_days is not None:
             self.password_reuse_frequency_days = password_reuse_frequency_days
+
+    @property
+    def allow_whitespaces(self):
+        """Gets the allow_whitespaces of this UserPasswordPolicy.  # noqa: E501
+
+        Allow whitespaces  # noqa: E501
+
+        :return: The allow_whitespaces of this UserPasswordPolicy.  # noqa: E501
+        :rtype: bool
+        """
+        return self._allow_whitespaces
+
+    @allow_whitespaces.setter
+    def allow_whitespaces(self, allow_whitespaces):
+        """Sets the allow_whitespaces of this UserPasswordPolicy.
+
+        Allow whitespaces  # noqa: E501
+
+        :param allow_whitespaces: The allow_whitespaces of this UserPasswordPolicy.  # noqa: E501
+        :type: bool
+        """
+
+        self._allow_whitespaces = allow_whitespaces
 
     @property
     def minimum_digits(self):

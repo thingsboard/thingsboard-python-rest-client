@@ -14,14 +14,14 @@ import pprint
 import re  # noqa: F401
 
 import six
-from tb_rest_client.models.models_ce.entity_filter import EntityFilter  # noqa: F401,E501
+
+from tb_rest_client.models.models_ce import EntityFilter
 
 
 class EdgeSearchQueryFilter(EntityFilter):
     """
     Do not edit the class manually.
-    """
-    """
+
     Attributes:
       swagger_types (dict): The key is attribute name
                             and the value is attribute type.
@@ -50,8 +50,7 @@ class EdgeSearchQueryFilter(EntityFilter):
     if hasattr(EntityFilter, "attribute_map"):
         attribute_map.update(EntityFilter.attribute_map)
 
-    def __init__(self, direction=None, edge_types=None, fetch_last_level_only=None, max_level=None, relation_type=None,
-                 root_entity=None, *args, **kwargs):  # noqa: E501
+    def __init__(self, direction=None, edge_types=None, fetch_last_level_only=None, max_level=None, relation_type=None, root_entity=None, *args, **kwargs):  # noqa: E501
         """EdgeSearchQueryFilter - a model defined in Swagger"""  # noqa: E501
         self._direction = None
         self._edge_types = None
@@ -96,7 +95,7 @@ class EdgeSearchQueryFilter(EntityFilter):
         if direction not in allowed_values:
             raise ValueError(
                 "Invalid value for `direction` ({0}), must be one of {1}"  # noqa: E501
-                    .format(direction, allowed_values)
+                .format(direction, allowed_values)
             )
 
         self._direction = direction

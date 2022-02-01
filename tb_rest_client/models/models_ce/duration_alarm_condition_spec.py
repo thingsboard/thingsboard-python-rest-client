@@ -14,14 +14,14 @@ import pprint
 import re  # noqa: F401
 
 import six
-from tb_rest_client.models.models_ce.alarm_condition_spec import AlarmConditionSpec  # noqa: F401,E501
+
+from tb_rest_client.models.models_ce import AlarmConditionSpec
 
 
 class DurationAlarmConditionSpec(AlarmConditionSpec):
     """
     Do not edit the class manually.
-    """
-    """
+
     Attributes:
       swagger_types (dict): The key is attribute name
                             and the value is attribute type.
@@ -92,12 +92,11 @@ class DurationAlarmConditionSpec(AlarmConditionSpec):
         :param unit: The unit of this DurationAlarmConditionSpec.  # noqa: E501
         :type: str
         """
-        allowed_values = ["DAYS", "HOURS", "MICROSECONDS", "MILLISECONDS", "MINUTES", "NANOSECONDS",
-                          "SECONDS"]  # noqa: E501
+        allowed_values = ["DAYS", "HOURS", "MICROSECONDS", "MILLISECONDS", "MINUTES", "NANOSECONDS", "SECONDS"]  # noqa: E501
         if unit not in allowed_values:
             raise ValueError(
                 "Invalid value for `unit` ({0}), must be one of {1}"  # noqa: E501
-                    .format(unit, allowed_values)
+                .format(unit, allowed_values)
             )
 
         self._unit = unit

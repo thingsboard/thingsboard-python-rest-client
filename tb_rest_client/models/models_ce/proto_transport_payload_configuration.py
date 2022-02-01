@@ -14,15 +14,14 @@ import pprint
 import re  # noqa: F401
 
 import six
-from tb_rest_client.models.models_ce.transport_payload_type_configuration import \
-    TransportPayloadTypeConfiguration  # noqa: F401,E501
+
+from tb_rest_client.models.models_ce import TransportPayloadTypeConfiguration
 
 
 class ProtoTransportPayloadConfiguration(TransportPayloadTypeConfiguration):
     """
     Do not edit the class manually.
-    """
-    """
+
     Attributes:
       swagger_types (dict): The key is attribute name
                             and the value is attribute type.
@@ -51,10 +50,7 @@ class ProtoTransportPayloadConfiguration(TransportPayloadTypeConfiguration):
     if hasattr(TransportPayloadTypeConfiguration, "attribute_map"):
         attribute_map.update(TransportPayloadTypeConfiguration.attribute_map)
 
-    def __init__(self, device_attributes_proto_schema=None, device_rpc_request_proto_schema=None,
-                 device_rpc_response_proto_schema=None, device_telemetry_proto_schema=None,
-                 enable_compatibility_with_json_payload_format=None,
-                 use_json_payload_format_for_default_downlink_topics=None, *args, **kwargs):  # noqa: E501
+    def __init__(self, device_attributes_proto_schema=None, device_rpc_request_proto_schema=None, device_rpc_response_proto_schema=None, device_telemetry_proto_schema=None, enable_compatibility_with_json_payload_format=None, use_json_payload_format_for_default_downlink_topics=None, *args, **kwargs):  # noqa: E501
         """ProtoTransportPayloadConfiguration - a model defined in Swagger"""  # noqa: E501
         self._device_attributes_proto_schema = None
         self._device_rpc_request_proto_schema = None

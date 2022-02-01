@@ -14,15 +14,14 @@ import pprint
 import re  # noqa: F401
 
 import six
-from tb_rest_client.models.models_ce.device_transport_configuration import \
-    DeviceTransportConfiguration  # noqa: F401,E501
+
+from tb_rest_client.models.models_ce import DeviceTransportConfiguration
 
 
 class SnmpDeviceTransportConfiguration(DeviceTransportConfiguration):
     """
     Do not edit the class manually.
-    """
-    """
+
     Attributes:
       swagger_types (dict): The key is attribute name
                             and the value is attribute type.
@@ -63,9 +62,7 @@ class SnmpDeviceTransportConfiguration(DeviceTransportConfiguration):
     if hasattr(DeviceTransportConfiguration, "attribute_map"):
         attribute_map.update(DeviceTransportConfiguration.attribute_map)
 
-    def __init__(self, authentication_passphrase=None, authentication_protocol=None, community=None, context_name=None,
-                 engine_id=None, host=None, port=None, privacy_passphrase=None, privacy_protocol=None,
-                 protocol_version=None, security_name=None, username=None, *args, **kwargs):  # noqa: E501
+    def __init__(self, authentication_passphrase=None, authentication_protocol=None, community=None, context_name=None, engine_id=None, host=None, port=None, privacy_passphrase=None, privacy_protocol=None, protocol_version=None, security_name=None, username=None, *args, **kwargs):  # noqa: E501
         """SnmpDeviceTransportConfiguration - a model defined in Swagger"""  # noqa: E501
         self._authentication_passphrase = None
         self._authentication_protocol = None
@@ -149,7 +146,7 @@ class SnmpDeviceTransportConfiguration(DeviceTransportConfiguration):
         if authentication_protocol not in allowed_values:
             raise ValueError(
                 "Invalid value for `authentication_protocol` ({0}), must be one of {1}"  # noqa: E501
-                    .format(authentication_protocol, allowed_values)
+                .format(authentication_protocol, allowed_values)
             )
 
         self._authentication_protocol = authentication_protocol
@@ -302,7 +299,7 @@ class SnmpDeviceTransportConfiguration(DeviceTransportConfiguration):
         if privacy_protocol not in allowed_values:
             raise ValueError(
                 "Invalid value for `privacy_protocol` ({0}), must be one of {1}"  # noqa: E501
-                    .format(privacy_protocol, allowed_values)
+                .format(privacy_protocol, allowed_values)
             )
 
         self._privacy_protocol = privacy_protocol
@@ -329,7 +326,7 @@ class SnmpDeviceTransportConfiguration(DeviceTransportConfiguration):
         if protocol_version not in allowed_values:
             raise ValueError(
                 "Invalid value for `protocol_version` ({0}), must be one of {1}"  # noqa: E501
-                    .format(protocol_version, allowed_values)
+                .format(protocol_version, allowed_values)
             )
 
         self._protocol_version = protocol_version

@@ -43,6 +43,8 @@ from tb_rest_client.api_client import ApiClient
         'clear_ts': 'int',
         'details': 'JsonNode',
         'propagate': 'bool',
+        'propagate_to_owner': 'bool',
+        'propagate_to_tenant': 'bool',
         'propagate_relation_types': 'list[str]'
     }
 
@@ -62,10 +64,12 @@ from tb_rest_client.api_client import ApiClient
         'clear_ts': 'clearTs',
         'details': 'details',
         'propagate': 'propagate',
+        'propagate_to_owner': 'propagateToOwner',
+        'propagate_to_tenant': 'propagateToTenant',
         'propagate_relation_types': 'propagateRelationTypes'
     }
 
-    def __init__(self, id=None, created_time=None, tenant_id=None, customer_id=None, name=None, type=None, originator=None, severity=None, status=None, start_ts=None, end_ts=None, ack_ts=None, clear_ts=None, details=None, propagate=None, propagate_relation_types=None):  # noqa: E501
+    def __init__(self, id=None, created_time=None, tenant_id=None, customer_id=None, name=None, type=None, originator=None, severity=None, status=None, start_ts=None, end_ts=None, ack_ts=None, clear_ts=None, details=None, propagate=None, propagate_to_owner=None, propagate_to_tenant=None, propagate_relation_types=None):  # noqa: E501
         """Alarm - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._created_time = None
@@ -82,6 +86,8 @@ from tb_rest_client.api_client import ApiClient
         self._clear_ts = None
         self._details = None
         self._propagate = None
+        self._propagate_to_owner = None
+        self._propagate_to_tenant = None
         self._propagate_relation_types = None
         self.discriminator = None
         if id is not None:
@@ -109,6 +115,10 @@ from tb_rest_client.api_client import ApiClient
             self.details = details
         if propagate is not None:
             self.propagate = propagate
+        if propagate_to_owner is not None:
+            self.propagate_to_owner = propagate_to_owner
+        if propagate_to_tenant is not None:
+            self.propagate_to_tenant = propagate_to_tenant
         if propagate_relation_types is not None:
             self.propagate_relation_types = propagate_relation_types
 
@@ -468,6 +478,52 @@ from tb_rest_client.api_client import ApiClient
         """
 
         self._propagate = propagate
+
+    @property
+    def propagate_to_owner(self):
+        """Gets the propagate_to_owner of this Alarm.  # noqa: E501
+
+        Propagation flag to specify if alarm should be propagated to the owner (tenant or customer) of alarm originator  # noqa: E501
+
+        :return: The propagate_to_owner of this Alarm.  # noqa: E501
+        :rtype: bool
+        """
+        return self._propagate_to_owner
+
+    @propagate_to_owner.setter
+    def propagate_to_owner(self, propagate_to_owner):
+        """Sets the propagate_to_owner of this Alarm.
+
+        Propagation flag to specify if alarm should be propagated to the owner (tenant or customer) of alarm originator  # noqa: E501
+
+        :param propagate_to_owner: The propagate_to_owner of this Alarm.  # noqa: E501
+        :type: bool
+        """
+
+        self._propagate_to_owner = propagate_to_owner
+
+    @property
+    def propagate_to_tenant(self):
+        """Gets the propagate_to_tenant of this Alarm.  # noqa: E501
+
+        Propagation flag to specify if alarm should be propagated to the tenant entity  # noqa: E501
+
+        :return: The propagate_to_tenant of this Alarm.  # noqa: E501
+        :rtype: bool
+        """
+        return self._propagate_to_tenant
+
+    @propagate_to_tenant.setter
+    def propagate_to_tenant(self, propagate_to_tenant):
+        """Sets the propagate_to_tenant of this Alarm.
+
+        Propagation flag to specify if alarm should be propagated to the tenant entity  # noqa: E501
+
+        :param propagate_to_tenant: The propagate_to_tenant of this Alarm.  # noqa: E501
+        :type: bool
+        """
+
+        self._propagate_to_tenant = propagate_to_tenant
 
     @property
     def propagate_relation_types(self):

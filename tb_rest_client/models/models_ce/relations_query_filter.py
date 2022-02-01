@@ -14,14 +14,14 @@ import pprint
 import re  # noqa: F401
 
 import six
-from tb_rest_client.models.models_ce.entity_filter import EntityFilter  # noqa: F401,E501
+
+from tb_rest_client.models.models_ce import EntityFilter
 
 
 class RelationsQueryFilter(EntityFilter):
     """
     Do not edit the class manually.
-    """
-    """
+
     Attributes:
       swagger_types (dict): The key is attribute name
                             and the value is attribute type.
@@ -33,6 +33,9 @@ class RelationsQueryFilter(EntityFilter):
         'fetch_last_level_only': 'bool',
         'filters': 'list[RelationEntityTypeFilter]',
         'max_level': 'int',
+        'multi_root': 'bool',
+        'multi_root_entities_type': 'str',
+        'multi_root_entity_ids': 'list[str]',
         'root_entity': 'EntityId'
     }
     if hasattr(EntityFilter, "swagger_types"):
@@ -43,18 +46,23 @@ class RelationsQueryFilter(EntityFilter):
         'fetch_last_level_only': 'fetchLastLevelOnly',
         'filters': 'filters',
         'max_level': 'maxLevel',
+        'multi_root': 'multiRoot',
+        'multi_root_entities_type': 'multiRootEntitiesType',
+        'multi_root_entity_ids': 'multiRootEntityIds',
         'root_entity': 'rootEntity'
     }
     if hasattr(EntityFilter, "attribute_map"):
         attribute_map.update(EntityFilter.attribute_map)
 
-    def __init__(self, direction=None, fetch_last_level_only=None, filters=None, max_level=None, root_entity=None,
-                 *args, **kwargs):  # noqa: E501
+    def __init__(self, direction=None, fetch_last_level_only=None, filters=None, max_level=None, multi_root=None, multi_root_entities_type=None, multi_root_entity_ids=None, root_entity=None, *args, **kwargs):  # noqa: E501
         """RelationsQueryFilter - a model defined in Swagger"""  # noqa: E501
         self._direction = None
         self._fetch_last_level_only = None
         self._filters = None
         self._max_level = None
+        self._multi_root = None
+        self._multi_root_entities_type = None
+        self._multi_root_entity_ids = None
         self._root_entity = None
         self.discriminator = None
         if direction is not None:
@@ -65,6 +73,12 @@ class RelationsQueryFilter(EntityFilter):
             self.filters = filters
         if max_level is not None:
             self.max_level = max_level
+        if multi_root is not None:
+            self.multi_root = multi_root
+        if multi_root_entities_type is not None:
+            self.multi_root_entities_type = multi_root_entities_type
+        if multi_root_entity_ids is not None:
+            self.multi_root_entity_ids = multi_root_entity_ids
         if root_entity is not None:
             self.root_entity = root_entity
         EntityFilter.__init__(self, *args, **kwargs)
@@ -91,7 +105,7 @@ class RelationsQueryFilter(EntityFilter):
         if direction not in allowed_values:
             raise ValueError(
                 "Invalid value for `direction` ({0}), must be one of {1}"  # noqa: E501
-                    .format(direction, allowed_values)
+                .format(direction, allowed_values)
             )
 
         self._direction = direction
@@ -158,6 +172,75 @@ class RelationsQueryFilter(EntityFilter):
         """
 
         self._max_level = max_level
+
+    @property
+    def multi_root(self):
+        """Gets the multi_root of this RelationsQueryFilter.  # noqa: E501
+
+
+        :return: The multi_root of this RelationsQueryFilter.  # noqa: E501
+        :rtype: bool
+        """
+        return self._multi_root
+
+    @multi_root.setter
+    def multi_root(self, multi_root):
+        """Sets the multi_root of this RelationsQueryFilter.
+
+
+        :param multi_root: The multi_root of this RelationsQueryFilter.  # noqa: E501
+        :type: bool
+        """
+
+        self._multi_root = multi_root
+
+    @property
+    def multi_root_entities_type(self):
+        """Gets the multi_root_entities_type of this RelationsQueryFilter.  # noqa: E501
+
+
+        :return: The multi_root_entities_type of this RelationsQueryFilter.  # noqa: E501
+        :rtype: str
+        """
+        return self._multi_root_entities_type
+
+    @multi_root_entities_type.setter
+    def multi_root_entities_type(self, multi_root_entities_type):
+        """Sets the multi_root_entities_type of this RelationsQueryFilter.
+
+
+        :param multi_root_entities_type: The multi_root_entities_type of this RelationsQueryFilter.  # noqa: E501
+        :type: str
+        """
+        allowed_values = ["ALARM", "API_USAGE_STATE", "ASSET", "CUSTOMER", "DASHBOARD", "DEVICE", "DEVICE_PROFILE", "EDGE", "ENTITY_VIEW", "OTA_PACKAGE", "RPC", "RULE_CHAIN", "RULE_NODE", "TB_RESOURCE", "TENANT", "TENANT_PROFILE", "USER", "WIDGETS_BUNDLE", "WIDGET_TYPE"]  # noqa: E501
+        if multi_root_entities_type not in allowed_values:
+            raise ValueError(
+                "Invalid value for `multi_root_entities_type` ({0}), must be one of {1}"  # noqa: E501
+                .format(multi_root_entities_type, allowed_values)
+            )
+
+        self._multi_root_entities_type = multi_root_entities_type
+
+    @property
+    def multi_root_entity_ids(self):
+        """Gets the multi_root_entity_ids of this RelationsQueryFilter.  # noqa: E501
+
+
+        :return: The multi_root_entity_ids of this RelationsQueryFilter.  # noqa: E501
+        :rtype: list[str]
+        """
+        return self._multi_root_entity_ids
+
+    @multi_root_entity_ids.setter
+    def multi_root_entity_ids(self, multi_root_entity_ids):
+        """Sets the multi_root_entity_ids of this RelationsQueryFilter.
+
+
+        :param multi_root_entity_ids: The multi_root_entity_ids of this RelationsQueryFilter.  # noqa: E501
+        :type: list[str]
+        """
+
+        self._multi_root_entity_ids = multi_root_entity_ids
 
     @property
     def root_entity(self):

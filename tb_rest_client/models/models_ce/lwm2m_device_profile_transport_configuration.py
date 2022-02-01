@@ -14,15 +14,14 @@ import pprint
 import re  # noqa: F401
 
 import six
-from tb_rest_client.models.models_ce.device_profile_transport_configuration import \
-    DeviceProfileTransportConfiguration  # noqa: F401,E501
+
+from tb_rest_client.models.models_ce import DeviceProfileTransportConfiguration
 
 
 class Lwm2mDeviceProfileTransportConfiguration(DeviceProfileTransportConfiguration):
     """
     Do not edit the class manually.
-    """
-    """
+
     Attributes:
       swagger_types (dict): The key is attribute name
                             and the value is attribute type.
@@ -30,7 +29,8 @@ class Lwm2mDeviceProfileTransportConfiguration(DeviceProfileTransportConfigurati
                             and the value is json key in definition.
     """
     swagger_types = {
-        'bootstrap': 'BootstrapConfiguration',
+        'bootstrap': 'list[LwM2MBootstrapServerCredential]',
+        'bootstrap_server_update_enable': 'bool',
         'client_lw_m2m_settings': 'OtherConfiguration',
         'observe_attr': 'TelemetryMappingConfiguration'
     }
@@ -39,20 +39,24 @@ class Lwm2mDeviceProfileTransportConfiguration(DeviceProfileTransportConfigurati
 
     attribute_map = {
         'bootstrap': 'bootstrap',
+        'bootstrap_server_update_enable': 'bootstrapServerUpdateEnable',
         'client_lw_m2m_settings': 'clientLwM2mSettings',
         'observe_attr': 'observeAttr'
     }
     if hasattr(DeviceProfileTransportConfiguration, "attribute_map"):
         attribute_map.update(DeviceProfileTransportConfiguration.attribute_map)
 
-    def __init__(self, bootstrap=None, client_lw_m2m_settings=None, observe_attr=None, *args, **kwargs):  # noqa: E501
+    def __init__(self, bootstrap=None, bootstrap_server_update_enable=None, client_lw_m2m_settings=None, observe_attr=None, *args, **kwargs):  # noqa: E501
         """Lwm2mDeviceProfileTransportConfiguration - a model defined in Swagger"""  # noqa: E501
         self._bootstrap = None
+        self._bootstrap_server_update_enable = None
         self._client_lw_m2m_settings = None
         self._observe_attr = None
         self.discriminator = None
         if bootstrap is not None:
             self.bootstrap = bootstrap
+        if bootstrap_server_update_enable is not None:
+            self.bootstrap_server_update_enable = bootstrap_server_update_enable
         if client_lw_m2m_settings is not None:
             self.client_lw_m2m_settings = client_lw_m2m_settings
         if observe_attr is not None:
@@ -65,7 +69,7 @@ class Lwm2mDeviceProfileTransportConfiguration(DeviceProfileTransportConfigurati
 
 
         :return: The bootstrap of this Lwm2mDeviceProfileTransportConfiguration.  # noqa: E501
-        :rtype: BootstrapConfiguration
+        :rtype: list[LwM2MBootstrapServerCredential]
         """
         return self._bootstrap
 
@@ -75,10 +79,31 @@ class Lwm2mDeviceProfileTransportConfiguration(DeviceProfileTransportConfigurati
 
 
         :param bootstrap: The bootstrap of this Lwm2mDeviceProfileTransportConfiguration.  # noqa: E501
-        :type: BootstrapConfiguration
+        :type: list[LwM2MBootstrapServerCredential]
         """
 
         self._bootstrap = bootstrap
+
+    @property
+    def bootstrap_server_update_enable(self):
+        """Gets the bootstrap_server_update_enable of this Lwm2mDeviceProfileTransportConfiguration.  # noqa: E501
+
+
+        :return: The bootstrap_server_update_enable of this Lwm2mDeviceProfileTransportConfiguration.  # noqa: E501
+        :rtype: bool
+        """
+        return self._bootstrap_server_update_enable
+
+    @bootstrap_server_update_enable.setter
+    def bootstrap_server_update_enable(self, bootstrap_server_update_enable):
+        """Sets the bootstrap_server_update_enable of this Lwm2mDeviceProfileTransportConfiguration.
+
+
+        :param bootstrap_server_update_enable: The bootstrap_server_update_enable of this Lwm2mDeviceProfileTransportConfiguration.  # noqa: E501
+        :type: bool
+        """
+
+        self._bootstrap_server_update_enable = bootstrap_server_update_enable
 
     @property
     def client_lw_m2m_settings(self):
