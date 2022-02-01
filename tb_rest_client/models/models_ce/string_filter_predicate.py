@@ -14,14 +14,14 @@ import pprint
 import re  # noqa: F401
 
 import six
-from tb_rest_client.models.models_ce.key_filter_predicate import KeyFilterPredicate  # noqa: F401,E501
+
+from tb_rest_client.models.models_ce import KeyFilterPredicate
 
 
 class StringFilterPredicate(KeyFilterPredicate):
-    """
+    """"
     Do not edit the class manually.
-    """
-    """
+
     Attributes:
       swagger_types (dict): The key is attribute name
                             and the value is attribute type.
@@ -97,11 +97,11 @@ class StringFilterPredicate(KeyFilterPredicate):
         :param operation: The operation of this StringFilterPredicate.  # noqa: E501
         :type: str
         """
-        allowed_values = ["CONTAINS", "ENDS_WITH", "EQUAL", "NOT_CONTAINS", "NOT_EQUAL", "STARTS_WITH"]  # noqa: E501
+        allowed_values = ["CONTAINS", "ENDS_WITH", "EQUAL", "IN", "NOT_CONTAINS", "NOT_EQUAL", "NOT_IN", "STARTS_WITH"]  # noqa: E501
         if operation not in allowed_values:
             raise ValueError(
                 "Invalid value for `operation` ({0}), must be one of {1}"  # noqa: E501
-                    .format(operation, allowed_values)
+                .format(operation, allowed_values)
             )
 
         self._operation = operation

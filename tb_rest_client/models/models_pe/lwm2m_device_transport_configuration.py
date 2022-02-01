@@ -14,15 +14,14 @@ import pprint
 import re  # noqa: F401
 
 import six
-from tb_rest_client.models.models_pe.device_transport_configuration import \
-    DeviceTransportConfiguration  # noqa: F401,E501
+
+from tb_rest_client.models.models_pe import DeviceTransportConfiguration
 
 
 class Lwm2mDeviceTransportConfiguration(DeviceTransportConfiguration):
     """
     Do not edit the class manually.
-    """
-    """
+
     Attributes:
       swagger_types (dict): The key is attribute name
                             and the value is attribute type.
@@ -47,8 +46,7 @@ class Lwm2mDeviceTransportConfiguration(DeviceTransportConfiguration):
     if hasattr(DeviceTransportConfiguration, "attribute_map"):
         attribute_map.update(DeviceTransportConfiguration.attribute_map)
 
-    def __init__(self, edrx_cycle=None, paging_transmission_window=None, power_mode=None, psm_activity_timer=None,
-                 *args, **kwargs):  # noqa: E501
+    def __init__(self, edrx_cycle=None, paging_transmission_window=None, power_mode=None, psm_activity_timer=None, *args, **kwargs):  # noqa: E501
         """Lwm2mDeviceTransportConfiguration - a model defined in Swagger"""  # noqa: E501
         self._edrx_cycle = None
         self._paging_transmission_window = None
@@ -129,7 +127,7 @@ class Lwm2mDeviceTransportConfiguration(DeviceTransportConfiguration):
         if power_mode not in allowed_values:
             raise ValueError(
                 "Invalid value for `power_mode` ({0}), must be one of {1}"  # noqa: E501
-                    .format(power_mode, allowed_values)
+                .format(power_mode, allowed_values)
             )
 
         self._power_mode = power_mode

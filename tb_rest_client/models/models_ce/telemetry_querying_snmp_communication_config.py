@@ -14,14 +14,14 @@ import pprint
 import re  # noqa: F401
 
 import six
-from tb_rest_client.models.models_ce.snmp_communication_config import SnmpCommunicationConfig  # noqa: F401,E501
+
+from tb_rest_client.models.models_ce import SnmpCommunicationConfig
 
 
 class TelemetryQueryingSnmpCommunicationConfig(SnmpCommunicationConfig):
     """
     Do not edit the class manually.
-    """
-    """
+
     Attributes:
       swagger_types (dict): The key is attribute name
                             and the value is attribute type.
@@ -118,12 +118,11 @@ class TelemetryQueryingSnmpCommunicationConfig(SnmpCommunicationConfig):
         :param spec: The spec of this TelemetryQueryingSnmpCommunicationConfig.  # noqa: E501
         :type: str
         """
-        allowed_values = ["CLIENT_ATTRIBUTES_QUERYING", "SHARED_ATTRIBUTES_SETTING", "TELEMETRY_QUERYING",
-                          "TO_DEVICE_RPC_REQUEST"]  # noqa: E501
+        allowed_values = ["CLIENT_ATTRIBUTES_QUERYING", "SHARED_ATTRIBUTES_SETTING", "TELEMETRY_QUERYING", "TO_DEVICE_RPC_REQUEST"]  # noqa: E501
         if spec not in allowed_values:
             raise ValueError(
                 "Invalid value for `spec` ({0}), must be one of {1}"  # noqa: E501
-                    .format(spec, allowed_values)
+                .format(spec, allowed_values)
             )
 
         self._spec = spec

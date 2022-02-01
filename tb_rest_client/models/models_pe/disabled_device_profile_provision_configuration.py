@@ -14,15 +14,14 @@ import pprint
 import re  # noqa: F401
 
 import six
-from tb_rest_client.models.models_pe.device_profile_provision_configuration import \
-    DeviceProfileProvisionConfiguration  # noqa: F401,E501
+
+from tb_rest_client.models.models_pe import DeviceProfileProvisionConfiguration
 
 
 class DisabledDeviceProfileProvisionConfiguration(DeviceProfileProvisionConfiguration):
     """
     Do not edit the class manually.
-    """
-    """
+
     Attributes:
       swagger_types (dict): The key is attribute name
                             and the value is attribute type.

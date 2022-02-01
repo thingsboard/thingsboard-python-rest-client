@@ -29,7 +29,6 @@ from tb_rest_client.api_client import ApiClient
     """
     swagger_types = {
         'client_only_observe_after_connect': 'int',
-        'composite_operations_support': 'bool',
         'edrx_cycle': 'int',
         'fw_update_resource': 'str',
         'fw_update_strategy': 'int',
@@ -42,7 +41,6 @@ from tb_rest_client.api_client import ApiClient
 
     attribute_map = {
         'client_only_observe_after_connect': 'clientOnlyObserveAfterConnect',
-        'composite_operations_support': 'compositeOperationsSupport',
         'edrx_cycle': 'edrxCycle',
         'fw_update_resource': 'fwUpdateResource',
         'fw_update_strategy': 'fwUpdateStrategy',
@@ -53,10 +51,9 @@ from tb_rest_client.api_client import ApiClient
         'sw_update_strategy': 'swUpdateStrategy'
     }
 
-    def __init__(self, client_only_observe_after_connect=None, composite_operations_support=None, edrx_cycle=None, fw_update_resource=None, fw_update_strategy=None, paging_transmission_window=None, power_mode=None, psm_activity_timer=None, sw_update_resource=None, sw_update_strategy=None):  # noqa: E501
+    def __init__(self, client_only_observe_after_connect=None, edrx_cycle=None, fw_update_resource=None, fw_update_strategy=None, paging_transmission_window=None, power_mode=None, psm_activity_timer=None, sw_update_resource=None, sw_update_strategy=None):  # noqa: E501
         """OtherConfiguration - a model defined in Swagger"""  # noqa: E501
         self._client_only_observe_after_connect = None
-        self._composite_operations_support = None
         self._edrx_cycle = None
         self._fw_update_resource = None
         self._fw_update_strategy = None
@@ -68,8 +65,6 @@ from tb_rest_client.api_client import ApiClient
         self.discriminator = None
         if client_only_observe_after_connect is not None:
             self.client_only_observe_after_connect = client_only_observe_after_connect
-        if composite_operations_support is not None:
-            self.composite_operations_support = composite_operations_support
         if edrx_cycle is not None:
             self.edrx_cycle = edrx_cycle
         if fw_update_resource is not None:
@@ -107,27 +102,6 @@ from tb_rest_client.api_client import ApiClient
         """
 
         self._client_only_observe_after_connect = client_only_observe_after_connect
-
-    @property
-    def composite_operations_support(self):
-        """Gets the composite_operations_support of this OtherConfiguration.  # noqa: E501
-
-
-        :return: The composite_operations_support of this OtherConfiguration.  # noqa: E501
-        :rtype: bool
-        """
-        return self._composite_operations_support
-
-    @composite_operations_support.setter
-    def composite_operations_support(self, composite_operations_support):
-        """Sets the composite_operations_support of this OtherConfiguration.
-
-
-        :param composite_operations_support: The composite_operations_support of this OtherConfiguration.  # noqa: E501
-        :type: bool
-        """
-
-        self._composite_operations_support = composite_operations_support
 
     @property
     def edrx_cycle(self):

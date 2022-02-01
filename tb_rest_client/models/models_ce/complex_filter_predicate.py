@@ -14,14 +14,14 @@ import pprint
 import re  # noqa: F401
 
 import six
-from tb_rest_client.models.models_ce.key_filter_predicate import KeyFilterPredicate  # noqa: F401,E501
+
+from tb_rest_client.models.models_ce import KeyFilterPredicate
 
 
 class ComplexFilterPredicate(KeyFilterPredicate):
     """
     Do not edit the class manually.
-    """
-    """
+
     Attributes:
       swagger_types (dict): The key is attribute name
                             and the value is attribute type.
@@ -75,7 +75,7 @@ class ComplexFilterPredicate(KeyFilterPredicate):
         if operation not in allowed_values:
             raise ValueError(
                 "Invalid value for `operation` ({0}), must be one of {1}"  # noqa: E501
-                    .format(operation, allowed_values)
+                .format(operation, allowed_values)
             )
 
         self._operation = operation

@@ -64,7 +64,8 @@ from .page_data_converter import PageDataConverter
 from .lw_m2m_resource_observe import LwM2mResourceObserve
 from .default_tenant_profile_configuration import DefaultTenantProfileConfiguration
 from .role_id import RoleId
-from .check_pre_provisioned_devices_device_profile_provision_configuration import CheckPreProvisionedDevicesDeviceProfileProvisionConfiguration
+from .check_pre_provisioned_devices_device_profile_provision_configuration import \
+    CheckPreProvisionedDevicesDeviceProfileProvisionConfiguration
 from .page_data_dashboard_info import PageDataDashboardInfo
 from .alarm_info import AlarmInfo
 from .asset import Asset
@@ -140,7 +141,8 @@ from .telemetry_mapping_configuration import TelemetryMappingConfiguration
 from .default_device_profile_configuration import DefaultDeviceProfileConfiguration
 from .any_time_schedule import AnyTimeSchedule
 from .page_data_tenant import PageDataTenant
-from .allow_create_new_devices_device_profile_provision_configuration import AllowCreateNewDevicesDeviceProfileProvisionConfiguration
+from .allow_create_new_devices_device_profile_provision_configuration import \
+    AllowCreateNewDevicesDeviceProfileProvisionConfiguration
 from .to_device_rpc_request_snmp_communication_config import ToDeviceRpcRequestSnmpCommunicationConfig
 from .default_device_configuration import DefaultDeviceConfiguration
 from .widget_type_info import WidgetTypeInfo

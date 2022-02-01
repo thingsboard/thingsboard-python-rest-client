@@ -14,14 +14,14 @@ import pprint
 import re  # noqa: F401
 
 import six
-from tb_rest_client.models.models_ce.entity_filter import EntityFilter  # noqa: F401,E501
+
+from tb_rest_client.models.models_ce import EntityFilter
 
 
 class EntityTypeFilter(EntityFilter):
     """
     Do not edit the class manually.
-    """
-    """
+
     Attributes:
       swagger_types (dict): The key is attribute name
                             and the value is attribute type.
@@ -66,13 +66,11 @@ class EntityTypeFilter(EntityFilter):
         :param entity_type: The entity_type of this EntityTypeFilter.  # noqa: E501
         :type: str
         """
-        allowed_values = ["ALARM", "API_USAGE_STATE", "ASSET", "CUSTOMER", "DASHBOARD", "DEVICE", "DEVICE_PROFILE",
-                          "EDGE", "ENTITY_VIEW", "OTA_PACKAGE", "RPC", "RULE_CHAIN", "RULE_NODE", "TB_RESOURCE",
-                          "TENANT", "TENANT_PROFILE", "USER", "WIDGETS_BUNDLE", "WIDGET_TYPE"]  # noqa: E501
+        allowed_values = ["ALARM", "API_USAGE_STATE", "ASSET", "CUSTOMER", "DASHBOARD", "DEVICE", "DEVICE_PROFILE", "EDGE", "ENTITY_VIEW", "OTA_PACKAGE", "RPC", "RULE_CHAIN", "RULE_NODE", "TB_RESOURCE", "TENANT", "TENANT_PROFILE", "USER", "WIDGETS_BUNDLE", "WIDGET_TYPE"]  # noqa: E501
         if entity_type not in allowed_values:
             raise ValueError(
                 "Invalid value for `entity_type` ({0}), must be one of {1}"  # noqa: E501
-                    .format(entity_type, allowed_values)
+                .format(entity_type, allowed_values)
             )
 
         self._entity_type = entity_type

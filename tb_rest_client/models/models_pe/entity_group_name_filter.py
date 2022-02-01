@@ -14,14 +14,14 @@ import pprint
 import re  # noqa: F401
 
 import six
-from tb_rest_client.models.models_pe.entity_filter import EntityFilter  # noqa: F401,E501
+
+from tb_rest_client.models.models_pe import EntityFilter
 
 
 class EntityGroupNameFilter(EntityFilter):
     """
     Do not edit the class manually.
-    """
-    """
+
     Attributes:
       swagger_types (dict): The key is attribute name
                             and the value is attribute type.
@@ -92,15 +92,11 @@ class EntityGroupNameFilter(EntityFilter):
         :param group_type: The group_type of this EntityGroupNameFilter.  # noqa: E501
         :type: str
         """
-        allowed_values = ["ALARM", "API_USAGE_STATE", "ASSET", "BILLING_CUSTOMER", "BLOB_ENTITY", "CONVERTER", "COUPON",
-                          "CUSTOMER", "DASHBOARD", "DEVICE", "DEVICE_PROFILE", "EDGE", "ENTITY_GROUP", "ENTITY_VIEW",
-                          "GROUP_PERMISSION", "INTEGRATION", "OTA_PACKAGE", "ROLE", "RPC", "RULE_CHAIN", "RULE_NODE",
-                          "SCHEDULER_EVENT", "SUBSCRIPTION", "SUBSCRIPTION_PLAN", "TB_RESOURCE", "TENANT",
-                          "TENANT_PROFILE", "USER", "WIDGETS_BUNDLE", "WIDGET_TYPE"]  # noqa: E501
+        allowed_values = ["ALARM", "API_USAGE_STATE", "ASSET", "BILLING_CUSTOMER", "BLOB_ENTITY", "CONVERTER", "COUPON", "CUSTOMER", "DASHBOARD", "DEVICE", "DEVICE_PROFILE", "EDGE", "ENTITY_GROUP", "ENTITY_VIEW", "GROUP_PERMISSION", "INTEGRATION", "OTA_PACKAGE", "ROLE", "RPC", "RULE_CHAIN", "RULE_NODE", "SCHEDULER_EVENT", "SUBSCRIPTION", "SUBSCRIPTION_PLAN", "TB_RESOURCE", "TENANT", "TENANT_PROFILE", "USER", "WIDGETS_BUNDLE", "WIDGET_TYPE"]  # noqa: E501
         if group_type not in allowed_values:
             raise ValueError(
                 "Invalid value for `group_type` ({0}), must be one of {1}"  # noqa: E501
-                    .format(group_type, allowed_values)
+                .format(group_type, allowed_values)
             )
 
         self._group_type = group_type

@@ -14,14 +14,14 @@ import pprint
 import re  # noqa: F401
 
 import six
-from tb_rest_client.models.models_pe.entity_filter import EntityFilter  # noqa: F401,E501
+
+from tb_rest_client.models.models_pe import EntityFilter
 
 
 class RelationsQueryFilter(EntityFilter):
     """
     Do not edit the class manually.
-    """
-    """
+
     Attributes:
       swagger_types (dict): The key is attribute name
                             and the value is attribute type.
@@ -48,8 +48,7 @@ class RelationsQueryFilter(EntityFilter):
     if hasattr(EntityFilter, "attribute_map"):
         attribute_map.update(EntityFilter.attribute_map)
 
-    def __init__(self, direction=None, fetch_last_level_only=None, filters=None, max_level=None, root_entity=None,
-                 *args, **kwargs):  # noqa: E501
+    def __init__(self, direction=None, fetch_last_level_only=None, filters=None, max_level=None, root_entity=None, *args, **kwargs):  # noqa: E501
         """RelationsQueryFilter - a model defined in Swagger"""  # noqa: E501
         self._direction = None
         self._fetch_last_level_only = None
@@ -91,7 +90,7 @@ class RelationsQueryFilter(EntityFilter):
         if direction not in allowed_values:
             raise ValueError(
                 "Invalid value for `direction` ({0}), must be one of {1}"  # noqa: E501
-                    .format(direction, allowed_values)
+                .format(direction, allowed_values)
             )
 
         self._direction = direction
