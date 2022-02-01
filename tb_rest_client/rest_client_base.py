@@ -112,6 +112,18 @@ class RestClientBase(Thread):
 
         token_json = post(self.base_url + "/api/auth/login", json={"username": username, "password": password},
                           verify=self.configuration.verify_ssl).json()
+        self.__save_token(token_json)
+
+        self.__load_configuration()
+
+    def public_login(self, public_id):
+        token_json = post(self.base_url + "/api/auth/login/public", json={"publicId": public_id},
+                          verify=self.configuration.verify_ssl).json()
+
+        self.__save_token(token_json)
+        self.__load_configuration()
+
+    def __save_token(self, token_json):
         token = None
         if isinstance(token_json, dict) and token_json.get("token") is not None:
             token = token_json["token"]
@@ -119,6 +131,7 @@ class RestClientBase(Thread):
         self.configuration.api_key["X-Authorization"] = token
         self.token_info['token'] = token
 
+    def __load_configuration(self):
         self.api_client = ApiClient(self.configuration)
         self.__load_controllers()
 

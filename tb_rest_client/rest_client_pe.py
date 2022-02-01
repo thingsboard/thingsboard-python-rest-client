@@ -29,6 +29,10 @@ class RestClientPE(RestClientBase):
         super(RestClientPE, self).login(username=username, password=password)
         self.__load_controllers()
 
+    def public_login(self, public_id):
+        super(RestClientPE, self).public_login(public_id=public_id)
+        self.__load_controllers()
+
     # Self Registration Controller
     def get_privacy_policy(self, ):
         return self.self_registration_controller.get_privacy_policy_using_get()
