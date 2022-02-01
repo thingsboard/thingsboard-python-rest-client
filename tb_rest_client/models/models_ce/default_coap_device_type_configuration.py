@@ -15,7 +15,7 @@ import re  # noqa: F401
 
 import six
 
-from tb_rest_client.models.models_ce import CoapDeviceTypeConfiguration
+from .coap_device_type_configuration import CoapDeviceTypeConfiguration
 
 
 class DefaultCoapDeviceTypeConfiguration(CoapDeviceTypeConfiguration):

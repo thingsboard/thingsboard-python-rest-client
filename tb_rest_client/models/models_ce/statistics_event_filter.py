@@ -15,7 +15,7 @@ import re  # noqa: F401
 
 import six
 
-from tb_rest_client.models.models_ce import EventFilter
+from .event_filter import EventFilter
 
 
 class StatisticsEventFilter(EventFilter):

@@ -15,7 +15,7 @@ import re  # noqa: F401
 
 import six
 
-from tb_rest_client.models.models_ce import EntityFilter
+from .entity_filter import EntityFilter
 
 
 class SingleEntityFilter(EntityFilter):

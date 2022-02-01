@@ -15,7 +15,7 @@ import re  # noqa: F401
 
 import six
 
-from tb_rest_client.models.models_pe import DeviceTransportConfiguration
+from .device_transport_configuration import DeviceTransportConfiguration
 
 
 class MqttDeviceTransportConfiguration(DeviceTransportConfiguration):

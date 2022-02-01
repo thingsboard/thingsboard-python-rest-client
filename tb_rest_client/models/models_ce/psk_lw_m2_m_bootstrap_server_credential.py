@@ -15,7 +15,7 @@ import re  # noqa: F401
 
 import six
 
-from tb_rest_client.models.models_ce import LwM2MBootstrapServerCredential
+from .lw_m2_m_bootstrap_server_credential import LwM2MBootstrapServerCredential
 
 
 class PSKLwM2MBootstrapServerCredential(LwM2MBootstrapServerCredential):
