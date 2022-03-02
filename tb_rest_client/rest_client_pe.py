@@ -33,6 +33,10 @@ class RestClientPE(RestClientBase):
         super(RestClientPE, self).public_login(public_id=public_id)
         self.__load_controllers()
 
+    def token_login(self, token, refresh_token=None):
+        super(RestClientPE, self).token_login(token=token, refresh_token=refresh_token)
+        self.__load_controllers()
+
     # Self Registration Controller
     def get_privacy_policy(self, ):
         return self.self_registration_controller.get_privacy_policy_using_get()

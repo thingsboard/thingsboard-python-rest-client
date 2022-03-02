@@ -67,10 +67,8 @@ class RestClientBase(Thread):
             self.base_url = base_url
         else:
             self.base_url = "http://" + base_url
-        self.token_info = {"token": "", "refreshToken": 0}
+        self.token_info = {"token": "", "refreshToken": "", "exp": 0}
         self.api_client = None
-        self.username = None
-        self.password = None
         self.logged_in = False
         self.stopped = True
         self.configuration = Configuration()
@@ -81,9 +79,9 @@ class RestClientBase(Thread):
         while not self.stopped:
             try:
                 check_time = time()
-                if check_time >= self.token_info["refreshToken"] and self.logged_in:
-                    if self.username and self.password:
-                        self.login(self.username, self.password)
+                if check_time >= self.token_info["exp"] and self.logged_in:
+                    if self.token_info["refreshToken"]:
+                        self.refresh()
                     else:
                         logger.error("No username or password provided!")
                 sleep(1)
@@ -105,10 +103,7 @@ class RestClientBase(Thread):
 
     def login(self, username, password):
         """Authorization on the host and saving the toke information"""
-        if self.username is None and self.password is None:
-            self.username = username
-            self.password = password
-            self.logged_in = True
+        self.logged_in = True
 
         token_json = post(self.base_url + "/api/auth/login", json={"username": username, "password": password},
                           verify=self.configuration.verify_ssl).json()
@@ -123,13 +118,35 @@ class RestClientBase(Thread):
         self.__save_token(token_json)
         self.__load_configuration()
 
+    def token_login(self, token, refresh_token=None):
+        token_json = {
+            "token": token,
+            "refresh_token": refresh_token,
+        }
+
+        self.__save_token(token_json)
+        self.__load_configuration()
+                
+    def refresh(self):
+        if not self.token_info["refreshToken"]:
+            return
+        
+        token_json = post(self.base_url + "/api/auth/token", json={"refreshToken": self.token_info["refreshToken"]},
+                          verify=self.configuration.verify_ssl).json()
+
+        self.__save_token(token_json)
+        self.__load_configuration()
+
     def __save_token(self, token_json):
         token = None
+        refresh_token = None 
         if isinstance(token_json, dict) and token_json.get("token") is not None:
             token = token_json["token"]
+            refresh_token = token_json["refreshToken"]
         self.configuration.api_key_prefix["X-Authorization"] = "Bearer"
         self.configuration.api_key["X-Authorization"] = token
         self.token_info['token'] = token
+        self.token_info['refreshToken'] = refreshToken
 
     def __load_configuration(self):
         self.api_client = ApiClient(self.configuration)
