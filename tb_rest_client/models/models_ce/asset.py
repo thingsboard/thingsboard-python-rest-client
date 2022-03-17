@@ -230,8 +230,8 @@ from tb_rest_client.api_client import ApiClient
         :param label: The label of this Asset.  # noqa: E501
         :type: str
         """
-        if label is None:
-            raise ValueError("Invalid value for `label`, must not be `None`")  # noqa: E501
+        # if label is None:
+        #    raise ValueError("Invalid value for `label`, must not be `None`")  # noqa: E501
 
         self._label = label
 
