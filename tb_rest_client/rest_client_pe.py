@@ -531,6 +531,30 @@ class RestClientPE(RestClientBase):
         converter_id = self.get_id(converter_id)
         return self.converter_controller.get_latest_converter_debug_input_using_get(converter_id=converter_id)
 
+    def assign_integration_to_edge(self, edge_id: EdgeId, integration_id: IntegrationId):
+        edge_id = self.get_id(edge_id)
+        integration_id = self.get_id(integration_id)
+        return self.integration_controller.assign_integration_to_edge_using_post(edge_id=edge_id,
+                                                                                 integration_id=integration_id)
+
+    def unassign_integration_from_edge(self, edge_id: EdgeId, integration_id: IntegrationId):
+        edge_id = self.get_id(edge_id)
+        integration_id = self.get_id(integration_id)
+        return self.integration_controller.unassign_integration_from_edge_using_delete(edge_id=edge_id,
+                                                                                       integration_id=integration_id)
+
+    def get_edge_integrations(self, edge_id: EdgeId, page_size: int, page: int):
+        edge_id = self.get_id(edge_id)
+        return self.integration_controller.get_edge_integrations_using_get(edge_id=edge_id, page_size=page_size,
+                                                                           page=page)
+
+    def find_all_related_edges_missing_attributes(self, integration_id: IntegrationId):
+        integration_id = self.get_id(integration_id)
+        return self.integration_controller.find_all_related_edges_missing_attributes_using_get(
+            integration_id=integration_id)
+
+
+
     def save_converter(self, body=None):
         return self.converter_controller.save_converter_using_post(body=body)
 
