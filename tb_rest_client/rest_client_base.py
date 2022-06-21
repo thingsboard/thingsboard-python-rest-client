@@ -103,11 +103,11 @@ class RestClientBase(Thread):
 
     def login(self, username, password):
         """Authorization on the host and saving the toke information"""
-        self.logged_in = True
-
         token_json = post(self.base_url + "/api/auth/login", json={"username": username, "password": password},
                           verify=self.configuration.verify_ssl).json()
         self.__save_token(token_json)
+
+        self.logged_in = True
 
         self.__load_configuration()
 
