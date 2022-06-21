@@ -146,7 +146,7 @@ class RestClientBase(Thread):
         self.configuration.api_key_prefix["X-Authorization"] = "Bearer"
         self.configuration.api_key["X-Authorization"] = token
         self.token_info['token'] = token
-        self.token_info['refreshToken'] = refreshToken
+        self.token_info['refreshToken'] = refresh_token
 
     def __load_configuration(self):
         self.api_client = ApiClient(self.configuration)
