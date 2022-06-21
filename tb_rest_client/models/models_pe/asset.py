@@ -210,8 +210,6 @@ from tb_rest_client.api_client import ApiClient
         :param type: The type of this Asset.  # noqa: E501
         :type: str
         """
-        if type is None:
-            raise ValueError("Invalid value for `type`, must not be `None`")  # noqa: E501
 
         self._type = type
 
