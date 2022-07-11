@@ -83,9 +83,9 @@ class RestClientPE(RestClientBase):
     def find_by_query(self, body=None):
         return self.asset_controller.find_by_query_using_post(body=body)
 
-    def get_tenant_assets(self, page_size: str, page: str, type=None, text_search=None, sort_property=None,
+    def get_tenant_assets(self, page_size: int, page: int, type=None, text_search=None, sort_property=None,
                           sort_order=None):
-        return self.asset_controller.get_tenant_assets_using_get(page_size=int(page_size), page=int(page), type=type,
+        return self.asset_controller.get_tenant_assets_using_get(page_size=page_size, page=page, type=type,
                                                                  text_search=text_search, sort_property=sort_property,
                                                                  sort_order=sort_order)
 
@@ -246,15 +246,17 @@ class RestClientPE(RestClientBase):
     def get_allowed_permissions(self, ):
         return self.user_permissions_controller.get_allowed_permissions_using_get()
 
-    def change_owner_to_customer(self, owner_id: UserId, entity_type: str, entity_id: EntityId):
+    def change_owner_to_customer(self, owner_id: UserId, entity_id: EntityId):
         owner_id = self.get_id(owner_id)
         entity_id = self.get_id(entity_id)
+        entity_type = self.get_type(entity_id)
         return self.owner_controller.change_owner_to_customer_using_post(owner_id=owner_id, entity_type=entity_type,
                                                                          entity_id=entity_id)
 
-    def change_owner_to_tenant(self, owner_id: UserId, entity_type: str, entity_id: EntityId):
+    def change_owner_to_tenant(self, owner_id: UserId, entity_id: EntityId):
         owner_id = self.get_id(owner_id)
         entity_id = self.get_id(entity_id)
+        entity_type = self.get_type(entity_id)
         return self.owner_controller.change_owner_to_tenant_using_post(owner_id=owner_id, entity_type=entity_type,
                                                                        entity_id=entity_id)
 
@@ -618,14 +620,16 @@ class RestClientPE(RestClientBase):
                                                                                sort_property=sort_property,
                                                                                sort_order=sort_order)
 
-    def handle_rule_engine_request(self, entity_type: str, entity_id: EntityId, timeout: int, body=None):
+    def handle_rule_engine_request(self, entity_id: EntityId, timeout: int, body=None):
         entity_id = self.get_id(entity_id)
+        entity_type = self.get_type(entity_id)
         return self.rule_engine_controller.handle_rule_engine_request_using_post(entity_type=entity_type,
                                                                                  entity_id=entity_id, timeout=timeout,
                                                                                  body=body)
 
-    def handle_rule_engine_request_v1(self, entity_type: str, entity_id: EntityId, body=None):
+    def handle_rule_engine_request_v1(self, entity_id: EntityId, body=None):
         entity_id = self.get_id(entity_id)
+        entity_type = self.get_type(entity_id)
         return self.rule_engine_controller.handle_rule_engine_request_using_post1(entity_type=entity_type,
                                                                                   entity_id=entity_id, body=body)
 
@@ -1354,8 +1358,9 @@ class RestClientPE(RestClientBase):
     def get_entity_groups_by_type(self, group_type: str):
         return self.entity_group_controller.get_entity_groups_by_type_using_get(group_type=group_type)
 
-    def get_entity_groups_for_entity(self, entity_type: str, entity_id: EntityId):
+    def get_entity_groups_for_entity(self, entity_id: EntityId):
         entity_id = self.get_id(entity_id)
+        entity_type = self.get_type(entity_id)
         return self.entity_group_controller.get_entity_groups_for_entity_using_get(entity_type=entity_type,
                                                                                    entity_id=entity_id)
 
