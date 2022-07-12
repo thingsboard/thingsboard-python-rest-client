@@ -62,7 +62,7 @@ from tb_rest_client.api_client import ApiClient
         self._customer_id = None
         self._name = None
         self._type = None
-        self._label = None
+        self._label = ""
         self._additional_info = None
         self._owner_id = None
         self.discriminator = None
@@ -78,7 +78,8 @@ from tb_rest_client.api_client import ApiClient
             self.customer_id = customer_id
         self.name = name
         self.type = type
-        self.label = label
+        if label is not None:
+            self.label = label
         if additional_info is not None:
             self.additional_info = additional_info
         if owner_id is not None:
@@ -261,6 +262,8 @@ from tb_rest_client.api_client import ApiClient
         :param label: The label of this Asset.  # noqa: E501
         :type: str
         """
+        if label is None:
+            self._label = ""
 
         self._label = label
 
