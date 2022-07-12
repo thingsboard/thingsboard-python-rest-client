@@ -664,23 +664,23 @@ class OtaPackageControllerApi(object):
         Update the OTA Package. Adds the date to the existing OTA Package Info  Available for users with 'TENANT_ADMIN' authority.  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.save_ota_package_data_using_post(checksum_algorithm, ota_package_id, async_req=True)
+        >>> thread = api.save_ota_package_data_using_post(ota_package_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str checksum_algorithm: OTA Package checksum algorithm. (required)
         :param str ota_package_id: A string value representing the ota package id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
-        :param Object body:
-        :param str checksum: OTA Package checksum. For example, '0xd87f7e0c'
+        :param str checksum:
+        :param str checksum_algorithm:
+        :param str file:
         :return: OtaPackageInfo
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.save_ota_package_data_using_post_with_http_info(checksum_algorithm, ota_package_id, **kwargs)  # noqa: E501
+            return self.save_ota_package_data_using_post_with_http_info(ota_package_id, **kwargs)  # noqa: E501
         else:
-            (data) = self.save_ota_package_data_using_post_with_http_info(checksum_algorithm, ota_package_id, **kwargs)  # noqa: E501
+            (data) = self.save_ota_package_data_using_post_with_http_info(ota_package_id, **kwargs)  # noqa: E501
             return data
 
     def save_ota_package_data_using_post_with_http_info(self, checksum_algorithm, ota_package_id, **kwargs):  # noqa: E501
@@ -689,20 +689,20 @@ class OtaPackageControllerApi(object):
         Update the OTA Package. Adds the date to the existing OTA Package Info  Available for users with 'TENANT_ADMIN' authority.  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.save_ota_package_data_using_post_with_http_info(checksum_algorithm, ota_package_id, async_req=True)
+        >>> thread = api.save_ota_package_data_using_post_with_http_info(ota_package_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param str checksum_algorithm: OTA Package checksum algorithm. (required)
         :param str ota_package_id: A string value representing the ota package id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
-        :param Object body:
-        :param str checksum: OTA Package checksum. For example, '0xd87f7e0c'
+        :param str checksum:
+        :param str checksum_algorithm:
+        :param str file:
         :return: OtaPackageInfo
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['checksum_algorithm', 'ota_package_id', 'body', 'checksum']  # noqa: E501
+        all_params = ['ota_package_id', 'checksum', 'checksum_algorithm', 'file']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -717,10 +717,6 @@ class OtaPackageControllerApi(object):
                 )
             params[key] = val
         del params['kwargs']
-        # verify the required parameter 'checksum_algorithm' is set
-        if ('checksum_algorithm' not in params or
-                params['checksum_algorithm'] is None):
-            raise ValueError("Missing the required parameter `checksum_algorithm` when calling `save_ota_package_data_using_post`")  # noqa: E501
         # verify the required parameter 'ota_package_id' is set
         if ('ota_package_id' not in params or
                 params['ota_package_id'] is None):
@@ -733,32 +729,32 @@ class OtaPackageControllerApi(object):
             path_params['otaPackageId'] = params['ota_package_id']  # noqa: E501
 
         query_params = []
-        if 'checksum' in params:
-            query_params.append(('checksum', params['checksum']))  # noqa: E501
-        if 'checksum_algorithm' in params:
-            query_params.append(('checksumAlgorithm', params['checksum_algorithm']))  # noqa: E501
 
         header_params = {}
 
         form_params = []
         local_var_files = {}
+        if 'checksum' in params:
+            form_params.append(('checksum', params['checksum']))  # noqa: E501
+        if 'checksum_algorithm' in params:
+            form_params.append(('checksumAlgorithm', params['checksum_algorithm']))  # noqa: E501
+        if 'file' in params:
+            local_var_files['file'] = params['file']  # noqa: E501
 
         body_params = None
-        if 'body' in params:
-            body_params = params['body']
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
+            ['application/json', 'multipart/form-data'])  # noqa: E501
 
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json', 'application/octet-stream'])  # noqa: E501
+            ['multipart/form-data'])  # noqa: E501
 
         # Authentication setting
         auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
-            '/api/otaPackage/{otaPackageId}{?checksum,checksumAlgorithm}', 'POST',
+            '/api/otaPackage/{otaPackageId}', 'POST',
             path_params,
             query_params,
             header_params,

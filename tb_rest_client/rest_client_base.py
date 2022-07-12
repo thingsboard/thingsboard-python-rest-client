@@ -20,6 +20,7 @@ from requests import post
 from threading import Thread
 from logging import getLogger
 
+from tb_rest_client.api.api_ce.entities_version_control_controller_api import EntitiesVersionControlControllerApi
 from tb_rest_client.api.api_ce.admin_controller_api import AdminControllerApi
 from tb_rest_client.api.api_ce.alarm_controller_api import AlarmControllerApi
 from tb_rest_client.api.api_ce.asset_controller_api import AssetControllerApi
@@ -126,11 +127,11 @@ class RestClientBase(Thread):
 
         self.__save_token(token_json)
         self.__load_configuration()
-                
+
     def refresh(self):
         if not self.token_info["refreshToken"]:
             return
-        
+
         token_json = post(self.base_url + "/api/auth/token", json={"refreshToken": self.token_info["refreshToken"]},
                           verify=self.configuration.verify_ssl).json()
 
@@ -139,7 +140,7 @@ class RestClientBase(Thread):
 
     def __save_token(self, token_json):
         token = None
-        refresh_token = None 
+        refresh_token = None
         if isinstance(token_json, dict) and token_json.get("token") is not None:
             token = token_json["token"]
             refresh_token = token_json["refreshToken"]
@@ -1269,6 +1270,7 @@ class RestClientBase(Thread):
         self.edge_event_controller = EdgeEventControllerApi(self.api_client)
         self.sign_up_controller = SignUpControllerApi(self.api_client)
         self.ui_settings_controller = UiSettingsControllerApi(self.api_client)
+        self.entities_version_control_controller = EntitiesVersionControlControllerApi(self.api_client)
 
     @staticmethod
     def get_type(type):

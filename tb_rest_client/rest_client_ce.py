@@ -364,6 +364,12 @@ class RestClientCE(RestClientBase):
                                                            sort_property=sort_property, sort_order=sort_order,
                                                            start_time=start_time, end_time=end_time)
 
+    def clear_events_post(self, entity_id: EntityId, body=None, start_time=None, end_time=None):
+        entity_id = self.get_id(entity_id)
+        entity_type = self.get_type(entity_id)
+        return self.event_controller.clear_events_using_post(entity_type=entity_type, entity_id=entity_id, body=body,
+                                                             start_time=start_time, end_time=end_time)
+
     def get_events_get(self, entity_id: EntityId, tenant_id: TenantId, page_size: int, page: int,
                        text_search=None, sort_property=None, sort_order=None, start_time=None, end_time=None):
         entity_id = self.get_id(entity_id)
@@ -537,7 +543,7 @@ class RestClientCE(RestClientBase):
         device_id = self.get_id(device_id)
         return self.rpc_v2_controller.handle_two_way_device_rpc_request_using_post1(device_id=device_id, body=body)
 
-    def get_persisted_rpc_by_device(self, device_id: DeviceId, page_size: int, page: int, rpc_status: str,
+    def get_persisted_rpc_by_device(self, device_id: DeviceId, page_size: int, page: int, rpc_status=None,
                                     text_search=None, sort_property=None, sort_order=None):
         device_id = self.get_id(device_id)
         return self.rpc_v2_controller.get_persisted_rpc_by_device_using_get(device_id=device_id, page_size=page_size,
@@ -636,8 +642,85 @@ class RestClientCE(RestClientBase):
         return self.user_controller.send_activation_email_using_post(email=email)
 
     # Queue Controller
+    def get_queue_by_id(self, queue_id: QueueId):
+        queue_id = self.get_id(queue_id)
+        return self.queue_controller.get_queue_by_id_using_get(queue_id=queue_id)
+
+    def delete_queue(self, queue_id: QueueId):
+        queue_id = self.get_id(queue_id)
+        return self.queue_controller.delete_queue_using_delete(queue_id=queue_id)
+
+    def save_queue(self, service_type: str, body=None):
+        return self.queue_controller.save_queue_using_post(service_type=service_type, body=body)
+
     def get_tenant_queues_by_service_type(self, service_type: str):
         return self.queue_controller.get_tenant_queues_by_service_type_using_get(service_type=service_type)
+
+    def save_entities_version(self, body=None):
+        return self.entities_version_control_controller.save_entities_version_using_post(body=body)
+
+    def get_version_load_request_status(self, request_id: int):
+        request_id = self.get_id(request_id)
+        return self.entities_version_control_controller.get_version_load_request_status_using_get(request_id=request_id)
+
+    def list_branches(self, ):
+        return self.entities_version_control_controller.list_branches_using_get()
+
+    def list_entity_versions(self, entity_type: str, external_entity_uuid: str, branch: str, page_size: int, page: int,
+                             text_search=None, sort_property=None, sort_order=None):
+        return self.entities_version_control_controller.list_entity_versions_using_get(entity_type=entity_type,
+                                                                                       external_entity_uuid=external_entity_uuid,
+                                                                                       branch=branch,
+                                                                                       page_size=page_size, page=page,
+                                                                                       text_search=text_search,
+                                                                                       sort_property=sort_property,
+                                                                                       sort_order=sort_order)
+
+    def get_entity_data_info(self, version_id: int, entity_type: str, external_entity_uuid: str):
+        version_id = self.get_id(version_id)
+        return self.entities_version_control_controller.get_entity_data_info_using_get(version_id=version_id,
+                                                                                       entity_type=entity_type,
+                                                                                       external_entity_uuid=external_entity_uuid)
+
+    def get_version_create_request_status(self, request_id: int):
+        request_id = self.get_id(request_id)
+        return self.entities_version_control_controller.get_version_create_request_status_using_get(
+            request_id=request_id)
+
+    def load_entities_version(self, body=None):
+        return self.entities_version_control_controller.load_entities_version_using_post(body=body)
+
+    def list_entity_type_versions(self, entity_type: str, branch: str, page_size: int, page: int, text_search=None,
+                                  sort_property=None, sort_order=None):
+        return self.entities_version_control_controller.list_entity_type_versions_using_get(entity_type=entity_type,
+                                                                                            branch=branch,
+                                                                                            page_size=page_size,
+                                                                                            page=page,
+                                                                                            text_search=text_search,
+                                                                                            sort_property=sort_property,
+                                                                                            sort_order=sort_order)
+
+    def list_entities_at_version(self, entity_type: str, version_id: int):
+        version_id = self.get_id(version_id)
+        return self.entities_version_control_controller.list_entities_at_version_using_get(entity_type=entity_type,
+                                                                                           version_id=version_id)
+
+    def list_all_entities_at_version(self, version_id: int):
+        version_id = self.get_id(version_id)
+        return self.entities_version_control_controller.list_all_entities_at_version_using_get(version_id=version_id)
+
+    def compare_entity_data_to_version(self, internal_entity_uuid: str, version_id: int):
+        version_id = self.get_id(version_id)
+        entity_type = self.get_type(version_id)
+        return self.entities_version_control_controller.compare_entity_data_to_version_using_get(
+            entity_type=entity_type, internal_entity_uuid=internal_entity_uuid, version_id=version_id)
+
+    def list_versions(self, branch: str, page_size: int, page: int, text_search=None, sort_property=None,
+                      sort_order=None):
+        return self.entities_version_control_controller.list_versions_using_get(branch=branch, page_size=page_size,
+                                                                                page=page, text_search=text_search,
+                                                                                sort_property=sort_property,
+                                                                                sort_order=sort_order)
 
     # RPC v1 Controller
     def handle_one_way_device_rpc_request(self, device_id: DeviceId, body=None):
@@ -1390,11 +1473,12 @@ class RestClientCE(RestClientBase):
                                                                        sort_property=sort_property,
                                                                        sort_order=sort_order)
 
-    def save_ota_package_data(self, checksum_algorithm: str, ota_package_id: OtaPackageId, body=None, checksum=None):
+    def save_ota_package_data(self, ota_package_id: OtaPackageId, checksum=None, checksum_algorithm=None, file=None):
         ota_package_id = self.get_id(ota_package_id)
-        return self.ota_package_controller.save_ota_package_data_using_post(checksum_algorithm=checksum_algorithm,
-                                                                            ota_package_id=ota_package_id, body=body,
-                                                                            checksum=checksum)
+        return self.ota_package_controller.save_ota_package_data_using_post(ota_package_id=ota_package_id,
+                                                                            checksum=checksum,
+                                                                            checksum_algorithm=checksum_algorithm,
+                                                                            file=file)
 
     def save_ota_package_info(self, body=None):
         return self.ota_package_controller.save_ota_package_info_using_post(body=body)

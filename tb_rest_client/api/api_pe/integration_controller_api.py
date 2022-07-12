@@ -127,6 +127,1297 @@ class IntegrationControllerApi(object):
             _request_timeout=params.get('_request_timeout'),
             collection_formats=collection_formats)
 
+    def find_all_related_edges_missing_attributes_using_delete(self, integration_id, **kwargs):  # noqa: E501
+        """Find missing attributes for all related edges (findAllRelatedEdgesMissingAttributes)  # noqa: E501
+
+        Returns list of attribute names of all related edges that are missing in the integration configuration.  Available for users with 'TENANT_ADMIN' authority.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.find_all_related_edges_missing_attributes_using_delete(integration_id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str integration_id: A string value representing the integration id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
+        :return: str
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.find_all_related_edges_missing_attributes_using_delete_with_http_info(integration_id, **kwargs)  # noqa: E501
+        else:
+            (data) = self.find_all_related_edges_missing_attributes_using_delete_with_http_info(integration_id, **kwargs)  # noqa: E501
+            return data
+
+    def find_all_related_edges_missing_attributes_using_delete_with_http_info(self, integration_id, **kwargs):  # noqa: E501
+        """Find missing attributes for all related edges (findAllRelatedEdgesMissingAttributes)  # noqa: E501
+
+        Returns list of attribute names of all related edges that are missing in the integration configuration.  Available for users with 'TENANT_ADMIN' authority.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.find_all_related_edges_missing_attributes_using_delete_with_http_info(integration_id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str integration_id: A string value representing the integration id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
+        :return: str
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['integration_id']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method find_all_related_edges_missing_attributes_using_delete" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'integration_id' is set
+        if ('integration_id' not in params or
+                params['integration_id'] is None):
+            raise ValueError("Missing the required parameter `integration_id` when calling `find_all_related_edges_missing_attributes_using_delete`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+        if 'integration_id' in params:
+            path_params['integrationId'] = params['integration_id']  # noqa: E501
+
+        query_params = []
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/edge/integration/{integrationId}/allMissingAttributes', 'DELETE',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='str',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
+    def find_all_related_edges_missing_attributes_using_head(self, integration_id, **kwargs):  # noqa: E501
+        """Find missing attributes for all related edges (findAllRelatedEdgesMissingAttributes)  # noqa: E501
+
+        Returns list of attribute names of all related edges that are missing in the integration configuration.  Available for users with 'TENANT_ADMIN' authority.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.find_all_related_edges_missing_attributes_using_head(integration_id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str integration_id: A string value representing the integration id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
+        :return: str
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.find_all_related_edges_missing_attributes_using_head_with_http_info(integration_id, **kwargs)  # noqa: E501
+        else:
+            (data) = self.find_all_related_edges_missing_attributes_using_head_with_http_info(integration_id, **kwargs)  # noqa: E501
+            return data
+
+    def find_all_related_edges_missing_attributes_using_head_with_http_info(self, integration_id, **kwargs):  # noqa: E501
+        """Find missing attributes for all related edges (findAllRelatedEdgesMissingAttributes)  # noqa: E501
+
+        Returns list of attribute names of all related edges that are missing in the integration configuration.  Available for users with 'TENANT_ADMIN' authority.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.find_all_related_edges_missing_attributes_using_head_with_http_info(integration_id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str integration_id: A string value representing the integration id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
+        :return: str
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['integration_id']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method find_all_related_edges_missing_attributes_using_head" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'integration_id' is set
+        if ('integration_id' not in params or
+                params['integration_id'] is None):
+            raise ValueError("Missing the required parameter `integration_id` when calling `find_all_related_edges_missing_attributes_using_head`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+        if 'integration_id' in params:
+            path_params['integrationId'] = params['integration_id']  # noqa: E501
+
+        query_params = []
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/edge/integration/{integrationId}/allMissingAttributes', 'HEAD',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='str',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
+    def find_all_related_edges_missing_attributes_using_options(self, integration_id, **kwargs):  # noqa: E501
+        """Find missing attributes for all related edges (findAllRelatedEdgesMissingAttributes)  # noqa: E501
+
+        Returns list of attribute names of all related edges that are missing in the integration configuration.  Available for users with 'TENANT_ADMIN' authority.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.find_all_related_edges_missing_attributes_using_options(integration_id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str integration_id: A string value representing the integration id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
+        :return: str
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.find_all_related_edges_missing_attributes_using_options_with_http_info(integration_id, **kwargs)  # noqa: E501
+        else:
+            (data) = self.find_all_related_edges_missing_attributes_using_options_with_http_info(integration_id, **kwargs)  # noqa: E501
+            return data
+
+    def find_all_related_edges_missing_attributes_using_options_with_http_info(self, integration_id, **kwargs):  # noqa: E501
+        """Find missing attributes for all related edges (findAllRelatedEdgesMissingAttributes)  # noqa: E501
+
+        Returns list of attribute names of all related edges that are missing in the integration configuration.  Available for users with 'TENANT_ADMIN' authority.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.find_all_related_edges_missing_attributes_using_options_with_http_info(integration_id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str integration_id: A string value representing the integration id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
+        :return: str
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['integration_id']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method find_all_related_edges_missing_attributes_using_options" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'integration_id' is set
+        if ('integration_id' not in params or
+                params['integration_id'] is None):
+            raise ValueError("Missing the required parameter `integration_id` when calling `find_all_related_edges_missing_attributes_using_options`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+        if 'integration_id' in params:
+            path_params['integrationId'] = params['integration_id']  # noqa: E501
+
+        query_params = []
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/edge/integration/{integrationId}/allMissingAttributes', 'OPTIONS',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='str',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
+    def find_all_related_edges_missing_attributes_using_patch(self, integration_id, **kwargs):  # noqa: E501
+        """Find missing attributes for all related edges (findAllRelatedEdgesMissingAttributes)  # noqa: E501
+
+        Returns list of attribute names of all related edges that are missing in the integration configuration.  Available for users with 'TENANT_ADMIN' authority.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.find_all_related_edges_missing_attributes_using_patch(integration_id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str integration_id: A string value representing the integration id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
+        :return: str
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.find_all_related_edges_missing_attributes_using_patch_with_http_info(integration_id, **kwargs)  # noqa: E501
+        else:
+            (data) = self.find_all_related_edges_missing_attributes_using_patch_with_http_info(integration_id, **kwargs)  # noqa: E501
+            return data
+
+    def find_all_related_edges_missing_attributes_using_patch_with_http_info(self, integration_id, **kwargs):  # noqa: E501
+        """Find missing attributes for all related edges (findAllRelatedEdgesMissingAttributes)  # noqa: E501
+
+        Returns list of attribute names of all related edges that are missing in the integration configuration.  Available for users with 'TENANT_ADMIN' authority.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.find_all_related_edges_missing_attributes_using_patch_with_http_info(integration_id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str integration_id: A string value representing the integration id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
+        :return: str
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['integration_id']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method find_all_related_edges_missing_attributes_using_patch" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'integration_id' is set
+        if ('integration_id' not in params or
+                params['integration_id'] is None):
+            raise ValueError("Missing the required parameter `integration_id` when calling `find_all_related_edges_missing_attributes_using_patch`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+        if 'integration_id' in params:
+            path_params['integrationId'] = params['integration_id']  # noqa: E501
+
+        query_params = []
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/edge/integration/{integrationId}/allMissingAttributes', 'PATCH',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='str',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
+    def find_all_related_edges_missing_attributes_using_post(self, integration_id, **kwargs):  # noqa: E501
+        """Find missing attributes for all related edges (findAllRelatedEdgesMissingAttributes)  # noqa: E501
+
+        Returns list of attribute names of all related edges that are missing in the integration configuration.  Available for users with 'TENANT_ADMIN' authority.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.find_all_related_edges_missing_attributes_using_post(integration_id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str integration_id: A string value representing the integration id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
+        :return: str
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.find_all_related_edges_missing_attributes_using_post_with_http_info(integration_id, **kwargs)  # noqa: E501
+        else:
+            (data) = self.find_all_related_edges_missing_attributes_using_post_with_http_info(integration_id, **kwargs)  # noqa: E501
+            return data
+
+    def find_all_related_edges_missing_attributes_using_post_with_http_info(self, integration_id, **kwargs):  # noqa: E501
+        """Find missing attributes for all related edges (findAllRelatedEdgesMissingAttributes)  # noqa: E501
+
+        Returns list of attribute names of all related edges that are missing in the integration configuration.  Available for users with 'TENANT_ADMIN' authority.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.find_all_related_edges_missing_attributes_using_post_with_http_info(integration_id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str integration_id: A string value representing the integration id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
+        :return: str
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['integration_id']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method find_all_related_edges_missing_attributes_using_post" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'integration_id' is set
+        if ('integration_id' not in params or
+                params['integration_id'] is None):
+            raise ValueError("Missing the required parameter `integration_id` when calling `find_all_related_edges_missing_attributes_using_post`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+        if 'integration_id' in params:
+            path_params['integrationId'] = params['integration_id']  # noqa: E501
+
+        query_params = []
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/edge/integration/{integrationId}/allMissingAttributes', 'POST',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='str',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
+    def find_all_related_edges_missing_attributes_using_put(self, integration_id, **kwargs):  # noqa: E501
+        """Find missing attributes for all related edges (findAllRelatedEdgesMissingAttributes)  # noqa: E501
+
+        Returns list of attribute names of all related edges that are missing in the integration configuration.  Available for users with 'TENANT_ADMIN' authority.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.find_all_related_edges_missing_attributes_using_put(integration_id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str integration_id: A string value representing the integration id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
+        :return: str
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.find_all_related_edges_missing_attributes_using_put_with_http_info(integration_id, **kwargs)  # noqa: E501
+        else:
+            (data) = self.find_all_related_edges_missing_attributes_using_put_with_http_info(integration_id, **kwargs)  # noqa: E501
+            return data
+
+    def find_all_related_edges_missing_attributes_using_put_with_http_info(self, integration_id, **kwargs):  # noqa: E501
+        """Find missing attributes for all related edges (findAllRelatedEdgesMissingAttributes)  # noqa: E501
+
+        Returns list of attribute names of all related edges that are missing in the integration configuration.  Available for users with 'TENANT_ADMIN' authority.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.find_all_related_edges_missing_attributes_using_put_with_http_info(integration_id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str integration_id: A string value representing the integration id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
+        :return: str
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['integration_id']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method find_all_related_edges_missing_attributes_using_put" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'integration_id' is set
+        if ('integration_id' not in params or
+                params['integration_id'] is None):
+            raise ValueError("Missing the required parameter `integration_id` when calling `find_all_related_edges_missing_attributes_using_put`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+        if 'integration_id' in params:
+            path_params['integrationId'] = params['integration_id']  # noqa: E501
+
+        query_params = []
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/edge/integration/{integrationId}/allMissingAttributes', 'PUT',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='str',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
+    def find_edge_missing_attributes_using_delete(self, edge_id, integration_ids, **kwargs):  # noqa: E501
+        """Find edge missing attributes for assigned integrations (findEdgeMissingAttributes)  # noqa: E501
+
+        Returns list of edge attribute names that are missing in assigned integrations.  Available for users with 'TENANT_ADMIN' authority.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.find_edge_missing_attributes_using_delete(edge_id, integration_ids, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str edge_id: A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
+        :param str integration_ids: A list of assigned integration ids, separated by comma ',' (required)
+        :return: str
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.find_edge_missing_attributes_using_delete_with_http_info(edge_id, integration_ids, **kwargs)  # noqa: E501
+        else:
+            (data) = self.find_edge_missing_attributes_using_delete_with_http_info(edge_id, integration_ids, **kwargs)  # noqa: E501
+            return data
+
+    def find_edge_missing_attributes_using_delete_with_http_info(self, edge_id, integration_ids, **kwargs):  # noqa: E501
+        """Find edge missing attributes for assigned integrations (findEdgeMissingAttributes)  # noqa: E501
+
+        Returns list of edge attribute names that are missing in assigned integrations.  Available for users with 'TENANT_ADMIN' authority.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.find_edge_missing_attributes_using_delete_with_http_info(edge_id, integration_ids, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str edge_id: A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
+        :param str integration_ids: A list of assigned integration ids, separated by comma ',' (required)
+        :return: str
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['edge_id', 'integration_ids']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method find_edge_missing_attributes_using_delete" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'edge_id' is set
+        if ('edge_id' not in params or
+                params['edge_id'] is None):
+            raise ValueError("Missing the required parameter `edge_id` when calling `find_edge_missing_attributes_using_delete`")  # noqa: E501
+        # verify the required parameter 'integration_ids' is set
+        if ('integration_ids' not in params or
+                params['integration_ids'] is None):
+            raise ValueError("Missing the required parameter `integration_ids` when calling `find_edge_missing_attributes_using_delete`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+        if 'edge_id' in params:
+            path_params['edgeId'] = params['edge_id']  # noqa: E501
+
+        query_params = []
+        if 'integration_ids' in params:
+            query_params.append(('integrationIds', params['integration_ids']))  # noqa: E501
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/edge/integration/{edgeId}/missingAttributes{?integrationIds}', 'DELETE',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='str',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
+    def find_edge_missing_attributes_using_get(self, edge_id, integration_ids, **kwargs):  # noqa: E501
+        """Find edge missing attributes for assigned integrations (findEdgeMissingAttributes)  # noqa: E501
+
+        Returns list of edge attribute names that are missing in assigned integrations.  Available for users with 'TENANT_ADMIN' authority.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.find_edge_missing_attributes_using_get(edge_id, integration_ids, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str edge_id: A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
+        :param str integration_ids: A list of assigned integration ids, separated by comma ',' (required)
+        :return: str
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.find_edge_missing_attributes_using_get_with_http_info(edge_id, integration_ids, **kwargs)  # noqa: E501
+        else:
+            (data) = self.find_edge_missing_attributes_using_get_with_http_info(edge_id, integration_ids, **kwargs)  # noqa: E501
+            return data
+
+    def find_edge_missing_attributes_using_get_with_http_info(self, edge_id, integration_ids, **kwargs):  # noqa: E501
+        """Find edge missing attributes for assigned integrations (findEdgeMissingAttributes)  # noqa: E501
+
+        Returns list of edge attribute names that are missing in assigned integrations.  Available for users with 'TENANT_ADMIN' authority.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.find_edge_missing_attributes_using_get_with_http_info(edge_id, integration_ids, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str edge_id: A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
+        :param str integration_ids: A list of assigned integration ids, separated by comma ',' (required)
+        :return: str
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['edge_id', 'integration_ids']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method find_edge_missing_attributes_using_get" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'edge_id' is set
+        if ('edge_id' not in params or
+                params['edge_id'] is None):
+            raise ValueError("Missing the required parameter `edge_id` when calling `find_edge_missing_attributes_using_get`")  # noqa: E501
+        # verify the required parameter 'integration_ids' is set
+        if ('integration_ids' not in params or
+                params['integration_ids'] is None):
+            raise ValueError("Missing the required parameter `integration_ids` when calling `find_edge_missing_attributes_using_get`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+        if 'edge_id' in params:
+            path_params['edgeId'] = params['edge_id']  # noqa: E501
+
+        query_params = []
+        if 'integration_ids' in params:
+            query_params.append(('integrationIds', params['integration_ids']))  # noqa: E501
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/edge/integration/{edgeId}/missingAttributes{?integrationIds}', 'GET',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='str',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
+    def find_edge_missing_attributes_using_head(self, edge_id, integration_ids, **kwargs):  # noqa: E501
+        """Find edge missing attributes for assigned integrations (findEdgeMissingAttributes)  # noqa: E501
+
+        Returns list of edge attribute names that are missing in assigned integrations.  Available for users with 'TENANT_ADMIN' authority.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.find_edge_missing_attributes_using_head(edge_id, integration_ids, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str edge_id: A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
+        :param str integration_ids: A list of assigned integration ids, separated by comma ',' (required)
+        :return: str
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.find_edge_missing_attributes_using_head_with_http_info(edge_id, integration_ids, **kwargs)  # noqa: E501
+        else:
+            (data) = self.find_edge_missing_attributes_using_head_with_http_info(edge_id, integration_ids, **kwargs)  # noqa: E501
+            return data
+
+    def find_edge_missing_attributes_using_head_with_http_info(self, edge_id, integration_ids, **kwargs):  # noqa: E501
+        """Find edge missing attributes for assigned integrations (findEdgeMissingAttributes)  # noqa: E501
+
+        Returns list of edge attribute names that are missing in assigned integrations.  Available for users with 'TENANT_ADMIN' authority.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.find_edge_missing_attributes_using_head_with_http_info(edge_id, integration_ids, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str edge_id: A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
+        :param str integration_ids: A list of assigned integration ids, separated by comma ',' (required)
+        :return: str
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['edge_id', 'integration_ids']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method find_edge_missing_attributes_using_head" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'edge_id' is set
+        if ('edge_id' not in params or
+                params['edge_id'] is None):
+            raise ValueError("Missing the required parameter `edge_id` when calling `find_edge_missing_attributes_using_head`")  # noqa: E501
+        # verify the required parameter 'integration_ids' is set
+        if ('integration_ids' not in params or
+                params['integration_ids'] is None):
+            raise ValueError("Missing the required parameter `integration_ids` when calling `find_edge_missing_attributes_using_head`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+        if 'edge_id' in params:
+            path_params['edgeId'] = params['edge_id']  # noqa: E501
+
+        query_params = []
+        if 'integration_ids' in params:
+            query_params.append(('integrationIds', params['integration_ids']))  # noqa: E501
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/edge/integration/{edgeId}/missingAttributes{?integrationIds}', 'HEAD',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='str',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+    
+    def find_edge_missing_attributes_using_options(self, edge_id, integration_ids, **kwargs):  # noqa: E501
+        """Find edge missing attributes for assigned integrations (findEdgeMissingAttributes)  # noqa: E501
+
+        Returns list of edge attribute names that are missing in assigned integrations.  Available for users with 'TENANT_ADMIN' authority.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.find_edge_missing_attributes_using_options(edge_id, integration_ids, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str edge_id: A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
+        :param str integration_ids: A list of assigned integration ids, separated by comma ',' (required)
+        :return: str
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.find_edge_missing_attributes_using_options_with_http_info(edge_id, integration_ids, **kwargs)  # noqa: E501
+        else:
+            (data) = self.find_edge_missing_attributes_using_options_with_http_info(edge_id, integration_ids, **kwargs)  # noqa: E501
+            return data
+        
+    def find_edge_missing_attributes_using_options_with_http_info(self, edge_id, integration_ids, **kwargs):  # noqa: E501
+        """Find edge missing attributes for assigned integrations (findEdgeMissingAttributes)  # noqa: E501
+
+        Returns list of edge attribute names that are missing in assigned integrations.  Available for users with 'TENANT_ADMIN' authority.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.find_edge_missing_attributes_using_options_with_http_info(edge_id, integration_ids, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str edge_id: A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
+        :param str integration_ids: A list of assigned integration ids, separated by comma ',' (required)
+        :return: str
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['edge_id', 'integration_ids']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method find_edge_missing_attributes_using_options" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'edge_id' is set
+        if ('edge_id' not in params or
+                params['edge_id'] is None):
+            raise ValueError("Missing the required parameter `edge_id` when calling `find_edge_missing_attributes_using_options`")  # noqa: E501
+        # verify the required parameter 'integration_ids' is set
+        if ('integration_ids' not in params or
+                params['integration_ids'] is None):
+            raise ValueError("Missing the required parameter `integration_ids` when calling `find_edge_missing_attributes_using_options`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+        if 'edge_id' in params:
+            path_params['edgeId'] = params['edge_id']  # noqa: E501
+
+        query_params = []
+        if 'integration_ids' in params:
+            query_params.append(('integrationIds', params['integration_ids']))  # noqa: E501
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/edge/integration/{edgeId}/missingAttributes{?integrationIds}', 'OPTIONS',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='str',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+    
+    def find_edge_missing_attributes_using_patch(self, edge_id, integration_ids, **kwargs):  # noqa: E501
+        """Find edge missing attributes for assigned integrations (findEdgeMissingAttributes)  # noqa: E501
+
+        Returns list of edge attribute names that are missing in assigned integrations.  Available for users with 'TENANT_ADMIN' authority.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.find_edge_missing_attributes_using_patch(edge_id, integration_ids, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str edge_id: A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
+        :param str integration_ids: A list of assigned integration ids, separated by comma ',' (required)
+        :return: str
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.find_edge_missing_attributes_using_patch_with_http_info(edge_id, integration_ids, **kwargs)  # noqa: E501
+        else:
+            (data) = self.find_edge_missing_attributes_using_patch_with_http_info(edge_id, integration_ids, **kwargs)  # noqa: E501
+            return data
+        
+    def find_edge_missing_attributes_using_patch_with_http_info(self, edge_id, integration_ids, **kwargs):  # noqa: E501
+        """Find edge missing attributes for assigned integrations (findEdgeMissingAttributes)  # noqa: E501
+
+        Returns list of edge attribute names that are missing in assigned integrations.  Available for users with 'TENANT_ADMIN' authority.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.find_edge_missing_attributes_using_patch_with_http_info(edge_id, integration_ids, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str edge_id: A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
+        :param str integration_ids: A list of assigned integration ids, separated by comma ',' (required)
+        :return: str
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['edge_id', 'integration_ids']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method find_edge_missing_attributes_using_patch" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'edge_id' is set
+        if ('edge_id' not in params or
+                params['edge_id'] is None):
+            raise ValueError("Missing the required parameter `edge_id` when calling `find_edge_missing_attributes_using_patch`")  # noqa: E501
+        # verify the required parameter 'integration_ids' is set
+        if ('integration_ids' not in params or
+                params['integration_ids'] is None):
+            raise ValueError("Missing the required parameter `integration_ids` when calling `find_edge_missing_attributes_using_patch`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+        if 'edge_id' in params:
+            path_params['edgeId'] = params['edge_id']  # noqa: E501
+
+        query_params = []
+        if 'integration_ids' in params:
+            query_params.append(('integrationIds', params['integration_ids']))  # noqa: E501
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/edge/integration/{edgeId}/missingAttributes{?integrationIds}', 'PATCH',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='str',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+    
+    def find_edge_missing_attributes_using_post(self, edge_id, integration_ids, **kwargs):  # noqa: E501
+        """Find edge missing attributes for assigned integrations (findEdgeMissingAttributes)  # noqa: E501
+
+        Returns list of edge attribute names that are missing in assigned integrations.  Available for users with 'TENANT_ADMIN' authority.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.find_edge_missing_attributes_using_post(edge_id, integration_ids, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str edge_id: A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
+        :param str integration_ids: A list of assigned integration ids, separated by comma ',' (required)
+        :return: str
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.find_edge_missing_attributes_using_post_with_http_info(edge_id, integration_ids, **kwargs)  # noqa: E501
+        else:
+            (data) = self.find_edge_missing_attributes_using_post_with_http_info(edge_id, integration_ids, **kwargs)  # noqa: E501
+            return data
+    
+    def find_edge_missing_attributes_using_post_with_http_info(self, edge_id, integration_ids, **kwargs):  # noqa: E501
+        """Find edge missing attributes for assigned integrations (findEdgeMissingAttributes)  # noqa: E501
+
+        Returns list of edge attribute names that are missing in assigned integrations.  Available for users with 'TENANT_ADMIN' authority.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.find_edge_missing_attributes_using_post_with_http_info(edge_id, integration_ids, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str edge_id: A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
+        :param str integration_ids: A list of assigned integration ids, separated by comma ',' (required)
+        :return: str
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['edge_id', 'integration_ids']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method find_edge_missing_attributes_using_post" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'edge_id' is set
+        if ('edge_id' not in params or
+                params['edge_id'] is None):
+            raise ValueError("Missing the required parameter `edge_id` when calling `find_edge_missing_attributes_using_post`")  # noqa: E501
+        # verify the required parameter 'integration_ids' is set
+        if ('integration_ids' not in params or
+                params['integration_ids'] is None):
+            raise ValueError("Missing the required parameter `integration_ids` when calling `find_edge_missing_attributes_using_post`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+        if 'edge_id' in params:
+            path_params['edgeId'] = params['edge_id']  # noqa: E501
+
+        query_params = []
+        if 'integration_ids' in params:
+            query_params.append(('integrationIds', params['integration_ids']))  # noqa: E501
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/edge/integration/{edgeId}/missingAttributes{?integrationIds}', 'POST',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='str',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+    
+    def find_edge_missing_attributes_using_put(self, edge_id, integration_ids, **kwargs):  # noqa: E501
+        """Find edge missing attributes for assigned integrations (findEdgeMissingAttributes)  # noqa: E501
+
+        Returns list of edge attribute names that are missing in assigned integrations.  Available for users with 'TENANT_ADMIN' authority.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.find_edge_missing_attributes_using_put(edge_id, integration_ids, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str edge_id: A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
+        :param str integration_ids: A list of assigned integration ids, separated by comma ',' (required)
+        :return: str
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.find_edge_missing_attributes_using_put_with_http_info(edge_id, integration_ids, **kwargs)  # noqa: E501
+        else:
+            (data) = self.find_edge_missing_attributes_using_put_with_http_info(edge_id, integration_ids, **kwargs)  # noqa: E501
+            return data
+        
+    def find_edge_missing_attributes_using_put_with_http_info(self, edge_id, integration_ids, **kwargs):  # noqa: E501
+        """Find edge missing attributes for assigned integrations (findEdgeMissingAttributes)  # noqa: E501
+
+        Returns list of edge attribute names that are missing in assigned integrations.  Available for users with 'TENANT_ADMIN' authority.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.find_edge_missing_attributes_using_put_with_http_info(edge_id, integration_ids, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str edge_id: A string value representing the edge id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
+        :param str integration_ids: A list of assigned integration ids, separated by comma ',' (required)
+        :return: str
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['edge_id', 'integration_ids']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method find_edge_missing_attributes_using_put" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'edge_id' is set
+        if ('edge_id' not in params or
+                params['edge_id'] is None):
+            raise ValueError("Missing the required parameter `edge_id` when calling `find_edge_missing_attributes_using_put`")  # noqa: E501
+        # verify the required parameter 'integration_ids' is set
+        if ('integration_ids' not in params or
+                params['integration_ids'] is None):
+            raise ValueError("Missing the required parameter `integration_ids` when calling `find_edge_missing_attributes_using_put`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+        if 'edge_id' in params:
+            path_params['edgeId'] = params['edge_id']  # noqa: E501
+
+        query_params = []
+        if 'integration_ids' in params:
+            query_params.append(('integrationIds', params['integration_ids']))  # noqa: E501
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/edge/integration/{edgeId}/missingAttributes{?integrationIds}', 'PUT',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='str',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
     def assign_integration_to_edge_using_post(self, edge_id, integration_id, **kwargs):  # noqa: E501
         """Assign integration to edge (assignIntegrationToEdge)  # noqa: E501
 
@@ -216,7 +1507,7 @@ class IntegrationControllerApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['HTTP login form']  # noqa: E501
+        auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
             '/api/edge/{edgeId}/integration/{integrationId}', 'POST',
@@ -324,7 +1615,7 @@ class IntegrationControllerApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['HTTP login form']  # noqa: E501
+        auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
             '/api/edge/{edgeId}/integration/{integrationId}', 'DELETE',
@@ -451,7 +1742,7 @@ class IntegrationControllerApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['HTTP login form']  # noqa: E501
+        auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
             '/api/edge/{edgeId}/integrations{?page,pageSize,sortOrder,sortProperty,textSearch}', 'GET',
@@ -550,7 +1841,7 @@ class IntegrationControllerApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['HTTP login form']  # noqa: E501
+        auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
             '/api/edge/integration/{integrationId}/allMissingAttributes', 'GET',

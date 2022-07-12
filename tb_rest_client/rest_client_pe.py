@@ -17,6 +17,7 @@
 from tb_rest_client.rest_client_base import *
 from tb_rest_client.api.api_pe import *
 
+from tb_rest_client.api.api_pe.device_profile_controller_api import DeviceProfileControllerApi
 
 logger = getLogger(__name__)
 
@@ -49,6 +50,9 @@ class RestClientPE(RestClientBase):
 
     def get_terms_of_use(self, ):
         return self.self_registration_controller.get_terms_of_use_using_get()
+
+    def delete_self_registration_params(self, domain_name: str):
+        return self.self_registration_controller.delete_self_registration_params_using_delete(domain_name=domain_name)
 
     def save_self_registration_params(self, body=None):
         return self.self_registration_controller.save_self_registration_params_using_post(body=body)
@@ -127,8 +131,23 @@ class RestClientPE(RestClientBase):
                                                                  text_search=text_search, sort_property=sort_property,
                                                                  sort_order=sort_order)
 
+    def get_assets_by_entity_group_id(self, entity_group_id: EntityGroupId, page_size: int, page: int, text_search=None,
+                                      sort_property=None, sort_order=None):
+        entity_group_id = self.get_id(entity_group_id)
+        return self.asset_controller.get_assets_by_entity_group_id_using_get(entity_group_id=entity_group_id,
+                                                                             page_size=page_size, page=page,
+                                                                             text_search=text_search,
+                                                                             sort_property=sort_property,
+                                                                             sort_order=sort_order)
+
     def asset_get_asset_types(self, ):
         return self.asset_controller.get_asset_types_using_get()
+
+    def get_user_assets(self, page_size: int, page: int, type=None, text_search=None, sort_property=None,
+                        sort_order=None):
+        return self.asset_controller.get_user_assets_using_get(page_size=page_size, page=page, type=type,
+                                                               text_search=text_search, sort_property=sort_property,
+                                                               sort_order=sort_order)
 
     def delete_device_group_ota_package(self, id: str):
         return self.device_group_ota_package_controller.delete_device_group_ota_package_using_delete(id=id)
@@ -181,6 +200,12 @@ class RestClientPE(RestClientBase):
     def get_edge_by_id(self, edge_id: EdgeId):
         edge_id = self.get_id(edge_id)
         return self.edge_controller.get_edge_by_id_using_get(edge_id=edge_id)
+
+    def get_user_edges(self, page_size: int, page: int, type=None, text_search=None, sort_property=None,
+                       sort_order=None):
+        return self.edge_controller.get_user_edges_using_get(page_size=page_size, page=page, type=type,
+                                                             text_search=text_search, sort_property=sort_property,
+                                                             sort_order=sort_order)
 
     def delete_edge(self, edge_id: EdgeId):
         edge_id = self.get_id(edge_id)
@@ -268,6 +293,11 @@ class RestClientPE(RestClientBase):
         rpc_id = self.get_id(rpc_id)
         return self.rpc_v2_controller.get_persisted_rpc_using_get(rpc_id=rpc_id)
 
+    def get_user_customers(self, page_size: int, page: int, text_search=None, sort_property=None, sort_order=None):
+        return self.customer_controller.get_user_customers_using_get(page_size=page_size, page=page,
+                                                                     text_search=text_search,
+                                                                     sort_property=sort_property, sort_order=sort_order)
+
     def handle_one_way_device_rpc_request_v1(self, device_id: DeviceId, body=None):
         device_id = self.get_id(device_id)
         return self.rpc_v2_controller.handle_one_way_device_rpc_request_using_post1(device_id=device_id, body=body)
@@ -289,6 +319,9 @@ class RestClientPE(RestClientBase):
         rpc_id = self.get_id(rpc_id)
         return self.rpc_v2_controller.delete_resource_using_delete(rpc_id=rpc_id)
 
+    def get_customers_by_ids(self, customer_ids: str):
+        return self.customer_controller.get_customers_by_ids_using_get(customer_ids=customer_ids)
+
     def get_edge_events(self, edge_id: EdgeId, page_size: int, page: int, text_search=None, sort_property=None,
                         sort_order=None, start_time=None, end_time=None):
         edge_id = self.get_id(edge_id)
@@ -296,6 +329,15 @@ class RestClientPE(RestClientBase):
                                                                     text_search=text_search,
                                                                     sort_property=sort_property, sort_order=sort_order,
                                                                     start_time=start_time, end_time=end_time)
+
+    def get_customers_by_entity_group_id(self, entity_group_id: EntityGroupId, page_size: int, page: int,
+                                         text_search=None, sort_property=None, sort_order=None):
+        entity_group_id = self.get_id(entity_group_id)
+        return self.customer_controller.get_customers_by_entity_group_id_using_get(entity_group_id=entity_group_id,
+                                                                                   page_size=page_size, page=page,
+                                                                                   text_search=text_search,
+                                                                                   sort_property=sort_property,
+                                                                                   sort_order=sort_order)
 
     def get_customer_title_by_id(self, customer_id: CustomerId):
         customer_id = self.get_id(customer_id)
@@ -524,8 +566,10 @@ class RestClientPE(RestClientBase):
     def get_converters_by_ids(self, converter_ids: list):
         return self.converter_controller.get_converters_by_ids_using_get(converter_ids=str(converter_ids))
 
-    def get_converters(self, page_size: int, page: int, text_search=None, sort_property=None, sort_order=None):
+    def get_converters(self, page_size: int, page: int, is_edge_template=None, text_search=None, sort_property=None,
+                       sort_order=None):
         return self.converter_controller.get_converters_using_get(page_size=page_size, page=page,
+                                                                  is_edge_template=is_edge_template,
                                                                   text_search=text_search, sort_property=sort_property,
                                                                   sort_order=sort_order)
 
@@ -545,17 +589,78 @@ class RestClientPE(RestClientBase):
         return self.integration_controller.unassign_integration_from_edge_using_delete(edge_id=edge_id,
                                                                                        integration_id=integration_id)
 
-    def get_edge_integrations(self, edge_id: EdgeId, page_size: int, page: int):
+    def get_edge_integrations(self, edge_id: EdgeId, page_size: int, page: int, text_search=None,
+                              sort_property=None, sort_order=None):
         edge_id = self.get_id(edge_id)
         return self.integration_controller.get_edge_integrations_using_get(edge_id=edge_id, page_size=page_size,
-                                                                           page=page)
+                                                                           page=page, text_search=text_search,
+                                                                           sort_property=sort_property,
+                                                                           sort_order=sort_order)
 
     def find_all_related_edges_missing_attributes(self, integration_id: IntegrationId):
         integration_id = self.get_id(integration_id)
         return self.integration_controller.find_all_related_edges_missing_attributes_using_get(
             integration_id=integration_id)
 
+    def find_all_related_edges_missing_attributes_head(self, integration_id: IntegrationId):
+        integration_id = self.get_id(integration_id)
+        return self.integration_controller.find_all_related_edges_missing_attributes_using_head(
+            integration_id=integration_id)
 
+    def find_all_related_edges_missing_attributes_options(self, integration_id: IntegrationId):
+        integration_id = self.get_id(integration_id)
+        return self.integration_controller.find_all_related_edges_missing_attributes_using_options(
+            integration_id=integration_id)
+
+    def find_all_related_edges_missing_attributes_patch(self, integration_id: IntegrationId):
+        integration_id = self.get_id(integration_id)
+        return self.integration_controller.find_all_related_edges_missing_attributes_using_patch(
+            integration_id=integration_id)
+
+    def find_all_related_edges_missing_attributes_post(self, integration_id: IntegrationId):
+        integration_id = self.get_id(integration_id)
+        return self.integration_controller.find_all_related_edges_missing_attributes_using_post(
+            integration_id=integration_id)
+
+    def find_all_related_edges_missing_attributes_put(self, integration_id: IntegrationId):
+        integration_id = self.get_id(integration_id)
+        return self.integration_controller.find_all_related_edges_missing_attributes_using_put(
+            integration_id=integration_id)
+
+    def find_edge_missing_attributes_delete(self, edge_id: EdgeId, integration_ids: str):
+        edge_id = self.get_id(edge_id)
+        return self.integration_controller.find_edge_missing_attributes_using_delete(edge_id=edge_id,
+                                                                                     integration_ids=integration_ids)
+
+    def find_edge_missing_attributes_get(self, edge_id: EdgeId, integration_ids: str):
+        edge_id = self.get_id(edge_id)
+        return self.integration_controller.find_edge_missing_attributes_using_get(edge_id=edge_id,
+                                                                                  integration_ids=integration_ids)
+
+    def find_edge_missing_attributes_head(self, edge_id: EdgeId, integration_ids: str):
+        edge_id = self.get_id(edge_id)
+        return self.integration_controller.find_edge_missing_attributes_using_head(edge_id=edge_id,
+                                                                                   integration_ids=integration_ids)
+
+    def find_edge_missing_attributes_options(self, edge_id: EdgeId, integration_ids: str):
+        edge_id = self.get_id(edge_id)
+        return self.integration_controller.find_edge_missing_attributes_using_options(edge_id=edge_id,
+                                                                                      integration_ids=integration_ids)
+
+    def find_edge_missing_attributes_patch(self, edge_id: EdgeId, integration_ids: str):
+        edge_id = self.get_id(edge_id)
+        return self.integration_controller.find_edge_missing_attributes_using_patch(edge_id=edge_id,
+                                                                                    integration_ids=integration_ids)
+
+    def find_edge_missing_attributes_post(self, edge_id: EdgeId, integration_ids: str):
+        edge_id = self.get_id(edge_id)
+        return self.integration_controller.find_edge_missing_attributes_using_post(edge_id=edge_id,
+                                                                                   integration_ids=integration_ids)
+
+    def find_edge_missing_attributes_put(self, edge_id: EdgeId, integration_ids: str):
+        edge_id = self.get_id(edge_id)
+        return self.integration_controller.find_edge_missing_attributes_using_put(edge_id=edge_id,
+                                                                                  integration_ids=integration_ids)
 
     def save_converter(self, body=None):
         return self.converter_controller.save_converter_using_post(body=body)
@@ -739,6 +844,10 @@ class RestClientPE(RestClientBase):
 
     def terms_of_use_accepted(self, ):
         return self.sign_up_controller.terms_of_use_accepted_using_get()
+
+    def get_device_profiles_by_ids(self, device_profile_ids: str):
+        return self.device_profile_controller.get_device_profiles_by_ids_using_get(
+            device_profile_ids=device_profile_ids)
 
     def is_display_welcome(self, ):
         return self.sign_up_controller.is_display_welcome_using_get()
@@ -1021,31 +1130,38 @@ class RestClientPE(RestClientBase):
         entity_group_id = self.get_id(entity_group_id)
         return self.dashboard_controller.export_group_dashboards_using_get(entity_group_id=entity_group_id, limit=limit)
 
-    def _check_integration_connection_post(self, body=None):
+    def check_integration_connection_post(self, body=None):
         return self.integration_controller.check_integration_connection_using_post(body=body)
 
-    def _delete_integration_delete(self, integration_id: IntegrationId):
+    def delete_integration_delete(self, integration_id: IntegrationId):
         integration_id = self.get_id(integration_id)
         return self.integration_controller.delete_integration_using_delete(integration_id=integration_id)
 
-    def _get_integration_by_id_get(self, integration_id: IntegrationId):
+    def get_integration_by_id_get(self, integration_id: IntegrationId):
         integration_id = self.get_id(integration_id)
         return self.integration_controller.get_integration_by_id_using_get(integration_id=integration_id)
 
-    def _get_integration_by_routing_key_get(self, routing_key: str):
+    def get_integration_by_routing_key_get(self, routing_key: str):
         return self.integration_controller.get_integration_by_routing_key_using_get(routing_key=routing_key)
 
-    def _get_integrations_by_ids_get(self, integration_ids: list):
+    def get_integrations_by_ids_get(self, integration_ids: list):
         return self.integration_controller.get_integrations_by_ids_using_get(integration_ids=str(integration_ids))
 
-    def _get_integrations_get(self, page_size: int, page: int, text_search=None, sort_property=None, sort_order=None):
+    def get_integrations_get(self, page_size: int, page: int, is_edge_template=None, text_search=None,
+                             sort_property=None, sort_order=None):
         return self.integration_controller.get_integrations_using_get(page_size=page_size, page=page,
+                                                                      is_edge_template=is_edge_template,
                                                                       text_search=text_search,
                                                                       sort_property=sort_property,
                                                                       sort_order=sort_order)
 
-    def _save_integration_post(self, body=None):
+    def save_integration_post(self, body=None):
         return self.integration_controller.save_integration_using_post(body=body)
+
+    def find_all_related_edges_missing_attributes_delete(self, integration_id: IntegrationId):
+        integration_id = self.get_id(integration_id)
+        return self.integration_controller.find_all_related_edges_missing_attributes_using_delete(
+            integration_id=integration_id)
 
     def get_current_custom_menu(self, ):
         return self.custom_menu_controller.get_current_custom_menu_using_get()
@@ -1441,6 +1557,7 @@ class RestClientPE(RestClientBase):
             solution_template_id=solution_template_id)
 
     def __load_controllers(self):
+        self.device_profile_controller = DeviceProfileControllerApi(self.api_client)
         self.http_integration_controller = HttpIntegrationControllerApi(self.api_client)
         self.user_permissions_controller = UserPermissionsControllerApi(self.api_client)
         self.device_group_ota_package_controller = DeviceGroupOtaPackageControllerApi(self.api_client)

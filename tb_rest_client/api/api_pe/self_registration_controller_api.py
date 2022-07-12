@@ -206,6 +206,99 @@ class SelfRegistrationControllerApi(object):
             _request_timeout=params.get('_request_timeout'),
             collection_formats=collection_formats)
 
+    def delete_self_registration_params_using_delete(self, domain_name, **kwargs):  # noqa: E501
+        """deleteSelfRegistrationParams  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_self_registration_params_using_delete(domain_name, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str domain_name: domainName (required)
+        :return: DeferredResultResponseEntity
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.delete_self_registration_params_using_delete_with_http_info(domain_name, **kwargs)  # noqa: E501
+        else:
+            (data) = self.delete_self_registration_params_using_delete_with_http_info(domain_name, **kwargs)  # noqa: E501
+            return data
+
+    def delete_self_registration_params_using_delete_with_http_info(self, domain_name, **kwargs):  # noqa: E501
+        """deleteSelfRegistrationParams  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_self_registration_params_using_delete_with_http_info(domain_name, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str domain_name: domainName (required)
+        :return: DeferredResultResponseEntity
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['domain_name']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method delete_self_registration_params_using_delete" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'domain_name' is set
+        if ('domain_name' not in params or
+                params['domain_name'] is None):
+            raise ValueError("Missing the required parameter `domain_name` when calling `delete_self_registration_params_using_delete`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+        if 'domain_name' in params:
+            path_params['domainName'] = params['domain_name']  # noqa: E501
+
+        query_params = []
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/selfRegistration/selfRegistrationParams/{domainName}', 'DELETE',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='DeferredResultResponseEntity',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
     def get_sign_up_self_registration_params_using_get(self, **kwargs):  # noqa: E501
         """Get Self Registration form parameters without authentication (getSignUpSelfRegistrationParams)  # noqa: E501
 
