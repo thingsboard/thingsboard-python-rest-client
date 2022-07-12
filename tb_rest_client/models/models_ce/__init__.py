@@ -269,3 +269,9 @@ from .x509_lw_m2_m_bootstrap_server_credential import X509LwM2MBootstrapServerCr
 from .lw_m2_m_bootstrap_server_credential import LwM2MBootstrapServerCredential
 from .queue import Queue
 from .queue_id import QueueId
+from .version_load_request import VersionLoadRequest
+from .version_create_request import VersionCreateRequest
+from .entity_export_dataobject import EntityExportDataobject
+from .two_fa_account_config import TwoFaAccountConfig
+from .two_fa_provider_config import TwoFaProviderConfig
+from .transport_payload_type_configuration import TransportPayloadTypeConfiguration

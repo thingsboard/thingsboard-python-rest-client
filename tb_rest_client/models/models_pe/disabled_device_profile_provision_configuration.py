@@ -14,10 +14,10 @@ import pprint
 import re  # noqa: F401
 
 import six
-from swagger_client.models.device_profile_provision_configuration import DeviceProfileProvisionConfiguration  # noqa: F401,E501
+from tb_rest_client.models.models_pe import DeviceProfileProvisionConfiguration  # noqa: F401,E501
 
 class DisabledDeviceProfileProvisionConfiguration(DeviceProfileProvisionConfiguration):
-from tb_rest_client.api_client import ApiClient
+    """
 
     Do not edit the class manually.
     """

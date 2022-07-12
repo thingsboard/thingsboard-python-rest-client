@@ -14,10 +14,10 @@ import pprint
 import re  # noqa: F401
 
 import six
-from swagger_client.models.key_filter_predicate import KeyFilterPredicate  # noqa: F401,E501
+from tb_rest_client.models.models_pe import KeyFilterPredicate  # noqa: F401,E501
 
 class ComplexFilterPredicate(KeyFilterPredicate):
-from tb_rest_client.api_client import ApiClient
+    """
 
     Do not edit the class manually.
     """

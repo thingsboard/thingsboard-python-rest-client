@@ -14,10 +14,10 @@ import pprint
 import re  # noqa: F401
 
 import six
-from swagger_client.models.snmp_communication_config import SnmpCommunicationConfig  # noqa: F401,E501
+from tb_rest_client.models.models_ce import SnmpCommunicationConfig  # noqa: F401,E501
 
 class TelemetryQueryingSnmpCommunicationConfig(SnmpCommunicationConfig):
-from tb_rest_client.api_client import ApiClient
+    """
 
     Do not edit the class manually.
     """

@@ -14,10 +14,10 @@ import pprint
 import re  # noqa: F401
 
 import six
-from swagger_client.models.version_load_request import VersionLoadRequest  # noqa: F401,E501
+from tb_rest_client.models.models_ce import VersionLoadRequest  # noqa: F401,E501
 
 class SingleEntityVersionLoadRequest(VersionLoadRequest):
-from tb_rest_client.api_client import ApiClient
+    """
 
     Do not edit the class manually.
     """

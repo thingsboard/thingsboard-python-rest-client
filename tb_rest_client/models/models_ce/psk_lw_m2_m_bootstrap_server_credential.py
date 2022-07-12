@@ -14,10 +14,10 @@ import pprint
 import re  # noqa: F401
 
 import six
-from swagger_client.models.lw_m2_m_bootstrap_server_credential import LwM2MBootstrapServerCredential  # noqa: F401,E501
+from tb_rest_client.models.models_ce import LwM2MBootstrapServerCredential  # noqa: F401,E501
 
 class PSKLwM2MBootstrapServerCredential(LwM2MBootstrapServerCredential):
-from tb_rest_client.api_client import ApiClient
+    """
 
     Do not edit the class manually.
     """

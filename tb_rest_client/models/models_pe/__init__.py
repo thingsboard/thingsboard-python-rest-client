@@ -313,3 +313,9 @@ from .page_data_ota_package_info import PageDataOtaPackageInfo
 from .page_data_contact_basedobject import PageDataContactBasedobject
 from .rule_chain import RuleChain
 from .entities_by_group_name_filter import EntitiesByGroupNameFilter
+from .version_create_request import VersionCreateRequest
+from .entity_export_dataobject import EntityExportDataobject
+from .two_fa_provider_config import TwoFaProviderConfig
+from .version_load_request import VersionLoadRequest
+from .lw_m2_m_bootstrap_server_credential import LwM2MBootstrapServerCredential
+from .two_fa_account_config import TwoFaAccountConfig

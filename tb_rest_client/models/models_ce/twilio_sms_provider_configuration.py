@@ -14,10 +14,10 @@ import pprint
 import re  # noqa: F401
 
 import six
-from swagger_client.models.sms_provider_configuration import SmsProviderConfiguration  # noqa: F401,E501
+from tb_rest_client.models.models_ce import SmsProviderConfiguration  # noqa: F401,E501
 
 class TwilioSmsProviderConfiguration(SmsProviderConfiguration):
-from tb_rest_client.api_client import ApiClient
+    """
 
     Do not edit the class manually.
     """
