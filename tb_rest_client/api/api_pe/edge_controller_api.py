@@ -1384,7 +1384,7 @@ class EdgeControllerApi(object):
         :param int page_size: Maximum amount of entities in a one page (required)
         :param int page: Sequence number of page starting from 0 (required)
         :param str type: A string value representing the edge type. For example, 'default'
-        :param str text_search: The case insensitive 'startsWith' filter based on the edge name.
+        :param str text_search: The case insensitive 'substring' filter based on the edge name.
         :param str sort_property: Property of entity to sort by
         :param str sort_order: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
         :return: PageDataEdge
@@ -1411,7 +1411,7 @@ class EdgeControllerApi(object):
         :param int page_size: Maximum amount of entities in a one page (required)
         :param int page: Sequence number of page starting from 0 (required)
         :param str type: A string value representing the edge type. For example, 'default'
-        :param str text_search: The case insensitive 'startsWith' filter based on the edge name.
+        :param str text_search: The case insensitive 'substring' filter based on the edge name.
         :param str sort_property: Property of entity to sort by
         :param str sort_order: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
         :return: PageDataEdge

@@ -267,3 +267,5 @@ from .page_data_device_info import PageDataDeviceInfo
 from .entity_view_info import EntityViewInfo
 from .x509_lw_m2_m_bootstrap_server_credential import X509LwM2MBootstrapServerCredential
 from .lw_m2_m_bootstrap_server_credential import LwM2MBootstrapServerCredential
+from .queue import Queue
+from .queue_id import QueueId

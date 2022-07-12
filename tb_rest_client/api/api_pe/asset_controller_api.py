@@ -417,7 +417,7 @@ class AssetControllerApi(object):
         :param str entity_group_id: A string value representing the Entity Group Id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
         :param int page_size: Maximum amount of entities in a one page (required)
         :param int page: Sequence number of page starting from 0 (required)
-        :param str text_search: The case insensitive 'startsWith' filter based on the asset name.
+        :param str text_search: The case insensitive 'substring' filter based on the asset name.
         :param str sort_property: Property of entity to sort by
         :param str sort_order: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
         :return: PageDataAsset
@@ -444,7 +444,7 @@ class AssetControllerApi(object):
         :param str entity_group_id: A string value representing the Entity Group Id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
         :param int page_size: Maximum amount of entities in a one page (required)
         :param int page: Sequence number of page starting from 0 (required)
-        :param str text_search: The case insensitive 'startsWith' filter based on the asset name.
+        :param str text_search: The case insensitive 'substring' filter based on the asset name.
         :param str sort_property: Property of entity to sort by
         :param str sort_order: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
         :return: PageDataAsset
@@ -976,7 +976,7 @@ class AssetControllerApi(object):
         :param int page_size: Maximum amount of entities in a one page (required)
         :param int page: Sequence number of page starting from 0 (required)
         :param str type: Asset type
-        :param str text_search: The case insensitive 'startsWith' filter based on the asset name.
+        :param str text_search: The case insensitive 'substring' filter based on the asset name.
         :param str sort_property: Property of entity to sort by
         :param str sort_order: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
         :return: PageDataAsset
@@ -1003,7 +1003,7 @@ class AssetControllerApi(object):
         :param int page_size: Maximum amount of entities in a one page (required)
         :param int page: Sequence number of page starting from 0 (required)
         :param str type: Asset type
-        :param str text_search: The case insensitive 'startsWith' filter based on the asset name.
+        :param str text_search: The case insensitive 'substring' filter based on the asset name.
         :param str sort_property: Property of entity to sort by
         :param str sort_order: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
         :return: PageDataAsset
