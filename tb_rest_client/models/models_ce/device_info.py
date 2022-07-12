@@ -74,7 +74,7 @@ from tb_rest_client.api_client import ApiClient
         self._customer_id = None
         self._name = None
         self._type = None
-        self._label = None
+        self._label = ""
         self._device_profile_id = None
         self._device_data = None
         self._firmware_id = None
@@ -96,7 +96,8 @@ from tb_rest_client.api_client import ApiClient
             self.customer_id = customer_id
         self.name = name
         self.type = type
-        self.label = label
+        if label is not None:
+            self.label = label
         self.device_profile_id = device_profile_id
         if device_data is not None:
             self.device_data = device_data
@@ -291,7 +292,7 @@ from tb_rest_client.api_client import ApiClient
         :type: str
         """
         if label is None:
-            raise ValueError("Invalid value for `label`, must not be `None`")  # noqa: E501
+            self._label = ""
 
         self._label = label
 

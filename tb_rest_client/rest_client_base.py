@@ -1239,8 +1239,7 @@ class RestClientBase(Thread):
     def save_entities_version(self, body=None):
         return self.entities_version_control_controller.save_entities_version_using_post(body=body)
 
-    def get_version_load_request_status(self, request_id: int):
-        request_id = self.get_id(request_id)
+    def get_version_load_request_status(self, request_id: str):
         return self.entities_version_control_controller.get_version_load_request_status_using_get(request_id=request_id)
 
     def list_branches(self, ):
@@ -1256,14 +1255,12 @@ class RestClientBase(Thread):
                                                                                        sort_property=sort_property,
                                                                                        sort_order=sort_order)
 
-    def get_entity_data_info(self, version_id: int, entity_type: str, external_entity_uuid: str):
-        version_id = self.get_id(version_id)
+    def get_entity_data_info(self, version_id: str, entity_type: str, external_entity_uuid: str):
         return self.entities_version_control_controller.get_entity_data_info_using_get(version_id=version_id,
                                                                                        entity_type=entity_type,
                                                                                        external_entity_uuid=external_entity_uuid)
 
-    def get_version_create_request_status(self, request_id: int):
-        request_id = self.get_id(request_id)
+    def get_version_create_request_status(self, request_id: str):
         return self.entities_version_control_controller.get_version_create_request_status_using_get(
             request_id=request_id)
 
@@ -1280,18 +1277,14 @@ class RestClientBase(Thread):
                                                                                             sort_property=sort_property,
                                                                                             sort_order=sort_order)
 
-    def list_entities_at_version(self, entity_type: str, version_id: int):
-        version_id = self.get_id(version_id)
+    def list_entities_at_version(self, entity_type: str, version_id: str):
         return self.entities_version_control_controller.list_entities_at_version_using_get(entity_type=entity_type,
                                                                                            version_id=version_id)
 
-    def list_all_entities_at_version(self, version_id: int):
-        version_id = self.get_id(version_id)
+    def list_all_entities_at_version(self, version_id: str):
         return self.entities_version_control_controller.list_all_entities_at_version_using_get(version_id=version_id)
 
-    def compare_entity_data_to_version(self, internal_entity_uuid: str, version_id: int):
-        version_id = self.get_id(version_id)
-        entity_type = self.get_type(version_id)
+    def compare_entity_data_to_version(self, internal_entity_uuid: str, entity_type: str, version_id: str):
         return self.entities_version_control_controller.compare_entity_data_to_version_using_get(
             entity_type=entity_type, internal_entity_uuid=internal_entity_uuid, version_id=version_id)
 

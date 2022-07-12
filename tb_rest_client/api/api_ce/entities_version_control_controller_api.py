@@ -128,7 +128,7 @@ class EntitiesVersionControlControllerApi(object):
         auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
-            '/api/entities/vc/diff/{entityType}/{internalEntityUuid}{?versionId}', 'GET',
+            '/api/entities/vc/diff/{entityType}/{internalEntityUuid}{versionId}', 'GET',
             path_params,
             query_params,
             header_params,
@@ -845,7 +845,7 @@ class EntitiesVersionControlControllerApi(object):
         auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
-            '/api/entities/vc/version/{entityType}?sortProperty=timestamp{&branch,page,pageSize,sortOrder,textSearch}', 'GET',
+            '/api/entities/vc/version/{entityType}', 'GET',
             path_params,
             query_params,
             header_params,
@@ -984,7 +984,7 @@ class EntitiesVersionControlControllerApi(object):
         auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
-            '/api/entities/vc/version/{entityType}/{externalEntityUuid}?sortProperty=timestamp{&branch,page,pageSize,sortOrder,textSearch}', 'GET',
+            '/api/entities/vc/version/{entityType}/{externalEntityUuid}', 'GET',
             path_params,
             query_params,
             header_params,
@@ -1107,7 +1107,7 @@ class EntitiesVersionControlControllerApi(object):
         auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
-            '/api/entities/vc/version?sortProperty=timestamp{&branch,page,pageSize,sortOrder,textSearch}', 'GET',
+            '/api/entities/vc/version', 'GET',
             path_params,
             query_params,
             header_params,

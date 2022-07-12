@@ -291,7 +291,7 @@ class ApiClient(object):
         if data is None:
             return None
 
-        if klass == "DeferredResultResponseEntity":
+        if "Deferred" in str(klass):
             return self.__deserialize(data, type(data))
         #
         # elif type(klass) == str:
