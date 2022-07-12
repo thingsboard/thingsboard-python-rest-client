@@ -19,7 +19,6 @@ from tb_rest_client.api.api_pe import *
 
 from tb_rest_client.api.api_pe.device_profile_controller_api import DeviceProfileControllerApi
 
-
 logger = getLogger(__name__)
 
 
@@ -202,8 +201,11 @@ class RestClientPE(RestClientBase):
         edge_id = self.get_id(edge_id)
         return self.edge_controller.get_edge_by_id_using_get(edge_id=edge_id)
 
-    def get_user_edges(self, page_size: int, page: int, type=None, text_search=None, sort_property=None, sort_order=None):
-        return self.edge_controller.get_user_edges_using_get(page_size=page_size, page=page, type=type, text_search=text_search, sort_property=sort_property, sort_order=sort_order)
+    def get_user_edges(self, page_size: int, page: int, type=None, text_search=None, sort_property=None,
+                       sort_order=None):
+        return self.edge_controller.get_user_edges_using_get(page_size=page_size, page=page, type=type,
+                                                             text_search=text_search, sort_property=sort_property,
+                                                             sort_order=sort_order)
 
     def delete_edge(self, edge_id: EdgeId):
         edge_id = self.get_id(edge_id)
@@ -292,7 +294,9 @@ class RestClientPE(RestClientBase):
         return self.rpc_v2_controller.get_persisted_rpc_using_get(rpc_id=rpc_id)
 
     def get_user_customers(self, page_size: int, page: int, text_search=None, sort_property=None, sort_order=None):
-        return self.customer_controller.get_user_customers_using_get(page_size=page_size, page=page, text_search=text_search, sort_property=sort_property, sort_order=sort_order)
+        return self.customer_controller.get_user_customers_using_get(page_size=page_size, page=page,
+                                                                     text_search=text_search,
+                                                                     sort_property=sort_property, sort_order=sort_order)
 
     def handle_one_way_device_rpc_request_v1(self, device_id: DeviceId, body=None):
         device_id = self.get_id(device_id)
@@ -326,9 +330,14 @@ class RestClientPE(RestClientBase):
                                                                     sort_property=sort_property, sort_order=sort_order,
                                                                     start_time=start_time, end_time=end_time)
 
-    def get_customers_by_entity_group_id(self, entity_group_id: EntityGroupId, page_size: int, page: int, text_search=None, sort_property=None, sort_order=None):
+    def get_customers_by_entity_group_id(self, entity_group_id: EntityGroupId, page_size: int, page: int,
+                                         text_search=None, sort_property=None, sort_order=None):
         entity_group_id = self.get_id(entity_group_id)
-        return self.customer_controller.get_customers_by_entity_group_id_using_get(entity_group_id=entity_group_id, page_size=page_size, page=page, text_search=text_search, sort_property=sort_property, sort_order=sort_order)
+        return self.customer_controller.get_customers_by_entity_group_id_using_get(entity_group_id=entity_group_id,
+                                                                                   page_size=page_size, page=page,
+                                                                                   text_search=text_search,
+                                                                                   sort_property=sort_property,
+                                                                                   sort_order=sort_order)
 
     def get_customer_title_by_id(self, customer_id: CustomerId):
         customer_id = self.get_id(customer_id)
@@ -557,8 +566,10 @@ class RestClientPE(RestClientBase):
     def get_converters_by_ids(self, converter_ids: list):
         return self.converter_controller.get_converters_by_ids_using_get(converter_ids=str(converter_ids))
 
-    def get_converters(self, page_size: int, page: int, text_search=None, sort_property=None, sort_order=None):
+    def get_converters(self, page_size: int, page: int, is_edge_template=None, text_search=None, sort_property=None,
+                       sort_order=None):
         return self.converter_controller.get_converters_using_get(page_size=page_size, page=page,
+                                                                  is_edge_template=is_edge_template,
                                                                   text_search=text_search, sort_property=sort_property,
                                                                   sort_order=sort_order)
 
@@ -578,10 +589,13 @@ class RestClientPE(RestClientBase):
         return self.integration_controller.unassign_integration_from_edge_using_delete(edge_id=edge_id,
                                                                                        integration_id=integration_id)
 
-    def get_edge_integrations(self, edge_id: EdgeId, page_size: int, page: int):
+    def get_edge_integrations(self, edge_id: EdgeId, page_size: int, page: int, text_search=None,
+                              sort_property=None, sort_order=None):
         edge_id = self.get_id(edge_id)
         return self.integration_controller.get_edge_integrations_using_get(edge_id=edge_id, page_size=page_size,
-                                                                           page=page)
+                                                                           page=page, text_search=text_search,
+                                                                           sort_property=sort_property,
+                                                                           sort_order=sort_order)
 
     def find_all_related_edges_missing_attributes(self, integration_id: IntegrationId):
         integration_id = self.get_id(integration_id)
@@ -590,51 +604,63 @@ class RestClientPE(RestClientBase):
 
     def find_all_related_edges_missing_attributes_head(self, integration_id: IntegrationId):
         integration_id = self.get_id(integration_id)
-        return self.integration_controller.find_all_related_edges_missing_attributes_using_head(integration_id=integration_id)
+        return self.integration_controller.find_all_related_edges_missing_attributes_using_head(
+            integration_id=integration_id)
 
     def find_all_related_edges_missing_attributes_options(self, integration_id: IntegrationId):
         integration_id = self.get_id(integration_id)
-        return self.integration_controller.find_all_related_edges_missing_attributes_using_options(integration_id=integration_id)
+        return self.integration_controller.find_all_related_edges_missing_attributes_using_options(
+            integration_id=integration_id)
 
     def find_all_related_edges_missing_attributes_patch(self, integration_id: IntegrationId):
         integration_id = self.get_id(integration_id)
-        return self.integration_controller.find_all_related_edges_missing_attributes_using_patch(integration_id=integration_id)
+        return self.integration_controller.find_all_related_edges_missing_attributes_using_patch(
+            integration_id=integration_id)
 
     def find_all_related_edges_missing_attributes_post(self, integration_id: IntegrationId):
         integration_id = self.get_id(integration_id)
-        return self.integration_controller.find_all_related_edges_missing_attributes_using_post(integration_id=integration_id)
+        return self.integration_controller.find_all_related_edges_missing_attributes_using_post(
+            integration_id=integration_id)
 
     def find_all_related_edges_missing_attributes_put(self, integration_id: IntegrationId):
         integration_id = self.get_id(integration_id)
-        return self.integration_controller.find_all_related_edges_missing_attributes_using_put(integration_id=integration_id)
+        return self.integration_controller.find_all_related_edges_missing_attributes_using_put(
+            integration_id=integration_id)
 
     def find_edge_missing_attributes_delete(self, edge_id: EdgeId, integration_ids: str):
         edge_id = self.get_id(edge_id)
-        return self.integration_controller.find_edge_missing_attributes_using_delete(edge_id=edge_id, integration_ids=integration_ids)
+        return self.integration_controller.find_edge_missing_attributes_using_delete(edge_id=edge_id,
+                                                                                     integration_ids=integration_ids)
 
     def find_edge_missing_attributes_get(self, edge_id: EdgeId, integration_ids: str):
         edge_id = self.get_id(edge_id)
-        return self.integration_controller.find_edge_missing_attributes_using_get(edge_id=edge_id, integration_ids=integration_ids)
+        return self.integration_controller.find_edge_missing_attributes_using_get(edge_id=edge_id,
+                                                                                  integration_ids=integration_ids)
 
     def find_edge_missing_attributes_head(self, edge_id: EdgeId, integration_ids: str):
         edge_id = self.get_id(edge_id)
-        return self.integration_controller.find_edge_missing_attributes_using_head(edge_id=edge_id, integration_ids=integration_ids)
+        return self.integration_controller.find_edge_missing_attributes_using_head(edge_id=edge_id,
+                                                                                   integration_ids=integration_ids)
 
     def find_edge_missing_attributes_options(self, edge_id: EdgeId, integration_ids: str):
         edge_id = self.get_id(edge_id)
-        return self.integration_controller.find_edge_missing_attributes_using_options(edge_id=edge_id, integration_ids=integration_ids)
+        return self.integration_controller.find_edge_missing_attributes_using_options(edge_id=edge_id,
+                                                                                      integration_ids=integration_ids)
 
     def find_edge_missing_attributes_patch(self, edge_id: EdgeId, integration_ids: str):
         edge_id = self.get_id(edge_id)
-        return self.integration_controller.find_edge_missing_attributes_using_patch(edge_id=edge_id, integration_ids=integration_ids)
+        return self.integration_controller.find_edge_missing_attributes_using_patch(edge_id=edge_id,
+                                                                                    integration_ids=integration_ids)
 
     def find_edge_missing_attributes_post(self, edge_id: EdgeId, integration_ids: str):
         edge_id = self.get_id(edge_id)
-        return self.integration_controller.find_edge_missing_attributes_using_post(edge_id=edge_id, integration_ids=integration_ids)
+        return self.integration_controller.find_edge_missing_attributes_using_post(edge_id=edge_id,
+                                                                                   integration_ids=integration_ids)
 
     def find_edge_missing_attributes_put(self, edge_id: EdgeId, integration_ids: str):
         edge_id = self.get_id(edge_id)
-        return self.integration_controller.find_edge_missing_attributes_using_put(edge_id=edge_id, integration_ids=integration_ids)
+        return self.integration_controller.find_edge_missing_attributes_using_put(edge_id=edge_id,
+                                                                                  integration_ids=integration_ids)
 
     def save_converter(self, body=None):
         return self.converter_controller.save_converter_using_post(body=body)
@@ -820,7 +846,8 @@ class RestClientPE(RestClientBase):
         return self.sign_up_controller.terms_of_use_accepted_using_get()
 
     def get_device_profiles_by_ids(self, device_profile_ids: str):
-        return self.device_profile_controller.get_device_profiles_by_ids_using_get(device_profile_ids=device_profile_ids)
+        return self.device_profile_controller.get_device_profiles_by_ids_using_get(
+            device_profile_ids=device_profile_ids)
 
     def is_display_welcome(self, ):
         return self.sign_up_controller.is_display_welcome_using_get()
@@ -1120,8 +1147,10 @@ class RestClientPE(RestClientBase):
     def get_integrations_by_ids_get(self, integration_ids: list):
         return self.integration_controller.get_integrations_by_ids_using_get(integration_ids=str(integration_ids))
 
-    def get_integrations_get(self, page_size: int, page: int, text_search=None, sort_property=None, sort_order=None):
+    def get_integrations_get(self, page_size: int, page: int, is_edge_template=None, text_search=None,
+                             sort_property=None, sort_order=None):
         return self.integration_controller.get_integrations_using_get(page_size=page_size, page=page,
+                                                                      is_edge_template=is_edge_template,
                                                                       text_search=text_search,
                                                                       sort_property=sort_property,
                                                                       sort_order=sort_order)
@@ -1131,7 +1160,8 @@ class RestClientPE(RestClientBase):
 
     def find_all_related_edges_missing_attributes_delete(self, integration_id: IntegrationId):
         integration_id = self.get_id(integration_id)
-        return self.integration_controller.find_all_related_edges_missing_attributes_using_delete(integration_id=integration_id)
+        return self.integration_controller.find_all_related_edges_missing_attributes_using_delete(
+            integration_id=integration_id)
 
     def get_current_custom_menu(self, ):
         return self.custom_menu_controller.get_current_custom_menu_using_get()
