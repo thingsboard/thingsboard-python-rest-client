@@ -14,7 +14,7 @@ import pprint
 import re  # noqa: F401
 
 import six
-from tb_rest_client.models.models_pe import VersionCreateRequest  # noqa: F401,E501
+from .version_create_request import VersionCreateRequest  # noqa: F401,E501
 
 class ComplexVersionCreateRequest(VersionCreateRequest):
     """

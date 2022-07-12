@@ -14,7 +14,7 @@ import pprint
 import re  # noqa: F401
 
 import six
-from tb_rest_client.models.models_pe import SmsProviderConfiguration  # noqa: F401,E501
+from .sms_provider_configuration import SmsProviderConfiguration  # noqa: F401,E501
 
 class TwilioSmsProviderConfiguration(SmsProviderConfiguration):
     """

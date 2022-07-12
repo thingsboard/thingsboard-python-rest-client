@@ -14,7 +14,7 @@ import pprint
 import re  # noqa: F401
 
 import six
-from tb_rest_client.models.models_pe import VersionLoadRequest  # noqa: F401,E501
+from .version_load_request import VersionLoadRequest  # noqa: F401,E501
 
 class EntityTypeVersionLoadRequest(VersionLoadRequest):
     """

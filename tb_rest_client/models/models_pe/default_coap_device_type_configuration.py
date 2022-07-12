@@ -14,7 +14,7 @@ import pprint
 import re  # noqa: F401
 
 import six
-from tb_rest_client.models.models_pe import CoapDeviceTypeConfiguration  # noqa: F401,E501
+from .coap_device_type_configuration import CoapDeviceTypeConfiguration  # noqa: F401,E501
 
 class DefaultCoapDeviceTypeConfiguration(CoapDeviceTypeConfiguration):
     """

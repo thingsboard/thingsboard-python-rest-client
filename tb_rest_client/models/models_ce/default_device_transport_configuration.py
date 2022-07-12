@@ -14,7 +14,7 @@ import pprint
 import re  # noqa: F401
 
 import six
-from tb_rest_client.models.models_ce import DeviceTransportConfiguration  # noqa: F401,E501
+from .device_transport_configuration import DeviceTransportConfiguration  # noqa: F401,E501
 
 class DefaultDeviceTransportConfiguration(DeviceTransportConfiguration):
     """

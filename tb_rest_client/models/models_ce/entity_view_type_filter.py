@@ -14,7 +14,7 @@ import pprint
 import re  # noqa: F401
 
 import six
-from tb_rest_client.models.models_ce import EntityFilter  # noqa: F401,E501
+from .entity_filter import EntityFilter  # noqa: F401,E501
 
 class EntityViewTypeFilter(EntityFilter):
     """
