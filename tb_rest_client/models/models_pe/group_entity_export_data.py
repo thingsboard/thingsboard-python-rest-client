@@ -14,7 +14,7 @@ import pprint
 import re  # noqa: F401
 
 import six
-from tb_rest_client.models.models_pe import EntityExportDataobject  # noqa: F401,E501
+from .entity_export_dataobject import EntityExportDataobject  # noqa: F401,E501
 
 class GroupEntityExportData(EntityExportDataobject):
     """

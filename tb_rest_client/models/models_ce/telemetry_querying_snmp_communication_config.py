@@ -14,7 +14,7 @@ import pprint
 import re  # noqa: F401
 
 import six
-from tb_rest_client.models.models_ce import SnmpCommunicationConfig  # noqa: F401,E501
+from .snmp_communication_config import SnmpCommunicationConfig  # noqa: F401,E501
 
 class TelemetryQueryingSnmpCommunicationConfig(SnmpCommunicationConfig):
     """

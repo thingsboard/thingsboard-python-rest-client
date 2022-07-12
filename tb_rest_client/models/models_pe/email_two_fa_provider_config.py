@@ -14,7 +14,7 @@ import pprint
 import re  # noqa: F401
 
 import six
-from tb_rest_client.models.models_pe import TwoFaProviderConfig  # noqa: F401,E501
+from .two_fa_provider_config import TwoFaProviderConfig  # noqa: F401,E501
 
 class EmailTwoFaProviderConfig(TwoFaProviderConfig):
     """

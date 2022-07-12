@@ -14,7 +14,7 @@ import pprint
 import re  # noqa: F401
 
 import six
-from tb_rest_client.models.models_ce import AlarmConditionSpec  # noqa: F401,E501
+from .alarm_condition_spec import AlarmConditionSpec  # noqa: F401,E501
 
 class RepeatingAlarmConditionSpec(AlarmConditionSpec):
     """

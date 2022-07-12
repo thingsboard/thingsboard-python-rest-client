@@ -14,7 +14,7 @@ import pprint
 import re  # noqa: F401
 
 import six
-from tb_rest_client.models.models_ce import EventFilter  # noqa: F401,E501
+from .event_filter import EventFilter  # noqa: F401,E501
 
 class DebugRuleNodeEventFilter(EventFilter):
     """

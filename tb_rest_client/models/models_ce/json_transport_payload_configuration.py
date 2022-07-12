@@ -14,7 +14,7 @@ import pprint
 import re  # noqa: F401
 
 import six
-from tb_rest_client.models.models_ce import TransportPayloadTypeConfiguration  # noqa: F401,E501
+from .transport_payload_type_configuration import TransportPayloadTypeConfiguration  # noqa: F401,E501
 
 class JsonTransportPayloadConfiguration(TransportPayloadTypeConfiguration):
     """
