@@ -518,7 +518,7 @@ class ApiClient(object):
 
         if files:
             for k, v in six.iteritems(files):
-                if not v:
+                if not v or k in ['attribute_map', 'discriminator']:
                     continue
                 file_names = v if type(v) is list else [v]
                 for n in file_names:

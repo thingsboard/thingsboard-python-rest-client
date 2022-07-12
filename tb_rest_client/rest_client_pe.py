@@ -497,7 +497,8 @@ class RestClientPE(RestClientBase):
                                                               sub_customer_id=sub_customer_id)
 
     def save_device_with_credentials(self, body=None, entity_group_id=None):
-        entity_group_id = self.get_id(entity_group_id)
+        if entity_group_id is not None:
+            entity_group_id = self.get_id(entity_group_id)
         return self.device_controller.save_device_with_credentials_using_post(body=body,
                                                                               entity_group_id=entity_group_id)
 
@@ -505,7 +506,8 @@ class RestClientPE(RestClientBase):
         return self.device_controller.update_device_credentials_using_post(body=body)
 
     def save_device(self, body=None, access_token=None, entity_group_id=None):
-        entity_group_id = self.get_id(entity_group_id)
+        if entity_group_id is not None:
+            entity_group_id = self.get_id(entity_group_id)
         return self.device_controller.save_device_using_post(body=body, access_token=access_token,
                                                              entity_group_id=entity_group_id)
 

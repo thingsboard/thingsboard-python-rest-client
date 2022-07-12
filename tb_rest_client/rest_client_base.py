@@ -1236,7 +1236,7 @@ class RestClientBase(Thread):
         ota_package_id = self.get_id(ota_package_id)
         return self.ota_package_controller.get_ota_package_info_by_id_using_get(ota_package_id=ota_package_id)
 
-    def save_entities_version(self, body=None):
+    def save_entities_version(self, body: VersionCreateRequest = None):
         return self.entities_version_control_controller.save_entities_version_using_post(body=body)
 
     def get_version_load_request_status(self, request_id: str):

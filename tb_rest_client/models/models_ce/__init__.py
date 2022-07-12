@@ -275,3 +275,5 @@ from .entity_export_dataobject import EntityExportDataobject
 from .two_fa_account_config import TwoFaAccountConfig
 from .two_fa_provider_config import TwoFaProviderConfig
 from .transport_payload_type_configuration import TransportPayloadTypeConfiguration
+from .version_creation_result import VersionCreationResult
+from .entity_version import EntityVersion

@@ -64,7 +64,7 @@ from tb_rest_client.api_client import ApiClient
         self._customer_id = None
         self._name = None
         self._type = None
-        self._label = ""
+        self._label = None
         self._additional_info = None
         self._customer_title = None
         self._customer_is_public = None
@@ -268,7 +268,7 @@ from tb_rest_client.api_client import ApiClient
         :type: str
         """
         if label is None:
-            self._label = ""
+            self._label = None
 
         self._label = label
 

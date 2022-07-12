@@ -60,10 +60,10 @@ from tb_rest_client.api_client import ApiClient
         self._tenant_id = None
         self._customer_id = None
         self._email = None
-        self._name = None
+        self._name = ""
         self._authority = None
-        self._first_name = None
-        self._last_name = None
+        self._first_name = ""
+        self._last_name = ""
         self._additional_info = None
         self.discriminator = None
         if id is not None:
@@ -78,8 +78,10 @@ from tb_rest_client.api_client import ApiClient
         if name is not None:
             self.name = name
         self.authority = authority
-        self.first_name = first_name
-        self.last_name = last_name
+        if first_name is not None:
+            self.first_name = first_name
+        if last_name is not None:
+            self.last_name = last_name
         if additional_info is not None:
             self.additional_info = additional_info
 
@@ -269,7 +271,7 @@ from tb_rest_client.api_client import ApiClient
         :type: str
         """
         if first_name is None:
-            raise ValueError("Invalid value for `first_name`, must not be `None`")  # noqa: E501
+            self._first_name = ""
 
         self._first_name = first_name
 
@@ -294,7 +296,7 @@ from tb_rest_client.api_client import ApiClient
         :type: str
         """
         if last_name is None:
-            raise ValueError("Invalid value for `last_name`, must not be `None`")  # noqa: E501
+            self._last_name = ""
 
         self._last_name = last_name
 

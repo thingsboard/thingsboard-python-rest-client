@@ -2014,7 +2014,7 @@ class DeviceControllerApi(object):
         auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
-            '/api/tenant/devices{?page,pageSize,sortOrder,sortProperty,textSearch,type}', 'GET',
+            '/api/tenant/devices', 'GET',
             path_params,
             query_params,
             header_params,
@@ -2259,7 +2259,7 @@ class DeviceControllerApi(object):
                  returns the request thread.
         """
 
-        all_params = ['body', 'access_token']  # noqa: E501
+        all_params = ['body', 'access_token', 'entity_group_id']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -2282,6 +2282,8 @@ class DeviceControllerApi(object):
         query_params = []
         if 'access_token' in params:
             query_params.append(('accessToken', params['access_token']))  # noqa: E501
+        if 'entity_group_id' in params:
+            query_params.append(('entityGroupId', params['entity_group_id']))  # noqa: E501
 
         header_params = {}
 
@@ -2303,7 +2305,7 @@ class DeviceControllerApi(object):
         auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
-            '/api/device{?accessToken}', 'POST',
+            '/api/device{?accessToken,entityGroupId}', 'POST',
             path_params,
             query_params,
             header_params,

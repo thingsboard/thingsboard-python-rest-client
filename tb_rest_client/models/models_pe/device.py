@@ -71,7 +71,7 @@ from tb_rest_client.api_client import ApiClient
         self._owner_id = None
         self._name = None
         self._type = None
-        self._label = ""
+        self._label = None
         self._device_profile_id = None
         self._device_data = None
         self._firmware_id = None
@@ -303,7 +303,7 @@ from tb_rest_client.api_client import ApiClient
         :type: str
         """
         if label is None:
-            self._label = ""
+            self._label = None
 
         self._label = label
 
