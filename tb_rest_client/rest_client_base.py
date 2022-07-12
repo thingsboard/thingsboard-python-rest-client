@@ -1236,6 +1236,72 @@ class RestClientBase(Thread):
         ota_package_id = self.get_id(ota_package_id)
         return self.ota_package_controller.get_ota_package_info_by_id_using_get(ota_package_id=ota_package_id)
 
+    def save_entities_version(self, body=None):
+        return self.entities_version_control_controller.save_entities_version_using_post(body=body)
+
+    def get_version_load_request_status(self, request_id: int):
+        request_id = self.get_id(request_id)
+        return self.entities_version_control_controller.get_version_load_request_status_using_get(request_id=request_id)
+
+    def list_branches(self, ):
+        return self.entities_version_control_controller.list_branches_using_get()
+
+    def list_entity_versions(self, entity_type: str, external_entity_uuid: str, branch: str, page_size: int, page: int,
+                             text_search=None, sort_property=None, sort_order=None):
+        return self.entities_version_control_controller.list_entity_versions_using_get(entity_type=entity_type,
+                                                                                       external_entity_uuid=external_entity_uuid,
+                                                                                       branch=branch,
+                                                                                       page_size=page_size, page=page,
+                                                                                       text_search=text_search,
+                                                                                       sort_property=sort_property,
+                                                                                       sort_order=sort_order)
+
+    def get_entity_data_info(self, version_id: int, entity_type: str, external_entity_uuid: str):
+        version_id = self.get_id(version_id)
+        return self.entities_version_control_controller.get_entity_data_info_using_get(version_id=version_id,
+                                                                                       entity_type=entity_type,
+                                                                                       external_entity_uuid=external_entity_uuid)
+
+    def get_version_create_request_status(self, request_id: int):
+        request_id = self.get_id(request_id)
+        return self.entities_version_control_controller.get_version_create_request_status_using_get(
+            request_id=request_id)
+
+    def load_entities_version(self, body=None):
+        return self.entities_version_control_controller.load_entities_version_using_post(body=body)
+
+    def list_entity_type_versions(self, entity_type: str, branch: str, page_size: int, page: int, text_search=None,
+                                  sort_property=None, sort_order=None):
+        return self.entities_version_control_controller.list_entity_type_versions_using_get(entity_type=entity_type,
+                                                                                            branch=branch,
+                                                                                            page_size=page_size,
+                                                                                            page=page,
+                                                                                            text_search=text_search,
+                                                                                            sort_property=sort_property,
+                                                                                            sort_order=sort_order)
+
+    def list_entities_at_version(self, entity_type: str, version_id: int):
+        version_id = self.get_id(version_id)
+        return self.entities_version_control_controller.list_entities_at_version_using_get(entity_type=entity_type,
+                                                                                           version_id=version_id)
+
+    def list_all_entities_at_version(self, version_id: int):
+        version_id = self.get_id(version_id)
+        return self.entities_version_control_controller.list_all_entities_at_version_using_get(version_id=version_id)
+
+    def compare_entity_data_to_version(self, internal_entity_uuid: str, version_id: int):
+        version_id = self.get_id(version_id)
+        entity_type = self.get_type(version_id)
+        return self.entities_version_control_controller.compare_entity_data_to_version_using_get(
+            entity_type=entity_type, internal_entity_uuid=internal_entity_uuid, version_id=version_id)
+
+    def list_versions(self, branch: str, page_size: int, page: int, text_search=None, sort_property=None,
+                      sort_order=None):
+        return self.entities_version_control_controller.list_versions_using_get(branch=branch, page_size=page_size,
+                                                                                page=page, text_search=text_search,
+                                                                                sort_property=sort_property,
+                                                                                sort_order=sort_order)
+
     def __load_controllers(self):
         self.audit_log_controller = AuditLogControllerApi(self.api_client)
         self.o_auth2_config_template_controller = OAuth2ConfigTemplateControllerApi(self.api_client)
