@@ -279,3 +279,12 @@ from .version_creation_result import VersionCreationResult
 from .entity_version import EntityVersion
 from .version_load_result import VersionLoadResult
 from .entity_type_load_result import EntityTypeLoadResult
+from .entity_version import EntityVersion
+from .complex_version_create_request import ComplexVersionCreateRequest
+from .version_load_config import VersionLoadConfig
+from .single_entity_version_load_request import SingleEntityVersionLoadRequest
+from .entity_type_version_load_request import EntityTypeVersionLoadRequest
+from .version_create_config import VersionCreateConfig
+from .single_entity_version_create_request import SingleEntityVersionCreateRequest
+from .entity_type_version_create_config import EntityTypeVersionCreateConfig
+from .entity_type_version_load_config import EntityTypeVersionLoadConfig
