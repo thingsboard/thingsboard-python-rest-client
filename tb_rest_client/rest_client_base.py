@@ -1284,9 +1284,11 @@ class RestClientBase(Thread):
     def list_all_entities_at_version(self, version_id: str):
         return self.entities_version_control_controller.list_all_entities_at_version_using_get(version_id=version_id)
 
-    def compare_entity_data_to_version(self, internal_entity_uuid: str, entity_type: str, version_id: str):
+    def compare_entity_data_to_version(self, entity_id: EntityId, version_id: str):
+        entity_type = self.get_type(entity_id)
+        entity_id = self.get_id(entity_id)
         return self.entities_version_control_controller.compare_entity_data_to_version_using_get(
-            entity_type=entity_type, internal_entity_uuid=internal_entity_uuid, version_id=version_id)
+            entity_type=entity_type, internal_entity_uuid=entity_id, version_id=version_id)
 
     def list_versions(self, branch: str, page_size: int, page: int, text_search=None, sort_property=None,
                       sort_order=None):

@@ -321,3 +321,5 @@ from .lw_m2_m_bootstrap_server_credential import LwM2MBootstrapServerCredential
 from .two_fa_account_config import TwoFaAccountConfig
 from .version_creation_result import VersionCreationResult
 from .entity_version import EntityVersion
+from .version_load_result import VersionLoadResult
+from .entity_type_load_result import EntityTypeLoadResult

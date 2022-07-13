@@ -277,3 +277,5 @@ from .two_fa_provider_config import TwoFaProviderConfig
 from .transport_payload_type_configuration import TransportPayloadTypeConfiguration
 from .version_creation_result import VersionCreationResult
 from .entity_version import EntityVersion
+from .version_load_result import VersionLoadResult
+from .entity_type_load_result import EntityTypeLoadResult
