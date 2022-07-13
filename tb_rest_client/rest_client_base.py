@@ -242,7 +242,7 @@ class RestClientBase(Thread):
         rule_chain_id = self.get_id(rule_chain_id)
         return self.rule_chain_controller.get_rule_chain_by_id_using_get(rule_chain_id=rule_chain_id)
 
-    def test_script(self, body: Optional[RuleChain]) -> JsonNode:
+    def test_script(self, body: Optional[RuleChain]) -> dict:
         return self.rule_chain_controller.test_script_using_post(body=body)
 
     def save_rule_chain_v1(self, body: Optional[RuleChain]) -> RuleChain:
@@ -279,7 +279,7 @@ class RestClientBase(Thread):
     def get_auto_assign_to_edge_rule_chains(self) -> List[RuleChain]:
         return self.rule_chain_controller.get_auto_assign_to_edge_rule_chains_using_get()
 
-    def get_latest_rule_node_debug_input(self, rule_node_id: RuleNodeId) -> JsonNode:
+    def get_latest_rule_node_debug_input(self, rule_node_id: RuleNodeId) -> dict:
         rule_node_id = self.get_id(rule_node_id)
         return self.rule_chain_controller.get_latest_rule_node_debug_input_using_get(rule_node_id=rule_node_id)
 
@@ -356,7 +356,7 @@ class RestClientBase(Thread):
                                                           end_time=end_time)
 
     # Telemetry Controller #
-    def get_attribute_keys_by_scope(self, entity_id: EntityId, scope: str) -> DeferredResultResponseEntity:
+    def get_attribute_keys_by_scope(self, entity_id: EntityId, scope: str):
         entity_id = self.get_id(entity_id)
         entity_type = self.get_type(entity_id)
         return self.telemetry_controller.get_attribute_keys_by_scope_using_get(entity_type=entity_type,
@@ -364,7 +364,7 @@ class RestClientBase(Thread):
 
     def get_timeseries(self, entity_id: EntityId, keys: str, start_ts: int, end_ts: int,
                        interval: Optional[int] = None, limit: Optional[int] = None, agg: Optional[str] = None, order_by: Optional[str] = None,
-                       use_strict_data_types: Optional[bool] = None) -> DeferredResultResponseEntity:
+                       use_strict_data_types: Optional[bool] = None):
         entity_id = self.get_id(entity_id)
         entity_type = self.get_type(entity_id)
         return self.telemetry_controller.get_timeseries_using_get(entity_type=entity_type, entity_id=entity_id,
@@ -373,13 +373,13 @@ class RestClientBase(Thread):
                                                                   order_by=order_by,
                                                                   use_strict_data_types=use_strict_data_types)
 
-    def delete_device_attributes(self, device_id: DeviceId, scope: str, keys: str) -> DeferredResultResponseEntity:
+    def delete_device_attributes(self, device_id: DeviceId, scope: str, keys: str):
         device_id = self.get_id(device_id)
         return self.telemetry_controller.delete_device_attributes_using_delete(device_id=device_id, scope=scope,
                                                                                keys=keys)
 
     def save_entity_attributes_v1(self, entity_id: EntityId, scope: str,
-                                  body: Optional[JsonNode] = None) -> DeferredResultResponseEntity:
+                                  body: Optional[dict] = None):
         entity_id = self.get_id(entity_id)
         entity_type = self.get_type(entity_id)
         return self.telemetry_controller.save_entity_attributes_v1_using_post(entity_type=entity_type,
@@ -388,7 +388,7 @@ class RestClientBase(Thread):
 
     def delete_entity_timeseries(self, entity_id: EntityId, keys: str, delete_all_data_for_keys: Optional[bool] = None,
                                  start_ts: Optional[int] = None, end_ts: Optional[int] = None,
-                                 rewrite_latest_if_deleted: Optional[bool] = None) -> DeferredResultResponseEntity:
+                                 rewrite_latest_if_deleted: Optional[bool] = None):
         entity_id = self.get_id(entity_id)
         entity_type = self.get_type(entity_id)
         return self.telemetry_controller.delete_entity_timeseries_using_delete(entity_type=entity_type,
@@ -398,37 +398,37 @@ class RestClientBase(Thread):
                                                                                rewrite_latest_if_deleted=rewrite_latest_if_deleted)
 
     def save_device_attributes(self, device_id: DeviceId, scope: str,
-                               body: Optional[JsonNode] = None) -> DeferredResultResponseEntity:
+                               body: Optional[dict] = None):
         device_id = self.get_id(device_id)
         return self.telemetry_controller.save_device_attributes_using_post(device_id=device_id, scope=scope, body=body)
 
     def get_latest_timeseries(self, entity_id: EntityId, keys: Optional[str] = None,
-                              use_strict_data_types: Optional[bool] = None) -> DeferredResultResponseEntity:
+                              use_strict_data_types: Optional[bool] = None):
         entity_id = self.get_id(entity_id)
         entity_type = self.get_type(entity_id)
         return self.telemetry_controller.get_latest_timeseries_using_get(entity_type=entity_type, entity_id=entity_id,
                                                                          keys=keys,
                                                                          use_strict_data_types=use_strict_data_types)
 
-    def get_timeseries_keys_v1(self, entity_id: EntityId) -> DeferredResultResponseEntity:
+    def get_timeseries_keys_v1(self, entity_id: EntityId):
         entity_id = self.get_id(entity_id)
         entity_type = self.get_type(entity_id)
         return self.telemetry_controller.get_timeseries_keys_using_get1(entity_type=entity_type, entity_id=entity_id)
 
     def get_attributes_by_scope(self, entity_id: EntityId, scope: str,
-                                keys: Optional[str] = None) -> DeferredResultResponseEntity:
+                                keys: Optional[str] = None):
         entity_id = self.get_id(entity_id)
         entity_type = self.get_type(entity_id)
         return self.telemetry_controller.get_attributes_by_scope_using_get(entity_type=entity_type, entity_id=entity_id,
                                                                            scope=scope, keys=keys)
 
-    def get_attribute_keys(self, entity_id: EntityId) -> DeferredResultResponseEntity:
+    def get_attribute_keys(self, entity_id: EntityId):
         entity_id = self.get_id(entity_id)
         entity_type = self.get_type(entity_id)
         return self.telemetry_controller.get_attribute_keys_using_get(entity_type=entity_type, entity_id=entity_id)
 
     def save_entity_attributes_v2(self, entity_id: EntityId, scope: str,
-                                  body: Optional[JsonNode] = None) -> DeferredResultResponseEntity:
+                                  body: Optional[dict] = None):
         entity_id = self.get_id(entity_id)
         entity_type = self.get_type(entity_id)
         return self.telemetry_controller.save_entity_attributes_v2_using_post(entity_type=entity_type,
@@ -436,27 +436,27 @@ class RestClientBase(Thread):
                                                                               body=body)
 
     def save_entity_telemetry(self, entity_id: EntityId, scope: str,
-                              body: Optional[str] = None) -> DeferredResultResponseEntity:
+                              body: Optional[str] = None):
         entity_id = self.get_id(entity_id)
         entity_type = self.get_type(entity_id)
         return self.telemetry_controller.save_entity_telemetry_using_post(entity_type=entity_type, entity_id=entity_id,
                                                                           scope=scope, body=body)
 
     def save_entity_telemetry_with_ttl(self, entity_id: EntityId, scope: str, ttl: int,
-                                       body: Optional[str] = None) -> DeferredResultResponseEntity:
+                                       body: Optional[str] = None):
         entity_id = self.get_id(entity_id)
         entity_type = self.get_type(entity_id)
         return self.telemetry_controller.save_entity_telemetry_with_ttl_using_post(entity_type=entity_type,
                                                                                    entity_id=entity_id, scope=scope,
                                                                                    ttl=ttl, body=body)
 
-    def get_attributes(self, entity_id: EntityId, keys: Optional[str] = None) -> DeferredResultResponseEntity:
+    def get_attributes(self, entity_id: EntityId, keys: Optional[str] = None):
         entity_id = self.get_id(entity_id)
         entity_type = self.get_type(entity_id)
         return self.telemetry_controller.get_attributes_using_get(entity_type=entity_type, entity_id=entity_id,
                                                                   keys=keys)
 
-    def delete_entity_attributes(self, entity_id: EntityId, scope: str, keys: str) -> DeferredResultResponseEntity:
+    def delete_entity_attributes(self, entity_id: EntityId, scope: str, keys: str):
         entity_id = self.get_id(entity_id)
         entity_type = self.get_type(entity_id)
         return self.telemetry_controller.delete_entity_attributes_using_delete(entity_type=entity_type,
@@ -578,11 +578,11 @@ class RestClientBase(Thread):
     def process_edges_bulk_import(self, body: Optional[BulkImportRequest] = None) -> BulkImportResultEdge:
         return self.edge_controller.process_edges_bulk_import_using_post(body=body)
 
-    def activate_instance(self, license_secret: str, release_date: str) -> JsonNode:
+    def activate_instance(self, license_secret: str, release_date: str) -> dict:
         return self.edge_controller.activate_instance_using_post(license_secret=license_secret,
                                                                  release_date=release_date)
 
-    def check_instance(self, body: Optional[JsonNode] = None) -> JsonNode:
+    def check_instance(self, body: Optional[dict] = None) -> dict:
         return self.edge_controller.check_instance_using_post(body=None)
 
     def get_edge_events(self, edge_id: EdgeId, page_size: int, page: int, text_search: Optional[str] = None,
@@ -600,17 +600,17 @@ class RestClientBase(Thread):
         rpc_id = self.get_id(rpc_id)
         return self.rpc_v2_controller.get_persisted_rpc_using_get(rpc_id=rpc_id)
 
-    def handle_one_way_device_rpc_request_v1(self, device_id: DeviceId, body: Optional[str] = None) -> DeferredResultResponseEntity:
+    def handle_one_way_device_rpc_request_v1(self, device_id: DeviceId, body: Optional[str] = None):
         device_id = self.get_id(device_id)
         return self.rpc_v2_controller.handle_one_way_device_rpc_request_using_post1(device_id=device_id, body=body)
 
-    def handle_two_way_device_rpc_request_v1(self, device_id: DeviceId, body: Optional[str] = None) -> DeferredResultResponseEntity:
+    def handle_two_way_device_rpc_request_v1(self, device_id: DeviceId, body: Optional[str] = None):
         device_id = self.get_id(device_id)
         return self.rpc_v2_controller.handle_two_way_device_rpc_request_using_post1(device_id=device_id, body=body)
 
     def get_persisted_rpc_by_device(self, device_id: DeviceId, page_size: int, page: int, rpc_status: str,
                                     text_search: Optional[str] = None, sort_property: Optional[str] = None,
-                                    sort_order: Optional[str] = None) -> DeferredResultResponseEntity:
+                                    sort_order: Optional[str] = None):
         device_id = self.get_id(device_id)
         return self.rpc_v2_controller.get_persisted_rpc_by_device_using_get(device_id=device_id, page_size=page_size,
                                                                             page=page, rpc_status=rpc_status,
@@ -636,7 +636,7 @@ class RestClientBase(Thread):
         customer_id = self.get_id(customer_id)
         return self.customer_controller.get_customer_by_id_using_get(customer_id=customer_id)
 
-    def get_short_customer_info_by_id(self, customer_id: CustomerId) -> JsonNode:
+    def get_short_customer_info_by_id(self, customer_id: CustomerId) -> dict:
         customer_id = self.get_id(customer_id)
         return self.customer_controller.get_short_customer_info_by_id_using_get(customer_id=customer_id)
 
@@ -696,12 +696,12 @@ class RestClientBase(Thread):
 
     # RPC v1 Controller
     def handle_one_way_device_rpc_request(self, device_id: DeviceId,
-                                          body: Optional[str] = None) -> DeferredResultResponseEntity:
+                                          body: Optional[str] = None):
         device_id = self.get_id(device_id)
         return self.rpc_v1_controller.handle_one_way_device_rpc_request_using_post(device_id=device_id, body=body)
 
     def handle_two_way_device_rpc_request(self, device_id: DeviceId,
-                                          body: Optional[str] = None) -> DeferredResultResponseEntity:
+                                          body: Optional[str] = None):
         device_id = self.get_id(device_id)
         return self.rpc_v1_controller.handle_two_way_device_rpc_request_using_post(device_id=device_id, body=body)
 
@@ -721,7 +721,7 @@ class RestClientBase(Thread):
         device_id = self.get_id(device_id)
         return self.device_controller.assign_device_to_tenant_using_post(tenant_id=tenant_id, device_id=device_id)
 
-    def re_claim_device(self, device_name: str) -> DeferredResultResponseEntity:
+    def re_claim_device(self, device_name: str):
         return self.device_controller.re_claim_device_using_delete(device_name=device_name)
 
     def process_devices_bulk_import(self, body: Optional[BulkImportRequest] = None) -> BulkImportResultDevice:
@@ -898,7 +898,7 @@ class RestClientBase(Thread):
     def sign_up(self, body: Optional[SignUpRequest] = None) -> str:
         return self.sign_up_controller.sign_up_using_post(body=body)
 
-    def accept_privacy_policy(self) -> JsonNode:
+    def accept_privacy_policy(self) -> dict:
         return self.sign_up_controller.accept_privacy_policy_using_post()
 
     def privacy_policy_accepted(self) -> bool:
@@ -1120,7 +1120,7 @@ class RestClientBase(Thread):
         return self.entity_query_controller.count_entities_by_query_using_post(body=body)
 
     def find_entity_timeseries_and_attributes_keys_by_query(self, timeseries: bool, attributes: bool, body: Optional[
-        EntityDataQuery]) -> DeferredResultResponseEntity:
+        EntityDataQuery]):
         return self.entity_query_controller.find_entity_timeseries_and_attributes_keys_by_query_using_post(
             timeseries=timeseries, attributes=attributes, body=body)
 
@@ -1311,12 +1311,12 @@ class RestClientBase(Thread):
     def get_version_load_request_status(self, request_id: str) -> VersionLoadResult:
         return self.entities_version_control_controller.get_version_load_request_status_using_get(request_id=request_id)
 
-    def list_branches(self) -> DeferredResultListBranchInfo:
+    def list_branches(self):
         return self.entities_version_control_controller.list_branches_using_get()
 
     def list_entity_versions(self, entity_type: str, external_entity_uuid: str, branch: str, page_size: int, page: int,
                              text_search: Optional[str] = None, sort_property: Optional[str] = None,
-                             sort_order: Optional[str] = None) -> DeferredResultPageDataEntityVersion:
+                             sort_order: Optional[str] = None):
         return self.entities_version_control_controller.list_entity_versions_using_get(entity_type=entity_type,
                                                                                        external_entity_uuid=external_entity_uuid,
                                                                                        branch=branch,
@@ -1326,7 +1326,7 @@ class RestClientBase(Thread):
                                                                                        sort_order=sort_order)
 
     def get_entity_data_info(self, version_id: str, entity_type: str,
-                             external_entity_uuid: str) -> DeferredResultEntityDataInfo:
+                             external_entity_uuid: str):
         return self.entities_version_control_controller.get_entity_data_info_using_get(version_id=version_id,
                                                                                        entity_type=entity_type,
                                                                                        external_entity_uuid=external_entity_uuid)
@@ -1341,7 +1341,7 @@ class RestClientBase(Thread):
     def list_entity_type_versions(self, entity_type: str, branch: str, page_size: int, page: int,
                                   text_search: Optional[str] = None,
                                   sort_property: Optional[str] = None,
-                                  sort_order: Optional[str] = None) -> DeferredResultPageDataEntityVersion:
+                                  sort_order: Optional[str] = None):
         return self.entities_version_control_controller.list_entity_type_versions_using_get(entity_type=entity_type,
                                                                                             branch=branch,
                                                                                             page_size=page_size,
@@ -1350,21 +1350,21 @@ class RestClientBase(Thread):
                                                                                             sort_property=sort_property,
                                                                                             sort_order=sort_order)
 
-    def list_entities_at_version(self, entity_type: str, version_id: str) -> DeferredResultListVersionedEntityInfo:
+    def list_entities_at_version(self, entity_type: str, version_id: str):
         return self.entities_version_control_controller.list_entities_at_version_using_get(entity_type=entity_type,
                                                                                            version_id=version_id)
 
-    def list_all_entities_at_version(self, version_id: str) -> DeferredResultListVersionedEntityInfo:
+    def list_all_entities_at_version(self, version_id: str):
         return self.entities_version_control_controller.list_all_entities_at_version_using_get(version_id=version_id)
 
     def compare_entity_data_to_version(self, entity_type: str, internal_entity_uuid: str,
-                                       version_id: str) -> DeferredResultEntityDataDiff:
+                                       version_id: str):
         return self.entities_version_control_controller.compare_entity_data_to_version_using_get(
             entity_type=entity_type, internal_entity_uuid=internal_entity_uuid, version_id=version_id)
 
     def list_versions(self, branch: str, page_size: int, page: int, text_search: Optional[str] = None,
                       sort_property: Optional[str] = None,
-                      sort_order: Optional[str] = None) -> DeferredResultPageDataEntityVersion:
+                      sort_order: Optional[str] = None):
         return self.entities_version_control_controller.list_versions_using_get(branch=branch, page_size=page_size,
                                                                                 page=page, text_search=text_search,
                                                                                 sort_property=sort_property,

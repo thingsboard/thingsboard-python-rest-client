@@ -51,7 +51,7 @@ class RestClientPE(RestClientBase):
     def get_terms_of_use(self, ) -> str:
         return self.self_registration_controller.get_terms_of_use_using_get()
 
-    def delete_self_registration_params(self, domain_name: str) -> DeferredResultResponseEntity:
+    def delete_self_registration_params(self, domain_name: str):
         return self.self_registration_controller.delete_self_registration_params_using_delete(domain_name=domain_name)
 
     def save_self_registration_params(self, body: Optional[SelfRegistrationParams] = None) -> SelfRegistrationParams:
@@ -70,15 +70,15 @@ class RestClientPE(RestClientBase):
         return self.o_auth2_config_template_controller.save_client_registration_template_using_post(body=body)
 
     # HTTP Integration Controller
-    def http_check_status_get(self, routing_key: str, request_params: dict, request_headers: dict) -> DeferredResultResponseEntity:
+    def http_check_status_get(self, routing_key: str, request_params: dict, request_headers: dict):
         return self.http_integration_controller.check_status_using_get(routing_key=routing_key,
                                                                        request_params=request_params,
                                                                        request_headers=request_headers)
 
-    def http_process_request_v1_post1(self, routing_key: str, suffix: str) -> DeferredResultResponseEntity:
+    def http_process_request_v1_post1(self, routing_key: str, suffix: str):
         return self.http_integration_controller.process_request_using_post1(routing_key=routing_key, suffix=suffix)
 
-    def http_process_request_v2_post2(self, routing_key: str, suffix: str) -> DeferredResultResponseEntity:
+    def http_process_request_v2_post2(self, routing_key: str, suffix: str):
         return self.http_integration_controller.process_request_using_post2(routing_key=routing_key, suffix=suffix)
 
     def get_asset_types(self, ) -> List[EntitySubtype]:
@@ -166,7 +166,7 @@ class RestClientPE(RestClientBase):
         edge_id = self.get_id(edge_id)
         return self.edge_controller.sync_edge_using_post(edge_id=edge_id)
 
-    def check_instance(self, body: Optional[JsonNode] = None) -> JsonNode:
+    def check_instance(self, body: Optional[dict] = None) -> dict:
         return self.edge_controller.check_instance_using_post(body=body)
 
     def get_tenant_edges(self, page_size: int, page: int, type: Optional[str] = None,text_search: Optional[str] = None, sort_property: Optional[str] = None,
@@ -189,7 +189,7 @@ class RestClientPE(RestClientBase):
     def process_edges_bulk_import(self, body: Optional[BulkImportRequest] = None) -> BulkImportResultEdge:
         return self.edge_controller.process_edges_bulk_import_using_post(body=body)
 
-    def activate_instance(self, license_secret: str, release_date: str) -> JsonNode:
+    def activate_instance(self, license_secret: str, release_date: str) -> dict:
         return self.edge_controller.activate_instance_using_post(license_secret=license_secret,
                                                                  release_date=release_date)
 
@@ -231,37 +231,37 @@ class RestClientPE(RestClientBase):
     def get_edges_by_ids(self, edge_ids: list) -> List[Edge]:
         return self.edge_controller.get_edges_by_ids_using_get(edge_ids=str(edge_ids))
 
-    def ocean_connect_process_request_v2_delete2(self, body: str, request_headers: dict, routing_key: str) -> DeferredResultResponseEntity:
+    def ocean_connect_process_request_v2_delete2(self, body: str, request_headers: dict, routing_key: str):
         return self.ocean_connect_integration_controller.process_request_using_delete2(body=body,
                                                                                        request_headers=request_headers,
                                                                                        routing_key=routing_key)
 
-    def ocean_connect_process_request_v2_get2(self, body: str, request_headers: dict, routing_key: str) -> DeferredResultResponseEntity:
+    def ocean_connect_process_request_v2_get2(self, body: str, request_headers: dict, routing_key: str):
         return self.ocean_connect_integration_controller.process_request_using_get2(body=body,
                                                                                     request_headers=request_headers,
                                                                                     routing_key=routing_key)
 
-    def ocean_connect_process_request_v2_head2(self, body: str, request_headers: dict, routing_key: str) -> DeferredResultResponseEntity:
+    def ocean_connect_process_request_v2_head2(self, body: str, request_headers: dict, routing_key: str):
         return self.ocean_connect_integration_controller.process_request_using_head2(body=body,
                                                                                      request_headers=request_headers,
                                                                                      routing_key=routing_key)
 
-    def ocean_connect_process_request_v2_options2(self, body: str, request_headers: dict, routing_key: str) -> DeferredResultResponseEntity:
+    def ocean_connect_process_request_v2_options2(self, body: str, request_headers: dict, routing_key: str):
         return self.ocean_connect_integration_controller.process_request_using_options2(body=body,
                                                                                         request_headers=request_headers,
                                                                                         routing_key=routing_key)
 
-    def ocean_connect_process_request_v2_patch2(self, body: str, request_headers: dict, routing_key: str) -> DeferredResultResponseEntity:
+    def ocean_connect_process_request_v2_patch2(self, body: str, request_headers: dict, routing_key: str):
         return self.ocean_connect_integration_controller.process_request_using_patch2(body=body,
                                                                                       request_headers=request_headers,
                                                                                       routing_key=routing_key)
 
-    def ocean_connect_process_request_v10_post10(self, body: str, request_headers: dict, routing_key: str) -> DeferredResultResponseEntity:
+    def ocean_connect_process_request_v10_post10(self, body: str, request_headers: dict, routing_key: str):
         return self.ocean_connect_integration_controller.process_request_using_post10(body=body,
                                                                                       request_headers=request_headers,
                                                                                       routing_key=routing_key)
 
-    def ocean_connect_process_request_v2_put2(self, body: str, request_headers: dict, routing_key: str) -> DeferredResultResponseEntity:
+    def ocean_connect_process_request_v2_put2(self, body: str, request_headers: dict, routing_key: str):
         return self.ocean_connect_integration_controller.process_request_using_put2(body=body,
                                                                                     request_headers=request_headers,
                                                                                     routing_key=routing_key)
@@ -296,16 +296,16 @@ class RestClientPE(RestClientBase):
                                                                      text_search=text_search,
                                                                      sort_property=sort_property, sort_order=sort_order)
 
-    def handle_one_way_device_rpc_request_v1(self, device_id: DeviceId, body: Optional[str] = None) -> DeferredResultResponseEntity:
+    def handle_one_way_device_rpc_request_v1(self, device_id: DeviceId, body: Optional[str] = None):
         device_id = self.get_id(device_id)
         return self.rpc_v2_controller.handle_one_way_device_rpc_request_using_post1(device_id=device_id, body=body)
 
-    def handle_two_way_device_rpc_request_v1(self, device_id: DeviceId, body: Optional[str] = None) -> DeferredResultResponseEntity:
+    def handle_two_way_device_rpc_request_v1(self, device_id: DeviceId, body: Optional[str] = None):
         device_id = self.get_id(device_id)
         return self.rpc_v2_controller.handle_two_way_device_rpc_request_using_post1(device_id=device_id, body=body)
 
     def get_persisted_rpc_by_device(self, device_id: DeviceId, page_size: int, page: int, rpc_status: str,
-                                   text_search: Optional[str] = None, sort_property: Optional[str] = None, sort_order: Optional[str] = None) -> DeferredResultResponseEntity:
+                                   text_search: Optional[str] = None, sort_property: Optional[str] = None, sort_order: Optional[str] = None):
         device_id = self.get_id(device_id)
         return self.rpc_v2_controller.get_persisted_rpc_by_device_using_get(device_id=device_id, page_size=page_size,
                                                                             page=page, rpc_status=rpc_status,
@@ -349,7 +349,7 @@ class RestClientPE(RestClientBase):
         customer_id = self.get_id(customer_id)
         return self.customer_controller.get_customer_by_id_using_get(customer_id=customer_id)
 
-    def get_short_customer_info_by_id(self, customer_id: CustomerId) -> JsonNode:
+    def get_short_customer_info_by_id(self, customer_id: CustomerId) -> dict:
         customer_id = self.get_id(customer_id)
         return self.customer_controller.get_short_customer_info_by_id_using_get(customer_id=customer_id)
 
@@ -486,7 +486,7 @@ class RestClientPE(RestClientBase):
                                                                  text_search=text_search, sort_property=sort_property,
                                                                  sort_order=sort_order)
 
-    def claim_device(self, device_name: str, body: Optional[ClaimRequest] = None) -> DeferredResultResponseEntity:
+    def claim_device(self, device_name: str, body: Optional[ClaimRequest] = None):
         return self.device_controller.claim_device_using_post(device_name=device_name, body=body)
 
     def save_device_with_credentials(self, body: Optional[SaveDeviceWithCredentialsRequest] = None) -> Device:
@@ -534,7 +534,7 @@ class RestClientPE(RestClientBase):
         device_id = self.get_id(device_id)
         return self.device_controller.delete_device_using_delete(device_id=device_id)
 
-    def re_claim_device(self, device_name: str) -> DeferredResultResponseEntity:
+    def re_claim_device(self, device_name: str):
         return self.device_controller.re_claim_device_using_delete(device_name=device_name)
 
     def get_tenant_device(self, device_name: str) -> Device:
@@ -562,7 +562,7 @@ class RestClientPE(RestClientBase):
                                                                   text_search=text_search, sort_property=sort_property,
                                                                   sort_order=sort_order)
 
-    def get_latest_converter_debug_input(self, converter_id: ConverterId) -> JsonNode:
+    def get_latest_converter_debug_input(self, converter_id: ConverterId) -> dict:
         converter_id = self.get_id(converter_id)
         return self.converter_controller.get_latest_converter_debug_input_using_get(converter_id=converter_id)
 
@@ -654,10 +654,10 @@ class RestClientPE(RestClientBase):
     def save_converter(self, body: Optional[Converter] = None) -> Converter:
         return self.converter_controller.save_converter_using_post(body=body)
 
-    def test_down_link_converter(self, body: Optional[JsonNode] = None) -> JsonNode:
+    def test_down_link_converter(self, body: Optional[dict] = None) -> dict:
         return self.converter_controller.test_down_link_converter_using_post(body=body)
 
-    def test_up_link_converter(self, body: Optional[JsonNode] = None) -> JsonNode:
+    def test_up_link_converter(self, body: Optional[dict] = None) -> dict:
         return self.converter_controller.test_up_link_converter_using_post(body=body)
 
     def get_entity_view_types(self, ) -> List[EntitySubtype]:
@@ -713,20 +713,20 @@ class RestClientPE(RestClientBase):
                                                                                sort_property=sort_property,
                                                                                sort_order=sort_order)
 
-    def handle_rule_engine_request(self, entity_id: EntityId, timeout: int, body: Optional[str] = None) -> DeferredResultResponseEntity:
+    def handle_rule_engine_request(self, entity_id: EntityId, timeout: int, body: Optional[str] = None):
         entity_id = self.get_id(entity_id)
         entity_type = self.get_type(entity_id)
         return self.rule_engine_controller.handle_rule_engine_request_using_post(entity_type=entity_type,
                                                                                  entity_id=entity_id, timeout=timeout,
                                                                                  body=body)
 
-    def handle_rule_engine_request_v1(self, entity_id: EntityId, body: Optional[str] = None) -> DeferredResultResponseEntity:
+    def handle_rule_engine_request_v1(self, entity_id: EntityId, body: Optional[str] = None):
         entity_id = self.get_id(entity_id)
         entity_type = self.get_type(entity_id)
         return self.rule_engine_controller.handle_rule_engine_request_using_post1(entity_type=entity_type,
                                                                                   entity_id=entity_id, body=body)
 
-    def handle_rule_engine_request_v2(self, body: Optional[str] = None) -> DeferredResultResponseEntity:
+    def handle_rule_engine_request_v2(self, body: Optional[str] = None):
         return self.rule_engine_controller.handle_rule_engine_request_using_post2(body=body)
 
     def get_admin_settings(self, key: str, system_by_default=None) -> AdminSettings:
@@ -750,37 +750,37 @@ class RestClientPE(RestClientBase):
     def save_security_settings(self, body: Optional[SecuritySettings] = None) -> SecuritySettings:
         return self.admin_controller.save_security_settings_using_post(body=body)
 
-    def t_mobile_iot_cdp_process_request_v4_delete4(self, body: str, request_headers: dict, routing_key: str) -> DeferredResultResponseEntity:
+    def t_mobile_iot_cdp_process_request_v4_delete4(self, body: str, request_headers: dict, routing_key: str):
         return self.t_mobile_iot_cdp_integration_controller.process_request_using_delete4(body=body,
                                                                                           request_headers=request_headers,
                                                                                           routing_key=routing_key)
 
-    def t_mobile_iot_cdp_process_request_v4_get4(self, body: str, request_headers: dict, routing_key: str) -> DeferredResultResponseEntity:
+    def t_mobile_iot_cdp_process_request_v4_get4(self, body: str, request_headers: dict, routing_key: str):
         return self.t_mobile_iot_cdp_integration_controller.process_request_using_get4(body=body,
                                                                                        request_headers=request_headers,
                                                                                        routing_key=routing_key)
 
-    def t_mobile_iot_cdp_process_request_v4_head4(self, body: str, request_headers: dict, routing_key: str) -> DeferredResultResponseEntity:
+    def t_mobile_iot_cdp_process_request_v4_head4(self, body: str, request_headers: dict, routing_key: str):
         return self.t_mobile_iot_cdp_integration_controller.process_request_using_head4(body=body,
                                                                                         request_headers=request_headers,
                                                                                         routing_key=routing_key)
 
-    def t_mobile_iot_cdp_process_request_v4_options4(self, body: str, request_headers: dict, routing_key: str) -> DeferredResultResponseEntity:
+    def t_mobile_iot_cdp_process_request_v4_options4(self, body: str, request_headers: dict, routing_key: str):
         return self.t_mobile_iot_cdp_integration_controller.process_request_using_options4(body=body,
                                                                                            request_headers=request_headers,
                                                                                            routing_key=routing_key)
 
-    def t_mobile_iot_cdp_process_request_v4_patch4(self, body: str, request_headers: dict, routing_key: str) -> DeferredResultResponseEntity:
+    def t_mobile_iot_cdp_process_request_v4_patch4(self, body: str, request_headers: dict, routing_key: str):
         return self.t_mobile_iot_cdp_integration_controller.process_request_using_patch4(body=body,
                                                                                          request_headers=request_headers,
                                                                                          routing_key=routing_key)
 
-    def t_mobile_iot_cdp_process_request_v12_post12(self, body: str, request_headers: dict, routing_key: str) -> DeferredResultResponseEntity:
+    def t_mobile_iot_cdp_process_request_v12_post12(self, body: str, request_headers: dict, routing_key: str):
         return self.t_mobile_iot_cdp_integration_controller.process_request_using_post12(body=body,
                                                                                          request_headers=request_headers,
                                                                                          routing_key=routing_key)
 
-    def t_mobile_iot_cdp_process_request_v4_put4(self, body: str, request_headers: dict, routing_key: str) -> DeferredResultResponseEntity:
+    def t_mobile_iot_cdp_process_request_v4_put4(self, body: str, request_headers: dict, routing_key: str):
         return self.t_mobile_iot_cdp_integration_controller.process_request_using_put4(body=body,
                                                                                        request_headers=request_headers,
                                                                                        routing_key=routing_key)
@@ -791,7 +791,7 @@ class RestClientPE(RestClientBase):
     def sign_up(self, body: Optional[SignUpRequest] = None) -> str:
         return self.sign_up_controller.sign_up_using_post(body=body)
 
-    def accept_privacy_policy(self, ) -> JsonNode:
+    def accept_privacy_policy(self, ) -> dict:
         return self.sign_up_controller.accept_privacy_policy_using_post()
 
     def resend_cloud_email_activation(self, email: str) -> None:
@@ -806,19 +806,19 @@ class RestClientPE(RestClientBase):
     def resend_email_activation(self, email: str, pkg_name: Optional[str] = None) -> None:
         return self.sign_up_controller.resend_email_activation_using_post(email=email, pkg_name=pkg_name)
 
-    def activate_user_by_email_code(self, email_code: str, pkg_name: Optional[str] = None) -> JsonNode:
+    def activate_user_by_email_code(self, email_code: str, pkg_name: Optional[str] = None) -> dict:
         return self.sign_up_controller.activate_user_by_email_code_using_post(email_code=email_code, pkg_name=pkg_name)
 
     def privacy_policy_accepted(self, ) -> bool:
         return self.sign_up_controller.privacy_policy_accepted_using_get()
 
-    def accept_terms_of_use(self, ) -> JsonNode:
+    def accept_terms_of_use(self, ) -> dict:
         return self.sign_up_controller.accept_terms_of_use_using_post()
 
-    def activate_cloud_user_by_email_code(self, email_code: str) -> JsonNode:
+    def activate_cloud_user_by_email_code(self, email_code: str) -> dict:
         return self.sign_up_controller.activate_cloud_user_by_email_code_using_post(email_code=email_code)
 
-    def accept_privacy_policy_and_terms_of_use(self, ) -> JsonNode:
+    def accept_privacy_policy_and_terms_of_use(self, ) -> dict:
         return self.sign_up_controller.accept_privacy_policy_and_terms_of_use_using_post()
 
     def activate_email(self, email_code: str, pkg_name: Optional[str] = None) -> str:
@@ -844,134 +844,134 @@ class RestClientPE(RestClientBase):
         return self.trail_controller.delete_device_using_delete1()
 
     def thing_park_process_request_tpe_delete(self, body: str, request_headers: dict, all_request_params: dict,
-                                              routing_key: str) -> DeferredResultResponseEntity:
+                                              routing_key: str):
         return self.thing_park_integration_controller.process_request_tpe_using_delete(body=body,
                                                                                        request_headers=request_headers,
                                                                                        all_request_params=all_request_params,
                                                                                        routing_key=routing_key)
 
     def thing_park_process_request_tpe_get(self, body: str, request_headers: dict, all_request_params: dict,
-                                           routing_key: str) -> DeferredResultResponseEntity:
+                                           routing_key: str):
         return self.thing_park_integration_controller.process_request_tpe_using_get(body=body,
                                                                                     request_headers=request_headers,
                                                                                     all_request_params=all_request_params,
                                                                                     routing_key=routing_key)
 
     def thing_park_process_request_tpe_head(self, body: str, request_headers: dict, all_request_params: dict,
-                                            routing_key: str) -> DeferredResultResponseEntity:
+                                            routing_key: str):
         return self.thing_park_integration_controller.process_request_tpe_using_head(body=body,
                                                                                      request_headers=request_headers,
                                                                                      all_request_params=all_request_params,
                                                                                      routing_key=routing_key)
 
     def thing_park_process_request_tpe_options(self, body: str, request_headers: dict, all_request_params: dict,
-                                               routing_key: str) -> DeferredResultResponseEntity:
+                                               routing_key: str):
         return self.thing_park_integration_controller.process_request_tpe_using_options(body=body,
                                                                                         request_headers=request_headers,
                                                                                         all_request_params=all_request_params,
                                                                                         routing_key=routing_key)
 
     def thing_park_process_request_tpe_patch(self, body: str, request_headers: dict, all_request_params: dict,
-                                             routing_key: str) -> DeferredResultResponseEntity:
+                                             routing_key: str):
         return self.thing_park_integration_controller.process_request_tpe_using_patch(body=body,
                                                                                       request_headers=request_headers,
                                                                                       all_request_params=all_request_params,
                                                                                       routing_key=routing_key)
 
     def thing_park_process_request_tpe_post(self, body: str, request_headers: dict, all_request_params: dict,
-                                            routing_key: str) -> DeferredResultResponseEntity:
+                                            routing_key: str):
         return self.thing_park_integration_controller.process_request_tpe_using_post(body=body,
                                                                                      request_headers=request_headers,
                                                                                      all_request_params=all_request_params,
                                                                                      routing_key=routing_key)
 
     def thing_park_process_request_tpe_put(self, body: str, request_headers: dict, all_request_params: dict,
-                                           routing_key: str) -> DeferredResultResponseEntity:
+                                           routing_key: str):
         return self.thing_park_integration_controller.process_request_tpe_using_put(body=body,
                                                                                     request_headers=request_headers,
                                                                                     all_request_params=all_request_params,
                                                                                     routing_key=routing_key)
 
     def thing_park_process_request_v5_delete5(self, body: str, request_headers: dict, all_request_params: dict,
-                                              routing_key: str) -> DeferredResultResponseEntity:
+                                              routing_key: str):
         return self.thing_park_integration_controller.process_request_using_delete5(body=body,
                                                                                     request_headers=request_headers,
                                                                                     all_request_params=all_request_params,
                                                                                     routing_key=routing_key)
 
     def thing_park_process_request_v5_get5(self, body: str, request_headers: dict, all_request_params: dict,
-                                           routing_key: str) -> DeferredResultResponseEntity:
+                                           routing_key: str):
         return self.thing_park_integration_controller.process_request_using_get5(body=body,
                                                                                  request_headers=request_headers,
                                                                                  all_request_params=all_request_params,
                                                                                  routing_key=routing_key)
 
     def thing_park_process_request_v5_head5(self, body: str, request_headers: dict, all_request_params: dict,
-                                            routing_key: str) -> DeferredResultResponseEntity:
+                                            routing_key: str):
         return self.thing_park_integration_controller.process_request_using_head5(body=body,
                                                                                   request_headers=request_headers,
                                                                                   all_request_params=all_request_params,
                                                                                   routing_key=routing_key)
 
     def thing_park_process_request_v5_options5(self, body: str, request_headers: dict, all_request_params: dict,
-                                               routing_key: str) -> DeferredResultResponseEntity:
+                                               routing_key: str):
         return self.thing_park_integration_controller.process_request_using_options5(body=body,
                                                                                      request_headers=request_headers,
                                                                                      all_request_params=all_request_params,
                                                                                      routing_key=routing_key)
 
     def thing_park_process_request_v5_patch5(self, body: str, request_headers: dict, all_request_params: dict,
-                                             routing_key: str) -> DeferredResultResponseEntity:
+                                             routing_key: str):
         return self.thing_park_integration_controller.process_request_using_patch5(body=body,
                                                                                    request_headers=request_headers,
                                                                                    all_request_params=all_request_params,
                                                                                    routing_key=routing_key)
 
     def thing_park_process_request_v13_post13(self, body: str, request_headers: dict, all_request_params: dict,
-                                              routing_key: str) -> DeferredResultResponseEntity:
+                                              routing_key: str):
         return self.thing_park_integration_controller.process_request_using_post13(body=body,
                                                                                    request_headers=request_headers,
                                                                                    all_request_params=all_request_params,
                                                                                    routing_key=routing_key)
 
     def thing_park_process_request_v5_put5(self, body: str, request_headers: dict, all_request_params: dict,
-                                           routing_key: str) -> DeferredResultResponseEntity:
+                                           routing_key: str):
         return self.thing_park_integration_controller.process_request_using_put5(body=body,
                                                                                  request_headers=request_headers,
                                                                                  all_request_params=all_request_params,
                                                                                  routing_key=routing_key)
 
-    def sig_fox_process_request_v3_delete3(self, body: str, request_headers: dict, routing_key: str) -> DeferredResultResponseEntity:
+    def sig_fox_process_request_v3_delete3(self, body: str, request_headers: dict, routing_key: str):
         return self.sig_fox_integration_controller.process_request_using_delete3(body=body,
                                                                                  request_headers=request_headers,
                                                                                  routing_key=routing_key)
 
-    def sig_fox_process_request_v3_get3(self, body: str, request_headers: dict, routing_key: str) -> DeferredResultResponseEntity:
+    def sig_fox_process_request_v3_get3(self, body: str, request_headers: dict, routing_key: str):
         return self.sig_fox_integration_controller.process_request_using_get3(body=body,
                                                                               request_headers=request_headers,
                                                                               routing_key=routing_key)
 
-    def sig_fox_process_request_v3_head3(self, body: str, request_headers: dict, routing_key: str) -> DeferredResultResponseEntity:
+    def sig_fox_process_request_v3_head3(self, body: str, request_headers: dict, routing_key: str):
         return self.sig_fox_integration_controller.process_request_using_head3(body=body,
                                                                                request_headers=request_headers,
                                                                                routing_key=routing_key)
 
-    def sig_fox_process_request_v3_options3(self, body: str, request_headers: dict, routing_key: str) -> DeferredResultResponseEntity:
+    def sig_fox_process_request_v3_options3(self, body: str, request_headers: dict, routing_key: str):
         return self.sig_fox_integration_controller.process_request_using_options3(body=body,
                                                                                   request_headers=request_headers,
                                                                                   routing_key=routing_key)
 
-    def sig_fox_process_request_v3_patch3(self, body: str, request_headers: dict, routing_key: str) -> DeferredResultResponseEntity:
+    def sig_fox_process_request_v3_patch3(self, body: str, request_headers: dict, routing_key: str):
         return self.sig_fox_integration_controller.process_request_using_patch3(body=body,
                                                                                 request_headers=request_headers,
                                                                                 routing_key=routing_key)
 
-    def sig_fox_process_request_v11_post11(self, body: str, request_headers: dict, routing_key: str) -> DeferredResultResponseEntity:
+    def sig_fox_process_request_v11_post11(self, body: str, request_headers: dict, routing_key: str):
         return self.sig_fox_integration_controller.process_request_using_post11(body=body,
                                                                                 request_headers=request_headers,
                                                                                 routing_key=routing_key)
 
-    def sig_fox_process_request_v3_put3(self, body: str, request_headers: dict, routing_key: str) -> DeferredResultResponseEntity:
+    def sig_fox_process_request_v3_put3(self, body: str, request_headers: dict, routing_key: str):
         return self.sig_fox_integration_controller.process_request_using_put3(body=body,
                                                                               request_headers=request_headers,
                                                                               routing_key=routing_key)
@@ -1025,11 +1025,11 @@ class RestClientPE(RestClientBase):
         return self.scheduler_event_controller.unassign_scheduler_event_from_edge_using_delete(edge_id=edge_id,
                                                                                                scheduler_event_id=scheduler_event_id)
 
-    def download_dashboard_report(self, dashboard_id: DashboardId, body: Optional[JsonNode] = None) -> DeferredResultResponseEntity:
+    def download_dashboard_report(self, dashboard_id: DashboardId, body: Optional[dict] = None):
         dashboard_id = self.get_id(dashboard_id)
         return self.report_controller.download_dashboard_report_using_post(dashboard_id=dashboard_id, body=body)
 
-    def download_test_report(self, body: Optional[ReportConfig], reports_server_endpoint_url: Optional[str] = None) -> DeferredResultResponseEntity:
+    def download_test_report(self, body: Optional[ReportConfig], reports_server_endpoint_url: Optional[str] = None):
         return self.report_controller.download_test_report_using_post(body=body,
                                                                       reports_server_endpoint_url=reports_server_endpoint_url)
 
@@ -1214,36 +1214,36 @@ class RestClientPE(RestClientBase):
         blob_entity_id = self.get_id(blob_entity_id)
         return self.blob_entity_controller.get_blob_entity_info_by_id_using_get(blob_entity_id=blob_entity_id)
 
-    def loriot_process_request_v1_delete1(self, body: str, request_headers: dict, routing_key: str) -> DeferredResultResponseEntity:
+    def loriot_process_request_v1_delete1(self, body: str, request_headers: dict, routing_key: str):
         return self.loriot_integration_controller.process_request_using_delete1(body=body,
                                                                                 request_headers=request_headers,
                                                                                 routing_key=routing_key)
 
-    def loriot_process_request_v1_get1(self, body: str, request_headers: dict, routing_key: str) -> DeferredResultResponseEntity:
+    def loriot_process_request_v1_get1(self, body: str, request_headers: dict, routing_key: str):
         return self.loriot_integration_controller.process_request_using_get1(body=body, request_headers=request_headers,
                                                                              routing_key=routing_key)
 
-    def loriot_process_request_v1_head1(self, body: str, request_headers: dict, routing_key: str) -> DeferredResultResponseEntity:
+    def loriot_process_request_v1_head1(self, body: str, request_headers: dict, routing_key: str):
         return self.loriot_integration_controller.process_request_using_head1(body=body,
                                                                               request_headers=request_headers,
                                                                               routing_key=routing_key)
 
-    def loriot_process_request_v1_options1(self, body: str, request_headers: dict, routing_key: str) -> DeferredResultResponseEntity:
+    def loriot_process_request_v1_options1(self, body: str, request_headers: dict, routing_key: str):
         return self.loriot_integration_controller.process_request_using_options1(body=body,
                                                                                  request_headers=request_headers,
                                                                                  routing_key=routing_key)
 
-    def loriot_process_request_v1_patch1(self, body: str, request_headers: dict, routing_key: str) -> DeferredResultResponseEntity:
+    def loriot_process_request_v1_patch1(self, body: str, request_headers: dict, routing_key: str):
         return self.loriot_integration_controller.process_request_using_patch1(body=body,
                                                                                request_headers=request_headers,
                                                                                routing_key=routing_key)
 
-    def loriot_process_request_v9_post9(self, body: str, request_headers: dict, routing_key: str) -> DeferredResultResponseEntity:
+    def loriot_process_request_v9_post9(self, body: str, request_headers: dict, routing_key: str):
         return self.loriot_integration_controller.process_request_using_post9(body=body,
                                                                               request_headers=request_headers,
                                                                               routing_key=routing_key)
 
-    def loriot_process_request_v1_put1(self, body: str, request_headers: dict, routing_key: str) -> DeferredResultResponseEntity:
+    def loriot_process_request_v1_put1(self, body: str, request_headers: dict, routing_key: str):
         return self.loriot_integration_controller.process_request_using_put1(body=body, request_headers=request_headers,
                                                                              routing_key=routing_key)
 
@@ -1274,37 +1274,37 @@ class RestClientPE(RestClientBase):
         tenant_id = self.get_id(tenant_id)
         return self.tenant_controller.delete_tenant_using_delete(tenant_id=tenant_id)
 
-    def chirp_stack_process_request_delete(self, body: str, request_headers: dict, routing_key: str) -> DeferredResultResponseEntity:
+    def chirp_stack_process_request_delete(self, body: str, request_headers: dict, routing_key: str):
         return self.chirp_stack_integration_controller.process_request_using_delete(body=body,
                                                                                     request_headers=request_headers,
                                                                                     routing_key=routing_key)
 
-    def chirp_stack_process_request_get(self, body: str, request_headers: dict, routing_key: str) -> DeferredResultResponseEntity:
+    def chirp_stack_process_request_get(self, body: str, request_headers: dict, routing_key: str):
         return self.chirp_stack_integration_controller.process_request_using_get(body=body,
                                                                                  request_headers=request_headers,
                                                                                  routing_key=routing_key)
 
-    def chirp_stack_process_request_head(self, body: str, request_headers: dict, routing_key: str) -> DeferredResultResponseEntity:
+    def chirp_stack_process_request_head(self, body: str, request_headers: dict, routing_key: str):
         return self.chirp_stack_integration_controller.process_request_using_head(body=body,
                                                                                   request_headers=request_headers,
                                                                                   routing_key=routing_key)
 
-    def chirp_stack_process_request_options(self, body: str, request_headers: dict, routing_key: str) -> DeferredResultResponseEntity:
+    def chirp_stack_process_request_options(self, body: str, request_headers: dict, routing_key: str):
         return self.chirp_stack_integration_controller.process_request_using_options(body=body,
                                                                                      request_headers=request_headers,
                                                                                      routing_key=routing_key)
 
-    def chirp_stack_process_request_patch(self, body: str, request_headers: dict, routing_key: str) -> DeferredResultResponseEntity:
+    def chirp_stack_process_request_patch(self, body: str, request_headers: dict, routing_key: str):
         return self.chirp_stack_integration_controller.process_request_using_patch(body=body,
                                                                                    request_headers=request_headers,
                                                                                    routing_key=routing_key)
 
-    def chirp_stack_process_request_post(self, body: str, request_headers: dict, routing_key: str) -> DeferredResultResponseEntity:
+    def chirp_stack_process_request_post(self, body: str, request_headers: dict, routing_key: str):
         return self.chirp_stack_integration_controller.process_request_using_post(body=body,
                                                                                   request_headers=request_headers,
                                                                                   routing_key=routing_key)
 
-    def chirp_stack_process_request_put(self, body: str, request_headers: dict, routing_key: str) -> DeferredResultResponseEntity:
+    def chirp_stack_process_request_put(self, body: str, request_headers: dict, routing_key: str):
         return self.chirp_stack_integration_controller.process_request_using_put(body=body,
                                                                                  request_headers=request_headers,
                                                                                  routing_key=routing_key)
