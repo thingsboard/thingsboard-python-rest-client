@@ -321,8 +321,8 @@ class RestClientBase(Thread):
                         sort_order: Optional[str] = None, start_time: Optional[int] = None,
                         end_time: Optional[int] = None) -> PageDataEvent:
         tenant_id = self.get_id(tenant_id)
-        entity_id = self.get_id(entity_id)
         entity_type = self.get_type(entity_id)
+        entity_id = self.get_id(entity_id)
         return self.event_controller.get_events_using_post(tenant_id=tenant_id, page_size=page_size, page=page,
                                                            entity_type=entity_type, entity_id=entity_id, body=body,
                                                            text_search=text_search, sort_property=sort_property,
@@ -333,9 +333,9 @@ class RestClientBase(Thread):
                            page_size: int, page: int, text_search: Optional[str] = None, sort_property: Optional[str] = None,
                            sort_order: Optional[str] = None,
                            start_time: Optional[int] = None, end_time: Optional[int] = None) -> PageDataEvent:
+        entity_type = self.get_type(entity_id)
         entity_id = self.get_id(entity_id)
         tenant_id = self.get_id(tenant_id)
-        entity_type = self.get_type(entity_id)
         return self.event_controller.get_events_using_get1(entity_type=entity_type, entity_id=entity_id,
                                                            event_type=event_type, tenant_id=tenant_id,
                                                            page_size=page_size, page=page, text_search=text_search,
@@ -346,9 +346,9 @@ class RestClientBase(Thread):
                        text_search: Optional[str] = None, sort_property: Optional[str] = None, sort_order: Optional[str] = None,
                        start_time: Optional[int] = None,
                        end_time: Optional[int] = None) -> PageDataEvent:
+        entity_type = self.get_type(entity_id)
         entity_id = self.get_id(entity_id)
         tenant_id = self.get_id(tenant_id)
-        entity_type = self.get_type(entity_id)
         return self.event_controller.get_events_using_get(entity_type=entity_type, entity_id=entity_id,
                                                           tenant_id=tenant_id, page_size=page_size, page=page,
                                                           text_search=text_search, sort_property=sort_property,
@@ -357,16 +357,16 @@ class RestClientBase(Thread):
 
     # Telemetry Controller #
     def get_attribute_keys_by_scope(self, entity_id: EntityId, scope: str):
-        entity_id = self.get_id(entity_id)
         entity_type = self.get_type(entity_id)
+        entity_id = self.get_id(entity_id)
         return self.telemetry_controller.get_attribute_keys_by_scope_using_get(entity_type=entity_type,
                                                                                entity_id=entity_id, scope=scope)
 
     def get_timeseries(self, entity_id: EntityId, keys: str, start_ts: int, end_ts: int,
                        interval: Optional[int] = None, limit: Optional[int] = None, agg: Optional[str] = None, order_by: Optional[str] = None,
                        use_strict_data_types: Optional[bool] = None):
-        entity_id = self.get_id(entity_id)
         entity_type = self.get_type(entity_id)
+        entity_id = self.get_id(entity_id)
         return self.telemetry_controller.get_timeseries_using_get(entity_type=entity_type, entity_id=entity_id,
                                                                   keys=keys, start_ts=start_ts, end_ts=end_ts,
                                                                   interval=interval, limit=limit, agg=agg,
@@ -380,8 +380,8 @@ class RestClientBase(Thread):
 
     def save_entity_attributes_v1(self, entity_id: EntityId, scope: str,
                                   body: Optional[dict] = None):
-        entity_id = self.get_id(entity_id)
         entity_type = self.get_type(entity_id)
+        entity_id = self.get_id(entity_id)
         return self.telemetry_controller.save_entity_attributes_v1_using_post(entity_type=entity_type,
                                                                               entity_id=entity_id, scope=scope,
                                                                               body=body)
@@ -389,8 +389,8 @@ class RestClientBase(Thread):
     def delete_entity_timeseries(self, entity_id: EntityId, keys: str, delete_all_data_for_keys: Optional[bool] = None,
                                  start_ts: Optional[int] = None, end_ts: Optional[int] = None,
                                  rewrite_latest_if_deleted: Optional[bool] = None):
-        entity_id = self.get_id(entity_id)
         entity_type = self.get_type(entity_id)
+        entity_id = self.get_id(entity_id)
         return self.telemetry_controller.delete_entity_timeseries_using_delete(entity_type=entity_type,
                                                                                entity_id=entity_id, keys=keys,
                                                                                delete_all_data_for_keys=delete_all_data_for_keys,
@@ -404,61 +404,61 @@ class RestClientBase(Thread):
 
     def get_latest_timeseries(self, entity_id: EntityId, keys: Optional[str] = None,
                               use_strict_data_types: Optional[bool] = None):
-        entity_id = self.get_id(entity_id)
         entity_type = self.get_type(entity_id)
+        entity_id = self.get_id(entity_id)
         return self.telemetry_controller.get_latest_timeseries_using_get(entity_type=entity_type, entity_id=entity_id,
                                                                          keys=keys,
                                                                          use_strict_data_types=use_strict_data_types)
 
     def get_timeseries_keys_v1(self, entity_id: EntityId):
-        entity_id = self.get_id(entity_id)
         entity_type = self.get_type(entity_id)
+        entity_id = self.get_id(entity_id)
         return self.telemetry_controller.get_timeseries_keys_using_get1(entity_type=entity_type, entity_id=entity_id)
 
     def get_attributes_by_scope(self, entity_id: EntityId, scope: str,
                                 keys: Optional[str] = None):
-        entity_id = self.get_id(entity_id)
         entity_type = self.get_type(entity_id)
+        entity_id = self.get_id(entity_id)
         return self.telemetry_controller.get_attributes_by_scope_using_get(entity_type=entity_type, entity_id=entity_id,
                                                                            scope=scope, keys=keys)
 
     def get_attribute_keys(self, entity_id: EntityId):
-        entity_id = self.get_id(entity_id)
         entity_type = self.get_type(entity_id)
+        entity_id = self.get_id(entity_id)
         return self.telemetry_controller.get_attribute_keys_using_get(entity_type=entity_type, entity_id=entity_id)
 
     def save_entity_attributes_v2(self, entity_id: EntityId, scope: str,
                                   body: Optional[dict] = None):
-        entity_id = self.get_id(entity_id)
         entity_type = self.get_type(entity_id)
+        entity_id = self.get_id(entity_id)
         return self.telemetry_controller.save_entity_attributes_v2_using_post(entity_type=entity_type,
                                                                               entity_id=entity_id, scope=scope,
                                                                               body=body)
 
     def save_entity_telemetry(self, entity_id: EntityId, scope: str,
                               body: Optional[str] = None):
-        entity_id = self.get_id(entity_id)
         entity_type = self.get_type(entity_id)
+        entity_id = self.get_id(entity_id)
         return self.telemetry_controller.save_entity_telemetry_using_post(entity_type=entity_type, entity_id=entity_id,
                                                                           scope=scope, body=body)
 
     def save_entity_telemetry_with_ttl(self, entity_id: EntityId, scope: str, ttl: int,
                                        body: Optional[str] = None):
-        entity_id = self.get_id(entity_id)
         entity_type = self.get_type(entity_id)
+        entity_id = self.get_id(entity_id)
         return self.telemetry_controller.save_entity_telemetry_with_ttl_using_post(entity_type=entity_type,
                                                                                    entity_id=entity_id, scope=scope,
                                                                                    ttl=ttl, body=body)
 
     def get_attributes(self, entity_id: EntityId, keys: Optional[str] = None):
-        entity_id = self.get_id(entity_id)
         entity_type = self.get_type(entity_id)
+        entity_id = self.get_id(entity_id)
         return self.telemetry_controller.get_attributes_using_get(entity_type=entity_type, entity_id=entity_id,
                                                                   keys=keys)
 
     def delete_entity_attributes(self, entity_id: EntityId, scope: str, keys: str):
-        entity_id = self.get_id(entity_id)
         entity_type = self.get_type(entity_id)
+        entity_id = self.get_id(entity_id)
         return self.telemetry_controller.delete_entity_attributes_using_delete(entity_type=entity_type,
                                                                                entity_id=entity_id, scope=scope,
                                                                                keys=keys)
@@ -474,8 +474,8 @@ class RestClientBase(Thread):
 
     def get_highest_alarm_severity(self, entity_id: EntityId, search_status: Optional[str] = None,
                                    status: Optional[str] = None) -> str:
-        entity_id = self.get_id(entity_id)
         entity_type = self.get_type(entity_id)
+        entity_id = self.get_id(entity_id)
         return self.alarm_controller.get_highest_alarm_severity_using_get(entity_type=entity_type, entity_id=entity_id,
                                                                           search_status=search_status, status=status)
 
@@ -494,8 +494,8 @@ class RestClientBase(Thread):
                    status: Optional[str] = None, text_search: Optional[str] = None, sort_property: Optional[str] = None,
                    sort_order: Optional[str] = None, start_time: Optional[int] = None, end_time: Optional[int] = None,
                    fetch_originator: Optional[bool] = None) -> PageDataAlarmInfo:
-        entity_id = self.get_id(entity_id)
         entity_type = self.get_type(entity_id)
+        entity_id = self.get_id(entity_id)
         return self.alarm_controller.get_alarms_using_get(entity_type=entity_type, entity_id=entity_id,
                                                           page_size=page_size, page=page, search_status=search_status,
                                                           status=status, text_search=text_search,
@@ -778,8 +778,8 @@ class RestClientBase(Thread):
                                                                          relation_type_group=relation_type_group)
 
     def delete_relations(self, entity_id: EntityId) -> None:
-        entity_id = self.get_id(entity_id)
         entity_type = self.get_type(entity_id)
+        entity_id = self.get_id(entity_id)
         return self.entity_relation_controller.delete_relations_using_delete(entity_id=entity_id,
                                                                              entity_type=entity_type)
 
@@ -1199,8 +1199,8 @@ class RestClientBase(Thread):
                                     text_search: Optional[str] = None, sort_property: Optional[str] = None, sort_order: Optional[str] = None,
                                     start_time: Optional[int] = None,
                                     end_time: Optional[int] = None, action_types: Optional[str] = None) -> PageDataAuditLog:
-        entity_id = self.get_id(entity_id)
         entity_type = self.get_type(entity_id)
+        entity_id = self.get_id(entity_id)
         return self.audit_log_controller.get_audit_logs_by_entity_id_using_get(entity_type=entity_type,
                                                                                entity_id=entity_id, page_size=page_size,
                                                                                page=page, text_search=text_search,
