@@ -43,5 +43,5 @@ setup(
     include_package_data=True,
     long_description=long_description,
     download_url='https://github.com/thingsboard/python-/archive/%s.tar.gz' % VERSION,
-    python_requires=">=3.5",
+    python_requires=">=3.7",
 )
