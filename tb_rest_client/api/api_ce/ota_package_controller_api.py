@@ -658,7 +658,7 @@ class OtaPackageControllerApi(object):
             _request_timeout=params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def save_ota_package_data_using_post(self, checksum_algorithm, ota_package_id, **kwargs):  # noqa: E501
+    def save_ota_package_data_using_post(self, ota_package_id, **kwargs):  # noqa: E501
         """Save OTA Package data (saveOtaPackageData)  # noqa: E501
 
         Update the OTA Package. Adds the date to the existing OTA Package Info  Available for users with 'TENANT_ADMIN' authority.  # noqa: E501
