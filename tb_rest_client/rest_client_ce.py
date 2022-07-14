@@ -13,7 +13,9 @@
 #      See the License for the specific language governing permissions and
 #      limitations under the License.
 #
+from typing import Union, Any
 
+from rest import RESTResponse
 from tb_rest_client.models.models_ce import AssetInfo, PageDataEdgeInfo, EdgeInfo, RuleChainOutputLabelsUsage, Queue, \
     PageDataDeviceInfo, DeviceInfo, PageDataEntityViewInfo, EntityViewInfo, PageDataAssetInfo, QueueId
 
@@ -168,7 +170,8 @@ class RestClientCE(RestClientBase):
         edge_id = self.get_id(edge_id)
         return self.edge_controller.sync_edge_using_post(edge_id=edge_id)
 
-    def check_instance(self, body: Optional[dict] = None) -> dict:
+    def check_instance(self, body: Union[dict, str, list, bytes, None, RESTResponse, tuple, Any] = None) -> Union[
+            dict, str, list, bytes, None, RESTResponse, tuple, Any]:
         return self.edge_controller.check_instance_using_post(body=body)
 
     def get_tenant_edges(self, page_size: int, page: int, type: Optional[str] = None, text_search: Optional[str] = None,
@@ -193,7 +196,8 @@ class RestClientCE(RestClientBase):
     def process_edges_bulk_import(self, body: Optional[BulkImportRequest] = None) -> BulkImportResultEdge:
         return self.edge_controller.process_edges_bulk_import_using_post(body=body)
 
-    def activate_instance(self, license_secret: str, release_date: str) -> dict:
+    def activate_instance(self, license_secret: str, release_date: str) -> Union[
+            dict, str, list, bytes, None, RESTResponse, tuple, Any]:
         return self.edge_controller.activate_instance_using_post(license_secret=license_secret,
                                                                  release_date=release_date)
 
@@ -281,7 +285,8 @@ class RestClientCE(RestClientBase):
         rule_chain_id = self.get_id(rule_chain_id)
         return self.rule_chain_controller.get_rule_chain_by_id_using_get(rule_chain_id=rule_chain_id)
 
-    def test_script(self, body: Optional[dict] = None) -> dict:
+    def test_script(self, body: Union[dict, str, list, bytes, None, RESTResponse, tuple, Any] = None) -> Union[
+            dict, str, list, bytes, None, RESTResponse, tuple, Any]:
         return self.rule_chain_controller.test_script_using_post(body=body)
 
     def save_rule_chain_v1(self, body: Optional[RuleChain] = None) -> RuleChain:
@@ -322,7 +327,8 @@ class RestClientCE(RestClientBase):
     def get_auto_assign_to_edge_rule_chains(self, ) -> List[RuleChain]:
         return self.rule_chain_controller.get_auto_assign_to_edge_rule_chains_using_get()
 
-    def get_latest_rule_node_debug_input(self, rule_node_id: RuleNodeId) -> dict:
+    def get_latest_rule_node_debug_input(self, rule_node_id: RuleNodeId) -> Union[
+            dict, str, list, bytes, None, RESTResponse, tuple, Any]:
         rule_node_id = self.get_id(rule_node_id)
         return self.rule_chain_controller.get_latest_rule_node_debug_input_using_get(rule_node_id=rule_node_id)
 
@@ -439,7 +445,8 @@ class RestClientCE(RestClientBase):
                                                                                rewrite_latest_if_deleted=rewrite_latest_if_deleted)
 
     def save_entity_attributes_v1(self, entity_id: EntityId, scope: str,
-                                  body: Optional[dict] = None):
+                                  body: Union[dict, str, list, bytes, None, RESTResponse, tuple, Any] = None) -> Union[
+            dict, str, list, bytes, None, RESTResponse, tuple, Any]:
         entity_type = self.get_type(entity_id)
         entity_id = self.get_id(entity_id)
         return self.telemetry_controller.save_entity_attributes_v1_using_post(entity_type=entity_type,
@@ -447,7 +454,8 @@ class RestClientCE(RestClientBase):
                                                                               body=body)
 
     def save_device_attributes(self, device_id: DeviceId, scope: str,
-                               body: Optional[dict] = None):
+                               body: Union[dict, str, list, bytes, None, RESTResponse, tuple, Any] = None) -> Union[
+            dict, str, list, bytes, None, RESTResponse, tuple, Any]:
         device_id = self.get_id(device_id)
         return self.telemetry_controller.save_device_attributes_using_post(device_id=device_id, scope=scope, body=body)
 
@@ -477,7 +485,8 @@ class RestClientCE(RestClientBase):
         return self.telemetry_controller.get_attribute_keys_using_get(entity_type=entity_type, entity_id=entity_id)
 
     def save_entity_attributes_v2(self, entity_id: EntityId, scope: str,
-                                  body: Optional[dict] = None):
+                                  body: Union[dict, str, list, bytes, None, RESTResponse, tuple, Any] = None) -> Union[
+            dict, str, list, bytes, None, RESTResponse, tuple, Any]:
         entity_type = self.get_type(entity_id)
         entity_id = self.get_id(entity_id)
         return self.telemetry_controller.save_entity_attributes_v2_using_post(entity_type=entity_type,
@@ -620,7 +629,8 @@ class RestClientCE(RestClientBase):
         customer_id = self.get_id(customer_id)
         return self.customer_controller.get_customer_by_id_using_get(customer_id=customer_id)
 
-    def get_short_customer_info_by_id(self, customer_id: CustomerId) -> dict:
+    def get_short_customer_info_by_id(self, customer_id: CustomerId) -> Union[
+            dict, str, list, bytes, None, RESTResponse, tuple, Any]:
         customer_id = self.get_id(customer_id)
         return self.customer_controller.get_short_customer_info_by_id_using_get(customer_id=customer_id)
 
@@ -1038,13 +1048,14 @@ class RestClientCE(RestClientBase):
     def sign_up(self, body: Optional[SignUpRequest] = None) -> str:
         return self.sign_up_controller.sign_up_using_post(body=body)
 
-    def accept_privacy_policy(self, ) -> dict:
+    def accept_privacy_policy(self, ) -> Union[dict, str, list, bytes, None, RESTResponse, tuple, Any]:
         return self.sign_up_controller.accept_privacy_policy_using_post()
 
     def resend_email_activation(self, email: str, pkg_name: Optional[str] = None) -> None:
         return self.sign_up_controller.resend_email_activation_using_post(email=email, pkg_name=pkg_name)
 
-    def activate_user_by_email_code(self, email_code: str, pkg_name: Optional[str] = None) -> dict:
+    def activate_user_by_email_code(self, email_code: str, pkg_name: Optional[str] = None) -> Union[
+            dict, str, list, bytes, None, RESTResponse, tuple, Any]:
         return self.sign_up_controller.activate_user_by_email_code_using_post(email_code=email_code, pkg_name=pkg_name)
 
     def delete_tenant_account(self, ) -> None:

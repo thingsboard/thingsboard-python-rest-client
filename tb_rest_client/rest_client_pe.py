@@ -166,7 +166,8 @@ class RestClientPE(RestClientBase):
         edge_id = self.get_id(edge_id)
         return self.edge_controller.sync_edge_using_post(edge_id=edge_id)
 
-    def check_instance(self, body: Optional[dict] = None) -> dict:
+    def check_instance(self, body: Union[dict, str, list, bytes, None, RESTResponse, tuple, Any] = None) -> Union[
+            dict, str, list, bytes, None, RESTResponse, tuple, Any]:
         return self.edge_controller.check_instance_using_post(body=body)
 
     def get_tenant_edges(self, page_size: int, page: int, type: Optional[str] = None,text_search: Optional[str] = None, sort_property: Optional[str] = None,
@@ -189,7 +190,8 @@ class RestClientPE(RestClientBase):
     def process_edges_bulk_import(self, body: Optional[BulkImportRequest] = None) -> BulkImportResultEdge:
         return self.edge_controller.process_edges_bulk_import_using_post(body=body)
 
-    def activate_instance(self, license_secret: str, release_date: str) -> dict:
+    def activate_instance(self, license_secret: str, release_date: str) -> Union[
+            dict, str, list, bytes, None, RESTResponse, tuple, Any]:
         return self.edge_controller.activate_instance_using_post(license_secret=license_secret,
                                                                  release_date=release_date)
 
@@ -349,7 +351,8 @@ class RestClientPE(RestClientBase):
         customer_id = self.get_id(customer_id)
         return self.customer_controller.get_customer_by_id_using_get(customer_id=customer_id)
 
-    def get_short_customer_info_by_id(self, customer_id: CustomerId) -> dict:
+    def get_short_customer_info_by_id(self, customer_id: CustomerId) -> Union[
+            dict, str, list, bytes, None, RESTResponse, tuple, Any]:
         customer_id = self.get_id(customer_id)
         return self.customer_controller.get_short_customer_info_by_id_using_get(customer_id=customer_id)
 
@@ -562,7 +565,8 @@ class RestClientPE(RestClientBase):
                                                                   text_search=text_search, sort_property=sort_property,
                                                                   sort_order=sort_order)
 
-    def get_latest_converter_debug_input(self, converter_id: ConverterId) -> dict:
+    def get_latest_converter_debug_input(self, converter_id: ConverterId) -> Union[
+            dict, str, list, bytes, None, RESTResponse, tuple, Any]:
         converter_id = self.get_id(converter_id)
         return self.converter_controller.get_latest_converter_debug_input_using_get(converter_id=converter_id)
 
@@ -654,10 +658,12 @@ class RestClientPE(RestClientBase):
     def save_converter(self, body: Optional[Converter] = None) -> Converter:
         return self.converter_controller.save_converter_using_post(body=body)
 
-    def test_down_link_converter(self, body: Optional[dict] = None) -> dict:
+    def test_down_link_converter(self, body: Union[dict, str, list, bytes, None, RESTResponse, tuple, Any] = None) -> Union[
+            dict, str, list, bytes, None, RESTResponse, tuple, Any]:
         return self.converter_controller.test_down_link_converter_using_post(body=body)
 
-    def test_up_link_converter(self, body: Optional[dict] = None) -> dict:
+    def test_up_link_converter(self, body: Union[dict, str, list, bytes, None, RESTResponse, tuple, Any] = None) -> Union[
+            dict, str, list, bytes, None, RESTResponse, tuple, Any]:
         return self.converter_controller.test_up_link_converter_using_post(body=body)
 
     def get_entity_view_types(self, ) -> List[EntitySubtype]:
@@ -791,7 +797,8 @@ class RestClientPE(RestClientBase):
     def sign_up(self, body: Optional[SignUpRequest] = None) -> str:
         return self.sign_up_controller.sign_up_using_post(body=body)
 
-    def accept_privacy_policy(self, ) -> dict:
+    def accept_privacy_policy(self, ) -> Union[
+            dict, str, list, bytes, None, RESTResponse, tuple, Any]:
         return self.sign_up_controller.accept_privacy_policy_using_post()
 
     def resend_cloud_email_activation(self, email: str) -> None:
@@ -806,19 +813,23 @@ class RestClientPE(RestClientBase):
     def resend_email_activation(self, email: str, pkg_name: Optional[str] = None) -> None:
         return self.sign_up_controller.resend_email_activation_using_post(email=email, pkg_name=pkg_name)
 
-    def activate_user_by_email_code(self, email_code: str, pkg_name: Optional[str] = None) -> dict:
+    def activate_user_by_email_code(self, email_code: str, pkg_name: Optional[str] = None) -> Union[
+            dict, str, list, bytes, None, RESTResponse, tuple, Any]:
         return self.sign_up_controller.activate_user_by_email_code_using_post(email_code=email_code, pkg_name=pkg_name)
 
     def privacy_policy_accepted(self, ) -> bool:
         return self.sign_up_controller.privacy_policy_accepted_using_get()
 
-    def accept_terms_of_use(self, ) -> dict:
+    def accept_terms_of_use(self, ) -> Union[
+            dict, str, list, bytes, None, RESTResponse, tuple, Any]:
         return self.sign_up_controller.accept_terms_of_use_using_post()
 
-    def activate_cloud_user_by_email_code(self, email_code: str) -> dict:
+    def activate_cloud_user_by_email_code(self, email_code: str) -> Union[
+            dict, str, list, bytes, None, RESTResponse, tuple, Any]:
         return self.sign_up_controller.activate_cloud_user_by_email_code_using_post(email_code=email_code)
 
-    def accept_privacy_policy_and_terms_of_use(self, ) -> dict:
+    def accept_privacy_policy_and_terms_of_use(self, ) -> Union[
+            dict, str, list, bytes, None, RESTResponse, tuple, Any]:
         return self.sign_up_controller.accept_privacy_policy_and_terms_of_use_using_post()
 
     def activate_email(self, email_code: str, pkg_name: Optional[str] = None) -> str:
@@ -1025,7 +1036,8 @@ class RestClientPE(RestClientBase):
         return self.scheduler_event_controller.unassign_scheduler_event_from_edge_using_delete(edge_id=edge_id,
                                                                                                scheduler_event_id=scheduler_event_id)
 
-    def download_dashboard_report(self, dashboard_id: DashboardId, body: Optional[dict] = None):
+    def download_dashboard_report(self, dashboard_id: DashboardId,
+                                  body: Union[dict, str, list, bytes, None, RESTResponse, tuple, Any] = None):
         dashboard_id = self.get_id(dashboard_id)
         return self.report_controller.download_dashboard_report_using_post(dashboard_id=dashboard_id, body=body)
 
