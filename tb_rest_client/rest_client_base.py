@@ -22,7 +22,7 @@ from logging import getLogger
 
 from typing import List, Optional, Union, Any
 
-from rest import RESTResponse
+from tb_rest_client.rest import RESTResponse
 from tb_rest_client.api.api_ce.entities_version_control_controller_api import EntitiesVersionControlControllerApi
 from tb_rest_client.api.api_ce.admin_controller_api import AdminControllerApi
 from tb_rest_client.api.api_ce.alarm_controller_api import AlarmControllerApi

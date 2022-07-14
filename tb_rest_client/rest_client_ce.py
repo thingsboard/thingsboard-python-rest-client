@@ -13,9 +13,7 @@
 #      See the License for the specific language governing permissions and
 #      limitations under the License.
 #
-from typing import Union, Any
 
-from rest import RESTResponse
 from tb_rest_client.models.models_ce import AssetInfo, PageDataEdgeInfo, EdgeInfo, RuleChainOutputLabelsUsage, Queue, \
     PageDataDeviceInfo, DeviceInfo, PageDataEntityViewInfo, EntityViewInfo, PageDataAssetInfo, QueueId
 
