@@ -1331,11 +1331,12 @@ class RestClientBase(Thread):
                                                                                        sort_property=sort_property,
                                                                                        sort_order=sort_order)
 
-    def get_entity_data_info(self, version_id: str, entity_type: str,
-                             external_entity_uuid: str):
+    def get_entity_data_info(self, version_id: str, entity_id: EntityId):
+        entity_type = self.get_type(entity_id)
+        entity_id = self.get_id(entity_id)
         return self.entities_version_control_controller.get_entity_data_info_using_get(version_id=version_id,
                                                                                        entity_type=entity_type,
-                                                                                       external_entity_uuid=external_entity_uuid)
+                                                                                       external_entity_uuid=entity_id)
 
     def get_version_create_request_status(self, request_id: str) -> VersionCreationResult:
         return self.entities_version_control_controller.get_version_create_request_status_using_get(
@@ -1363,10 +1364,12 @@ class RestClientBase(Thread):
     def list_all_entities_at_version(self, version_id: str):
         return self.entities_version_control_controller.list_all_entities_at_version_using_get(version_id=version_id)
 
-    def compare_entity_data_to_version(self, entity_type: str, internal_entity_uuid: str,
+    def compare_entity_data_to_version(self, entity_id: EntityId,
                                        version_id: str):
+        entity_type = self.get_type(entity_id)
+        entity_id = self.get_id(entity_id)
         return self.entities_version_control_controller.compare_entity_data_to_version_using_get(
-            entity_type=entity_type, internal_entity_uuid=internal_entity_uuid, version_id=version_id)
+            entity_type=entity_type, internal_entity_uuid=entity_id, version_id=version_id)
 
     def list_versions(self, branch: str, page_size: int, page: int, text_search: Optional[str] = None,
                       sort_property: Optional[str] = None,

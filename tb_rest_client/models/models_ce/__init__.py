@@ -288,3 +288,4 @@ from .version_create_config import VersionCreateConfig
 from .single_entity_version_create_request import SingleEntityVersionCreateRequest
 from .entity_type_version_create_config import EntityTypeVersionCreateConfig
 from .entity_type_version_load_config import EntityTypeVersionLoadConfig
+from .entity_load_error import EntityLoadError

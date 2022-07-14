@@ -56,7 +56,7 @@ class EntityTypeVersionLoadRequest(VersionLoadRequest):
             self.type = type
         if version_id is not None:
             self.version_id = version_id
-        VersionLoadRequest.__init__(self, *args, **kwargs)
+        VersionLoadRequest.__init__(self,type, version_id)
 
     @property
     def entity_types(self):

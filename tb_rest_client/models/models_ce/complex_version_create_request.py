@@ -66,7 +66,7 @@ class ComplexVersionCreateRequest(VersionCreateRequest):
             self.type = type
         if version_name is not None:
             self.version_name = version_name
-        VersionCreateRequest.__init__(self, *args, **kwargs)
+        VersionCreateRequest.__init__(self,branch, type, version_name)
 
     @property
     def branch(self):
