@@ -14,9 +14,6 @@
 #      limitations under the License.
 #
 
-from tb_rest_client.models.models_ce import AssetInfo, PageDataEdgeInfo, EdgeInfo, RuleChainOutputLabelsUsage, Queue, \
-    PageDataDeviceInfo, DeviceInfo, PageDataEntityViewInfo, EntityViewInfo, PageDataAssetInfo, QueueId
-
 from tb_rest_client.rest_client_base import *
 
 logger = getLogger(__name__)
@@ -1436,7 +1433,7 @@ class RestClientCE(RestClientBase):
                                                                   end_time=end_time, action_types=action_types)
 
     # Lwm2m Controller
-    def get_lwm2m_bootstrap_security_info(self, is_bootstrap_server: bool) -> ServerSecurityConfig:
+    def get_lwm2m_bootstrap_security_info(self, is_bootstrap_server: bool):
         return self.lwm2m_controller.get_lwm2m_bootstrap_security_info_using_get(
             is_bootstrap_server=is_bootstrap_server)
 
