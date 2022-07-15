@@ -17,8 +17,6 @@
 from tb_rest_client.rest_client_base import *
 from tb_rest_client.api.api_pe import *
 
-from tb_rest_client.api.api_pe.device_profile_controller_api import DeviceProfileControllerApi
-
 logger = getLogger(__name__)
 
 

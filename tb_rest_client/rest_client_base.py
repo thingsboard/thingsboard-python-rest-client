@@ -57,6 +57,7 @@ from tb_rest_client.api.api_ce.user_controller_api import UserControllerApi
 from tb_rest_client.api.api_ce.widget_type_controller_api import WidgetTypeControllerApi
 from tb_rest_client.api.api_ce.widgets_bundle_controller_api import WidgetsBundleControllerApi
 from tb_rest_client.api.api_ce.ui_settings_controller_api import UiSettingsControllerApi
+from tb_rest_client.models.models_ce import *
 from tb_rest_client.models.models_pe import *
 from tb_rest_client.configuration import Configuration
 from tb_rest_client.api_client import ApiClient
@@ -1216,7 +1217,7 @@ class RestClientBase(Thread):
                                                                                action_types=action_types)
 
     # Lwm2M Controller
-    def get_lwm2m_bootstrap_security_info(self, is_bootstrap_server: bool) -> ServerSecurityConfig:
+    def get_lwm2m_bootstrap_security_info(self, is_bootstrap_server: bool):
         return self.lwm2m_controller.get_lwm2m_bootstrap_security_info_using_get(
             is_bootstrap_server=is_bootstrap_server)
 
