@@ -4,9 +4,10 @@ from string import hexdigits
 from time import sleep
 from typing import Optional
 
-from tb_rest_client.models.models_pe import EntityVersion, SingleEntityVersionCreateRequest, SingleEntityVersionLoadRequest, VersionCreateConfig, VersionLoadConfig
+from tb_rest_client.models.models_pe import EntityVersion, SingleEntityVersionCreateRequest, \
+    SingleEntityVersionLoadRequest, VersionCreateConfig, VersionLoadConfig, Device, EntityId
 from tb_rest_client.rest import ApiException
-from tb_rest_client.rest_client_pe import RestClientPE, Device, EntityId
+from tb_rest_client import RestClientPE
 
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(levelname)s - %(module)s - %(lineno)d - %(message)s',
@@ -142,7 +143,8 @@ if __name__ == '__main__':
 
             # Getting devices in the latest version
             devices_at_version = rest_client.list_entities_at_version("DEVICE", latest_version['id'])
-            logging.info("Device ids at latest version: %r", [device_in_version['externalId']['id'] for device_in_version in devices_at_version])
+            logging.info("Device ids at latest version: %r",
+                         [device_in_version['externalId']['id'] for device_in_version in devices_at_version])
 
             assert previous_version['name'] != latest_version['name']
             assert previous_version['timestamp'] != latest_version['timestamp']

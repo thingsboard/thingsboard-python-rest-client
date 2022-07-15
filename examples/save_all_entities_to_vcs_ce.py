@@ -4,9 +4,9 @@ from random import choice
 from string import hexdigits
 from time import sleep
 
-from tb_rest_client.models.models_ce import EntityVersion, EntityTypeVersionCreateConfig
+from tb_rest_client.models.models_ce import EntityVersion, EntityTypeVersionCreateConfig, ComplexVersionCreateRequest
 from tb_rest_client.rest import ApiException
-from tb_rest_client.rest_client_ce import RestClientCE, ComplexVersionCreateRequest
+from tb_rest_client.rest_client_ce import RestClientCE
 
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(levelname)s - %(module)s - %(lineno)d - %(message)s',
@@ -44,7 +44,7 @@ def main(user: str, password: str, host: str = "localhost", port: int = 80, bran
                 "save_attributes": save_attributes,
                 "save_credentials": save_credentials,
                 "save_relations": save_relations,
-                "sync_strategy": sync_strategy.upper
+                "sync_strategy": sync_strategy.upper()
             }
 
             # Create version create request for device
@@ -66,7 +66,7 @@ def main(user: str, password: str, host: str = "localhost", port: int = 80, bran
                 request_status = rest_client.get_version_create_request_status(version_request_id)
                 sleep(1)
 
-            logging.info("Version creation result: \n %r", request_status)
+            logging.info("Version with name %s creation result: \n %r", version_name, request_status)
 
         except ApiException as e:
             logging.exception(e)

@@ -4,10 +4,10 @@ from string import hexdigits
 from time import sleep
 from typing import Optional
 
-from tb_rest_client.models.models_ce import EntityVersion, EntityTypeVersionCreateConfig
+from tb_rest_client.models.models_ce import EntityVersion, EntityTypeVersionCreateConfig, Device, EntityId, \
+    ComplexVersionCreateRequest, EntityTypeVersionLoadRequest, EntityTypeVersionLoadConfig
 from tb_rest_client.rest import ApiException
-from tb_rest_client.rest_client_ce import RestClientCE, Device, EntityId, ComplexVersionCreateRequest, \
-    EntityTypeVersionLoadRequest, EntityTypeVersionLoadConfig
+from tb_rest_client import RestClientCE
 
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(levelname)s - %(module)s - %(lineno)d - %(message)s',
@@ -114,7 +114,8 @@ if __name__ == '__main__':
                 logging.info("Updated device name: %r", updated_device.name)
 
                 # Create version create request for device
-                entity_type_version_create_request_config = EntityTypeVersionCreateConfig(True, None, True, True, True, "MERGE")
+                entity_type_version_create_request_config = EntityTypeVersionCreateConfig(True, None, True, True, True,
+                                                                                          "MERGE")
                 configs_for_entity_types = {entity_type: entity_type_version_create_request_config for entity_type in
                                             available_entity_types_for_save}
                 vcr = ComplexVersionCreateRequest(default_branch['name'], configs_for_entity_types, "MERGE", "COMPLEX",

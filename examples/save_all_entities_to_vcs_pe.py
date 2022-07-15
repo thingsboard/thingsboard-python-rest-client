@@ -4,9 +4,9 @@ from random import choice
 from string import hexdigits
 from time import sleep
 
-from tb_rest_client.models.models_pe import EntityVersion, EntityTypeVersionCreateConfig
+from tb_rest_client.models.models_pe import EntityVersion, EntityTypeVersionCreateConfig, ComplexVersionCreateRequest
 from tb_rest_client.rest import ApiException
-from tb_rest_client.rest_client_pe import RestClientPE, ComplexVersionCreateRequest
+from tb_rest_client.rest_client_pe import RestClientPE
 
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(levelname)s - %(module)s - %(lineno)d - %(message)s',
@@ -19,7 +19,8 @@ available_entity_types_for_save = ['CUSTOMER', 'ASSET', 'RULE_CHAIN', 'DASHBOARD
 
 def main(user: str, password: str, host: str = "localhost", port: int = 80, branch: str = "main",
          save_attributes: bool = True, save_credentials: bool = True, save_relations: bool = True,
-         sync_strategy: str = "MERGE", version_name=None):
+         save_group_entities: bool = True, save_permissions: bool = True, sync_strategy: str = "MERGE",
+         version_name=None):
 
     url = host
     if "https://" not in host:
@@ -45,7 +46,9 @@ def main(user: str, password: str, host: str = "localhost", port: int = 80, bran
                 "save_attributes": save_attributes,
                 "save_credentials": save_credentials,
                 "save_relations": save_relations,
-                "sync_strategy": sync_strategy.upper
+                "save_group_entities": save_group_entities,
+                "save_permissions": save_permissions,
+                "sync_strategy": sync_strategy.upper()
             }
 
             # Create version create request for device
@@ -67,7 +70,7 @@ def main(user: str, password: str, host: str = "localhost", port: int = 80, bran
                 request_status = rest_client.get_version_create_request_status(version_request_id)
                 sleep(1)
 
-            logging.info("Version creation result: \n %r", request_status)
+            logging.info("Version with name %s creation result: \n %r", version_name, request_status)
 
         except ApiException as e:
             logging.exception(e)
@@ -89,6 +92,8 @@ if __name__ == '__main__':
     parser.add_argument("--save_attributes", help="Save attributes for entities", type=bool, default=True)
     parser.add_argument("--save_credentials", help="Save credentials for devices and users", type=bool, default=True)
     parser.add_argument("--save_relations", help="Save relations for entities", type=bool, default=True)
+    parser.add_argument("--save_group_entities", help="Save entity groups for entities", type=bool, default=True)
+    parser.add_argument("--save_permissions", help="Save permissions for users", type=bool, default=True)
     parser.add_argument("--sync_strategy", help="Sync strategy can be MERGE or OVERWRITE", default="MERGE")
 
     args = parser.parse_args()
