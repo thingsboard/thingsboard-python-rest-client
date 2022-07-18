@@ -22,6 +22,7 @@ from logging import getLogger
 
 from typing import List, Optional, Union, Any
 
+from tb_rest_client.models.models_ce.repository_settings import RepositorySettings
 from tb_rest_client.rest import RESTResponse
 from tb_rest_client.api.api_ce.entities_version_control_controller_api import EntitiesVersionControlControllerApi
 from tb_rest_client.api.api_ce.admin_controller_api import AdminControllerApi
@@ -897,6 +898,9 @@ class RestClientBase(Thread):
 
     def save_security_settings(self, body: Optional[SecuritySettings] = None) -> SecuritySettings:
         return self.admin_controller.save_security_settings_using_post(body=body)
+
+    def save_repository_settings(self, body: Optional[RepositorySettings]):
+        return self.admin_controller.save_repository_settings_using_post(body=body)
 
     # Sign Up Controller
     def get_recaptcha_public_key(self) -> str:
