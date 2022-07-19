@@ -44,3 +44,6 @@ from .tenant_controller_api import TenantControllerApi
 from .tenant_controller_api import TenantControllerApi
 from .ota_package_controller_api import OtaPackageControllerApi
 from .entities_version_control_controller_api import EntitiesVersionControlControllerApi
+from .device_api_controller_api import DeviceApiControllerApi
+from .two_fa_config_controller_api import TwoFaConfigControllerApi
+from .two_factor_auth_controller_api import TwoFactorAuthControllerApi

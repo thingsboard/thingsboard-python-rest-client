@@ -20,10 +20,11 @@ from requests import post
 from threading import Thread
 from logging import getLogger
 
-from typing import List, Optional, Union, Any
+from typing import List, Optional, Union, Any, Dict
 
-from tb_rest_client.models.models_ce.repository_settings import RepositorySettings
 from tb_rest_client.rest import RESTResponse
+from tb_rest_client.api.api_ce.two_factor_auth_controller_api import TwoFactorAuthControllerApi
+from tb_rest_client.api.api_ce.two_fa_config_controller_api import TwoFaConfigControllerApi
 from tb_rest_client.api.api_ce.entities_version_control_controller_api import EntitiesVersionControlControllerApi
 from tb_rest_client.api.api_ce.admin_controller_api import AdminControllerApi
 from tb_rest_client.api.api_ce.alarm_controller_api import AlarmControllerApi
@@ -34,6 +35,7 @@ from tb_rest_client.api.api_ce.component_descriptor_controller_api import Compon
 from tb_rest_client.api.api_ce.customer_controller_api import CustomerControllerApi
 from tb_rest_client.api.api_ce.dashboard_controller_api import DashboardControllerApi
 from tb_rest_client.api.api_ce.device_controller_api import DeviceControllerApi
+from tb_rest_client.api.api_ce.device_api_controller_api import DeviceApiControllerApi
 from tb_rest_client.api.api_ce.device_profile_controller_api import DeviceProfileControllerApi
 from tb_rest_client.api.api_ce.edge_controller_api import EdgeControllerApi
 from tb_rest_client.api.api_ce.edge_event_controller_api import EdgeEventControllerApi
@@ -625,6 +627,10 @@ class RestClientBase(Thread):
                                                                             sort_property=sort_property,
                                                                             sort_order=sort_order)
 
+    def delete_rpc(self, rpc_id: RpcId) -> None:
+        rpc_id = self.get_id(rpc_id)
+        return self.rpc_v2_controller.delete_rpc_using_delete(rpc_id=rpc_id)
+
     def delete_resource(self, rpc_id: RpcId) -> None:
         rpc_id = self.get_id(rpc_id)
         return self.rpc_v2_controller.delete_resource_using_delete(rpc_id=rpc_id)
@@ -898,6 +904,33 @@ class RestClientBase(Thread):
 
     def save_security_settings(self, body: Optional[SecuritySettings] = None) -> SecuritySettings:
         return self.admin_controller.save_security_settings_using_post(body=body)
+
+    def get_repository_settings(self) -> RepositorySettings:
+        return self.admin_controller.get_repository_settings_using_get()
+
+    def save_repository_settings(self, body: Optional[RepositorySettings] = None) -> DeferredResultRepositorySettings:
+        return self.admin_controller.save_repository_settings_using_post(body=body)
+
+    def delete_repository_settings(self) -> DeferredResultVoid:
+        return self.admin_controller.delete_repository_settings_using_delete()
+
+    def repository_settings_exists(self) -> bool:
+        return self.admin_controller.repository_settings_exists_using_get()
+
+    def check_repository_access(self, body: Optional[RepositorySettings] = None) -> DeferredResultVoid:
+        return self.admin_controller.check_repository_access_using_post(body=body)
+
+    def delete_auto_commit_settings(self) -> None:
+        return self.admin_controller.delete_auto_commit_settings_using_delete()
+
+    def auto_commit_settings_exists(self) -> bool:
+        return self.admin_controller.auto_commit_settings_exists_using_get()
+
+    def save_auto_commit_settings(self, body: Optional[Dict[str, AutoVersionCreateConfig]] = None) -> Dict[str, AutoVersionCreateConfig]:
+        return self.admin_controller.save_auto_commit_settings_using_post(body=body)
+
+    def get_auto_commit_settings(self) -> Dict[str, AutoVersionCreateConfig]:
+        return self.admin_controller.get_auto_commit_settings_using_get()
 
     def save_repository_settings(self, body: Optional[RepositorySettings]):
         return self.admin_controller.save_repository_settings_using_post(body=body)
@@ -1221,7 +1254,7 @@ class RestClientBase(Thread):
                                                                                action_types=action_types)
 
     # Lwm2M Controller
-    def get_lwm2m_bootstrap_security_info(self, is_bootstrap_server: bool):
+    def get_lwm2m_bootstrap_security_info(self, is_bootstrap_server: bool) -> ServerSecurityConfig:
         return self.lwm2m_controller.get_lwm2m_bootstrap_security_info_using_get(
             is_bootstrap_server=is_bootstrap_server)
 
@@ -1243,6 +1276,49 @@ class RestClientBase(Thread):
     # UI Controller
     def get_help_base_url(self) -> str:
         return self.ui_settings_controller.get_help_base_url_using_get()
+
+    # Device API Controller
+    def subscribe_to_attributes(self, device_token: str, timeout: Optional[int] = None) -> DeferredResultResponseEntity:
+        return self.device_api_controller.subscribe_to_attributes_using_get(device_token=device_token, timeout=timeout)
+
+    def subscribe_to_commands(self, device_token: str, timeout: Optional[int] = None) -> DeferredResultResponseEntity:
+        return self.device_api_controller.subscribe_to_commands_using_get(device_token=device_token, timeout=timeout)
+
+    def get_device_attributes(self, device_token: str, client_keys: str,
+                              shared_keys: str) -> DeferredResultResponseEntity:
+        return self.device_api_controller.get_device_attributes_using_get(device_token=device_token,
+                                                                          client_keys=client_keys,
+                                                                          shared_keys=shared_keys)
+
+    def get_firmware(self, device_token: str, title: str, version: str, size: Optional[int] = None,
+                     chunk: Optional[int] = None) -> DeferredResultResponseEntity:
+        return self.device_api_controller.get_firmware_using_get(device_token=device_token, title=title,
+                                                                 version=version, size=size, chunk=chunk)
+
+    def reply_to_command(self, device_token: str, request_id: int,
+                         body: Optional[str] = None) -> DeferredResultResponseEntity:
+        return self.device_api_controller.reply_to_command_using_post(device_token=device_token, request_id=request_id,
+                                                                      body=body)
+
+    def get_software(self, device_token: str, title: str, version: str, size: Optional[int] = None,
+                     chunk: Optional[int] = None) -> DeferredResultResponseEntity:
+        return self.device_api_controller.get_software_using_get(device_token=device_token, title=title,
+                                                                 version=version, size=size, chunk=chunk)
+
+    def post_telemetry(self, device_token: str, body: Optional[str] = None) -> DeferredResultResponseEntity:
+        return self.device_api_controller.post_telemetry_using_post(device_token=device_token, body=body)
+
+    def claim_device(self, device_token: str, body: Optional[str] = None) -> DeferredResultResponseEntity:
+        return self.device_api_controller.claim_device_using_post(device_token=device_token, body=body)
+
+    def post_rpc_request(self, device_token: str, body: Optional[str] = None) -> DeferredResultResponseEntity:
+        return self.device_api_controller.post_rpc_request_using_post(device_token=device_token, body=body)
+
+    def provision_device(self, body: Optional[str] = None) -> DeferredResultResponseEntity:
+        return self.device_api_controller.provision_device_using_post(body=body)
+
+    def post_device_attributes(self, device_token: str, body: Optional[str] = None) -> DeferredResultResponseEntity:
+        return self.device_api_controller.post_device_attributes_using_post(device_token=device_token, body=body)
 
     # Tenant Controller
     def get_tenant_infos(self, page_size: int, page: int, text_search: Optional[str] = None, sort_property: Optional[str] = None,
@@ -1384,6 +1460,49 @@ class RestClientBase(Thread):
                                                                                 sort_property=sort_property,
                                                                                 sort_order=sort_order)
 
+    # Two-Factor Auth Controller
+    def check_two_fa_verification_code(self, provider_type: str, verification_code: str) -> JWTTokenPair:
+        return self.two_factor_auth_controller.check_two_fa_verification_code_using_post(provider_type=provider_type,
+                                                                                         verification_code=verification_code)
+
+    def get_available_two_fa_providers_v1(self, ) -> List[TwoFaProviderInfo]:
+        return self.two_factor_auth_controller.get_available_two_fa_providers_using_get1()
+
+    def request_two_fa_verification_code(self, provider_type: str) -> None:
+        return self.two_factor_auth_controller.request_two_fa_verification_code_using_post(provider_type=provider_type)
+
+    # Two-Factor Config Controller
+    def get_platform_two_fa_settings(self) -> PlatformTwoFaSettings:
+        return self.two_fa_config_controller.get_platform_two_fa_settings_using_get()
+
+    def submit_two_fa_account_config(self, body: Optional[TwoFaAccountConfig] = None) -> None:
+        return self.two_fa_config_controller.submit_two_fa_account_config_using_post(body=body)
+
+    def verify_and_save_two_fa_account_config(self, body: Optional[TwoFaAccountConfig] = None,
+                                              verification_code: Optional[str] = None) -> AccountTwoFaSettings:
+        return self.two_fa_config_controller.verify_and_save_two_fa_account_config_using_post(body=body,
+                                                                                              verification_code=verification_code)
+
+    def get_available_two_fa_providers(self, ) -> List[str]:
+        return self.two_fa_config_controller.get_available_two_fa_providers_using_get()
+
+    def update_two_fa_account_config(self, provider_type: str,
+                                     body: Optional[TwoFaAccountConfigUpdateRequest] = None) -> AccountTwoFaSettings:
+        return self.two_fa_config_controller.update_two_fa_account_config_using_put(provider_type=provider_type,
+                                                                                    body=body)
+
+    def get_account_two_fa_settings(self, ) -> AccountTwoFaSettings:
+        return self.two_fa_config_controller.get_account_two_fa_settings_using_get()
+
+    def generate_two_fa_account_config(self, provider_type: str) -> TwoFaAccountConfig:
+        return self.two_fa_config_controller.generate_two_fa_account_config_using_post(provider_type=provider_type)
+
+    def delete_two_fa_account_config(self, provider_type: str) -> AccountTwoFaSettings:
+        return self.two_fa_config_controller.delete_two_fa_account_config_using_delete(provider_type=provider_type)
+
+    def save_platform_two_fa_settings(self, body: Optional[PlatformTwoFaSettings] = None) -> PlatformTwoFaSettings:
+        return self.two_fa_config_controller.save_platform_two_fa_settings_using_post(body=body)
+
     def __load_controllers(self):
         self.audit_log_controller = AuditLogControllerApi(self.api_client)
         self.o_auth2_config_template_controller = OAuth2ConfigTemplateControllerApi(self.api_client)
@@ -1409,6 +1528,7 @@ class RestClientBase(Thread):
         self.rpc_v1_controller = RpcV1ControllerApi(self.api_client)
         self.widget_type_controller = WidgetTypeControllerApi(self.api_client)
         self.device_controller = DeviceControllerApi(self.api_client)
+        self.device_api_controller = DeviceApiControllerApi(self.api_client)
         self.rule_chain_controller = RuleChainControllerApi(self.api_client)
         self.tb_resource_controller = TbResourceControllerApi(self.api_client)
         self.auth_controller = AuthControllerApi(self.api_client)
@@ -1419,6 +1539,8 @@ class RestClientBase(Thread):
         self.sign_up_controller = SignUpControllerApi(self.api_client)
         self.ui_settings_controller = UiSettingsControllerApi(self.api_client)
         self.entities_version_control_controller = EntitiesVersionControlControllerApi(self.api_client)
+        self.two_fa_config_controller = TwoFaConfigControllerApi(self.api_client)
+        self.two_factor_auth_controller = TwoFactorAuthControllerApi(self.api_client)
 
     @staticmethod
     def get_type(type):

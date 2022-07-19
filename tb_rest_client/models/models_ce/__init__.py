@@ -288,4 +288,12 @@ from .version_create_config import VersionCreateConfig
 from .single_entity_version_create_request import SingleEntityVersionCreateRequest
 from .entity_type_version_create_config import EntityTypeVersionCreateConfig
 from .entity_type_version_load_config import EntityTypeVersionLoadConfig
+from .repository_settings import RepositorySettings
+from .deferred_result_repository_settings import DeferredResultRepositorySettings
+from .deferred_result_void import DeferredResultVoid
+from .auto_version_create_config import AutoVersionCreateConfig
+from .platform_two_fa_settings import PlatformTwoFaSettings
+from .account_two_fa_settings import AccountTwoFaSettings
+from .two_fa_account_config_update_request import TwoFaAccountConfigUpdateRequest
+from .two_fa_provider_info import TwoFaProviderInfo
 from .entity_load_error import EntityLoadError
