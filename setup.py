@@ -18,7 +18,7 @@ from setuptools import setup, find_packages  # noqa: H301
 from os import path
 
 NAME = "tb-rest-client"
-VERSION = "1.3.3"
+VERSION = "1.4"
 REQUIRES = [
     "certifi>=2017.4.17",
     "python-dateutil>=2.1",
@@ -42,6 +42,6 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     long_description=long_description,
-    download_url='https://github.com/thingsboard/python-/archive/%s.tar.gz' % VERSION,
+    download_url='https://github.com/thingsboard/thingsboard-python-rest-client/archive/refs/tags/%s.tar.gz' % VERSION,
     python_requires=">=3.7",
 )
