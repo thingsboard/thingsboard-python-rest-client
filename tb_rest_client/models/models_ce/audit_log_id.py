@@ -28,11 +28,13 @@ from tb_rest_client.api_client import ApiClient
                             and the value is json key in definition.
     """
     swagger_types = {
-        'id': 'str'
+        'id': 'str',
+        'entity_type': 'str'
     }
 
     attribute_map = {
-        'id': 'id'
+        'id': 'id',
+        'entity_type': 'entityType'
     }
 
     def __init__(self, id=None):  # noqa: E501
