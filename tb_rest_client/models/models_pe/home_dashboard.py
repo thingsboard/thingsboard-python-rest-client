@@ -40,7 +40,8 @@ from tb_rest_client.api_client import ApiClient
         'mobile_order': 'int',
         'name': 'str',
         'configuration': 'JsonNode',
-        'hide_dashboard_toolbar': 'bool'
+        'hide_dashboard_toolbar': 'bool',
+        'id': 'DashboardId'
     }
 
     attribute_map = {
@@ -56,10 +57,11 @@ from tb_rest_client.api_client import ApiClient
         'mobile_order': 'mobileOrder',
         'name': 'name',
         'configuration': 'configuration',
-        'hide_dashboard_toolbar': 'hideDashboardToolbar'
+        'hide_dashboard_toolbar': 'hideDashboardToolbar',
+        'id': 'id'
     }
 
-    def __init__(self, external_id=None, created_time=None, tenant_id=None, customer_id=None, owner_id=None, title=None, image=None, assigned_customers=None, mobile_hide=None, mobile_order=None, name=None, configuration=None, hide_dashboard_toolbar=None):  # noqa: E501
+    def __init__(self, external_id=None, created_time=None, tenant_id=None, customer_id=None, owner_id=None, title=None, image=None, assigned_customers=None, mobile_hide=None, mobile_order=None, name=None, configuration=None, hide_dashboard_toolbar=None, id=None):  # noqa: E501
         """HomeDashboard - a model defined in Swagger"""  # noqa: E501
         self._external_id = None
         self._created_time = None
@@ -74,6 +76,7 @@ from tb_rest_client.api_client import ApiClient
         self._name = None
         self._configuration = None
         self._hide_dashboard_toolbar = None
+        self.id = id
         self.discriminator = None
         if external_id is not None:
             self.external_id = external_id

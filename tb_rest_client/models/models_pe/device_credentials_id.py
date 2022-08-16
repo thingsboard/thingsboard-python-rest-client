@@ -29,12 +29,10 @@ from tb_rest_client.api_client import ApiClient
     """
     swagger_types = {
         'id': 'str',
-        'entity_type': 'str'
     }
 
     attribute_map = {
         'id': 'id',
-        'entity_type': 'entityType'
     }
 
     def __init__(self, id=None):  # noqa: E501

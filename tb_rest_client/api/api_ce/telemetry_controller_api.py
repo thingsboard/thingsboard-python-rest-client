@@ -1667,7 +1667,7 @@ class TelemetryControllerApi(object):
         :param str entity_type: A string value representing the entity type. For example, 'DEVICE' (required)
         :param str entity_id: A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
         :param str scope: Value is deprecated, reserved for backward compatibility and not used in the API call implementation. Specify any scope for compatibility (required)
-        :param int ttl: A long value representing TTL (Time to Live) parameter. (required)
+        :param str ttl: A long value representing TTL (Time to Live) parameter. (required)
         :param str body:
         :return: DeferredResultResponseEntity
                  If the method is called asynchronously,

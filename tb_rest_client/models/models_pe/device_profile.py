@@ -36,7 +36,7 @@ from tb_rest_client.api_client import ApiClient
         'default': 'bool',
         'default_dashboard_id': 'DashboardId',
         'default_rule_chain_id': 'RuleChainId',
-        'default_queue_id': 'QueueId',
+        'default_queue_name': 'str',
         'firmware_id': 'OtaPackageId',
         'software_id': 'OtaPackageId',
         'description': 'str',
@@ -57,7 +57,7 @@ from tb_rest_client.api_client import ApiClient
         'default': 'default',
         'default_dashboard_id': 'defaultDashboardId',
         'default_rule_chain_id': 'defaultRuleChainId',
-        'default_queue_id': 'defaultQueueId',
+        'default_queue_name': 'defaultQueueName',
         'firmware_id': 'firmwareId',
         'software_id': 'softwareId',
         'description': 'description',
@@ -69,7 +69,7 @@ from tb_rest_client.api_client import ApiClient
         'type': 'type'
     }
 
-    def __init__(self, external_id=None, id=None, created_time=None, tenant_id=None, name=None, default=None, default_dashboard_id=None, default_rule_chain_id=None, default_queue_id=None, firmware_id=None, software_id=None, description=None, image=None, provision_device_key=None, transport_type=None, provision_type=None, profile_data=None, type=None):  # noqa: E501
+    def __init__(self, external_id=None, id=None, created_time=None, tenant_id=None, name=None, default=None, default_dashboard_id=None, default_rule_chain_id=None, default_queue_name=None, firmware_id=None, software_id=None, description=None, image=None, provision_device_key=None, transport_type=None, provision_type=None, profile_data=None, type=None):  # noqa: E501
         """DeviceProfile - a model defined in Swagger"""  # noqa: E501
         self._external_id = None
         self._id = None
@@ -79,7 +79,7 @@ from tb_rest_client.api_client import ApiClient
         self._default = None
         self._default_dashboard_id = None
         self._default_rule_chain_id = None
-        self._default_queue_id = None
+        self._default_queue_name = None
         self._firmware_id = None
         self._software_id = None
         self._description = None
@@ -106,8 +106,8 @@ from tb_rest_client.api_client import ApiClient
             self.default_dashboard_id = default_dashboard_id
         if default_rule_chain_id is not None:
             self.default_rule_chain_id = default_rule_chain_id
-        if default_queue_id is not None:
-            self.default_queue_id = default_queue_id
+        if default_queue_name is not None:
+            self._default_queue_name = default_queue_name
         if firmware_id is not None:
             self.firmware_id = firmware_id
         if software_id is not None:
@@ -302,25 +302,25 @@ from tb_rest_client.api_client import ApiClient
         self._default_rule_chain_id = default_rule_chain_id
 
     @property
-    def default_queue_id(self):
-        """Gets the default_queue_id of this DeviceProfile.  # noqa: E501
+    def default_queue_name(self):
+        """Gets the default_queue_name of this DeviceProfile.  # noqa: E501
 
 
-        :return: The default_queue_id of this DeviceProfile.  # noqa: E501
+        :return: The default_queue_name of this DeviceProfile.  # noqa: E501
         :rtype: QueueId
         """
-        return self._default_queue_id
+        return self._default_queue_name
 
-    @default_queue_id.setter
-    def default_queue_id(self, default_queue_id):
-        """Sets the default_queue_id of this DeviceProfile.
+    @default_queue_name.setter
+    def default_queue_name(self, default_queue_name):
+        """Sets the default_queue_name of this DeviceProfile.
 
 
-        :param default_queue_id: The default_queue_id of this DeviceProfile.  # noqa: E501
+        :param default_queue_name: The default_queue_name of this DeviceProfile.  # noqa: E501
         :type: QueueId
         """
 
-        self._default_queue_id = default_queue_id
+        self._default_queue_name = default_queue_name
 
     @property
     def firmware_id(self):

@@ -117,10 +117,12 @@ class RestClientPE(RestClientBase):
         return self.asset_controller.get_asset_by_id_using_get(asset_id=asset_id)
 
     def get_assets_by_ids(self, asset_ids: list) -> List[Asset]:
-        return self.asset_controller.get_assets_by_ids_using_get(asset_ids=str(asset_ids))
+        asset_ids = ','.join(asset_ids)
+        return self.asset_controller.get_assets_by_ids_using_get(asset_ids=asset_ids)
 
-    def save_asset(self, body: Optional[Asset] = None) -> Asset:
-        return self.asset_controller.save_asset_using_post(body=body)
+    def save_asset(self, body: Optional[Asset] = None, entity_group_id: EntityGroupId = None):
+        entity_group_id = self.get_id(entity_group_id)
+        return self.asset_controller.save_asset_using_post(body=body, entity_group_id=entity_group_id)
 
     def asset_get_tenant_assets(self, page_size: int, page: int, type: Optional[str] = None,text_search: Optional[str] = None, sort_property: Optional[str] = None,
                                 sort_order: Optional[str] = None) -> PageDataAsset:
@@ -354,8 +356,9 @@ class RestClientPE(RestClientBase):
         customer_id = self.get_id(customer_id)
         return self.customer_controller.get_short_customer_info_by_id_using_get(customer_id=customer_id)
 
-    def save_customer(self, body: Optional[Customer] = None) -> Customer:
-        return self.customer_controller.save_customer_using_post(body=body)
+    def save_customer(self, entity_group_id: EntityGroupId = None, body: Optional[Customer] = None) -> Customer:
+        entity_group_id = self.get_id(entity_group_id)
+        return self.customer_controller.save_customer_using_post(entity_group_id=entity_group_id, body=body)
 
     def get_tenant_customer(self, customer_title: str) -> Customer:
         return self.customer_controller.get_tenant_customer_using_get(customer_title=customer_title)
@@ -479,7 +482,8 @@ class RestClientPE(RestClientBase):
                                                                                sort_order=sort_order)
 
     def get_devices_by_ids(self, device_ids: list) -> List[Device]:
-        return self.device_controller.get_devices_by_ids_using_get(device_ids=str(device_ids))
+        device_ids = ','.join(device_ids)
+        return self.device_controller.get_devices_by_ids_using_get(device_ids=device_ids)
 
     def get_user_devices(self, page_size: int, page: int, type: Optional[str] = None,text_search: Optional[str] = None, sort_property: Optional[str] = None,
                          sort_order: Optional[str] = None,) -> PageDataDevice:
@@ -554,9 +558,11 @@ class RestClientPE(RestClientBase):
         return self.converter_controller.get_converter_by_id_using_get(converter_id=converter_id)
 
     def get_converters_by_ids(self, converter_ids: list) -> List[Converter]:
-        return self.converter_controller.get_converters_by_ids_using_get(converter_ids=str(converter_ids))
+        converter_ids = ','.join(converter_ids)
+        return self.converter_controller.get_converters_by_ids_using_get(converter_ids=converter_ids)
 
-    def get_converters(self, page_size: int, page: int, is_edge_template: Optional[bool], text_search: Optional[str] = None, sort_property: Optional[str] = None,
+    def get_converters(self, page_size: int, page: int, is_edge_template: Optional[bool] = None,
+                       text_search: Optional[str] = None, sort_property: Optional[str] = None,
                        sort_order: Optional[str] = None) -> PageDataConverter:
         return self.converter_controller.get_converters_using_get(page_size=page_size, page=page,
                                                                   is_edge_template=is_edge_template,
@@ -693,7 +699,8 @@ class RestClientPE(RestClientBase):
             sort_property=sort_property, sort_order=sort_order)
 
     def get_entity_views_by_ids(self, entity_view_ids: list) -> List[EntityView]:
-        return self.entity_view_controller.get_entity_views_by_ids_using_get(entity_view_ids=str(entity_view_ids))
+        entity_view_ids = ','.join(entity_view_ids)
+        return self.entity_view_controller.get_entity_views_by_ids_using_get(entity_view_ids=entity_view_ids)
 
     def save_entity_view(self, body: Optional[EntityView] = None) -> EntityView:
         return self.entity_view_controller.save_entity_view_using_post(body=body)
@@ -842,7 +849,8 @@ class RestClientPE(RestClientBase):
     def terms_of_use_accepted(self, ) -> bool:
         return self.sign_up_controller.terms_of_use_accepted_using_get()
 
-    def get_device_profiles_by_ids(self, device_profile_ids: str) -> List[DeviceProfileInfo]:
+    def get_device_profiles_by_ids(self, device_profile_ids: list) -> List[DeviceProfileInfo]:
+        device_profile_ids = ','.join(device_profile_ids)
         return self.device_profile_controller.get_device_profiles_by_ids_using_get(
             device_profile_ids=device_profile_ids)
 
@@ -1094,19 +1102,20 @@ class RestClientPE(RestClientBase):
         return self.dashboard_controller.get_max_datapoints_limit_using_get()
 
     def get_dashboards_by_ids(self, dashboard_ids: list) -> List[DashboardInfo]:
-        return self.dashboard_controller.get_dashboards_by_ids_using_get(dashboard_ids=str(dashboard_ids))
+        dashboard_ids = ','.join(dashboard_ids)
+        return self.dashboard_controller.get_dashboards_by_ids_using_get(dashboard_ids=dashboard_ids)
 
     def get_customer_home_dashboard_info(self, ) -> HomeDashboardInfo:
         return self.dashboard_controller.get_customer_home_dashboard_info_using_get()
 
-    def get_tenant_dashboards(self, page_size: int, page: int, mobile: Optional[bool], text_search: Optional[str] = None, sort_property: Optional[str] = None,
+    def get_tenant_dashboards(self, page_size: int, page: int, mobile: Optional[bool] = None, text_search: Optional[str] = None, sort_property: Optional[str] = None,
                               sort_order: Optional[str] = None) -> PageDataDashboardInfo:
         return self.dashboard_controller.get_tenant_dashboards_using_get(page_size=page_size, page=page, mobile=mobile,
                                                                          text_search=text_search,
                                                                          sort_property=sort_property,
                                                                          sort_order=sort_order)
 
-    def get_user_dashboards(self, page_size: int, page: int, mobile: Optional[bool], text_search: Optional[str] = None, sort_property: Optional[str] = None,
+    def get_user_dashboards(self, page_size: int, page: int, mobile: Optional[bool] = None, text_search: Optional[str] = None, sort_property: Optional[str] = None,
                             sort_order: Optional[str] = None, operation: Optional[str] = None, user_id: Optional[str] = None) -> PageDataDashboardInfo:
         user_id = self.get_id(user_id)
         return self.dashboard_controller.get_user_dashboards_using_get(page_size=page_size, page=page, mobile=mobile,
@@ -1191,7 +1200,8 @@ class RestClientPE(RestClientBase):
         return self.role_controller.get_role_by_id_using_get(role_id=role_id)
 
     def get_roles_by_ids(self, role_ids: list) -> List[Role]:
-        return self.role_controller.get_roles_by_ids_using_get(role_ids=str(role_ids))
+        role_ids = ','.join(role_ids)
+        return self.role_controller.get_roles_by_ids_using_get(role_ids=role_ids)
 
     def get_roles(self, page_size: int, page: int, type: Optional[str] = None,text_search: Optional[str] = None, sort_property: Optional[str] = None, sort_order: Optional[str] = None,) -> PageDataRole:
         return self.role_controller.get_roles_using_get(page_size=page_size, page=page, type=type,
@@ -1460,7 +1470,8 @@ class RestClientPE(RestClientBase):
                                                                                                   group_name=group_name)
 
     def get_entity_groups_by_ids(self, entity_group_ids: list) -> List[EntityGroup]:
-        return self.entity_group_controller.get_entity_groups_by_ids_using_get(entity_group_ids=str(entity_group_ids))
+        entity_group_ids = ','.join(entity_group_ids)
+        return self.entity_group_controller.get_entity_groups_by_ids_using_get(entity_group_ids=entity_group_ids)
 
     def get_entity_groups_by_owner_and_type(self, owner_type: str, owner_id: UserId, group_type: str) -> List[EntityGroupInfo]:
         owner_id = self.get_id(owner_id)
@@ -1483,7 +1494,7 @@ class RestClientPE(RestClientBase):
         return self.entity_group_controller.get_group_entity_using_get(entity_group_id=entity_group_id,
                                                                        entity_id=entity_id)
 
-    def get_owners(self, page_size: int, page: int,text_search: Optional[str] = None, sort_property: Optional[str] = None, sort_order: Optional[str] = None,) -> PageDataContactBasedobject:
+    def get_owners(self, page_size: int, page: int, text_search: Optional[str] = None, sort_property: Optional[str] = None, sort_order: Optional[str] = None,) -> PageDataContactBasedobject:
         return self.entity_group_controller.get_owners_using_get(page_size=page_size, page=page,
                                                                  text_search=text_search, sort_property=sort_property,
                                                                  sort_order=sort_order)

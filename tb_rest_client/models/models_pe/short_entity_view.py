@@ -29,21 +29,27 @@ from tb_rest_client.api_client import ApiClient
     """
     swagger_types = {
         'id': 'EntityId',
-        'name': 'str'
+        'name': 'str',
+        'created_time': 'int',
+        'device_profile': 'DeviceProfile'
     }
 
     attribute_map = {
         'id': 'id',
-        'name': 'name'
+        'name': 'name',
+        'created_time': 'createdTime',
+        'device_profile': 'deviceProfile'
     }
 
-    def __init__(self, id=None, name=None):  # noqa: E501
+    def __init__(self, id=None, name=None, created_time=None, device_profile=None):  # noqa: E501
         """ShortEntityView - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._name = None
         self.discriminator = None
         self.id = id
         self.name = name
+        self.created_time = created_time
+        self.device_profile = device_profile
 
     @property
     def id(self):

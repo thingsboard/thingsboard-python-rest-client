@@ -1747,7 +1747,7 @@ class AssetControllerApi(object):
     def save_asset_using_post(self, **kwargs):  # noqa: E501
         """Create Or Update Asset (saveAsset)  # noqa: E501
 
-        Creates or Updates the Asset. When creating asset, platform generates Asset Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). The newly created Asset id will be present in the response. Specify existing Asset id to update the asset. Referencing non-existing Asset Id will cause 'Not Found' error.  Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority.  # noqa: E501
+        Creates or Updates the Asset. When creating asset, platform generates Asset Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). The newly created Asset id will be present in the response. Specify existing Asset id to update the asset. Referencing non-existing Asset Id will cause 'Not Found' error.   Security check is performed to verify that the user has 'WRITE' permission for the entity (entities).  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.save_asset_using_post(async_req=True)
@@ -1755,6 +1755,7 @@ class AssetControllerApi(object):
 
         :param async_req bool
         :param Asset body:
+        :param str entity_group_id: A string value representing the Entity Group Id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'. If specified, the entity will be added to the corresponding entity group.
         :return: Asset
                  If the method is called asynchronously,
                  returns the request thread.
@@ -1769,7 +1770,7 @@ class AssetControllerApi(object):
     def save_asset_using_post_with_http_info(self, **kwargs):  # noqa: E501
         """Create Or Update Asset (saveAsset)  # noqa: E501
 
-        Creates or Updates the Asset. When creating asset, platform generates Asset Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). The newly created Asset id will be present in the response. Specify existing Asset id to update the asset. Referencing non-existing Asset Id will cause 'Not Found' error.  Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority.  # noqa: E501
+        Creates or Updates the Asset. When creating asset, platform generates Asset Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). The newly created Asset id will be present in the response. Specify existing Asset id to update the asset. Referencing non-existing Asset Id will cause 'Not Found' error.   Security check is performed to verify that the user has 'WRITE' permission for the entity (entities).  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.save_asset_using_post_with_http_info(async_req=True)
@@ -1777,12 +1778,13 @@ class AssetControllerApi(object):
 
         :param async_req bool
         :param Asset body:
+        :param str entity_group_id: A string value representing the Entity Group Id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'. If specified, the entity will be added to the corresponding entity group.
         :return: Asset
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['body']  # noqa: E501
+        all_params = ['body', 'entity_group_id']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -1803,6 +1805,8 @@ class AssetControllerApi(object):
         path_params = {}
 
         query_params = []
+        if 'entity_group_id' in params:
+            query_params.append(('entityGroupId', params['entity_group_id']))  # noqa: E501
 
         header_params = {}
 
@@ -1824,7 +1828,7 @@ class AssetControllerApi(object):
         auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
-            '/api/asset', 'POST',
+            '/api/asset{?entityGroupId}', 'POST',
             path_params,
             query_params,
             header_params,
