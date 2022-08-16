@@ -167,8 +167,6 @@ from tb_rest_client.api_client import ApiClient
         :param tenant_id: The tenant_id of this Role.  # noqa: E501
         :type: TenantId
         """
-        if tenant_id is None:
-            raise ValueError("Invalid value for `tenant_id`, must not be `None`")  # noqa: E501
 
         self._tenant_id = tenant_id
 

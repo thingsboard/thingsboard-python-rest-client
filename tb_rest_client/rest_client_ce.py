@@ -862,9 +862,12 @@ class RestClientCE(RestClientBase):
         return self.entity_relation_controller.delete_relations_using_delete(entity_id=entity_id,
                                                                              entity_type=entity_type)
 
-    def delete_relation(self, from_id: EntityId, from_type: str, relation_type: str, to_id: EntityId, to_type: str,
+    def delete_relation(self, from_id: EntityId, relation_type: str, to_id: EntityId,
                         relation_type_group: Optional[str] = None) -> None:
+        from_type = self.get_type(from_id)
         from_id = self.get_id(from_id)
+
+        to_type = self.get_type(to_id)
         to_id = self.get_id(to_id)
         return self.entity_relation_controller.delete_relation_using_delete(from_id=from_id, from_type=from_type,
                                                                             relation_type=relation_type, to_id=to_id,

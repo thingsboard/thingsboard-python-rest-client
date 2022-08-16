@@ -329,6 +329,7 @@ class ConverterControllerApi(object):
         :param async_req bool
         :param int page_size: Maximum amount of entities in a one page (required)
         :param int page: Sequence number of page starting from 0 (required)
+        :param bool is_edge_template: Fetch edge template converters
         :param str text_search: The case insensitive 'startsWith' filter based on the converter name.
         :param str sort_property: Property of entity to sort by
         :param str sort_order: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
@@ -355,6 +356,7 @@ class ConverterControllerApi(object):
         :param async_req bool
         :param int page_size: Maximum amount of entities in a one page (required)
         :param int page: Sequence number of page starting from 0 (required)
+        :param bool is_edge_template: Fetch edge template converters
         :param str text_search: The case insensitive 'startsWith' filter based on the converter name.
         :param str sort_property: Property of entity to sort by
         :param str sort_order: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
@@ -363,7 +365,7 @@ class ConverterControllerApi(object):
                  returns the request thread.
         """
 
-        all_params = ['page_size', 'page', 'text_search', 'sort_property', 'sort_order']  # noqa: E501
+        all_params = ['page_size', 'page', 'is_edge_template', 'text_search', 'sort_property', 'sort_order']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -392,6 +394,8 @@ class ConverterControllerApi(object):
         path_params = {}
 
         query_params = []
+        if 'is_edge_template' in params:
+            query_params.append(('isEdgeTemplate', params['is_edge_template']))  # noqa: E501
         if 'page_size' in params:
             query_params.append(('pageSize', params['page_size']))  # noqa: E501
         if 'page' in params:
@@ -417,7 +421,7 @@ class ConverterControllerApi(object):
         auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
-            '/api/converters{?page,pageSize,sortOrder,sortProperty,textSearch}', 'GET',
+            '/api/converters{?isEdgeTemplate,page,pageSize,sortOrder,sortProperty,textSearch}', 'GET',
             path_params,
             query_params,
             header_params,

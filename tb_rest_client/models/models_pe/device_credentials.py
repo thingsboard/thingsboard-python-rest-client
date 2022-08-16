@@ -82,8 +82,8 @@ from tb_rest_client.api_client import ApiClient
         :param id: The id of this DeviceCredentials.  # noqa: E501
         :type: DeviceCredentialsId
         """
-        if id is None:
-            raise ValueError("Invalid value for `id`, must not be `None`")  # noqa: E501
+        # if id is None:
+        #     raise ValueError("Invalid value for `id`, must not be `None`")  # noqa: E501
 
         self._id = id
 
@@ -128,8 +128,8 @@ from tb_rest_client.api_client import ApiClient
         :param device_id: The device_id of this DeviceCredentials.  # noqa: E501
         :type: DeviceId
         """
-        if device_id is None:
-            raise ValueError("Invalid value for `device_id`, must not be `None`")  # noqa: E501
+        # if device_id is None:
+        #     raise ValueError("Invalid value for `device_id`, must not be `None`")  # noqa: E501
 
         self._device_id = device_id
 

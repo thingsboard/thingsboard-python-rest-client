@@ -225,7 +225,7 @@ class CustomerControllerApi(object):
     def get_customer_title_by_id_using_get(self, customer_id, **kwargs):  # noqa: E501
         """Get Customer Title (getCustomerTitleById)  # noqa: E501
 
-        Get the title of the customer. If the user has the authority of 'Tenant Administrator', the server checks that the customer is owned by the same tenant. If the user has the authority of 'Customer User', the server checks that the user belongs to the customer.  Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority.  # noqa: E501
+        Get the title of the customer. If the user has the authority of 'Tenant Administrator', the server checks that the customer is owned by the same tenant. If the user has the authority of 'Customer User', the server checks that the user belongs to the customer.  Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority. Security check is performed to verify that the user has 'READ' permission for the entity (entities).  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_customer_title_by_id_using_get(customer_id, async_req=True)
@@ -247,7 +247,7 @@ class CustomerControllerApi(object):
     def get_customer_title_by_id_using_get_with_http_info(self, customer_id, **kwargs):  # noqa: E501
         """Get Customer Title (getCustomerTitleById)  # noqa: E501
 
-        Get the title of the customer. If the user has the authority of 'Tenant Administrator', the server checks that the customer is owned by the same tenant. If the user has the authority of 'Customer User', the server checks that the user belongs to the customer.  Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority.  # noqa: E501
+        Get the title of the customer. If the user has the authority of 'Tenant Administrator', the server checks that the customer is owned by the same tenant. If the user has the authority of 'Customer User', the server checks that the user belongs to the customer.  Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority. Security check is performed to verify that the user has 'READ' permission for the entity (entities).  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_customer_title_by_id_using_get_with_http_info(customer_id, async_req=True)
@@ -278,7 +278,8 @@ class CustomerControllerApi(object):
         # verify the required parameter 'customer_id' is set
         if ('customer_id' not in params or
                 params['customer_id'] is None):
-            raise ValueError("Missing the required parameter `customer_id` when calling `get_customer_title_by_id_using_get`")  # noqa: E501
+            raise ValueError(
+                "Missing the required parameter `customer_id` when calling `get_customer_title_by_id_using_get`")  # noqa: E501
 
         collection_formats = {}
 
@@ -625,7 +626,7 @@ class CustomerControllerApi(object):
     def save_customer_using_post(self, **kwargs):  # noqa: E501
         """Create or update Customer (saveCustomer)  # noqa: E501
 
-        Creates or Updates the Customer. When creating customer, platform generates Customer Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). The newly created Customer Id will be present in the response. Specify existing Customer Id to update the Customer. Referencing non-existing Customer Id will cause 'Not Found' error.  Available for users with 'TENANT_ADMIN' authority.  # noqa: E501
+        Creates or Updates the Customer. When creating customer, platform generates Customer Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). The newly created Customer Id will be present in the response. Specify existing Customer Id to update the Customer. Referencing non-existing Customer Id will cause 'Not Found' error.  Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority. Security check is performed to verify that the user has 'WRITE' permission for the entity (entities).  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.save_customer_using_post(async_req=True)
@@ -633,6 +634,7 @@ class CustomerControllerApi(object):
 
         :param async_req bool
         :param Customer body:
+        :param str entity_group_id: A string value representing the Entity Group Id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'. If specified, the entity will be added to the corresponding entity group.
         :return: Customer
                  If the method is called asynchronously,
                  returns the request thread.
@@ -647,7 +649,7 @@ class CustomerControllerApi(object):
     def save_customer_using_post_with_http_info(self, **kwargs):  # noqa: E501
         """Create or update Customer (saveCustomer)  # noqa: E501
 
-        Creates or Updates the Customer. When creating customer, platform generates Customer Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). The newly created Customer Id will be present in the response. Specify existing Customer Id to update the Customer. Referencing non-existing Customer Id will cause 'Not Found' error.  Available for users with 'TENANT_ADMIN' authority.  # noqa: E501
+        Creates or Updates the Customer. When creating customer, platform generates Customer Id as [time-based UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_1_(date-time_and_MAC_address)). The newly created Customer Id will be present in the response. Specify existing Customer Id to update the Customer. Referencing non-existing Customer Id will cause 'Not Found' error.  Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority. Security check is performed to verify that the user has 'WRITE' permission for the entity (entities).  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.save_customer_using_post_with_http_info(async_req=True)
@@ -655,12 +657,13 @@ class CustomerControllerApi(object):
 
         :param async_req bool
         :param Customer body:
+        :param str entity_group_id: A string value representing the Entity Group Id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'. If specified, the entity will be added to the corresponding entity group.
         :return: Customer
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['body']  # noqa: E501
+        all_params = ['body', 'entity_group_id']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -681,6 +684,8 @@ class CustomerControllerApi(object):
         path_params = {}
 
         query_params = []
+        if 'entity_group_id' in params:
+            query_params.append(('entityGroupId', params['entity_group_id']))  # noqa: E501
 
         header_params = {}
 
@@ -699,10 +704,10 @@ class CustomerControllerApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['X-Authorization']  # noqa: E501
+        auth_settings = ['HTTP login form']  # noqa: E501
 
         return self.api_client.call_api(
-            '/api/customer', 'POST',
+            '/api/customer{?entityGroupId}', 'POST',
             path_params,
             query_params,
             header_params,
