@@ -258,6 +258,7 @@ from .edge_info import EdgeInfo
 from .page_data_entity_view_info import PageDataEntityViewInfo
 from .page_data_edge_info import PageDataEdgeInfo
 from .lw_m2_m_server_security_config_default import LwM2MServerSecurityConfigDefault
+from .server_security_config import ServerSecurityConfig
 from .no_sec_lw_m2_m_bootstrap_server_credential import NoSecLwM2MBootstrapServerCredential
 from .rule_chain_output_labels_usage import RuleChainOutputLabelsUsage
 from .psk_lw_m2_m_bootstrap_server_credential import PSKLwM2MBootstrapServerCredential

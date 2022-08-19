@@ -22,6 +22,7 @@ from logging import getLogger
 
 from typing import List, Optional, Union, Any, Dict
 
+from tb_rest_client.models.models_ce import *
 from tb_rest_client.rest import RESTResponse
 from tb_rest_client.api.api_ce.two_factor_auth_controller_api import TwoFactorAuthControllerApi
 from tb_rest_client.api.api_ce.two_fa_config_controller_api import TwoFaConfigControllerApi
@@ -60,8 +61,7 @@ from tb_rest_client.api.api_ce.user_controller_api import UserControllerApi
 from tb_rest_client.api.api_ce.widget_type_controller_api import WidgetTypeControllerApi
 from tb_rest_client.api.api_ce.widgets_bundle_controller_api import WidgetsBundleControllerApi
 from tb_rest_client.api.api_ce.ui_settings_controller_api import UiSettingsControllerApi
-from tb_rest_client.models.models_ce import *
-from tb_rest_client.models.models_pe import *
+# from tb_rest_client.models.models_pe import *
 from tb_rest_client.configuration import Configuration
 from tb_rest_client.api_client import ApiClient
 
