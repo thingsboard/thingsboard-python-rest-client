@@ -297,7 +297,7 @@ class CustomerControllerApi(object):
         body_params = None
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/text', 'application/json'])  # noqa: E501
+            ['application/text'])  # noqa: E501
 
         # Authentication setting
         auth_settings = ['X-Authorization']  # noqa: E501
@@ -704,7 +704,7 @@ class CustomerControllerApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['HTTP login form']  # noqa: E501
+        auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
             '/api/customer{?entityGroupId}', 'POST',

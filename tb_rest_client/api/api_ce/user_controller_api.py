@@ -200,8 +200,7 @@ class UserControllerApi(object):
 
         body_params = None
         # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['text/plain', 'application/json'])  # noqa: E501
+        header_params['Accept'] = self.api_client.select_header_accept(['text/plain'])  # noqa: E501
 
         # Authentication setting
         auth_settings = ['X-Authorization']  # noqa: E501

@@ -7,9 +7,7 @@ from .tenant_info import TenantInfo
 from .debug_rule_node_event_filter import DebugRuleNodeEventFilter
 from .admin_settings_id import AdminSettingsId
 from .entity_data import EntityData
-from .page_data_device import PageDataDevice
 from .server_security_config import ServerSecurityConfig
-from .home_dashboard_info import HomeDashboardInfo
 from .login_response import LoginResponse
 from .widget_type import WidgetType
 from .event_id import EventId
@@ -29,7 +27,6 @@ from .complex_filter_predicate import ComplexFilterPredicate
 from .edge_id import EdgeId
 from .device_profile_data import DeviceProfileData
 from .allowed_permissions_info import AllowedPermissionsInfo
-from .page_data_customer import PageDataCustomer
 from .device_group_ota_package import DeviceGroupOtaPackage
 from .login_white_labeling_params import LoginWhiteLabelingParams
 from .sign_up_request import SignUpRequest
@@ -40,7 +37,6 @@ from .page_data_tb_resource_info import PageDataTbResourceInfo
 from .home_dashboard import HomeDashboard
 from .bulk_import_result_device import BulkImportResultDevice
 from .device_search_query_filter import DeviceSearchQueryFilter
-from .page_data_device_profile import PageDataDeviceProfile
 from .dashboard_info import DashboardInfo
 from .byte_buffer import ByteBuffer
 from .entity_info import EntityInfo
@@ -54,24 +50,20 @@ from .tenant_id import TenantId
 from .filter_predicate_valueboolean import FilterPredicateValueboolean
 from .component_descriptor import ComponentDescriptor
 from .short_customer_info import ShortCustomerInfo
-from .device_profile_info import DeviceProfileInfo
 from .duration_alarm_condition_spec import DurationAlarmConditionSpec
 from .group_permission_id import GroupPermissionId
 from .o_auth2_registration_info import OAuth2RegistrationInfo
 from .twilio_sms_provider_configuration import TwilioSmsProviderConfiguration
-from .device_profile import DeviceProfile
 from .page_data_converter import PageDataConverter
 from .lw_m2m_resource_observe import LwM2mResourceObserve
 from .default_tenant_profile_configuration import DefaultTenantProfileConfiguration
 from .role_id import RoleId
 from .check_pre_provisioned_devices_device_profile_provision_configuration import \
     CheckPreProvisionedDevicesDeviceProfileProvisionConfiguration
-from .page_data_dashboard_info import PageDataDashboardInfo
 from .alarm_info import AlarmInfo
 from .asset import Asset
 from .debug_converter_event_filter import DebugConverterEventFilter
 from .o_auth2_client_info import OAuth2ClientInfo
-from .page_data_user import PageDataUser
 from .boolean_filter_predicate import BooleanFilterPredicate
 from .rule_chain_id import RuleChainId
 from .admin_settings import AdminSettings
@@ -94,7 +86,6 @@ from .power_saving_configuration import PowerSavingConfiguration
 from .entity_group_filter import EntityGroupFilter
 from .ota_package_id import OtaPackageId
 from .error_event_filter import ErrorEventFilter
-from .jwt_token_pair import JWTTokenPair
 from .page_data_short_entity_view import PageDataShortEntityView
 from .alarm_schedule import AlarmSchedule
 from .user_id import UserId
@@ -126,7 +117,6 @@ from .alarm import Alarm
 from .attributes_entity_view import AttributesEntityView
 from .login_request import LoginRequest
 from .entity_view import EntityView
-from .page_data_device_profile_info import PageDataDeviceProfileInfo
 from .device_profile_provision_configuration import DeviceProfileProvisionConfiguration
 from .specific_time_schedule import SpecificTimeSchedule
 from .favicon import Favicon
@@ -211,7 +201,6 @@ from .ts_value import TsValue
 from .solution_install_response import SolutionInstallResponse
 from .telemetry_querying_snmp_communication_config import TelemetryQueryingSnmpCommunicationConfig
 from .device_profile_configuration import DeviceProfileConfiguration
-from .page_data_asset import PageDataAsset
 from .entity_group_name_filter import EntityGroupNameFilter
 from .entity_data_query import EntityDataQuery
 from .custom_translation import CustomTranslation
@@ -229,7 +218,6 @@ from .coap_device_transport_configuration import CoapDeviceTransportConfiguratio
 from .string_filter_predicate import StringFilterPredicate
 from .snmp_mapping import SnmpMapping
 from .mqtt_device_profile_transport_configuration import MqttDeviceProfileTransportConfiguration
-from .device_credentials import DeviceCredentials
 from .telemetry_entity_view import TelemetryEntityView
 from .single_entity_filter import SingleEntityFilter
 from .entity_view_search_query_filter import EntityViewSearchQueryFilter
@@ -238,7 +226,6 @@ from .asset_search_query import AssetSearchQuery
 from .entity_filter import EntityFilter
 from .debug_integration_event_filter import DebugIntegrationEventFilter
 from .entity_view_type_filter import EntityViewTypeFilter
-from .page_data_alarm_info import PageDataAlarmInfo
 from .page_data_entity_data import PageDataEntityData
 from .dynamic_valueboolean import DynamicValueboolean
 from .page_data_tenant_info import PageDataTenantInfo
@@ -274,7 +261,6 @@ from .repeating_alarm_condition_spec import RepeatingAlarmConditionSpec
 from .page_data_tenant_profile import PageDataTenantProfile
 from .custom_time_schedule_item import CustomTimeScheduleItem
 from .mapping import Mapping
-from .page_data_entity_view import PageDataEntityView
 from .user_password_policy import UserPasswordPolicy
 from .delete_tenant_request import DeleteTenantRequest
 from .page_data_edge_event import PageDataEdgeEvent
@@ -285,7 +271,6 @@ from .scheduler_event import SchedulerEvent
 from .lwm2m_device_profile_transport_configuration import Lwm2mDeviceProfileTransportConfiguration
 from .page_data_blob_entity_with_customer_info import PageDataBlobEntityWithCustomerInfo
 from .component_descriptor_id import ComponentDescriptorId
-from .entity_relation import EntityRelation
 from .o_auth2_client_registration_template_id import OAuth2ClientRegistrationTemplateId
 from .alarm_id import AlarmId
 from .audit_log import AuditLog

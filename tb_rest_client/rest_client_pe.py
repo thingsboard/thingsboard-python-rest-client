@@ -16,6 +16,7 @@
 
 from tb_rest_client.rest_client_base import *
 from tb_rest_client.api.api_pe import *
+from tb_rest_client.models.models_pe import *
 
 logger = getLogger(__name__)
 

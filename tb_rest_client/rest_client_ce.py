@@ -117,6 +117,7 @@ class RestClientCE(RestClientBase):
         return self.asset_controller.assign_asset_to_public_customer_using_post(asset_id=asset_id)
 
     def get_assets_by_ids(self, asset_ids: list) -> List[Asset]:
+        asset_ids = ','.join(asset_ids)
         return self.asset_controller.get_assets_by_ids_using_get(asset_ids=asset_ids)
 
     def save_asset(self, body: Optional[Asset] = None) -> Asset:
@@ -489,16 +490,17 @@ class RestClientCE(RestClientBase):
                                                                               body=body)
 
     def save_entity_telemetry(self, entity_id: EntityId, scope: str,
-                              body: Optional[str] = None):
+                              body: Optional[dict] = None):
         entity_type = self.get_type(entity_id)
         entity_id = self.get_id(entity_id)
         return self.telemetry_controller.save_entity_telemetry_using_post(entity_type=entity_type, entity_id=entity_id,
                                                                           scope=scope, body=body)
 
     def save_entity_telemetry_with_ttl(self, entity_id: EntityId, scope: str, ttl: int,
-                                       body: Optional[str] = None):
+                                       body: Optional[dict] = None):
         entity_type = self.get_type(entity_id)
         entity_id = self.get_id(entity_id)
+        ttl = str(ttl)
         return self.telemetry_controller.save_entity_telemetry_with_ttl_using_post(entity_type=entity_type,
                                                                                    entity_id=entity_id, scope=scope,
                                                                                    ttl=ttl, body=body)
@@ -730,6 +732,7 @@ class RestClientCE(RestClientBase):
             ota_package_type=ota_package_type, device_profile_id=device_profile_id)
 
     def get_devices_by_ids(self, device_ids: list) -> List[Device]:
+        device_ids = ','.join(device_ids)
         return self.device_controller.get_devices_by_ids_using_get(device_ids=device_ids)
 
     def claim_device(self, device_name: str, body: Optional[ClaimRequest] = None):
@@ -889,30 +892,35 @@ class RestClientCE(RestClientBase):
     def save_relation(self, body: Optional[EntityRelation] = None) -> None:
         return self.entity_relation_controller.save_relation_using_post(body=body)
 
-    def find_by_to(self, to_id: EntityId, to_type: str, relation_type: str,
+    def find_by_to(self, to_id: EntityId, relation_type: str,
                    relation_type_group: Optional[str] = None) -> List[EntityRelation]:
+        to_type = self.get_type(to_id)
         to_id = self.get_id(to_id)
         return self.entity_relation_controller.find_by_to_using_get(to_id=to_id, to_type=to_type,
                                                                     relation_type=relation_type,
                                                                     relation_type_group=relation_type_group)
 
-    def find_info_by_from(self, from_id: EntityId, from_type: str,
+    def find_info_by_from(self, from_id: EntityId,
                           relation_type_group: Optional[str] = None) -> List[EntityRelationInfo]:
+        from_type = self.get_type(from_id)
         from_id = self.get_id(from_id)
         return self.entity_relation_controller.find_info_by_from_using_get(from_id=from_id, from_type=from_type,
                                                                            relation_type_group=relation_type_group)
 
-    def get_relation(self, from_id: EntityId, from_type: str, relation_type: str, to_id: EntityId, to_type: str,
+    def get_relation(self, from_id: EntityId, relation_type: str, to_id: EntityId,
                      relation_type_group: Optional[str] = None) -> EntityRelation:
+        from_type = self.get_type(from_id)
         from_id = self.get_id(from_id)
+        to_type = self.get_type(to_id)
         to_id = self.get_id(to_id)
         return self.entity_relation_controller.get_relation_using_get(from_id=from_id, from_type=from_type,
                                                                       relation_type=relation_type, to_id=to_id,
                                                                       to_type=to_type,
                                                                       relation_type_group=relation_type_group)
 
-    def find_by_from(self, from_id: EntityId, from_type: str, relation_type: str,
+    def find_by_from(self, from_id: EntityId, relation_type: str,
                      relation_type_group: Optional[str] = None) -> List[EntityRelation]:
+        from_type = self.get_type(from_id)
         from_id = self.get_id(from_id)
         return self.entity_relation_controller.find_by_from_using_get(from_id=from_id, from_type=from_type,
                                                                       relation_type=relation_type,
