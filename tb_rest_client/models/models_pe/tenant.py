@@ -168,6 +168,9 @@ from tb_rest_client.api_client import ApiClient
         :type: str
         """
 
+        if title is None:
+            raise ValueError("Invalid value for `title`, must not be `None`")  # noqa: E501
+
         self._title = title
 
     @property
@@ -259,8 +262,6 @@ from tb_rest_client.api_client import ApiClient
         :param country: The country of this Tenant.  # noqa: E501
         :type: str
         """
-        if country is None:
-            raise ValueError("Invalid value for `country`, must not be `None`")  # noqa: E501
 
         self._country = country
 
@@ -284,8 +285,6 @@ from tb_rest_client.api_client import ApiClient
         :param state: The state of this Tenant.  # noqa: E501
         :type: str
         """
-        if state is None:
-            raise ValueError("Invalid value for `state`, must not be `None`")  # noqa: E501
 
         self._state = state
 
@@ -309,8 +308,6 @@ from tb_rest_client.api_client import ApiClient
         :param city: The city of this Tenant.  # noqa: E501
         :type: str
         """
-        if city is None:
-            raise ValueError("Invalid value for `city`, must not be `None`")  # noqa: E501
 
         self._city = city
 
@@ -334,8 +331,6 @@ from tb_rest_client.api_client import ApiClient
         :param address: The address of this Tenant.  # noqa: E501
         :type: str
         """
-        if address is None:
-            raise ValueError("Invalid value for `address`, must not be `None`")  # noqa: E501
 
         self._address = address
 
