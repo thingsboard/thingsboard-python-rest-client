@@ -129,7 +129,7 @@ class RestClientBase(Thread):
     def token_login(self, token, refresh_token=None):
         token_json = {
             "token": token,
-            "refresh_token": refresh_token,
+            "refreshToken": refresh_token,
         }
 
         self.__save_token(token_json)
