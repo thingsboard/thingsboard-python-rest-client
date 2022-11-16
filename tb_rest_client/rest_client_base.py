@@ -307,10 +307,10 @@ class RestClientBase(Thread):
     def check_reset_token(self, reset_token: str) -> str:
         return self.auth_controller.check_reset_token_using_get(reset_token=reset_token)
 
-    def reset_password(self, body: Optional[ResetPasswordRequest] = None) -> JWTTokenPair:
+    def reset_password(self, body: Optional[ResetPasswordRequest] = None) -> JWTPair:
         return self.auth_controller.reset_password_using_post(body=body)
 
-    def activate_user(self, body: Optional[ActivateUserRequest], send_activation_mail: bool) -> JWTTokenPair:
+    def activate_user(self, body: Optional[ActivateUserRequest], send_activation_mail: bool) -> JWTPair:
         return self.auth_controller.activate_user_using_post(body=body, send_activation_mail=send_activation_mail)
 
     def get_user_password_policy(self) -> UserPasswordPolicy:
@@ -662,7 +662,7 @@ class RestClientBase(Thread):
         return self.customer_controller.delete_customer_using_delete(customer_id=customer_id)
 
     # User Controller #
-    def get_user_token(self, user_id: UserId) -> JWTTokenPair:
+    def get_user_token(self, user_id: UserId) -> JWTPair:
         user_id = self.get_id(user_id)
         return self.user_controller.get_user_token_using_get(user_id=user_id)
 
@@ -1473,7 +1473,7 @@ class RestClientBase(Thread):
                                                                                 sort_order=sort_order)
 
     # Two-Factor Auth Controller
-    def check_two_fa_verification_code(self, provider_type: str, verification_code: str) -> JWTTokenPair:
+    def check_two_fa_verification_code(self, provider_type: str, verification_code: str) -> JWTPair:
         return self.two_factor_auth_controller.check_two_fa_verification_code_using_post(provider_type=provider_type,
                                                                                          verification_code=verification_code)
 
