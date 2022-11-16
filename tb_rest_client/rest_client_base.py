@@ -941,8 +941,11 @@ class RestClientBase(Thread):
     def get_auto_commit_settings(self) -> Dict[str, AutoVersionCreateConfig]:
         return self.admin_controller.get_auto_commit_settings_using_get()
 
-    def save_repository_settings(self, body: Optional[RepositorySettings]):
-        return self.admin_controller.save_repository_settings_using_post(body=body)
+    def get_jwt_setting(self) -> JWTSettings:
+        return self.admin_controller.get_jwt_settings_using_get()
+
+    def save_jwt_settings(self, body: Optional[JWTSettings] = None) -> JWTPair:
+        return self.admin_controller.save_jwt_settings_using_post(body=body)
 
     # Sign Up Controller
     def get_recaptcha_public_key(self) -> str:

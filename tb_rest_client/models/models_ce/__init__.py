@@ -76,7 +76,6 @@ from .update_message import UpdateMessage
 from .power_saving_configuration import PowerSavingConfiguration
 from .ota_package_id import OtaPackageId
 from .error_event_filter import ErrorEventFilter
-from .jwt_token_pair import JWTTokenPair
 from .alarm_schedule import AlarmSchedule
 from .user_id import UserId
 from .asset_type_filter import AssetTypeFilter
@@ -298,3 +297,5 @@ from .account_two_fa_settings import AccountTwoFaSettings
 from .two_fa_account_config_update_request import TwoFaAccountConfigUpdateRequest
 from .two_fa_provider_info import TwoFaProviderInfo
 from .entity_load_error import EntityLoadError
+from .jwt_settings import JWTSettings
+from .jwt_pair import JWTPair
