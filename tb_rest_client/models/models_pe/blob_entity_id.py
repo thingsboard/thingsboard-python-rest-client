@@ -28,8 +28,7 @@ from tb_rest_client.api_client import ApiClient
                             and the value is json key in definition.
     """
     swagger_types = {
-        'id': 'str',
-        'entity_type': 'str'
+        'id': 'str'
     }
 
     attribute_map = {
