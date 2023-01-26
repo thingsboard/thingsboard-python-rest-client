@@ -34,3 +34,4 @@ from .entities_version_control_controller_api import EntitiesVersionControlContr
 from .device_api_controller_api import DeviceApiControllerApi
 from .two_fa_config_controller_api import TwoFaConfigControllerApi
 from .two_factor_auth_controller_api import TwoFactorAuthControllerApi
+from .alarm_comment_controller_api import AlarmCommentControllerApi

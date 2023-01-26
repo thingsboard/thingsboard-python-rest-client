@@ -299,3 +299,6 @@ from .two_fa_provider_info import TwoFaProviderInfo
 from .entity_load_error import EntityLoadError
 from .jwt_settings import JWTSettings
 from .jwt_pair import JWTPair
+from .alarm_comment import AlarmComment
+from .alarm_comment_id import AlarmCommentId
+from .alarm_comment_info import AlarmCommentInfo
