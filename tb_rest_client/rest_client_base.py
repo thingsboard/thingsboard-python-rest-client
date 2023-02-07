@@ -61,6 +61,7 @@ from tb_rest_client.api.api_ce.user_controller_api import UserControllerApi
 from tb_rest_client.api.api_ce.widget_type_controller_api import WidgetTypeControllerApi
 from tb_rest_client.api.api_ce.widgets_bundle_controller_api import WidgetsBundleControllerApi
 from tb_rest_client.api.api_ce.ui_settings_controller_api import UiSettingsControllerApi
+from tb_rest_client.api.api_ce.alarm_comment_controller_api import AlarmCommentControllerApi
 # from tb_rest_client.models.models_pe import *
 from tb_rest_client.configuration import Configuration
 from tb_rest_client.api_client import ApiClient
@@ -524,6 +525,23 @@ class RestClientBase(Thread):
                                                               text_search=text_search, sort_property=sort_property,
                                                               sort_order=sort_order, start_time=start_time,
                                                               end_time=end_time, fetch_originator=fetch_originator)
+
+    # Alarm Comment Controller
+    def delete_alarm_comment(self, alarm_id: AlarmId, comment_id: AlarmCommentId):
+        alarm_id = self.get_id(alarm_id)
+        comment_id = self.get_id(comment_id)
+        return self.alarm_comment_controller.delete_alarm_comment_using_delete(alarm_id=alarm_id, comment_id=comment_id)
+
+    def get_alarm_comments(self, alarm_id: AlarmId, page_size: int, page: int, sort_property: Optional[str] = None,
+                           sort_order: Optional[str] = None):
+        alarm_id = self.get_id(alarm_id)
+        return self.alarm_comment_controller.get_alarm_comments_using_get(alarm_id=alarm_id, page_size=page_size,
+                                                                          page=page, sort_property=sort_property,
+                                                                          sort_order=sort_order)
+
+    def save_alarm_comment(self, alarm_id: AlarmId, body: Optional[AlarmComment] = None):
+        alarm_id = self.get_id(alarm_id)
+        return self.alarm_comment_controller.save_alarm_comment_using_post(alarm_id=alarm_id, body=body)
 
     # Edge Controller #
     def get_tenant_edge(self, edge_name: str) -> Edge:
@@ -1557,6 +1575,7 @@ class RestClientBase(Thread):
         self.entities_version_control_controller = EntitiesVersionControlControllerApi(self.api_client)
         self.two_fa_config_controller = TwoFaConfigControllerApi(self.api_client)
         self.two_factor_auth_controller = TwoFactorAuthControllerApi(self.api_client)
+        self.alarm_comment_controller = AlarmCommentControllerApi(self.api_client)
 
     @staticmethod
     def get_type(type):
