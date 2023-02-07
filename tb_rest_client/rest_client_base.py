@@ -604,6 +604,10 @@ class RestClientBase(Thread):
                                                                     sort_property=sort_property, sort_order=sort_order,
                                                                     start_time=start_time, end_time=end_time)
 
+    def get_edge_docker_install_instruction(self, edge_id: EdgeId):
+        edge_id = self.get_id(edge_id)
+        return self.edge_controller.get_edge_docker_install_instructions_using_get(edge_id=edge_id)
+
     # RPC v2 Controller
     def get_persisted_rpc(self, rpc_id: RpcId) -> Rpc:
         rpc_id = self.get_id(rpc_id)
