@@ -18,13 +18,7 @@ from setuptools import setup, find_packages  # noqa: H301
 from os import path
 
 NAME = "tb-rest-client"
-VERSION = "1.4"
-REQUIRES = [
-    "certifi>=2017.4.17",
-    "python-dateutil>=2.1",
-    "six>=1.10",
-    "urllib3>=1.23"
-]
+VERSION = "1.5"
 
 this_directory = path.abspath(path.dirname(__file__))
 with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
@@ -38,7 +32,6 @@ setup(
     license="Apache Software License (Apache Software License 2.0)",
     url="https://thingsboard.io/docs/reference/python-rest-client/",
     keywords=["IoT", "ThingsBoard", "ThingsBoard REST API client"],
-    install_requires=REQUIRES,
     packages=find_packages(),
     include_package_data=True,
     long_description=long_description,
