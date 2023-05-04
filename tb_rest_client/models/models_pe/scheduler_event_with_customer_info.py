@@ -38,7 +38,8 @@ from tb_rest_client.api_client import ApiClient
         'schedule': 'JsonNode',
         'additional_info': 'JsonNode',
         'customer_title': 'str',
-        'customer_is_public': 'object'
+        'customer_is_public': 'object',
+        'originator_id': 'EntityId'
     }
 
     attribute_map = {
@@ -52,10 +53,11 @@ from tb_rest_client.api_client import ApiClient
         'schedule': 'schedule',
         'additional_info': 'additionalInfo',
         'customer_title': 'customerTitle',
-        'customer_is_public': 'customerIsPublic'
+        'customer_is_public': 'customerIsPublic',
+        'originator_id': 'originatorId'
     }
 
-    def __init__(self, id=None, created_time=None, tenant_id=None, customer_id=None, owner_id=None, name=None, type=None, schedule=None, additional_info=None, customer_title=None, customer_is_public=None):  # noqa: E501
+    def __init__(self, id=None, created_time=None, tenant_id=None, customer_id=None, owner_id=None, name=None, type=None, schedule=None, additional_info=None, customer_title=None, customer_is_public=None, originator_id=None):  # noqa: E501
         """SchedulerEventWithCustomerInfo - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._created_time = None
@@ -68,6 +70,7 @@ from tb_rest_client.api_client import ApiClient
         self._additional_info = None
         self._customer_title = None
         self._customer_is_public = None
+        self._originator_id = None
         self.discriminator = None
         if id is not None:
             self.id = id
@@ -91,6 +94,8 @@ from tb_rest_client.api_client import ApiClient
             self.customer_title = customer_title
         if customer_is_public is not None:
             self.customer_is_public = customer_is_public
+        if originator_id is not None:
+            self._originator_id = originator_id
 
     @property
     def id(self):
@@ -112,6 +117,14 @@ from tb_rest_client.api_client import ApiClient
         """
 
         self._id = id
+
+    @property
+    def originator_id(self):
+        return self._originator_id
+
+    @originator_id.setter
+    def originator_id(self, value):
+        self._originator_id = value
 
     @property
     def created_time(self):
