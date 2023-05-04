@@ -37,11 +37,12 @@ from tb_rest_client.api_client import ApiClient
         'entity_type': 'entityType'
     }
 
-    def __init__(self, id=None):  # noqa: E501
+    def __init__(self, id=None, entity_type=None):  # noqa: E501
         """SchedulerEventId - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self.discriminator = None
         self.id = id
+        self.entity_type = entity_type
 
     @property
     def id(self):
