@@ -239,7 +239,7 @@ class AlarmCommentControllerApi(object):
         auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
-            '/api/alarm/{alarmId}/comment?sortProperty=createdTime{&page,pageSize,sortOrder}', 'GET',
+            '/api/alarm/{alarmId}/comment{?page,pageSize,sortOrder,sortProperty}', 'GET',
             path_params,
             query_params,
             header_params,
