@@ -259,8 +259,6 @@ class Tenant(object):
         :param country: The country of this Tenant.  # noqa: E501
         :type: str
         """
-        if country is None:
-            raise ValueError("Invalid value for `country`, must not be `None`")  # noqa: E501
 
         self._country = country
 
@@ -284,8 +282,6 @@ class Tenant(object):
         :param state: The state of this Tenant.  # noqa: E501
         :type: str
         """
-        if state is None:
-            raise ValueError("Invalid value for `state`, must not be `None`")  # noqa: E501
 
         self._state = state
 
@@ -309,8 +305,6 @@ class Tenant(object):
         :param city: The city of this Tenant.  # noqa: E501
         :type: str
         """
-        if city is None:
-            raise ValueError("Invalid value for `city`, must not be `None`")  # noqa: E501
 
         self._city = city
 
@@ -334,8 +328,6 @@ class Tenant(object):
         :param address: The address of this Tenant.  # noqa: E501
         :type: str
         """
-        if address is None:
-            raise ValueError("Invalid value for `address`, must not be `None`")  # noqa: E501
 
         self._address = address
 
@@ -359,8 +351,6 @@ class Tenant(object):
         :param address2: The address2 of this Tenant.  # noqa: E501
         :type: str
         """
-        if address2 is None:
-            raise ValueError("Invalid value for `address2`, must not be `None`")  # noqa: E501
 
         self._address2 = address2
 
@@ -384,8 +374,6 @@ class Tenant(object):
         :param zip: The zip of this Tenant.  # noqa: E501
         :type: str
         """
-        if zip is None:
-            raise ValueError("Invalid value for `zip`, must not be `None`")  # noqa: E501
 
         self._zip = zip
 
@@ -409,8 +397,6 @@ class Tenant(object):
         :param phone: The phone of this Tenant.  # noqa: E501
         :type: str
         """
-        if phone is None:
-            raise ValueError("Invalid value for `phone`, must not be `None`")  # noqa: E501
 
         self._phone = phone
 

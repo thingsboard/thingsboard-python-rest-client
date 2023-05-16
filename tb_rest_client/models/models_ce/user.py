@@ -193,8 +193,6 @@ class User(object):
         :param email: The email of this User.  # noqa: E501
         :type: str
         """
-        if email is None:
-            raise ValueError("Invalid value for `email`, must not be `None`")  # noqa: E501
 
         self._email = email
 

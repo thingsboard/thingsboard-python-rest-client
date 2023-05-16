@@ -319,8 +319,6 @@ class CustomerInfo(object):
         :param country: The country of this CustomerInfo.  # noqa: E501
         :type: str
         """
-        if country is None:
-            raise ValueError("Invalid value for `country`, must not be `None`")  # noqa: E501
 
         self._country = country
 
@@ -344,8 +342,6 @@ class CustomerInfo(object):
         :param state: The state of this CustomerInfo.  # noqa: E501
         :type: str
         """
-        if state is None:
-            raise ValueError("Invalid value for `state`, must not be `None`")  # noqa: E501
 
         self._state = state
 
@@ -369,8 +365,6 @@ class CustomerInfo(object):
         :param city: The city of this CustomerInfo.  # noqa: E501
         :type: str
         """
-        if city is None:
-            raise ValueError("Invalid value for `city`, must not be `None`")  # noqa: E501
 
         self._city = city
 
@@ -394,8 +388,6 @@ class CustomerInfo(object):
         :param address: The address of this CustomerInfo.  # noqa: E501
         :type: str
         """
-        if address is None:
-            raise ValueError("Invalid value for `address`, must not be `None`")  # noqa: E501
 
         self._address = address
 
@@ -419,8 +411,6 @@ class CustomerInfo(object):
         :param address2: The address2 of this CustomerInfo.  # noqa: E501
         :type: str
         """
-        if address2 is None:
-            raise ValueError("Invalid value for `address2`, must not be `None`")  # noqa: E501
 
         self._address2 = address2
 
@@ -444,8 +434,6 @@ class CustomerInfo(object):
         :param zip: The zip of this CustomerInfo.  # noqa: E501
         :type: str
         """
-        if zip is None:
-            raise ValueError("Invalid value for `zip`, must not be `None`")  # noqa: E501
 
         self._zip = zip
 
@@ -469,8 +457,6 @@ class CustomerInfo(object):
         :param phone: The phone of this CustomerInfo.  # noqa: E501
         :type: str
         """
-        if phone is None:
-            raise ValueError("Invalid value for `phone`, must not be `None`")  # noqa: E501
 
         self._phone = phone
 
@@ -494,8 +480,6 @@ class CustomerInfo(object):
         :param email: The email of this CustomerInfo.  # noqa: E501
         :type: str
         """
-        if email is None:
-            raise ValueError("Invalid value for `email`, must not be `None`")  # noqa: E501
 
         self._email = email
 

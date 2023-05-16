@@ -208,8 +208,6 @@ class UserInfo(object):
         :param email: The email of this UserInfo.  # noqa: E501
         :type: str
         """
-        if email is None:
-            raise ValueError("Invalid value for `email`, must not be `None`")  # noqa: E501
 
         self._email = email
 
@@ -287,8 +285,6 @@ class UserInfo(object):
         :param first_name: The first_name of this UserInfo.  # noqa: E501
         :type: str
         """
-        if first_name is None:
-            raise ValueError("Invalid value for `first_name`, must not be `None`")  # noqa: E501
 
         self._first_name = first_name
 
@@ -312,8 +308,6 @@ class UserInfo(object):
         :param last_name: The last_name of this UserInfo.  # noqa: E501
         :type: str
         """
-        if last_name is None:
-            raise ValueError("Invalid value for `last_name`, must not be `None`")  # noqa: E501
 
         self._last_name = last_name
 
@@ -337,8 +331,6 @@ class UserInfo(object):
         :param phone: The phone of this UserInfo.  # noqa: E501
         :type: str
         """
-        if phone is None:
-            raise ValueError("Invalid value for `phone`, must not be `None`")  # noqa: E501
 
         self._phone = phone
 
