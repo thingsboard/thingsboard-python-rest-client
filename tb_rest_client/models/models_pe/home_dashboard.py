@@ -28,6 +28,7 @@ class HomeDashboard(object):
                             and the value is json key in definition.
     """
     swagger_types = {
+        'id': 'DashboardId',
         'created_time': 'int',
         'tenant_id': 'TenantId',
         'customer_id': 'CustomerId',
@@ -43,6 +44,7 @@ class HomeDashboard(object):
     }
 
     attribute_map = {
+        'id': 'id',
         'created_time': 'createdTime',
         'tenant_id': 'tenantId',
         'customer_id': 'customerId',
@@ -57,8 +59,9 @@ class HomeDashboard(object):
         'hide_dashboard_toolbar': 'hideDashboardToolbar'
     }
 
-    def __init__(self, created_time=None, tenant_id=None, customer_id=None, owner_id=None, title=None, image=None, assigned_customers=None, mobile_hide=None, mobile_order=None, name=None, configuration=None, hide_dashboard_toolbar=None):  # noqa: E501
+    def __init__(self, id=None, created_time=None, tenant_id=None, customer_id=None, owner_id=None, title=None, image=None, assigned_customers=None, mobile_hide=None, mobile_order=None, name=None, configuration=None, hide_dashboard_toolbar=None):  # noqa: E501
         """HomeDashboard - a model defined in Swagger"""  # noqa: E501
+        self._id = None
         self._created_time = None
         self._tenant_id = None
         self._customer_id = None
@@ -72,6 +75,8 @@ class HomeDashboard(object):
         self._configuration = None
         self._hide_dashboard_toolbar = None
         self.discriminator = None
+        if id is not None:
+            self.id = id
         if created_time is not None:
             self.created_time = created_time
         if tenant_id is not None:
@@ -96,6 +101,27 @@ class HomeDashboard(object):
             self.configuration = configuration
         if hide_dashboard_toolbar is not None:
             self.hide_dashboard_toolbar = hide_dashboard_toolbar
+
+    @property
+    def id(self):
+        """Gets the id of this HomeDashboard.  # noqa: E501
+
+
+        :return: The id of this HomeDashboard.  # noqa: E501
+        :rtype: DashboardId
+        """
+        return self._id
+
+    @id.setter
+    def id(self, id):
+        """Sets the id of this HomeDashboard.
+
+
+        :param id: The id of this HomeDashboard.  # noqa: E501
+        :type: DashboardId
+        """
+
+        self._id = id
 
     @property
     def created_time(self):

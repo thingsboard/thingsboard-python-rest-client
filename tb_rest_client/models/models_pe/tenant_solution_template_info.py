@@ -36,7 +36,10 @@ class TenantSolutionTemplateInfo(object):
         'tenant_attribute_keys': 'list[str]',
         'preview_image_url': 'str',
         'short_description': 'str',
-        'installed': 'bool'
+        'installed': 'bool',
+        'video_preview_image_url': 'str',
+        'preview_mp4_url': 'str',
+        'preview_webm_url': 'str'
     }
 
     attribute_map = {
@@ -48,10 +51,13 @@ class TenantSolutionTemplateInfo(object):
         'tenant_attribute_keys': 'tenantAttributeKeys',
         'preview_image_url': 'previewImageUrl',
         'short_description': 'shortDescription',
-        'installed': 'installed'
+        'installed': 'installed',
+        'video_preview_image_url': 'videoPreviewImageUrl',
+        'preview_mp4_url': 'previewMp4Url',
+        'preview_webm_url': 'previewWebmUrl'
     }
 
-    def __init__(self, id=None, title=None, level=None, install_timeout_ms=None, tenant_telemetry_keys=None, tenant_attribute_keys=None, preview_image_url=None, short_description=None, installed=None):  # noqa: E501
+    def __init__(self, id=None, title=None, level=None, install_timeout_ms=None, tenant_telemetry_keys=None, tenant_attribute_keys=None, preview_image_url=None, short_description=None, installed=None, video_preview_image_url=None, preview_mp4_url=None, preview_webm_url=None):  # noqa: E501
         """TenantSolutionTemplateInfo - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._title = None
@@ -62,6 +68,9 @@ class TenantSolutionTemplateInfo(object):
         self._preview_image_url = None
         self._short_description = None
         self._installed = None
+        self._video_preview_image_url = None
+        self._preview_mp4_url = None
+        self._preview_webm_url = None
         self.discriminator = None
         if id is not None:
             self.id = id
@@ -81,6 +90,12 @@ class TenantSolutionTemplateInfo(object):
             self.short_description = short_description
         if installed is not None:
             self.installed = installed
+        if video_preview_image_url is not None:
+            self.video_preview_image_url = video_preview_image_url
+        if preview_mp4_url is not None:
+            self.preview_mp4_url = preview_mp4_url
+        if preview_webm_url is not None:
+            self.preview_webm_url = preview_webm_url
 
     @property
     def id(self):
@@ -294,6 +309,75 @@ class TenantSolutionTemplateInfo(object):
         """
 
         self._installed = installed
+
+    @property
+    def video_preview_image_url(self):
+        """Gets the video_preview_image_url of this TenantSolutionTemplateInfo.  # noqa: E501
+
+        Video preview image URL  # noqa: E501
+
+        :return: The video_preview_image_url of this TenantSolutionTemplateInfo.  # noqa: E501
+        :rtype: str
+        """
+        return self._video_preview_image_url
+
+    @video_preview_image_url.setter
+    def video_preview_image_url(self, video_preview_image_url):
+        """Sets the video_preview_image_url of this TenantSolutionTemplateInfo.
+
+        Video preview image URL  # noqa: E501
+
+        :param video_preview_image_url: The video_preview_image_url of this TenantSolutionTemplateInfo.  # noqa: E501
+        :type: str
+        """
+
+        self._video_preview_image_url = video_preview_image_url
+
+    @property
+    def preview_mp4_url(self):
+        """Gets the preview_mp4_url of this TenantSolutionTemplateInfo.  # noqa: E501
+
+        Video MP4 URL  # noqa: E501
+
+        :return: The preview_mp4_url of this TenantSolutionTemplateInfo.  # noqa: E501
+        :rtype: str
+        """
+        return self._preview_mp4_url
+
+    @preview_mp4_url.setter
+    def preview_mp4_url(self, preview_mp4_url):
+        """Sets the preview_mp4_url of this TenantSolutionTemplateInfo.
+
+        Video MP4 URL  # noqa: E501
+
+        :param preview_mp4_url: The preview_mp4_url of this TenantSolutionTemplateInfo.  # noqa: E501
+        :type: str
+        """
+
+        self._preview_mp4_url = preview_mp4_url
+
+    @property
+    def preview_webm_url(self):
+        """Gets the preview_webm_url of this TenantSolutionTemplateInfo.  # noqa: E501
+
+        Video WEBM URL  # noqa: E501
+
+        :return: The preview_webm_url of this TenantSolutionTemplateInfo.  # noqa: E501
+        :rtype: str
+        """
+        return self._preview_webm_url
+
+    @preview_webm_url.setter
+    def preview_webm_url(self, preview_webm_url):
+        """Sets the preview_webm_url of this TenantSolutionTemplateInfo.
+
+        Video WEBM URL  # noqa: E501
+
+        :param preview_webm_url: The preview_webm_url of this TenantSolutionTemplateInfo.  # noqa: E501
+        :type: str
+        """
+
+        self._preview_webm_url = preview_webm_url
 
     def to_dict(self):
         """Returns the model properties as a dict"""

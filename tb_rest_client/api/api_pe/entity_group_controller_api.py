@@ -458,6 +458,7 @@ class EntityGroupControllerApi(object):
         :param str group_type: EntityGroup type (required)
         :param int page_size: Maximum amount of entities in a one page (required)
         :param int page: Sequence number of page starting from 0 (required)
+        :param str text_search: The case insensitive 'startsWith' filter based on the entity group name.
         :param str sort_property: Property of entity to sort by
         :param str sort_order: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
         :return: PageDataEntityGroupInfo
@@ -485,6 +486,7 @@ class EntityGroupControllerApi(object):
         :param str group_type: EntityGroup type (required)
         :param int page_size: Maximum amount of entities in a one page (required)
         :param int page: Sequence number of page starting from 0 (required)
+        :param str text_search: The case insensitive 'startsWith' filter based on the entity group name.
         :param str sort_property: Property of entity to sort by
         :param str sort_order: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
         :return: PageDataEntityGroupInfo
@@ -492,7 +494,7 @@ class EntityGroupControllerApi(object):
                  returns the request thread.
         """
 
-        all_params = ['edge_id', 'group_type', 'page_size', 'page', 'sort_property', 'sort_order']  # noqa: E501
+        all_params = ['edge_id', 'group_type', 'page_size', 'page', 'text_search', 'sort_property', 'sort_order']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -537,6 +539,8 @@ class EntityGroupControllerApi(object):
             query_params.append(('pageSize', params['page_size']))  # noqa: E501
         if 'page' in params:
             query_params.append(('page', params['page']))  # noqa: E501
+        if 'text_search' in params:
+            query_params.append(('textSearch', params['text_search']))  # noqa: E501
         if 'sort_property' in params:
             query_params.append(('sortProperty', params['sort_property']))  # noqa: E501
         if 'sort_order' in params:
@@ -556,7 +560,7 @@ class EntityGroupControllerApi(object):
         auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
-            '/api/entityGroups/edge/{edgeId}/{groupType}{?page,pageSize,sortOrder,sortProperty}', 'GET',
+            '/api/entityGroups/edge/{edgeId}/{groupType}{?page,pageSize,sortOrder,sortProperty,textSearch}', 'GET',
             path_params,
             query_params,
             header_params,
@@ -1019,10 +1023,605 @@ class EntityGroupControllerApi(object):
             _request_timeout=params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def get_entity_groups_by_ids_using_get(self, entity_group_ids, **kwargs):  # noqa: E501
-        """Get Entity Groups by Ids (getDevicesByIds)  # noqa: E501
+    def get_entity_group_entity_info_by_id_using_get(self, entity_group_id, **kwargs):  # noqa: E501
+        """Get Entity Group Entity Info (getEntityGroupEntityInfoById)  # noqa: E501
 
-        Requested devices must be owned by tenant or assigned to customer which user is performing the request.   Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority. Security check is performed to verify that the user has 'READ' permission for the entity (entities).  # noqa: E501
+        Fetch the Entity Group Entity Info object based on the provided Entity Group Id. Entity Info is a lightweight object that contains only id and name of the entity group.   Entity group name is unique in the scope of owner and entity type. For example, you can't create two tenant device groups called 'Water meters'. However, you may create device and asset group with the same name. And also you may create groups with the same name for two different customers of the same tenant.   Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority. Security check is performed to verify that the user has 'READ' permission for specified group.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_entity_group_entity_info_by_id_using_get(entity_group_id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str entity_group_id: A string value representing the Entity Group Id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
+        :return: EntityInfo
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.get_entity_group_entity_info_by_id_using_get_with_http_info(entity_group_id, **kwargs)  # noqa: E501
+        else:
+            (data) = self.get_entity_group_entity_info_by_id_using_get_with_http_info(entity_group_id, **kwargs)  # noqa: E501
+            return data
+
+    def get_entity_group_entity_info_by_id_using_get_with_http_info(self, entity_group_id, **kwargs):  # noqa: E501
+        """Get Entity Group Entity Info (getEntityGroupEntityInfoById)  # noqa: E501
+
+        Fetch the Entity Group Entity Info object based on the provided Entity Group Id. Entity Info is a lightweight object that contains only id and name of the entity group.   Entity group name is unique in the scope of owner and entity type. For example, you can't create two tenant device groups called 'Water meters'. However, you may create device and asset group with the same name. And also you may create groups with the same name for two different customers of the same tenant.   Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority. Security check is performed to verify that the user has 'READ' permission for specified group.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_entity_group_entity_info_by_id_using_get_with_http_info(entity_group_id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str entity_group_id: A string value representing the Entity Group Id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
+        :return: EntityInfo
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['entity_group_id']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method get_entity_group_entity_info_by_id_using_get" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'entity_group_id' is set
+        if ('entity_group_id' not in params or
+                params['entity_group_id'] is None):
+            raise ValueError("Missing the required parameter `entity_group_id` when calling `get_entity_group_entity_info_by_id_using_get`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+        if 'entity_group_id' in params:
+            path_params['entityGroupId'] = params['entity_group_id']  # noqa: E501
+
+        query_params = []
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/entityGroupInfo/{entityGroupId}', 'GET',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='EntityInfo',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
+    def get_entity_group_entity_infos_by_ids_using_get(self, entity_group_ids, **kwargs):  # noqa: E501
+        """Get Entity Group Entity Infos by Ids (getEntityGroupEntityInfosByIds)  # noqa: E501
+
+        Fetch the list of Entity Group Entity Info objects based on the provided entity group ids list. Entity Info is a lightweight object that contains only id and name of the entity group.   Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority. Security check is performed to verify that the user has 'READ' permission for specified group.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_entity_group_entity_infos_by_ids_using_get(entity_group_ids, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str entity_group_ids: A list of group ids, separated by comma ',' (required)
+        :return: list[EntityInfo]
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.get_entity_group_entity_infos_by_ids_using_get_with_http_info(entity_group_ids, **kwargs)  # noqa: E501
+        else:
+            (data) = self.get_entity_group_entity_infos_by_ids_using_get_with_http_info(entity_group_ids, **kwargs)  # noqa: E501
+            return data
+
+    def get_entity_group_entity_infos_by_ids_using_get_with_http_info(self, entity_group_ids, **kwargs):  # noqa: E501
+        """Get Entity Group Entity Infos by Ids (getEntityGroupEntityInfosByIds)  # noqa: E501
+
+        Fetch the list of Entity Group Entity Info objects based on the provided entity group ids list. Entity Info is a lightweight object that contains only id and name of the entity group.   Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority. Security check is performed to verify that the user has 'READ' permission for specified group.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_entity_group_entity_infos_by_ids_using_get_with_http_info(entity_group_ids, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str entity_group_ids: A list of group ids, separated by comma ',' (required)
+        :return: list[EntityInfo]
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['entity_group_ids']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method get_entity_group_entity_infos_by_ids_using_get" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'entity_group_ids' is set
+        if ('entity_group_ids' not in params or
+                params['entity_group_ids'] is None):
+            raise ValueError("Missing the required parameter `entity_group_ids` when calling `get_entity_group_entity_infos_by_ids_using_get`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+
+        query_params = []
+        if 'entity_group_ids' in params:
+            query_params.append(('entityGroupIds', params['entity_group_ids']))  # noqa: E501
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/entityGroupInfos{?entityGroupIds}', 'GET',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='list[EntityInfo]',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
+    def get_entity_group_entity_infos_by_owner_and_type_and_page_link_using_get(self, owner_type, owner_id, group_type, page_size, page, **kwargs):  # noqa: E501
+        """Get Entity Group Entity Infos by owner and entity type and page link (getEntityGroupEntityInfosByOwnerAndTypeAndPageLink)  # noqa: E501
+
+        Returns a page of Entity Group Entity Info objects based on the provided Owner Id and Entity Type and Page Link. Entity Info is a lightweight object that contains only id and name of the entity group. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See the 'Model' tab of the Response Class for more details.   Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority. Security check is performed to verify that the user has 'READ' permission for specified group.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_entity_group_entity_infos_by_owner_and_type_and_page_link_using_get(owner_type, owner_id, group_type, page_size, page, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str owner_type: Tenant or Customer (required)
+        :param str owner_id: A string value representing the Tenant or Customer id (required)
+        :param str group_type: Entity Group type (required)
+        :param int page_size: Maximum amount of entities in a one page (required)
+        :param int page: Sequence number of page starting from 0 (required)
+        :param str text_search: The case insensitive 'startsWith' filter based on the entity group name.
+        :param str sort_property: Property of entity to sort by
+        :param str sort_order: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        :return: PageDataEntityInfo
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.get_entity_group_entity_infos_by_owner_and_type_and_page_link_using_get_with_http_info(owner_type, owner_id, group_type, page_size, page, **kwargs)  # noqa: E501
+        else:
+            (data) = self.get_entity_group_entity_infos_by_owner_and_type_and_page_link_using_get_with_http_info(owner_type, owner_id, group_type, page_size, page, **kwargs)  # noqa: E501
+            return data
+
+    def get_entity_group_entity_infos_by_owner_and_type_and_page_link_using_get_with_http_info(self, owner_type, owner_id, group_type, page_size, page, **kwargs):  # noqa: E501
+        """Get Entity Group Entity Infos by owner and entity type and page link (getEntityGroupEntityInfosByOwnerAndTypeAndPageLink)  # noqa: E501
+
+        Returns a page of Entity Group Entity Info objects based on the provided Owner Id and Entity Type and Page Link. Entity Info is a lightweight object that contains only id and name of the entity group. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See the 'Model' tab of the Response Class for more details.   Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority. Security check is performed to verify that the user has 'READ' permission for specified group.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_entity_group_entity_infos_by_owner_and_type_and_page_link_using_get_with_http_info(owner_type, owner_id, group_type, page_size, page, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str owner_type: Tenant or Customer (required)
+        :param str owner_id: A string value representing the Tenant or Customer id (required)
+        :param str group_type: Entity Group type (required)
+        :param int page_size: Maximum amount of entities in a one page (required)
+        :param int page: Sequence number of page starting from 0 (required)
+        :param str text_search: The case insensitive 'startsWith' filter based on the entity group name.
+        :param str sort_property: Property of entity to sort by
+        :param str sort_order: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        :return: PageDataEntityInfo
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['owner_type', 'owner_id', 'group_type', 'page_size', 'page', 'text_search', 'sort_property', 'sort_order']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method get_entity_group_entity_infos_by_owner_and_type_and_page_link_using_get" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'owner_type' is set
+        if ('owner_type' not in params or
+                params['owner_type'] is None):
+            raise ValueError("Missing the required parameter `owner_type` when calling `get_entity_group_entity_infos_by_owner_and_type_and_page_link_using_get`")  # noqa: E501
+        # verify the required parameter 'owner_id' is set
+        if ('owner_id' not in params or
+                params['owner_id'] is None):
+            raise ValueError("Missing the required parameter `owner_id` when calling `get_entity_group_entity_infos_by_owner_and_type_and_page_link_using_get`")  # noqa: E501
+        # verify the required parameter 'group_type' is set
+        if ('group_type' not in params or
+                params['group_type'] is None):
+            raise ValueError("Missing the required parameter `group_type` when calling `get_entity_group_entity_infos_by_owner_and_type_and_page_link_using_get`")  # noqa: E501
+        # verify the required parameter 'page_size' is set
+        if ('page_size' not in params or
+                params['page_size'] is None):
+            raise ValueError("Missing the required parameter `page_size` when calling `get_entity_group_entity_infos_by_owner_and_type_and_page_link_using_get`")  # noqa: E501
+        # verify the required parameter 'page' is set
+        if ('page' not in params or
+                params['page'] is None):
+            raise ValueError("Missing the required parameter `page` when calling `get_entity_group_entity_infos_by_owner_and_type_and_page_link_using_get`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+        if 'owner_type' in params:
+            path_params['ownerType'] = params['owner_type']  # noqa: E501
+        if 'owner_id' in params:
+            path_params['ownerId'] = params['owner_id']  # noqa: E501
+        if 'group_type' in params:
+            path_params['groupType'] = params['group_type']  # noqa: E501
+
+        query_params = []
+        if 'page_size' in params:
+            query_params.append(('pageSize', params['page_size']))  # noqa: E501
+        if 'page' in params:
+            query_params.append(('page', params['page']))  # noqa: E501
+        if 'text_search' in params:
+            query_params.append(('textSearch', params['text_search']))  # noqa: E501
+        if 'sort_property' in params:
+            query_params.append(('sortProperty', params['sort_property']))  # noqa: E501
+        if 'sort_order' in params:
+            query_params.append(('sortOrder', params['sort_order']))  # noqa: E501
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/entityGroupInfos/{ownerType}/{ownerId}/{groupType}{?page,pageSize,sortOrder,sortProperty,textSearch}', 'GET',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='PageDataEntityInfo',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
+    def get_entity_group_entity_infos_by_type_and_page_link_using_get(self, group_type, page_size, page, **kwargs):  # noqa: E501
+        """Get Entity Group Entity Infos by entity type and page link (getEntityGroupEntityInfosByTypeAndPageLink)  # noqa: E501
+
+        Returns a page of Entity Group Entity Info objects based on the provided Entity Type and Page Link. Entity Info is a lightweight object that contains only id and name of the entity group. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See the 'Model' tab of the Response Class for more details.   Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority. Security check is performed to verify that the user has 'READ' permission for specified group.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_entity_group_entity_infos_by_type_and_page_link_using_get(group_type, page_size, page, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str group_type: Entity Group type (required)
+        :param int page_size: Maximum amount of entities in a one page (required)
+        :param int page: Sequence number of page starting from 0 (required)
+        :param bool include_shared: Whether to include shared entity groups.
+        :param str text_search: The case insensitive 'startsWith' filter based on the entity group name.
+        :param str sort_property: Property of entity to sort by
+        :param str sort_order: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        :return: PageDataEntityInfo
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.get_entity_group_entity_infos_by_type_and_page_link_using_get_with_http_info(group_type, page_size, page, **kwargs)  # noqa: E501
+        else:
+            (data) = self.get_entity_group_entity_infos_by_type_and_page_link_using_get_with_http_info(group_type, page_size, page, **kwargs)  # noqa: E501
+            return data
+
+    def get_entity_group_entity_infos_by_type_and_page_link_using_get_with_http_info(self, group_type, page_size, page, **kwargs):  # noqa: E501
+        """Get Entity Group Entity Infos by entity type and page link (getEntityGroupEntityInfosByTypeAndPageLink)  # noqa: E501
+
+        Returns a page of Entity Group Entity Info objects based on the provided Entity Type and Page Link. Entity Info is a lightweight object that contains only id and name of the entity group. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See the 'Model' tab of the Response Class for more details.   Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority. Security check is performed to verify that the user has 'READ' permission for specified group.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_entity_group_entity_infos_by_type_and_page_link_using_get_with_http_info(group_type, page_size, page, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str group_type: Entity Group type (required)
+        :param int page_size: Maximum amount of entities in a one page (required)
+        :param int page: Sequence number of page starting from 0 (required)
+        :param bool include_shared: Whether to include shared entity groups.
+        :param str text_search: The case insensitive 'startsWith' filter based on the entity group name.
+        :param str sort_property: Property of entity to sort by
+        :param str sort_order: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        :return: PageDataEntityInfo
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['group_type', 'page_size', 'page', 'include_shared', 'text_search', 'sort_property', 'sort_order']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method get_entity_group_entity_infos_by_type_and_page_link_using_get" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'group_type' is set
+        if ('group_type' not in params or
+                params['group_type'] is None):
+            raise ValueError("Missing the required parameter `group_type` when calling `get_entity_group_entity_infos_by_type_and_page_link_using_get`")  # noqa: E501
+        # verify the required parameter 'page_size' is set
+        if ('page_size' not in params or
+                params['page_size'] is None):
+            raise ValueError("Missing the required parameter `page_size` when calling `get_entity_group_entity_infos_by_type_and_page_link_using_get`")  # noqa: E501
+        # verify the required parameter 'page' is set
+        if ('page' not in params or
+                params['page'] is None):
+            raise ValueError("Missing the required parameter `page` when calling `get_entity_group_entity_infos_by_type_and_page_link_using_get`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+        if 'group_type' in params:
+            path_params['groupType'] = params['group_type']  # noqa: E501
+
+        query_params = []
+        if 'include_shared' in params:
+            query_params.append(('includeShared', params['include_shared']))  # noqa: E501
+        if 'page_size' in params:
+            query_params.append(('pageSize', params['page_size']))  # noqa: E501
+        if 'page' in params:
+            query_params.append(('page', params['page']))  # noqa: E501
+        if 'text_search' in params:
+            query_params.append(('textSearch', params['text_search']))  # noqa: E501
+        if 'sort_property' in params:
+            query_params.append(('sortProperty', params['sort_property']))  # noqa: E501
+        if 'sort_order' in params:
+            query_params.append(('sortOrder', params['sort_order']))  # noqa: E501
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/entityGroupInfos/{groupType}{?includeShared,page,pageSize,sortOrder,sortProperty,textSearch}', 'GET',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='PageDataEntityInfo',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
+    def get_entity_group_entity_infos_hierarchy_by_owner_and_type_and_page_link_using_get(self, owner_type, owner_id, group_type, page_size, page, **kwargs):  # noqa: E501
+        """Get Entity Group Entity Infos for all owners starting from specified than ending with owner of current user (getEntityGroupEntityInfosHierarchyByOwnerAndTypeAndPageLink)  # noqa: E501
+
+        Returns a page of Entity Group Entity Info objects based on the provided Owner Id and Entity Type and Page Link. Entity Info is a lightweight object that contains only id and name of the entity group. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See the 'Model' tab of the Response Class for more details.   Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority. Security check is performed to verify that the user has 'READ' permission for specified group.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_entity_group_entity_infos_hierarchy_by_owner_and_type_and_page_link_using_get(owner_type, owner_id, group_type, page_size, page, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str owner_type: Tenant or Customer (required)
+        :param str owner_id: A string value representing the Tenant or Customer id (required)
+        :param str group_type: Entity Group type (required)
+        :param int page_size: Maximum amount of entities in a one page (required)
+        :param int page: Sequence number of page starting from 0 (required)
+        :param str text_search: The case insensitive 'startsWith' filter based on the entity group name.
+        :param str sort_property: Property of entity to sort by
+        :param str sort_order: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        :return: PageDataEntityInfo
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.get_entity_group_entity_infos_hierarchy_by_owner_and_type_and_page_link_using_get_with_http_info(owner_type, owner_id, group_type, page_size, page, **kwargs)  # noqa: E501
+        else:
+            (data) = self.get_entity_group_entity_infos_hierarchy_by_owner_and_type_and_page_link_using_get_with_http_info(owner_type, owner_id, group_type, page_size, page, **kwargs)  # noqa: E501
+            return data
+
+    def get_entity_group_entity_infos_hierarchy_by_owner_and_type_and_page_link_using_get_with_http_info(self, owner_type, owner_id, group_type, page_size, page, **kwargs):  # noqa: E501
+        """Get Entity Group Entity Infos for all owners starting from specified than ending with owner of current user (getEntityGroupEntityInfosHierarchyByOwnerAndTypeAndPageLink)  # noqa: E501
+
+        Returns a page of Entity Group Entity Info objects based on the provided Owner Id and Entity Type and Page Link. Entity Info is a lightweight object that contains only id and name of the entity group. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See the 'Model' tab of the Response Class for more details.   Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority. Security check is performed to verify that the user has 'READ' permission for specified group.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_entity_group_entity_infos_hierarchy_by_owner_and_type_and_page_link_using_get_with_http_info(owner_type, owner_id, group_type, page_size, page, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str owner_type: Tenant or Customer (required)
+        :param str owner_id: A string value representing the Tenant or Customer id (required)
+        :param str group_type: Entity Group type (required)
+        :param int page_size: Maximum amount of entities in a one page (required)
+        :param int page: Sequence number of page starting from 0 (required)
+        :param str text_search: The case insensitive 'startsWith' filter based on the entity group name.
+        :param str sort_property: Property of entity to sort by
+        :param str sort_order: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        :return: PageDataEntityInfo
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['owner_type', 'owner_id', 'group_type', 'page_size', 'page', 'text_search', 'sort_property', 'sort_order']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method get_entity_group_entity_infos_hierarchy_by_owner_and_type_and_page_link_using_get" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'owner_type' is set
+        if ('owner_type' not in params or
+                params['owner_type'] is None):
+            raise ValueError("Missing the required parameter `owner_type` when calling `get_entity_group_entity_infos_hierarchy_by_owner_and_type_and_page_link_using_get`")  # noqa: E501
+        # verify the required parameter 'owner_id' is set
+        if ('owner_id' not in params or
+                params['owner_id'] is None):
+            raise ValueError("Missing the required parameter `owner_id` when calling `get_entity_group_entity_infos_hierarchy_by_owner_and_type_and_page_link_using_get`")  # noqa: E501
+        # verify the required parameter 'group_type' is set
+        if ('group_type' not in params or
+                params['group_type'] is None):
+            raise ValueError("Missing the required parameter `group_type` when calling `get_entity_group_entity_infos_hierarchy_by_owner_and_type_and_page_link_using_get`")  # noqa: E501
+        # verify the required parameter 'page_size' is set
+        if ('page_size' not in params or
+                params['page_size'] is None):
+            raise ValueError("Missing the required parameter `page_size` when calling `get_entity_group_entity_infos_hierarchy_by_owner_and_type_and_page_link_using_get`")  # noqa: E501
+        # verify the required parameter 'page' is set
+        if ('page' not in params or
+                params['page'] is None):
+            raise ValueError("Missing the required parameter `page` when calling `get_entity_group_entity_infos_hierarchy_by_owner_and_type_and_page_link_using_get`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+        if 'owner_type' in params:
+            path_params['ownerType'] = params['owner_type']  # noqa: E501
+        if 'owner_id' in params:
+            path_params['ownerId'] = params['owner_id']  # noqa: E501
+        if 'group_type' in params:
+            path_params['groupType'] = params['group_type']  # noqa: E501
+
+        query_params = []
+        if 'page_size' in params:
+            query_params.append(('pageSize', params['page_size']))  # noqa: E501
+        if 'page' in params:
+            query_params.append(('page', params['page']))  # noqa: E501
+        if 'text_search' in params:
+            query_params.append(('textSearch', params['text_search']))  # noqa: E501
+        if 'sort_property' in params:
+            query_params.append(('sortProperty', params['sort_property']))  # noqa: E501
+        if 'sort_order' in params:
+            query_params.append(('sortOrder', params['sort_order']))  # noqa: E501
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/entityGroupInfosHierarchy/{ownerType}/{ownerId}/{groupType}{?page,pageSize,sortOrder,sortProperty,textSearch}', 'GET',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='PageDataEntityInfo',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
+    def get_entity_groups_by_ids_using_get(self, entity_group_ids, **kwargs):  # noqa: E501
+        """Get Entity Groups by Ids (getEntityGroupsByIds)  # noqa: E501
+
+        Fetch the list of Entity Group Info objects based on the provided entity group ids list. Entity group allows you to group multiple entities of the same entity type (Device, Asset, Customer, User, Dashboard, etc). Entity Group always have an owner - particular Tenant or Customer. Each entity may belong to multiple groups simultaneously.Entity Group Info extends Entity Group object and adds 'ownerIds' - a list of owner ids.  Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority. Security check is performed to verify that the user has 'READ' permission for specified group.  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_entity_groups_by_ids_using_get(entity_group_ids, async_req=True)
@@ -1030,7 +1629,7 @@ class EntityGroupControllerApi(object):
 
         :param async_req bool
         :param str entity_group_ids: A list of group ids, separated by comma ',' (required)
-        :return: list[EntityGroup]
+        :return: list[EntityGroupInfo]
                  If the method is called asynchronously,
                  returns the request thread.
         """
@@ -1042,9 +1641,9 @@ class EntityGroupControllerApi(object):
             return data
 
     def get_entity_groups_by_ids_using_get_with_http_info(self, entity_group_ids, **kwargs):  # noqa: E501
-        """Get Entity Groups by Ids (getDevicesByIds)  # noqa: E501
+        """Get Entity Groups by Ids (getEntityGroupsByIds)  # noqa: E501
 
-        Requested devices must be owned by tenant or assigned to customer which user is performing the request.   Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority. Security check is performed to verify that the user has 'READ' permission for the entity (entities).  # noqa: E501
+        Fetch the list of Entity Group Info objects based on the provided entity group ids list. Entity group allows you to group multiple entities of the same entity type (Device, Asset, Customer, User, Dashboard, etc). Entity Group always have an owner - particular Tenant or Customer. Each entity may belong to multiple groups simultaneously.Entity Group Info extends Entity Group object and adds 'ownerIds' - a list of owner ids.  Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority. Security check is performed to verify that the user has 'READ' permission for specified group.  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.get_entity_groups_by_ids_using_get_with_http_info(entity_group_ids, async_req=True)
@@ -1052,7 +1651,7 @@ class EntityGroupControllerApi(object):
 
         :param async_req bool
         :param str entity_group_ids: A list of group ids, separated by comma ',' (required)
-        :return: list[EntityGroup]
+        :return: list[EntityGroupInfo]
                  If the method is called asynchronously,
                  returns the request thread.
         """
@@ -1106,7 +1705,7 @@ class EntityGroupControllerApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type='list[EntityGroup]',  # noqa: E501
+            response_type='list[EntityGroupInfo]',  # noqa: E501
             auth_settings=auth_settings,
             async_req=params.get('async_req'),
             _return_http_data_only=params.get('_return_http_data_only'),
@@ -1132,7 +1731,7 @@ class EntityGroupControllerApi(object):
         :param str text_search: The case insensitive 'startsWith' filter based on the entity group name.
         :param str sort_property: Property of entity to sort by
         :param str sort_order: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
-        :return: PageDataEntityGroup
+        :return: PageDataEntityGroupInfo
                  If the method is called asynchronously,
                  returns the request thread.
         """
@@ -1161,7 +1760,7 @@ class EntityGroupControllerApi(object):
         :param str text_search: The case insensitive 'startsWith' filter based on the entity group name.
         :param str sort_property: Property of entity to sort by
         :param str sort_order: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
-        :return: PageDataEntityGroup
+        :return: PageDataEntityGroupInfo
                  If the method is called asynchronously,
                  returns the request thread.
         """
@@ -1245,7 +1844,7 @@ class EntityGroupControllerApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type='PageDataEntityGroup',  # noqa: E501
+            response_type='PageDataEntityGroupInfo',  # noqa: E501
             auth_settings=auth_settings,
             async_req=params.get('async_req'),
             _return_http_data_only=params.get('_return_http_data_only'),
@@ -1364,6 +1963,133 @@ class EntityGroupControllerApi(object):
             _request_timeout=params.get('_request_timeout'),
             collection_formats=collection_formats)
 
+    def get_entity_groups_by_type_and_page_link_using_get(self, group_type, page_size, page, **kwargs):  # noqa: E501
+        """Get Entity Groups by entity type and page link (getEntityGroupsByTypeAndPageLink)  # noqa: E501
+
+        Returns a page of Entity Group Info objects based on the provided Entity Type and Page Link. Entity group allows you to group multiple entities of the same entity type (Device, Asset, Customer, User, Dashboard, etc). Entity Group always have an owner - particular Tenant or Customer. Each entity may belong to multiple groups simultaneously.Entity Group Info extends Entity Group object and adds 'ownerIds' - a list of owner ids.You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See the 'Model' tab of the Response Class for more details.   Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority. Security check is performed to verify that the user has 'READ' permission for specified group.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_entity_groups_by_type_and_page_link_using_get(group_type, page_size, page, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str group_type: Entity Group type (required)
+        :param int page_size: Maximum amount of entities in a one page (required)
+        :param int page: Sequence number of page starting from 0 (required)
+        :param bool include_shared: Whether to include shared entity groups.
+        :param str text_search: The case insensitive 'startsWith' filter based on the entity group name.
+        :param str sort_property: Property of entity to sort by
+        :param str sort_order: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        :return: PageDataEntityGroupInfo
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.get_entity_groups_by_type_and_page_link_using_get_with_http_info(group_type, page_size, page, **kwargs)  # noqa: E501
+        else:
+            (data) = self.get_entity_groups_by_type_and_page_link_using_get_with_http_info(group_type, page_size, page, **kwargs)  # noqa: E501
+            return data
+
+    def get_entity_groups_by_type_and_page_link_using_get_with_http_info(self, group_type, page_size, page, **kwargs):  # noqa: E501
+        """Get Entity Groups by entity type and page link (getEntityGroupsByTypeAndPageLink)  # noqa: E501
+
+        Returns a page of Entity Group Info objects based on the provided Entity Type and Page Link. Entity group allows you to group multiple entities of the same entity type (Device, Asset, Customer, User, Dashboard, etc). Entity Group always have an owner - particular Tenant or Customer. Each entity may belong to multiple groups simultaneously.Entity Group Info extends Entity Group object and adds 'ownerIds' - a list of owner ids.You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See the 'Model' tab of the Response Class for more details.   Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority. Security check is performed to verify that the user has 'READ' permission for specified group.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_entity_groups_by_type_and_page_link_using_get_with_http_info(group_type, page_size, page, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str group_type: Entity Group type (required)
+        :param int page_size: Maximum amount of entities in a one page (required)
+        :param int page: Sequence number of page starting from 0 (required)
+        :param bool include_shared: Whether to include shared entity groups.
+        :param str text_search: The case insensitive 'startsWith' filter based on the entity group name.
+        :param str sort_property: Property of entity to sort by
+        :param str sort_order: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        :return: PageDataEntityGroupInfo
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['group_type', 'page_size', 'page', 'include_shared', 'text_search', 'sort_property', 'sort_order']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method get_entity_groups_by_type_and_page_link_using_get" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'group_type' is set
+        if ('group_type' not in params or
+                params['group_type'] is None):
+            raise ValueError("Missing the required parameter `group_type` when calling `get_entity_groups_by_type_and_page_link_using_get`")  # noqa: E501
+        # verify the required parameter 'page_size' is set
+        if ('page_size' not in params or
+                params['page_size'] is None):
+            raise ValueError("Missing the required parameter `page_size` when calling `get_entity_groups_by_type_and_page_link_using_get`")  # noqa: E501
+        # verify the required parameter 'page' is set
+        if ('page' not in params or
+                params['page'] is None):
+            raise ValueError("Missing the required parameter `page` when calling `get_entity_groups_by_type_and_page_link_using_get`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+        if 'group_type' in params:
+            path_params['groupType'] = params['group_type']  # noqa: E501
+
+        query_params = []
+        if 'include_shared' in params:
+            query_params.append(('includeShared', params['include_shared']))  # noqa: E501
+        if 'page_size' in params:
+            query_params.append(('pageSize', params['page_size']))  # noqa: E501
+        if 'page' in params:
+            query_params.append(('page', params['page']))  # noqa: E501
+        if 'text_search' in params:
+            query_params.append(('textSearch', params['text_search']))  # noqa: E501
+        if 'sort_property' in params:
+            query_params.append(('sortProperty', params['sort_property']))  # noqa: E501
+        if 'sort_order' in params:
+            query_params.append(('sortOrder', params['sort_order']))  # noqa: E501
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/entityGroups/{groupType}{?includeShared,page,pageSize,sortOrder,sortProperty,textSearch}', 'GET',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='PageDataEntityGroupInfo',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
     def get_entity_groups_by_type_using_get(self, group_type, **kwargs):  # noqa: E501
         """Get Entity Groups by entity type (getEntityGroupsByType)  # noqa: E501
 
@@ -1375,6 +2101,7 @@ class EntityGroupControllerApi(object):
 
         :param async_req bool
         :param str group_type: Entity Group type (required)
+        :param bool include_shared: Whether to include shared entity groups.
         :return: list[EntityGroupInfo]
                  If the method is called asynchronously,
                  returns the request thread.
@@ -1397,12 +2124,13 @@ class EntityGroupControllerApi(object):
 
         :param async_req bool
         :param str group_type: Entity Group type (required)
+        :param bool include_shared: Whether to include shared entity groups.
         :return: list[EntityGroupInfo]
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['group_type']  # noqa: E501
+        all_params = ['group_type', 'include_shared']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -1429,6 +2157,8 @@ class EntityGroupControllerApi(object):
             path_params['groupType'] = params['group_type']  # noqa: E501
 
         query_params = []
+        if 'include_shared' in params:
+            query_params.append(('includeShared', params['include_shared']))  # noqa: E501
 
         header_params = {}
 
@@ -1444,7 +2174,7 @@ class EntityGroupControllerApi(object):
         auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
-            '/api/entityGroups/{groupType}', 'GET',
+            '/api/entityGroups/{groupType}{?includeShared}', 'GET',
             path_params,
             query_params,
             header_params,
@@ -1562,6 +2292,145 @@ class EntityGroupControllerApi(object):
             _request_timeout=params.get('_request_timeout'),
             collection_formats=collection_formats)
 
+    def get_entity_groups_hierarchy_by_owner_and_type_and_page_link_using_get(self, owner_type, owner_id, group_type, page_size, page, **kwargs):  # noqa: E501
+        """Get Entity Groups for all owners starting from specified than ending with owner of current user (getEntityGroupsHierarchyByOwnerAndTypeAndPageLink)  # noqa: E501
+
+        Returns a page of Entity Group objects based on the provided Owner Id and Entity Type and Page Link. Entity group allows you to group multiple entities of the same entity type (Device, Asset, Customer, User, Dashboard, etc). Entity Group always have an owner - particular Tenant or Customer. Each entity may belong to multiple groups simultaneously.You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See the 'Model' tab of the Response Class for more details.   Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority. Security check is performed to verify that the user has 'READ' permission for specified group.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_entity_groups_hierarchy_by_owner_and_type_and_page_link_using_get(owner_type, owner_id, group_type, page_size, page, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str owner_type: Tenant or Customer (required)
+        :param str owner_id: A string value representing the Tenant or Customer id (required)
+        :param str group_type: Entity Group type (required)
+        :param int page_size: Maximum amount of entities in a one page (required)
+        :param int page: Sequence number of page starting from 0 (required)
+        :param str text_search: The case insensitive 'startsWith' filter based on the entity group name.
+        :param str sort_property: Property of entity to sort by
+        :param str sort_order: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        :return: PageDataEntityGroupInfo
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.get_entity_groups_hierarchy_by_owner_and_type_and_page_link_using_get_with_http_info(owner_type, owner_id, group_type, page_size, page, **kwargs)  # noqa: E501
+        else:
+            (data) = self.get_entity_groups_hierarchy_by_owner_and_type_and_page_link_using_get_with_http_info(owner_type, owner_id, group_type, page_size, page, **kwargs)  # noqa: E501
+            return data
+
+    def get_entity_groups_hierarchy_by_owner_and_type_and_page_link_using_get_with_http_info(self, owner_type, owner_id, group_type, page_size, page, **kwargs):  # noqa: E501
+        """Get Entity Groups for all owners starting from specified than ending with owner of current user (getEntityGroupsHierarchyByOwnerAndTypeAndPageLink)  # noqa: E501
+
+        Returns a page of Entity Group objects based on the provided Owner Id and Entity Type and Page Link. Entity group allows you to group multiple entities of the same entity type (Device, Asset, Customer, User, Dashboard, etc). Entity Group always have an owner - particular Tenant or Customer. Each entity may belong to multiple groups simultaneously.You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See the 'Model' tab of the Response Class for more details.   Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority. Security check is performed to verify that the user has 'READ' permission for specified group.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_entity_groups_hierarchy_by_owner_and_type_and_page_link_using_get_with_http_info(owner_type, owner_id, group_type, page_size, page, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str owner_type: Tenant or Customer (required)
+        :param str owner_id: A string value representing the Tenant or Customer id (required)
+        :param str group_type: Entity Group type (required)
+        :param int page_size: Maximum amount of entities in a one page (required)
+        :param int page: Sequence number of page starting from 0 (required)
+        :param str text_search: The case insensitive 'startsWith' filter based on the entity group name.
+        :param str sort_property: Property of entity to sort by
+        :param str sort_order: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        :return: PageDataEntityGroupInfo
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['owner_type', 'owner_id', 'group_type', 'page_size', 'page', 'text_search', 'sort_property', 'sort_order']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method get_entity_groups_hierarchy_by_owner_and_type_and_page_link_using_get" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'owner_type' is set
+        if ('owner_type' not in params or
+                params['owner_type'] is None):
+            raise ValueError("Missing the required parameter `owner_type` when calling `get_entity_groups_hierarchy_by_owner_and_type_and_page_link_using_get`")  # noqa: E501
+        # verify the required parameter 'owner_id' is set
+        if ('owner_id' not in params or
+                params['owner_id'] is None):
+            raise ValueError("Missing the required parameter `owner_id` when calling `get_entity_groups_hierarchy_by_owner_and_type_and_page_link_using_get`")  # noqa: E501
+        # verify the required parameter 'group_type' is set
+        if ('group_type' not in params or
+                params['group_type'] is None):
+            raise ValueError("Missing the required parameter `group_type` when calling `get_entity_groups_hierarchy_by_owner_and_type_and_page_link_using_get`")  # noqa: E501
+        # verify the required parameter 'page_size' is set
+        if ('page_size' not in params or
+                params['page_size'] is None):
+            raise ValueError("Missing the required parameter `page_size` when calling `get_entity_groups_hierarchy_by_owner_and_type_and_page_link_using_get`")  # noqa: E501
+        # verify the required parameter 'page' is set
+        if ('page' not in params or
+                params['page'] is None):
+            raise ValueError("Missing the required parameter `page` when calling `get_entity_groups_hierarchy_by_owner_and_type_and_page_link_using_get`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+        if 'owner_type' in params:
+            path_params['ownerType'] = params['owner_type']  # noqa: E501
+        if 'owner_id' in params:
+            path_params['ownerId'] = params['owner_id']  # noqa: E501
+        if 'group_type' in params:
+            path_params['groupType'] = params['group_type']  # noqa: E501
+
+        query_params = []
+        if 'page_size' in params:
+            query_params.append(('pageSize', params['page_size']))  # noqa: E501
+        if 'page' in params:
+            query_params.append(('page', params['page']))  # noqa: E501
+        if 'text_search' in params:
+            query_params.append(('textSearch', params['text_search']))  # noqa: E501
+        if 'sort_property' in params:
+            query_params.append(('sortProperty', params['sort_property']))  # noqa: E501
+        if 'sort_order' in params:
+            query_params.append(('sortOrder', params['sort_order']))  # noqa: E501
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/entityGroupsHierarchy/{ownerType}/{ownerId}/{groupType}{?page,pageSize,sortOrder,sortProperty,textSearch}', 'GET',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='PageDataEntityGroupInfo',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
     def get_group_entity_using_get(self, entity_group_id, entity_id, **kwargs):  # noqa: E501
         """Get Group Entity (getGroupEntity)  # noqa: E501
 
@@ -1658,6 +2527,224 @@ class EntityGroupControllerApi(object):
             post_params=form_params,
             files=local_var_files,
             response_type='ShortEntityView',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
+    def get_owner_info_using_get(self, owner_type, owner_id, **kwargs):  # noqa: E501
+        """Get Owner Info (getOwnerInfo)  # noqa: E501
+
+        Fetch the owner info (tenant or customer) presented as Entity Info object based on the provided owner Id.   Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority. Security check is performed to verify that the user has 'READ' permission for specified group.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_owner_info_using_get(owner_type, owner_id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str owner_type: Tenant or Customer (required)
+        :param str owner_id: A string value representing the Tenant or Customer id (required)
+        :return: EntityInfo
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.get_owner_info_using_get_with_http_info(owner_type, owner_id, **kwargs)  # noqa: E501
+        else:
+            (data) = self.get_owner_info_using_get_with_http_info(owner_type, owner_id, **kwargs)  # noqa: E501
+            return data
+
+    def get_owner_info_using_get_with_http_info(self, owner_type, owner_id, **kwargs):  # noqa: E501
+        """Get Owner Info (getOwnerInfo)  # noqa: E501
+
+        Fetch the owner info (tenant or customer) presented as Entity Info object based on the provided owner Id.   Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority. Security check is performed to verify that the user has 'READ' permission for specified group.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_owner_info_using_get_with_http_info(owner_type, owner_id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str owner_type: Tenant or Customer (required)
+        :param str owner_id: A string value representing the Tenant or Customer id (required)
+        :return: EntityInfo
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['owner_type', 'owner_id']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method get_owner_info_using_get" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'owner_type' is set
+        if ('owner_type' not in params or
+                params['owner_type'] is None):
+            raise ValueError("Missing the required parameter `owner_type` when calling `get_owner_info_using_get`")  # noqa: E501
+        # verify the required parameter 'owner_id' is set
+        if ('owner_id' not in params or
+                params['owner_id'] is None):
+            raise ValueError("Missing the required parameter `owner_id` when calling `get_owner_info_using_get`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+        if 'owner_type' in params:
+            path_params['ownerType'] = params['owner_type']  # noqa: E501
+        if 'owner_id' in params:
+            path_params['ownerId'] = params['owner_id']  # noqa: E501
+
+        query_params = []
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/ownerInfo/{ownerType}/{ownerId}', 'GET',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='EntityInfo',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
+    def get_owner_infos_using_get(self, page_size, page, **kwargs):  # noqa: E501
+        """Get Owner Infos (getOwnerInfos)  # noqa: E501
+
+        Provides a rage view of Customers that the current user has READ access to. If the current user is Tenant administrator, the result set also contains the tenant. The call is designed for the UI auto-complete component to show tenant and all possible Customers that the user may select to change the owner of the particular entity or entity group.  Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority. Security check is performed to verify that the user has 'READ' permission for the entity (entities).  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_owner_infos_using_get(page_size, page, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param int page_size: Maximum amount of entities in a one page (required)
+        :param int page: Sequence number of page starting from 0 (required)
+        :param str text_search: The case insensitive 'startsWith' filter based on the entity group name.
+        :param str sort_property: Property of entity to sort by
+        :param str sort_order: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        :return: PageDataEntityInfo
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.get_owner_infos_using_get_with_http_info(page_size, page, **kwargs)  # noqa: E501
+        else:
+            (data) = self.get_owner_infos_using_get_with_http_info(page_size, page, **kwargs)  # noqa: E501
+            return data
+
+    def get_owner_infos_using_get_with_http_info(self, page_size, page, **kwargs):  # noqa: E501
+        """Get Owner Infos (getOwnerInfos)  # noqa: E501
+
+        Provides a rage view of Customers that the current user has READ access to. If the current user is Tenant administrator, the result set also contains the tenant. The call is designed for the UI auto-complete component to show tenant and all possible Customers that the user may select to change the owner of the particular entity or entity group.  Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority. Security check is performed to verify that the user has 'READ' permission for the entity (entities).  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_owner_infos_using_get_with_http_info(page_size, page, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param int page_size: Maximum amount of entities in a one page (required)
+        :param int page: Sequence number of page starting from 0 (required)
+        :param str text_search: The case insensitive 'startsWith' filter based on the entity group name.
+        :param str sort_property: Property of entity to sort by
+        :param str sort_order: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        :return: PageDataEntityInfo
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['page_size', 'page', 'text_search', 'sort_property', 'sort_order']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method get_owner_infos_using_get" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'page_size' is set
+        if ('page_size' not in params or
+                params['page_size'] is None):
+            raise ValueError("Missing the required parameter `page_size` when calling `get_owner_infos_using_get`")  # noqa: E501
+        # verify the required parameter 'page' is set
+        if ('page' not in params or
+                params['page'] is None):
+            raise ValueError("Missing the required parameter `page` when calling `get_owner_infos_using_get`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+
+        query_params = []
+        if 'page_size' in params:
+            query_params.append(('pageSize', params['page_size']))  # noqa: E501
+        if 'page' in params:
+            query_params.append(('page', params['page']))  # noqa: E501
+        if 'text_search' in params:
+            query_params.append(('textSearch', params['text_search']))  # noqa: E501
+        if 'sort_property' in params:
+            query_params.append(('sortProperty', params['sort_property']))  # noqa: E501
+        if 'sort_order' in params:
+            query_params.append(('sortOrder', params['sort_order']))  # noqa: E501
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/ownerInfos{?page,pageSize,sortOrder,sortProperty,textSearch}', 'GET',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='PageDataEntityInfo',  # noqa: E501
             auth_settings=auth_settings,
             async_req=params.get('async_req'),
             _return_http_data_only=params.get('_return_http_data_only'),
@@ -1773,6 +2860,347 @@ class EntityGroupControllerApi(object):
             post_params=form_params,
             files=local_var_files,
             response_type='PageDataContactBasedobject',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
+    def get_shared_entity_group_entity_infos_by_type_and_page_link_using_get(self, group_type, page_size, page, **kwargs):  # noqa: E501
+        """Get Shared Entity Group Entity Infos by entity type and page link (getSharedEntityGroupEntityInfosByTypeAndPageLink)  # noqa: E501
+
+        Returns a page of Shared Entity Group Entity Info objects based on the provided Entity Type and Page Link. Entity Info is a lightweight object that contains only id and name of the entity group. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See the 'Model' tab of the Response Class for more details.   Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority. Security check is performed to verify that the user has 'READ' permission for specified group.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_shared_entity_group_entity_infos_by_type_and_page_link_using_get(group_type, page_size, page, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str group_type: Entity Group type (required)
+        :param int page_size: Maximum amount of entities in a one page (required)
+        :param int page: Sequence number of page starting from 0 (required)
+        :param str text_search: The case insensitive 'startsWith' filter based on the entity group name.
+        :param str sort_property: Property of entity to sort by
+        :param str sort_order: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        :return: PageDataEntityInfo
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.get_shared_entity_group_entity_infos_by_type_and_page_link_using_get_with_http_info(group_type, page_size, page, **kwargs)  # noqa: E501
+        else:
+            (data) = self.get_shared_entity_group_entity_infos_by_type_and_page_link_using_get_with_http_info(group_type, page_size, page, **kwargs)  # noqa: E501
+            return data
+
+    def get_shared_entity_group_entity_infos_by_type_and_page_link_using_get_with_http_info(self, group_type, page_size, page, **kwargs):  # noqa: E501
+        """Get Shared Entity Group Entity Infos by entity type and page link (getSharedEntityGroupEntityInfosByTypeAndPageLink)  # noqa: E501
+
+        Returns a page of Shared Entity Group Entity Info objects based on the provided Entity Type and Page Link. Entity Info is a lightweight object that contains only id and name of the entity group. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See the 'Model' tab of the Response Class for more details.   Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority. Security check is performed to verify that the user has 'READ' permission for specified group.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_shared_entity_group_entity_infos_by_type_and_page_link_using_get_with_http_info(group_type, page_size, page, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str group_type: Entity Group type (required)
+        :param int page_size: Maximum amount of entities in a one page (required)
+        :param int page: Sequence number of page starting from 0 (required)
+        :param str text_search: The case insensitive 'startsWith' filter based on the entity group name.
+        :param str sort_property: Property of entity to sort by
+        :param str sort_order: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        :return: PageDataEntityInfo
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['group_type', 'page_size', 'page', 'text_search', 'sort_property', 'sort_order']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method get_shared_entity_group_entity_infos_by_type_and_page_link_using_get" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'group_type' is set
+        if ('group_type' not in params or
+                params['group_type'] is None):
+            raise ValueError("Missing the required parameter `group_type` when calling `get_shared_entity_group_entity_infos_by_type_and_page_link_using_get`")  # noqa: E501
+        # verify the required parameter 'page_size' is set
+        if ('page_size' not in params or
+                params['page_size'] is None):
+            raise ValueError("Missing the required parameter `page_size` when calling `get_shared_entity_group_entity_infos_by_type_and_page_link_using_get`")  # noqa: E501
+        # verify the required parameter 'page' is set
+        if ('page' not in params or
+                params['page'] is None):
+            raise ValueError("Missing the required parameter `page` when calling `get_shared_entity_group_entity_infos_by_type_and_page_link_using_get`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+        if 'group_type' in params:
+            path_params['groupType'] = params['group_type']  # noqa: E501
+
+        query_params = []
+        if 'page_size' in params:
+            query_params.append(('pageSize', params['page_size']))  # noqa: E501
+        if 'page' in params:
+            query_params.append(('page', params['page']))  # noqa: E501
+        if 'text_search' in params:
+            query_params.append(('textSearch', params['text_search']))  # noqa: E501
+        if 'sort_property' in params:
+            query_params.append(('sortProperty', params['sort_property']))  # noqa: E501
+        if 'sort_order' in params:
+            query_params.append(('sortOrder', params['sort_order']))  # noqa: E501
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/entityGroupInfos/{groupType}/shared{?page,pageSize,sortOrder,sortProperty,textSearch}', 'GET',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='PageDataEntityInfo',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
+    def get_shared_entity_groups_by_type_and_page_link_using_get(self, group_type, page_size, page, **kwargs):  # noqa: E501
+        """Get Shared Entity Groups by entity type and page link (getSharedEntityGroupsByTypeAndPageLink)  # noqa: E501
+
+        Returns a page of Shared Entity Group Info objects based on the provided Entity Type and Page Link. Entity group allows you to group multiple entities of the same entity type (Device, Asset, Customer, User, Dashboard, etc). Entity Group always have an owner - particular Tenant or Customer. Each entity may belong to multiple groups simultaneously.Entity Group Info extends Entity Group object and adds 'ownerIds' - a list of owner ids.You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See the 'Model' tab of the Response Class for more details.   Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority. Security check is performed to verify that the user has 'READ' permission for specified group.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_shared_entity_groups_by_type_and_page_link_using_get(group_type, page_size, page, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str group_type: Entity Group type (required)
+        :param int page_size: Maximum amount of entities in a one page (required)
+        :param int page: Sequence number of page starting from 0 (required)
+        :param str text_search: The case insensitive 'startsWith' filter based on the entity group name.
+        :param str sort_property: Property of entity to sort by
+        :param str sort_order: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        :return: PageDataEntityGroupInfo
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.get_shared_entity_groups_by_type_and_page_link_using_get_with_http_info(group_type, page_size, page, **kwargs)  # noqa: E501
+        else:
+            (data) = self.get_shared_entity_groups_by_type_and_page_link_using_get_with_http_info(group_type, page_size, page, **kwargs)  # noqa: E501
+            return data
+
+    def get_shared_entity_groups_by_type_and_page_link_using_get_with_http_info(self, group_type, page_size, page, **kwargs):  # noqa: E501
+        """Get Shared Entity Groups by entity type and page link (getSharedEntityGroupsByTypeAndPageLink)  # noqa: E501
+
+        Returns a page of Shared Entity Group Info objects based on the provided Entity Type and Page Link. Entity group allows you to group multiple entities of the same entity type (Device, Asset, Customer, User, Dashboard, etc). Entity Group always have an owner - particular Tenant or Customer. Each entity may belong to multiple groups simultaneously.Entity Group Info extends Entity Group object and adds 'ownerIds' - a list of owner ids.You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See the 'Model' tab of the Response Class for more details.   Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority. Security check is performed to verify that the user has 'READ' permission for specified group.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_shared_entity_groups_by_type_and_page_link_using_get_with_http_info(group_type, page_size, page, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str group_type: Entity Group type (required)
+        :param int page_size: Maximum amount of entities in a one page (required)
+        :param int page: Sequence number of page starting from 0 (required)
+        :param str text_search: The case insensitive 'startsWith' filter based on the entity group name.
+        :param str sort_property: Property of entity to sort by
+        :param str sort_order: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        :return: PageDataEntityGroupInfo
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['group_type', 'page_size', 'page', 'text_search', 'sort_property', 'sort_order']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method get_shared_entity_groups_by_type_and_page_link_using_get" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'group_type' is set
+        if ('group_type' not in params or
+                params['group_type'] is None):
+            raise ValueError("Missing the required parameter `group_type` when calling `get_shared_entity_groups_by_type_and_page_link_using_get`")  # noqa: E501
+        # verify the required parameter 'page_size' is set
+        if ('page_size' not in params or
+                params['page_size'] is None):
+            raise ValueError("Missing the required parameter `page_size` when calling `get_shared_entity_groups_by_type_and_page_link_using_get`")  # noqa: E501
+        # verify the required parameter 'page' is set
+        if ('page' not in params or
+                params['page'] is None):
+            raise ValueError("Missing the required parameter `page` when calling `get_shared_entity_groups_by_type_and_page_link_using_get`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+        if 'group_type' in params:
+            path_params['groupType'] = params['group_type']  # noqa: E501
+
+        query_params = []
+        if 'page_size' in params:
+            query_params.append(('pageSize', params['page_size']))  # noqa: E501
+        if 'page' in params:
+            query_params.append(('page', params['page']))  # noqa: E501
+        if 'text_search' in params:
+            query_params.append(('textSearch', params['text_search']))  # noqa: E501
+        if 'sort_property' in params:
+            query_params.append(('sortProperty', params['sort_property']))  # noqa: E501
+        if 'sort_order' in params:
+            query_params.append(('sortOrder', params['sort_order']))  # noqa: E501
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/entityGroups/{groupType}/shared{?page,pageSize,sortOrder,sortProperty,textSearch}', 'GET',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='PageDataEntityGroupInfo',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
+    def get_shared_entity_groups_by_type_using_get(self, group_type, **kwargs):  # noqa: E501
+        """Get Shared Entity Groups by entity type (getSharedEntityGroupsByType)  # noqa: E501
+
+        Fetch the list of Shared Entity Group Info objects based on the provided Entity Type. Entity group allows you to group multiple entities of the same entity type (Device, Asset, Customer, User, Dashboard, etc). Entity Group always have an owner - particular Tenant or Customer. Each entity may belong to multiple groups simultaneously.Entity Group Info extends Entity Group object and adds 'ownerIds' - a list of owner ids.  Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority. Security check is performed to verify that the user has 'READ' permission for specified group.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_shared_entity_groups_by_type_using_get(group_type, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str group_type: Entity Group type (required)
+        :return: list[EntityGroupInfo]
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.get_shared_entity_groups_by_type_using_get_with_http_info(group_type, **kwargs)  # noqa: E501
+        else:
+            (data) = self.get_shared_entity_groups_by_type_using_get_with_http_info(group_type, **kwargs)  # noqa: E501
+            return data
+
+    def get_shared_entity_groups_by_type_using_get_with_http_info(self, group_type, **kwargs):  # noqa: E501
+        """Get Shared Entity Groups by entity type (getSharedEntityGroupsByType)  # noqa: E501
+
+        Fetch the list of Shared Entity Group Info objects based on the provided Entity Type. Entity group allows you to group multiple entities of the same entity type (Device, Asset, Customer, User, Dashboard, etc). Entity Group always have an owner - particular Tenant or Customer. Each entity may belong to multiple groups simultaneously.Entity Group Info extends Entity Group object and adds 'ownerIds' - a list of owner ids.  Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority. Security check is performed to verify that the user has 'READ' permission for specified group.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_shared_entity_groups_by_type_using_get_with_http_info(group_type, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str group_type: Entity Group type (required)
+        :return: list[EntityGroupInfo]
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['group_type']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method get_shared_entity_groups_by_type_using_get" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'group_type' is set
+        if ('group_type' not in params or
+                params['group_type'] is None):
+            raise ValueError("Missing the required parameter `group_type` when calling `get_shared_entity_groups_by_type_using_get`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+        if 'group_type' in params:
+            path_params['groupType'] = params['group_type']  # noqa: E501
+
+        query_params = []
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/entityGroups/{groupType}/shared', 'GET',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='list[EntityGroupInfo]',  # noqa: E501
             auth_settings=auth_settings,
             async_req=params.get('async_req'),
             _return_http_data_only=params.get('_return_http_data_only'),

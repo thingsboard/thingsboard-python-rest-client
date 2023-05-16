@@ -28,6 +28,7 @@ class Dashboard(object):
                             and the value is json key in definition.
     """
     swagger_types = {
+        'id': 'DashboardId',
         'created_time': 'int',
         'tenant_id': 'TenantId',
         'customer_id': 'CustomerId',
@@ -42,6 +43,7 @@ class Dashboard(object):
     }
 
     attribute_map = {
+        'id': 'id',
         'created_time': 'createdTime',
         'tenant_id': 'tenantId',
         'customer_id': 'customerId',
@@ -55,8 +57,9 @@ class Dashboard(object):
         'configuration': 'configuration'
     }
 
-    def __init__(self, created_time=None, tenant_id=None, customer_id=None, owner_id=None, title=None, image=None, assigned_customers=None, mobile_hide=None, mobile_order=None, name=None, configuration=None):  # noqa: E501
+    def __init__(self, id=None, created_time=None, tenant_id=None, customer_id=None, owner_id=None, title=None, image=None, assigned_customers=None, mobile_hide=None, mobile_order=None, name=None, configuration=None):  # noqa: E501
         """Dashboard - a model defined in Swagger"""  # noqa: E501
+        self._id = None
         self._created_time = None
         self._tenant_id = None
         self._customer_id = None
@@ -69,6 +72,8 @@ class Dashboard(object):
         self._name = None
         self._configuration = None
         self.discriminator = None
+        if id is not None:
+            self.id = id
         if created_time is not None:
             self.created_time = created_time
         if tenant_id is not None:
@@ -91,6 +96,27 @@ class Dashboard(object):
             self.name = name
         if configuration is not None:
             self.configuration = configuration
+
+    @property
+    def id(self):
+        """Gets the id of this Dashboard.  # noqa: E501
+
+
+        :return: The id of this Dashboard.  # noqa: E501
+        :rtype: DashboardId
+        """
+        return self._id
+
+    @id.setter
+    def id(self, id):
+        """Sets the id of this Dashboard.
+
+
+        :param id: The id of this Dashboard.  # noqa: E501
+        :type: DashboardId
+        """
+
+        self._id = id
 
     @property
     def created_time(self):

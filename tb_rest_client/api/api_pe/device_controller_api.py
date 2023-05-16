@@ -646,6 +646,268 @@ class DeviceControllerApi(object):
             _request_timeout=params.get('_request_timeout'),
             collection_formats=collection_formats)
 
+    def get_all_device_infos_using_get(self, page_size, page, **kwargs):  # noqa: E501
+        """Get All Device Infos for current user (getAllDeviceInfos)  # noqa: E501
+
+        Returns a page of device info objects owned by the tenant or the customer of a current user. Device Info is an extension of the default Device object that contains information about the owner name.  You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See the 'Model' tab of the Response Class for more details.   Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority. Security check is performed to verify that the user has 'READ' permission for the entity (entities).  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_all_device_infos_using_get(page_size, page, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param int page_size: Maximum amount of entities in a one page (required)
+        :param int page: Sequence number of page starting from 0 (required)
+        :param bool include_customers: Include customer or sub-customer entities
+        :param str device_profile_id: A string value representing the device profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        :param bool active: A boolean value representing the device active flag.
+        :param str text_search: The case insensitive 'substring' filter based on the device name.
+        :param str sort_property: Property of entity to sort by
+        :param str sort_order: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        :return: PageDataDeviceInfo
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.get_all_device_infos_using_get_with_http_info(page_size, page, **kwargs)  # noqa: E501
+        else:
+            (data) = self.get_all_device_infos_using_get_with_http_info(page_size, page, **kwargs)  # noqa: E501
+            return data
+
+    def get_all_device_infos_using_get_with_http_info(self, page_size, page, **kwargs):  # noqa: E501
+        """Get All Device Infos for current user (getAllDeviceInfos)  # noqa: E501
+
+        Returns a page of device info objects owned by the tenant or the customer of a current user. Device Info is an extension of the default Device object that contains information about the owner name.  You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See the 'Model' tab of the Response Class for more details.   Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority. Security check is performed to verify that the user has 'READ' permission for the entity (entities).  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_all_device_infos_using_get_with_http_info(page_size, page, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param int page_size: Maximum amount of entities in a one page (required)
+        :param int page: Sequence number of page starting from 0 (required)
+        :param bool include_customers: Include customer or sub-customer entities
+        :param str device_profile_id: A string value representing the device profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        :param bool active: A boolean value representing the device active flag.
+        :param str text_search: The case insensitive 'substring' filter based on the device name.
+        :param str sort_property: Property of entity to sort by
+        :param str sort_order: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        :return: PageDataDeviceInfo
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['page_size', 'page', 'include_customers', 'device_profile_id', 'active', 'text_search', 'sort_property', 'sort_order']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method get_all_device_infos_using_get" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'page_size' is set
+        if ('page_size' not in params or
+                params['page_size'] is None):
+            raise ValueError("Missing the required parameter `page_size` when calling `get_all_device_infos_using_get`")  # noqa: E501
+        # verify the required parameter 'page' is set
+        if ('page' not in params or
+                params['page'] is None):
+            raise ValueError("Missing the required parameter `page` when calling `get_all_device_infos_using_get`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+
+        query_params = []
+        if 'page_size' in params:
+            query_params.append(('pageSize', params['page_size']))  # noqa: E501
+        if 'page' in params:
+            query_params.append(('page', params['page']))  # noqa: E501
+        if 'include_customers' in params:
+            query_params.append(('includeCustomers', params['include_customers']))  # noqa: E501
+        if 'device_profile_id' in params:
+            query_params.append(('deviceProfileId', params['device_profile_id']))  # noqa: E501
+        if 'active' in params:
+            query_params.append(('active', params['active']))  # noqa: E501
+        if 'text_search' in params:
+            query_params.append(('textSearch', params['text_search']))  # noqa: E501
+        if 'sort_property' in params:
+            query_params.append(('sortProperty', params['sort_property']))  # noqa: E501
+        if 'sort_order' in params:
+            query_params.append(('sortOrder', params['sort_order']))  # noqa: E501
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/deviceInfos/all{?active,deviceProfileId,includeCustomers,page,pageSize,sortOrder,sortProperty,textSearch}', 'GET',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='PageDataDeviceInfo',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
+    def get_customer_device_infos_using_get(self, customer_id, page_size, page, **kwargs):  # noqa: E501
+        """Get Customer Device Infos (getCustomerDeviceInfos)  # noqa: E501
+
+        Returns a page of device info objects owned by the specified customer. Device Info is an extension of the default Device object that contains information about the owner name.  You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See the 'Model' tab of the Response Class for more details.   Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority. Security check is performed to verify that the user has 'READ' permission for the entity (entities).  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_customer_device_infos_using_get(customer_id, page_size, page, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str customer_id: A string value representing the customer id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
+        :param int page_size: Maximum amount of entities in a one page (required)
+        :param int page: Sequence number of page starting from 0 (required)
+        :param bool include_customers: Include customer or sub-customer entities
+        :param str device_profile_id: A string value representing the device profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        :param bool active: A boolean value representing the device active flag.
+        :param str text_search: The case insensitive 'substring' filter based on the device name.
+        :param str sort_property: Property of entity to sort by
+        :param str sort_order: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        :return: PageDataDeviceInfo
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.get_customer_device_infos_using_get_with_http_info(customer_id, page_size, page, **kwargs)  # noqa: E501
+        else:
+            (data) = self.get_customer_device_infos_using_get_with_http_info(customer_id, page_size, page, **kwargs)  # noqa: E501
+            return data
+
+    def get_customer_device_infos_using_get_with_http_info(self, customer_id, page_size, page, **kwargs):  # noqa: E501
+        """Get Customer Device Infos (getCustomerDeviceInfos)  # noqa: E501
+
+        Returns a page of device info objects owned by the specified customer. Device Info is an extension of the default Device object that contains information about the owner name.  You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See the 'Model' tab of the Response Class for more details.   Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority. Security check is performed to verify that the user has 'READ' permission for the entity (entities).  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_customer_device_infos_using_get_with_http_info(customer_id, page_size, page, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str customer_id: A string value representing the customer id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
+        :param int page_size: Maximum amount of entities in a one page (required)
+        :param int page: Sequence number of page starting from 0 (required)
+        :param bool include_customers: Include customer or sub-customer entities
+        :param str device_profile_id: A string value representing the device profile id. For example, '784f394c-42b6-435a-983c-b7beff2784f9'
+        :param bool active: A boolean value representing the device active flag.
+        :param str text_search: The case insensitive 'substring' filter based on the device name.
+        :param str sort_property: Property of entity to sort by
+        :param str sort_order: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        :return: PageDataDeviceInfo
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['customer_id', 'page_size', 'page', 'include_customers', 'device_profile_id', 'active', 'text_search', 'sort_property', 'sort_order']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method get_customer_device_infos_using_get" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'customer_id' is set
+        if ('customer_id' not in params or
+                params['customer_id'] is None):
+            raise ValueError("Missing the required parameter `customer_id` when calling `get_customer_device_infos_using_get`")  # noqa: E501
+        # verify the required parameter 'page_size' is set
+        if ('page_size' not in params or
+                params['page_size'] is None):
+            raise ValueError("Missing the required parameter `page_size` when calling `get_customer_device_infos_using_get`")  # noqa: E501
+        # verify the required parameter 'page' is set
+        if ('page' not in params or
+                params['page'] is None):
+            raise ValueError("Missing the required parameter `page` when calling `get_customer_device_infos_using_get`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+        if 'customer_id' in params:
+            path_params['customerId'] = params['customer_id']  # noqa: E501
+
+        query_params = []
+        if 'page_size' in params:
+            query_params.append(('pageSize', params['page_size']))  # noqa: E501
+        if 'page' in params:
+            query_params.append(('page', params['page']))  # noqa: E501
+        if 'include_customers' in params:
+            query_params.append(('includeCustomers', params['include_customers']))  # noqa: E501
+        if 'device_profile_id' in params:
+            query_params.append(('deviceProfileId', params['device_profile_id']))  # noqa: E501
+        if 'active' in params:
+            query_params.append(('active', params['active']))  # noqa: E501
+        if 'text_search' in params:
+            query_params.append(('textSearch', params['text_search']))  # noqa: E501
+        if 'sort_property' in params:
+            query_params.append(('sortProperty', params['sort_property']))  # noqa: E501
+        if 'sort_order' in params:
+            query_params.append(('sortOrder', params['sort_order']))  # noqa: E501
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/customer/{customerId}/deviceInfos{?active,deviceProfileId,includeCustomers,page,pageSize,sortOrder,sortProperty,textSearch}', 'GET',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='PageDataDeviceInfo',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
     def get_customer_devices_using_get(self, customer_id, page_size, page, **kwargs):  # noqa: E501
         """Get Customer Devices (getCustomerDevices)  # noqa: E501
 
@@ -956,6 +1218,101 @@ class DeviceControllerApi(object):
             post_params=form_params,
             files=local_var_files,
             response_type='DeviceCredentials',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
+    def get_device_info_by_id_using_get(self, device_id, **kwargs):  # noqa: E501
+        """Get Device (getDeviceInfoById)  # noqa: E501
+
+        Fetch the Device info object based on the provided Device Id. Device Info is an extension of the default Device object that contains information about the owner name.   Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority. Security check is performed to verify that the user has 'READ' permission for the entity (entities).  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_device_info_by_id_using_get(device_id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str device_id: A string value representing the device id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
+        :return: DeviceInfo
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.get_device_info_by_id_using_get_with_http_info(device_id, **kwargs)  # noqa: E501
+        else:
+            (data) = self.get_device_info_by_id_using_get_with_http_info(device_id, **kwargs)  # noqa: E501
+            return data
+
+    def get_device_info_by_id_using_get_with_http_info(self, device_id, **kwargs):  # noqa: E501
+        """Get Device (getDeviceInfoById)  # noqa: E501
+
+        Fetch the Device info object based on the provided Device Id. Device Info is an extension of the default Device object that contains information about the owner name.   Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority. Security check is performed to verify that the user has 'READ' permission for the entity (entities).  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_device_info_by_id_using_get_with_http_info(device_id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str device_id: A string value representing the device id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
+        :return: DeviceInfo
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['device_id']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method get_device_info_by_id_using_get" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'device_id' is set
+        if ('device_id' not in params or
+                params['device_id'] is None):
+            raise ValueError("Missing the required parameter `device_id` when calling `get_device_info_by_id_using_get`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+        if 'device_id' in params:
+            path_params['deviceId'] = params['device_id']  # noqa: E501
+
+        query_params = []
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/device/info/{deviceId}', 'GET',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='DeviceInfo',  # noqa: E501
             auth_settings=auth_settings,
             async_req=params.get('async_req'),
             _return_http_data_only=params.get('_return_http_data_only'),
@@ -1804,6 +2161,7 @@ class DeviceControllerApi(object):
         :param Device body:
         :param str access_token: Optional value of the device credentials to be used during device creation. If omitted, access token will be auto-generated.
         :param str entity_group_id: entityGroupId
+        :param str entity_group_ids: entityGroupIds
         :return: Device
                  If the method is called asynchronously,
                  returns the request thread.
@@ -1828,12 +2186,13 @@ class DeviceControllerApi(object):
         :param Device body:
         :param str access_token: Optional value of the device credentials to be used during device creation. If omitted, access token will be auto-generated.
         :param str entity_group_id: entityGroupId
+        :param str entity_group_ids: entityGroupIds
         :return: Device
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['body', 'access_token', 'entity_group_id']  # noqa: E501
+        all_params = ['body', 'access_token', 'entity_group_id', 'entity_group_ids']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -1858,6 +2217,8 @@ class DeviceControllerApi(object):
             query_params.append(('accessToken', params['access_token']))  # noqa: E501
         if 'entity_group_id' in params:
             query_params.append(('entityGroupId', params['entity_group_id']))  # noqa: E501
+        if 'entity_group_ids' in params:
+            query_params.append(('entityGroupIds', params['entity_group_ids']))  # noqa: E501
 
         header_params = {}
 
@@ -1879,7 +2240,7 @@ class DeviceControllerApi(object):
         auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
-            '/api/device{?accessToken,entityGroupId}', 'POST',
+            '/api/device{?accessToken,entityGroupId,entityGroupIds}', 'POST',
             path_params,
             query_params,
             header_params,

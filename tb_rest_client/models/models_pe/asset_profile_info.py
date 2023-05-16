@@ -31,22 +31,25 @@ class AssetProfileInfo(object):
         'id': 'EntityId',
         'name': 'str',
         'image': 'str',
-        'default_dashboard_id': 'DashboardId'
+        'default_dashboard_id': 'DashboardId',
+        'tenant_id': 'TenantId'
     }
 
     attribute_map = {
         'id': 'id',
         'name': 'name',
         'image': 'image',
-        'default_dashboard_id': 'defaultDashboardId'
+        'default_dashboard_id': 'defaultDashboardId',
+        'tenant_id': 'tenantId'
     }
 
-    def __init__(self, id=None, name=None, image=None, default_dashboard_id=None):  # noqa: E501
+    def __init__(self, id=None, name=None, image=None, default_dashboard_id=None, tenant_id=None):  # noqa: E501
         """AssetProfileInfo - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._name = None
         self._image = None
         self._default_dashboard_id = None
+        self._tenant_id = None
         self.discriminator = None
         if id is not None:
             self.id = id
@@ -56,6 +59,8 @@ class AssetProfileInfo(object):
             self.image = image
         if default_dashboard_id is not None:
             self.default_dashboard_id = default_dashboard_id
+        if tenant_id is not None:
+            self.tenant_id = tenant_id
 
     @property
     def id(self):
@@ -144,6 +149,27 @@ class AssetProfileInfo(object):
         """
 
         self._default_dashboard_id = default_dashboard_id
+
+    @property
+    def tenant_id(self):
+        """Gets the tenant_id of this AssetProfileInfo.  # noqa: E501
+
+
+        :return: The tenant_id of this AssetProfileInfo.  # noqa: E501
+        :rtype: TenantId
+        """
+        return self._tenant_id
+
+    @tenant_id.setter
+    def tenant_id(self, tenant_id):
+        """Sets the tenant_id of this AssetProfileInfo.
+
+
+        :param tenant_id: The tenant_id of this AssetProfileInfo.  # noqa: E501
+        :type: TenantId
+        """
+
+        self._tenant_id = tenant_id
 
     def to_dict(self):
         """Returns the model properties as a dict"""

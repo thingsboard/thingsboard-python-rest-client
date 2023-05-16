@@ -28,6 +28,7 @@ class AlarmDataPageLink(object):
                             and the value is json key in definition.
     """
     swagger_types = {
+        'assignee_id': 'UserId',
         'dynamic': 'bool',
         'end_ts': 'int',
         'page': 'int',
@@ -43,6 +44,7 @@ class AlarmDataPageLink(object):
     }
 
     attribute_map = {
+        'assignee_id': 'assigneeId',
         'dynamic': 'dynamic',
         'end_ts': 'endTs',
         'page': 'page',
@@ -57,8 +59,9 @@ class AlarmDataPageLink(object):
         'type_list': 'typeList'
     }
 
-    def __init__(self, dynamic=None, end_ts=None, page=None, page_size=None, search_propagated_alarms=None, severity_list=None, sort_order=None, start_ts=None, status_list=None, text_search=None, time_window=None, type_list=None):  # noqa: E501
+    def __init__(self, assignee_id=None, dynamic=None, end_ts=None, page=None, page_size=None, search_propagated_alarms=None, severity_list=None, sort_order=None, start_ts=None, status_list=None, text_search=None, time_window=None, type_list=None):  # noqa: E501
         """AlarmDataPageLink - a model defined in Swagger"""  # noqa: E501
+        self._assignee_id = None
         self._dynamic = None
         self._end_ts = None
         self._page = None
@@ -72,6 +75,8 @@ class AlarmDataPageLink(object):
         self._time_window = None
         self._type_list = None
         self.discriminator = None
+        if assignee_id is not None:
+            self.assignee_id = assignee_id
         if dynamic is not None:
             self.dynamic = dynamic
         if end_ts is not None:
@@ -96,6 +101,27 @@ class AlarmDataPageLink(object):
             self.time_window = time_window
         if type_list is not None:
             self.type_list = type_list
+
+    @property
+    def assignee_id(self):
+        """Gets the assignee_id of this AlarmDataPageLink.  # noqa: E501
+
+
+        :return: The assignee_id of this AlarmDataPageLink.  # noqa: E501
+        :rtype: UserId
+        """
+        return self._assignee_id
+
+    @assignee_id.setter
+    def assignee_id(self, assignee_id):
+        """Sets the assignee_id of this AlarmDataPageLink.
+
+
+        :param assignee_id: The assignee_id of this AlarmDataPageLink.  # noqa: E501
+        :type: UserId
+        """
+
+        self._assignee_id = assignee_id
 
     @property
     def dynamic(self):

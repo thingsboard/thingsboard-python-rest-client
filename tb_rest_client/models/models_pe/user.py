@@ -37,6 +37,7 @@ class User(object):
         'authority': 'str',
         'first_name': 'str',
         'last_name': 'str',
+        'phone': 'str',
         'additional_info': 'JsonNode',
         'owner_id': 'EntityId'
     }
@@ -51,11 +52,12 @@ class User(object):
         'authority': 'authority',
         'first_name': 'firstName',
         'last_name': 'lastName',
+        'phone': 'phone',
         'additional_info': 'additionalInfo',
         'owner_id': 'ownerId'
     }
 
-    def __init__(self, id=None, created_time=None, tenant_id=None, customer_id=None, email=None, name=None, authority=None, first_name=None, last_name=None, additional_info=None, owner_id=None):  # noqa: E501
+    def __init__(self, id=None, created_time=None, tenant_id=None, customer_id=None, email=None, name=None, authority=None, first_name=None, last_name=None, phone=None, additional_info=None, owner_id=None):  # noqa: E501
         """User - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._created_time = None
@@ -66,6 +68,7 @@ class User(object):
         self._authority = None
         self._first_name = None
         self._last_name = None
+        self._phone = None
         self._additional_info = None
         self._owner_id = None
         self.discriminator = None
@@ -83,6 +86,7 @@ class User(object):
         self.authority = authority
         self.first_name = first_name
         self.last_name = last_name
+        self.phone = phone
         if additional_info is not None:
             self.additional_info = additional_info
         if owner_id is not None:
@@ -302,6 +306,31 @@ class User(object):
             raise ValueError("Invalid value for `last_name`, must not be `None`")  # noqa: E501
 
         self._last_name = last_name
+
+    @property
+    def phone(self):
+        """Gets the phone of this User.  # noqa: E501
+
+        Phone number of the user  # noqa: E501
+
+        :return: The phone of this User.  # noqa: E501
+        :rtype: str
+        """
+        return self._phone
+
+    @phone.setter
+    def phone(self, phone):
+        """Sets the phone of this User.
+
+        Phone number of the user  # noqa: E501
+
+        :param phone: The phone of this User.  # noqa: E501
+        :type: str
+        """
+        # if phone is None:
+        #     raise ValueError("Invalid value for `phone`, must not be `None`")  # noqa: E501
+
+        self._phone = phone
 
     @property
     def additional_info(self):

@@ -38,7 +38,10 @@ class DashboardInfo(object):
         'assigned_customers': 'list[ShortCustomerInfo]',
         'mobile_hide': 'bool',
         'mobile_order': 'int',
-        'name': 'str'
+        'name': 'str',
+        'configuration': 'JsonNode',
+        'owner_name': 'str',
+        'groups': 'list[EntityInfo]'
     }
 
     attribute_map = {
@@ -52,10 +55,13 @@ class DashboardInfo(object):
         'assigned_customers': 'assignedCustomers',
         'mobile_hide': 'mobileHide',
         'mobile_order': 'mobileOrder',
-        'name': 'name'
+        'name': 'name',
+        'configuration': 'configuration',
+        'owner_name': 'ownerName',
+        'groups': 'groups'
     }
 
-    def __init__(self, id=None, created_time=None, tenant_id=None, customer_id=None, owner_id=None, title=None, image=None, assigned_customers=None, mobile_hide=None, mobile_order=None, name=None):  # noqa: E501
+    def __init__(self, id=None, created_time=None, tenant_id=None, customer_id=None, owner_id=None, title=None, image=None, assigned_customers=None, mobile_hide=None, mobile_order=None, name=None, configuration=None, owner_name=None, groups=None):  # noqa: E501
         """DashboardInfo - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._created_time = None
@@ -68,6 +74,9 @@ class DashboardInfo(object):
         self._mobile_hide = None
         self._mobile_order = None
         self._name = None
+        self._configuration = None
+        self._owner_name = None
+        self._groups = None
         self.discriminator = None
         if id is not None:
             self.id = id
@@ -91,6 +100,12 @@ class DashboardInfo(object):
             self.mobile_order = mobile_order
         if name is not None:
             self.name = name
+        if configuration is not None:
+            self.configuration = configuration
+        if owner_name is not None:
+            self.owner_name = owner_name
+        if groups is not None:
+            self.groups = groups
 
     @property
     def id(self):
@@ -336,6 +351,73 @@ class DashboardInfo(object):
         """
 
         self._name = name
+
+    @property
+    def configuration(self):
+        """Gets the configuration of this DashboardInfo.  # noqa: E501
+
+
+        :return: The configuration of this DashboardInfo.  # noqa: E501
+        :rtype: JsonNode
+        """
+        return self._configuration
+
+    @configuration.setter
+    def configuration(self, configuration):
+        """Sets the configuration of this DashboardInfo.
+
+
+        :param configuration: The configuration of this DashboardInfo.  # noqa: E501
+        :type: JsonNode
+        """
+
+        self._configuration = configuration
+
+    @property
+    def owner_name(self):
+        """Gets the owner_name of this DashboardInfo.  # noqa: E501
+
+        Owner name  # noqa: E501
+
+        :return: The owner_name of this DashboardInfo.  # noqa: E501
+        :rtype: str
+        """
+        return self._owner_name
+
+    @owner_name.setter
+    def owner_name(self, owner_name):
+        """Sets the owner_name of this DashboardInfo.
+
+        Owner name  # noqa: E501
+
+        :param owner_name: The owner_name of this DashboardInfo.  # noqa: E501
+        :type: str
+        """
+
+        self._owner_name = owner_name
+
+    @property
+    def groups(self):
+        """Gets the groups of this DashboardInfo.  # noqa: E501
+
+        Groups  # noqa: E501
+
+        :return: The groups of this DashboardInfo.  # noqa: E501
+        :rtype: list[EntityInfo]
+        """
+        return self._groups
+
+    @groups.setter
+    def groups(self, groups):
+        """Sets the groups of this DashboardInfo.
+
+        Groups  # noqa: E501
+
+        :param groups: The groups of this DashboardInfo.  # noqa: E501
+        :type: list[EntityInfo]
+        """
+
+        self._groups = groups
 
     def to_dict(self):
         """Returns the model properties as a dict"""

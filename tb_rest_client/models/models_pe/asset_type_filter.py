@@ -30,27 +30,27 @@ class AssetTypeFilter(EntityFilter):
     """
     swagger_types = {
         'asset_name_filter': 'str',
-        'asset_type': 'str'
+        'asset_types': 'list[str]'
     }
     if hasattr(EntityFilter, "swagger_types"):
         swagger_types.update(EntityFilter.swagger_types)
 
     attribute_map = {
         'asset_name_filter': 'assetNameFilter',
-        'asset_type': 'assetType'
+        'asset_types': 'assetTypes'
     }
     if hasattr(EntityFilter, "attribute_map"):
         attribute_map.update(EntityFilter.attribute_map)
 
-    def __init__(self, asset_name_filter=None, asset_type=None, *args, **kwargs):  # noqa: E501
+    def __init__(self, asset_name_filter=None, asset_types=None, *args, **kwargs):  # noqa: E501
         """AssetTypeFilter - a model defined in Swagger"""  # noqa: E501
         self._asset_name_filter = None
-        self._asset_type = None
+        self._asset_types = None
         self.discriminator = None
         if asset_name_filter is not None:
             self.asset_name_filter = asset_name_filter
-        if asset_type is not None:
-            self.asset_type = asset_type
+        if asset_types is not None:
+            self.asset_types = asset_types
         EntityFilter.__init__(self, *args, **kwargs)
 
     @property
@@ -75,25 +75,25 @@ class AssetTypeFilter(EntityFilter):
         self._asset_name_filter = asset_name_filter
 
     @property
-    def asset_type(self):
-        """Gets the asset_type of this AssetTypeFilter.  # noqa: E501
+    def asset_types(self):
+        """Gets the asset_types of this AssetTypeFilter.  # noqa: E501
 
 
-        :return: The asset_type of this AssetTypeFilter.  # noqa: E501
-        :rtype: str
+        :return: The asset_types of this AssetTypeFilter.  # noqa: E501
+        :rtype: list[str]
         """
-        return self._asset_type
+        return self._asset_types
 
-    @asset_type.setter
-    def asset_type(self, asset_type):
-        """Sets the asset_type of this AssetTypeFilter.
+    @asset_types.setter
+    def asset_types(self, asset_types):
+        """Sets the asset_types of this AssetTypeFilter.
 
 
-        :param asset_type: The asset_type of this AssetTypeFilter.  # noqa: E501
-        :type: str
+        :param asset_types: The asset_types of this AssetTypeFilter.  # noqa: E501
+        :type: list[str]
         """
 
-        self._asset_type = asset_type
+        self._asset_types = asset_types
 
     def to_dict(self):
         """Returns the model properties as a dict"""

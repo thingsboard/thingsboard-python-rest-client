@@ -37,26 +37,10 @@ class RestClientCE(RestClientBase):
         return self.o_auth2_config_template_controller.save_client_registration_template_using_post(body=body)
 
     # Asset Controller
-    def get_asset_info_by_id(self, asset_id: AssetId) -> AssetInfo:
-        asset_id = self.get_id(asset_id)
-        return self.asset_controller.get_asset_info_by_id_using_get(asset_id=asset_id)
-
     def assign_asset_to_edge(self, edge_id: EdgeId, asset_id: AssetId) -> Asset:
         edge_id = self.get_id(edge_id)
         asset_id = self.get_id(asset_id)
         return self.asset_controller.assign_asset_to_edge_using_post(edge_id=edge_id, asset_id=asset_id)
-
-    def get_customer_asset_infos(self, customer_id: CustomerId, page_size: int, page: int, type: Optional[str] = None,
-                                 text_search: Optional[str] = None,
-                                 sort_property: Optional[str] = None, sort_order: Optional[str] = None, asset_profile_id: Optional[AssetProfileId] = None) -> PageDataAssetInfo:
-        customer_id = self.get_id(customer_id)
-
-        if asset_profile_id:
-            asset_profile_id = self.get_id(asset_profile_id)
-        return self.asset_controller.get_customer_asset_infos_using_get(customer_id=customer_id, page_size=page_size,
-                                                                        page=page, type=type, text_search=text_search,
-                                                                        sort_property=sort_property,
-                                                                        sort_order=sort_order, asset_profile_id=asset_profile_id)
 
     def get_tenant_asset_infos(self, page_size: int, page: int, type: Optional[str] = None, text_search: Optional[str] = None,
                                sort_property: Optional[str] = None,
@@ -131,9 +115,6 @@ class RestClientCE(RestClientBase):
 
     def find_by_query_v2(self, body: Optional[EdgeSearchQuery] = None) -> List[Edge]:
         return self.edge_controller.find_by_query_using_post2(body=body)
-
-    def count_alarms_by_query(self, body: AlarmCountQuery) -> int:
-        return self.entity_query_controller.count_alarms_by_query_using_post(body=body)
 
     def get_tenant_edges(self, page_size: int, page: int, type: Optional[str] = None, text_search: Optional[str] = None,
                          sort_property: Optional[str] = None,
@@ -438,10 +419,6 @@ class RestClientCE(RestClientBase):
         alarm_id = self.get_id(alarm_id)
         return self.alarm_controller.clear_alarm_using_post(alarm_id=alarm_id)
 
-    def unassign_alarm(self, id: AlarmId) -> Alarm:
-        id = self.get_id(id)
-        return self.alarm_controller.unassign_alarm_using_delete(id=id)
-
     # RPC v2 Controller
     def get_persisted_rpc(self, rpc_id: RpcId) -> Rpc:
         rpc_id = self.get_id(rpc_id)
@@ -652,10 +629,6 @@ class RestClientCE(RestClientBase):
                                                                      page=page, type=type, text_search=text_search,
                                                                      sort_property=sort_property, sort_order=sort_order)
 
-    def get_device_info_by_id(self, device_id: DeviceId) -> DeviceInfo:
-        device_id = self.get_id(device_id)
-        return self.device_controller.get_device_info_by_id_using_get(device_id=device_id)
-
     def unassign_device_from_edge(self, edge_id: EdgeId, device_id: DeviceId) -> Device:
         edge_id = self.get_id(edge_id)
         device_id = self.get_id(device_id)
@@ -818,10 +791,6 @@ class RestClientCE(RestClientBase):
                                                                                     sort_property=sort_property,
                                                                                     sort_order=sort_order)
 
-    def get_entity_view_info_by_id(self, entity_view_id: EntityViewId) -> EntityViewInfo:
-        entity_view_id = self.get_id(entity_view_id)
-        return self.entity_view_controller.get_entity_view_info_by_id_using_get(entity_view_id=entity_view_id)
-
     def get_tenant_entity_view_infos(self, page_size: int, page: int, type: Optional[str] = None, text_search: Optional[str] = None,
                                      sort_property: Optional[str] = None, sort_order: Optional[str] = None) -> PageDataEntityViewInfo:
         return self.entity_view_controller.get_tenant_entity_view_infos_using_get(page_size=page_size, page=page,
@@ -937,47 +906,6 @@ class RestClientCE(RestClientBase):
         entity_type = self.get_type(entity_id)
         entity_id = self.get_id(entity_id)
         return self.alarm_controller.get_highest_alarm_severity_using_get(entity_id=entity_id, entity_type=entity_type, search_status=search_status, status=status, assignee_id=assignee_id)
-
-    def get_tenant_profiles_by_ids(self, ids: List[str]) -> List[TenantProfile]:
-        ids = ','.join(ids)
-        return self.tenant_profile_controller.get_tenant_profiles_by_ids_using_get(ids=ids)
-
-    def delete_user_settings(self, paths: List[str], type: str):
-        paths = ','.join(paths)
-        return self.user_controller.delete_user_settings_using_delete(paths=paths, type=type)
-
-    def find_users_by_query(self, page_size: int, page: int, text_search: Optional[str] = None,
-                            sort_property: Optional[str] = None,
-                            sort_order: Optional[str] = None) -> PageDataUserEmailInfo:
-        return self.user_controller.find_users_by_query_using_get(page_size=page_size, page=page,
-                                                                  text_search=text_search,
-                                                                  sort_property=sort_property,
-                                                                  sort_order=sort_order)
-
-    def get_user_dashboards_info(self) -> UserDashboardsInfo:
-        return self.user_controller.get_user_dashboards_info_using_get()
-
-    def get_user_settings(self) -> JsonNode:
-        return self.user_controller.get_user_settings_using_get()
-
-    def get_users_for_assign(self, alarm_id: AlarmId, page_size: int, page: int, text_search: Optional[str] = None,
-                             sort_property: Optional[str] = None,
-                             sort_order: Optional[str] = None) -> PageDataUserEmailInfo:
-        alarm_id = self.get_id(alarm_id)
-        return self.user_controller.get_users_for_assign_using_get(alarm_id=alarm_id, page_size=page_size, page=page,
-                                                                   text_search=text_search,
-                                                                   sort_property=sort_property,
-                                                                   sort_order=sort_order)
-
-    def put_user_settings(self, body: JsonNode):
-        return self.user_controller.put_user_settings_using_put(body=body)
-
-    def report_user_dashboard_action(self, dashboard_id: DashboardId, action: str) -> UserDashboardsInfo:
-        dashboard_id = self.get_id(dashboard_id)
-        return self.user_controller.report_user_dashboard_action_using_get(dashboard_id=dashboard_id, action=action)
-
-    def save_user_settings(self, body: JsonNode) -> JsonNode:
-        return self.user_controller.save_user_settings_using_post(body=body)
 
     # O Auth 2 Controller
     def get_login_processing_url(self, ) -> str:
@@ -1178,16 +1106,6 @@ class RestClientCE(RestClientBase):
                                                                          text_search=text_search,
                                                                          sort_property=sort_property,
                                                                          sort_order=sort_order)
-
-    def get_customer_dashboards(self, customer_id: CustomerId, page_size: int, page: int, mobile: Optional[bool] = None,
-                                text_search: Optional[str] = None,
-                                sort_property: Optional[str] = None, sort_order: Optional[str] = None) -> PageDataDashboardInfo:
-        customer_id = self.get_id(customer_id)
-        return self.dashboard_controller.get_customer_dashboards_using_get(customer_id=customer_id, page_size=page_size,
-                                                                           page=page, mobile=mobile,
-                                                                           text_search=text_search,
-                                                                           sort_property=sort_property,
-                                                                           sort_order=sort_order)
 
     def assign_dashboard_to_customer(self, customer_id: CustomerId, dashboard_id: DashboardId) -> Dashboard:
         customer_id = self.get_id(customer_id)
@@ -1395,134 +1313,8 @@ class RestClientCE(RestClientBase):
         return self.ota_package_controller.get_ota_package_info_by_id_using_get(ota_package_id=ota_package_id)
 
     def assign_alarm(self, alarm_id: AlarmId, assignee_id: str) -> Alarm:
-        alarm_id = self.get_id(AlarmId)
+        alarm_id = self.get_id(alarm_id)
         return self.alarm_controller.assign_alarm_using_post(alarm_id=alarm_id, assignee_id=assignee_id)
-
-    # Notification Target Controller
-    def delete_notification_target_by_id(self, id: str):
-        return self.notification_target_controller.delete_notification_target_by_id_using_delete(id=id)
-
-    def get_notification_target_by_id(self, id: str):
-        return self.notification_target_controller.get_notification_target_by_id_using_get(id=id)
-
-    def get_notification_targets_by_ids(self, ids: list) -> List[NotificationTarget]:
-        ids = ','.join(ids)
-        return self.notification_target_controller.get_notification_targets_by_ids_using_get(ids=ids)
-
-    def get_notification_targets_by_supported_notification_type(self, notification_type: str, page_size: int, page: int,
-                                                                text_search: Optional[str] = None,
-                                                                sort_property: Optional[str] = None,
-                                                                sort_order: Optional[str] = None):
-        return self.notification_target_controller.get_notification_targets_by_supported_notification_type_using_get(
-            notification_type=notification_type, page_size=page_size, page=page, text_search=text_search, sort_property=sort_property, sort_order=sort_order)
-
-    def get_notification_targets(self, page_size: int, page: int, text_search: Optional[str] = None,
-                                 sort_property: Optional[str] = None,
-                                 sort_order: Optional[str] = None):
-        return self.notification_target_controller.get_notification_targets_using_get(page_size=page_size, page=page,
-                                                                                      text_search=text_search,
-                                                                                      sort_property=sort_property,
-                                                                                      sort_order=sort_order)
-
-    def get_recipients_for_notification_target_config(self, page_size: int, page: int):
-        return self.notification_target_controller.get_recipients_for_notification_target_config_using_post(
-            page_size=page_size, page=page)
-
-    def save_notification_target(self, body: NotificationTarget) -> NotificationTarget:
-        return self.notification_target_controller.save_notification_target_using_post(body=body)
-
-    # Usage Info Controller
-    def get_tenant_usage_info(self) -> UsageInfo:
-        return self.usage_info_controller.get_tenant_usage_info_using_get()
-
-    # Notification Rule Controller
-    def delete_notification_rule(self, id: str):
-        return self.notification_rule_controller.delete_notification_rule_using_delete(id=id)
-
-    def get_notification_rule_by_id(self, id: str) -> NotificationRuleInfo:
-        return self.notification_rule_controller.get_notification_rule_by_id_using_get(id=id)
-
-    def get_notification_rules(self, page_size: int, page: int, text_search: Optional[str] = None,
-                               sort_property: Optional[str] = None,
-                               sort_order: Optional[str] = None) -> PageDataNotificationRuleInfo:
-        return self.notification_rule_controller.get_notification_rules_using_get(page_size=page_size, page=page,
-                                                                                  text_search=text_search,
-                                                                                  sort_property=sort_property,
-                                                                                  sort_order=sort_order)
-
-    def save_notification_rule(self, body: NotificationRule) -> NotificationRule:
-        return self.notification_rule_controller.save_notification_rule_using_post(body=body)
-
-    # Notification Controller
-    def create_notification_request(self, body: NotificationRequest) -> NotificationRequest:
-        return self.notification_controller.create_notification_request_using_post(body=body)
-
-    def delete_notification_request(self, id: str):
-        return self.notification_controller.delete_notification_request_using_delete(id=id)
-
-    def delete_notification(self, id: str):
-        return self.notification_controller.delete_notification_using_delete(id=id)
-
-    def get_available_delivery_methods(self) -> List[str]:
-        return self.notification_controller.get_available_delivery_methods_using_get()
-
-    def get_notification_request_by_id(self, id: str) -> NotificationRequestInfo:
-        return self.notification_controller.get_notification_request_by_id_using_get(id=id)
-
-    def get_notification_request_preview(self, body: NotificationRequest,
-                                         recipients_preview_size: Optional[int] = None):
-        return self.notification_controller.get_notification_request_preview_using_post(body=body,
-                                                                                        recipients_preview_size=recipients_preview_size)
-
-    def get_notification_requests(self, page_size: int, page: int, text_search: Optional[str] = None,
-                                  sort_property: Optional[str] = None,
-                                  sort_order: Optional[str] = None) -> PageDataNotificationRequestInfo:
-        return self.notification_controller.get_notification_requests_using_get(page_size=page_size, page=page,
-                                                                                text_search=text_search,
-                                                                                sort_property=sort_property,
-                                                                                sort_order=sort_order)
-
-    def get_notification_settings(self) -> NotificationSettings:
-        return self.notification_controller.get_notification_settings_using_get()
-
-    def get_notifications(self, page_size: int, page: int, text_search: Optional[str] = None,
-                          sort_property: Optional[str] = None,
-                          sort_order: Optional[str] = None) -> PageDataNotification:
-        return self.notification_controller.get_notifications_using_get(page_size=page_size, page=page,
-                                                                        text_search=text_search,
-                                                                        sort_property=sort_property,
-                                                                        sort_order=sort_order)
-
-    def mark_all_notifications_as_read(self):
-        return self.notification_controller.mark_all_notifications_as_read_using_put()
-
-    def mark_notification_as_read(self, id: str):
-        return self.notification_controller.mark_notification_as_read_using_put(id=id)
-
-    def save_notification_settings(self, body: NotificationSettings) -> NotificationSettings:
-        return self.notification_controller.save_notification_settings_using_post(body=body)
-
-    # Notification Template Controller
-    def delete_notification_template_by_id(self, id: str):
-        return self.notification_template_controller.delete_notification_template_by_id_using_delete(id=id)
-
-    def get_notification_template_by_id(self, id: str) -> NotificationTemplate:
-        return self.notification_template_controller.get_notification_template_by_id_using_get(id=id)
-
-    def get_notification_templates(self, page_size: int, page: int, text_search: Optional[str] = None,
-                                   sort_property: Optional[str] = None,
-                                   sort_order: Optional[str] = None) -> PageDataNotificationTemplate:
-        return self.notification_template_controller.get_notification_templates_using_get(page_size=page_size,
-                                                                                          page=page,
-                                                                                          text_search=text_search,
-                                                                                          sort_property=sort_property,
-                                                                                          sort_order=sort_order)
-
-    def list_slack_conversations(self, type: str, token: Optional[str] = None) -> List[SlackConversation]:
-        return self.notification_template_controller.list_slack_conversations_using_get(type=type, token=token)
-
-    def save_notification_template(self, body: NotificationTemplate) -> NotificationTemplate:
-        return self.notification_template_controller.save_notification_template_using_post(body=body)
 
     # Asset Profile Controller
     def delete_asset_profile(self, asset_profile_id: str):

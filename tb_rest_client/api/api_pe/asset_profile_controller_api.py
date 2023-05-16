@@ -109,7 +109,7 @@ class AssetProfileControllerApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['HTTP login form']  # noqa: E501
+        auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
             '/api/assetProfile/{assetProfileId}', 'DELETE',
@@ -204,7 +204,7 @@ class AssetProfileControllerApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['HTTP login form']  # noqa: E501
+        auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
             '/api/assetProfile/{assetProfileId}', 'GET',
@@ -299,7 +299,7 @@ class AssetProfileControllerApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['HTTP login form']  # noqa: E501
+        auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
             '/api/assetProfileInfo/{assetProfileId}', 'GET',
@@ -414,7 +414,7 @@ class AssetProfileControllerApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['HTTP login form']  # noqa: E501
+        auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
             '/api/assetProfileInfos{?page,pageSize,sortOrder,sortProperty,textSearch}', 'GET',
@@ -509,7 +509,7 @@ class AssetProfileControllerApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['HTTP login form']  # noqa: E501
+        auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
             '/api/assetProfileInfos{?assetProfileIds}', 'GET',
@@ -624,7 +624,7 @@ class AssetProfileControllerApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['HTTP login form']  # noqa: E501
+        auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
             '/api/assetProfiles{?page,pageSize,sortOrder,sortProperty,textSearch}', 'GET',
@@ -711,7 +711,7 @@ class AssetProfileControllerApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['HTTP login form']  # noqa: E501
+        auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
             '/api/assetProfileInfo/default', 'GET',
@@ -806,7 +806,7 @@ class AssetProfileControllerApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['HTTP login form']  # noqa: E501
+        auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
             '/api/assetProfile', 'POST',
@@ -901,7 +901,7 @@ class AssetProfileControllerApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['HTTP login form']  # noqa: E501
+        auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
             '/api/assetProfile/{assetProfileId}/default', 'POST',

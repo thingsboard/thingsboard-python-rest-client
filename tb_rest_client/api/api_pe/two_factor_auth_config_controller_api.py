@@ -109,7 +109,7 @@ class TwoFactorAuthConfigControllerApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['HTTP login form']  # noqa: E501
+        auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
             '/api/2fa/account/config{?providerType}', 'DELETE',
@@ -204,7 +204,7 @@ class TwoFactorAuthConfigControllerApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['HTTP login form']  # noqa: E501
+        auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
             '/api/2fa/account/config/generate{?providerType}', 'POST',
@@ -291,7 +291,7 @@ class TwoFactorAuthConfigControllerApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['HTTP login form']  # noqa: E501
+        auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
             '/api/2fa/account/settings', 'GET',
@@ -378,7 +378,7 @@ class TwoFactorAuthConfigControllerApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['HTTP login form']  # noqa: E501
+        auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
             '/api/2fa/providers', 'GET',
@@ -465,7 +465,7 @@ class TwoFactorAuthConfigControllerApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['HTTP login form']  # noqa: E501
+        auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
             '/api/2fa/settings', 'GET',
@@ -560,7 +560,7 @@ class TwoFactorAuthConfigControllerApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['HTTP login form']  # noqa: E501
+        auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
             '/api/2fa/settings', 'POST',
@@ -655,7 +655,7 @@ class TwoFactorAuthConfigControllerApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['HTTP login form']  # noqa: E501
+        auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
             '/api/2fa/account/config/submit', 'POST',
@@ -758,7 +758,7 @@ class TwoFactorAuthConfigControllerApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['HTTP login form']  # noqa: E501
+        auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
             '/api/2fa/account/config{?providerType}', 'PUT',
@@ -857,7 +857,7 @@ class TwoFactorAuthConfigControllerApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['HTTP login form']  # noqa: E501
+        auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
             '/api/2fa/account/config{?verificationCode}', 'POST',

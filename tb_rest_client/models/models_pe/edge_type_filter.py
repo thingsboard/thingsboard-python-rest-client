@@ -30,27 +30,27 @@ class EdgeTypeFilter(EntityFilter):
     """
     swagger_types = {
         'edge_name_filter': 'str',
-        'edge_type': 'str'
+        'edge_types': 'list[str]'
     }
     if hasattr(EntityFilter, "swagger_types"):
         swagger_types.update(EntityFilter.swagger_types)
 
     attribute_map = {
         'edge_name_filter': 'edgeNameFilter',
-        'edge_type': 'edgeType'
+        'edge_types': 'edgeTypes'
     }
     if hasattr(EntityFilter, "attribute_map"):
         attribute_map.update(EntityFilter.attribute_map)
 
-    def __init__(self, edge_name_filter=None, edge_type=None, *args, **kwargs):  # noqa: E501
+    def __init__(self, edge_name_filter=None, edge_types=None, *args, **kwargs):  # noqa: E501
         """EdgeTypeFilter - a model defined in Swagger"""  # noqa: E501
         self._edge_name_filter = None
-        self._edge_type = None
+        self._edge_types = None
         self.discriminator = None
         if edge_name_filter is not None:
             self.edge_name_filter = edge_name_filter
-        if edge_type is not None:
-            self.edge_type = edge_type
+        if edge_types is not None:
+            self.edge_types = edge_types
         EntityFilter.__init__(self, *args, **kwargs)
 
     @property
@@ -75,25 +75,25 @@ class EdgeTypeFilter(EntityFilter):
         self._edge_name_filter = edge_name_filter
 
     @property
-    def edge_type(self):
-        """Gets the edge_type of this EdgeTypeFilter.  # noqa: E501
+    def edge_types(self):
+        """Gets the edge_types of this EdgeTypeFilter.  # noqa: E501
 
 
-        :return: The edge_type of this EdgeTypeFilter.  # noqa: E501
-        :rtype: str
+        :return: The edge_types of this EdgeTypeFilter.  # noqa: E501
+        :rtype: list[str]
         """
-        return self._edge_type
+        return self._edge_types
 
-    @edge_type.setter
-    def edge_type(self, edge_type):
-        """Sets the edge_type of this EdgeTypeFilter.
+    @edge_types.setter
+    def edge_types(self, edge_types):
+        """Sets the edge_types of this EdgeTypeFilter.
 
 
-        :param edge_type: The edge_type of this EdgeTypeFilter.  # noqa: E501
-        :type: str
+        :param edge_types: The edge_types of this EdgeTypeFilter.  # noqa: E501
+        :type: list[str]
         """
 
-        self._edge_type = edge_type
+        self._edge_types = edge_types
 
     def to_dict(self):
         """Returns the model properties as a dict"""

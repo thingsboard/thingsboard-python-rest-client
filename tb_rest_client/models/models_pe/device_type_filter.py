@@ -30,27 +30,27 @@ class DeviceTypeFilter(EntityFilter):
     """
     swagger_types = {
         'device_name_filter': 'str',
-        'device_type': 'str'
+        'device_types': 'list[str]'
     }
     if hasattr(EntityFilter, "swagger_types"):
         swagger_types.update(EntityFilter.swagger_types)
 
     attribute_map = {
         'device_name_filter': 'deviceNameFilter',
-        'device_type': 'deviceType'
+        'device_types': 'deviceTypes'
     }
     if hasattr(EntityFilter, "attribute_map"):
         attribute_map.update(EntityFilter.attribute_map)
 
-    def __init__(self, device_name_filter=None, device_type=None, *args, **kwargs):  # noqa: E501
+    def __init__(self, device_name_filter=None, device_types=None, *args, **kwargs):  # noqa: E501
         """DeviceTypeFilter - a model defined in Swagger"""  # noqa: E501
         self._device_name_filter = None
-        self._device_type = None
+        self._device_types = None
         self.discriminator = None
         if device_name_filter is not None:
             self.device_name_filter = device_name_filter
-        if device_type is not None:
-            self.device_type = device_type
+        if device_types is not None:
+            self.device_types = device_types
         EntityFilter.__init__(self, *args, **kwargs)
 
     @property
@@ -75,25 +75,25 @@ class DeviceTypeFilter(EntityFilter):
         self._device_name_filter = device_name_filter
 
     @property
-    def device_type(self):
-        """Gets the device_type of this DeviceTypeFilter.  # noqa: E501
+    def device_types(self):
+        """Gets the device_types of this DeviceTypeFilter.  # noqa: E501
 
 
-        :return: The device_type of this DeviceTypeFilter.  # noqa: E501
-        :rtype: str
+        :return: The device_types of this DeviceTypeFilter.  # noqa: E501
+        :rtype: list[str]
         """
-        return self._device_type
+        return self._device_types
 
-    @device_type.setter
-    def device_type(self, device_type):
-        """Sets the device_type of this DeviceTypeFilter.
+    @device_types.setter
+    def device_types(self, device_types):
+        """Sets the device_types of this DeviceTypeFilter.
 
 
-        :param device_type: The device_type of this DeviceTypeFilter.  # noqa: E501
-        :type: str
+        :param device_types: The device_types of this DeviceTypeFilter.  # noqa: E501
+        :type: list[str]
         """
 
-        self._device_type = device_type
+        self._device_types = device_types
 
     def to_dict(self):
         """Returns the model properties as a dict"""

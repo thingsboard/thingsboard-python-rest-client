@@ -117,7 +117,7 @@ class RpcV1ControllerApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['HTTP login form']  # noqa: E501
+        auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
             '/api/plugins/rpc/oneway/{deviceId}', 'POST',
@@ -220,7 +220,7 @@ class RpcV1ControllerApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['HTTP login form']  # noqa: E501
+        auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
             '/api/plugins/rpc/twoway/{deviceId}', 'POST',

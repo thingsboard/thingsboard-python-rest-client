@@ -36,18 +36,24 @@ class AlarmInfo(object):
         'type': 'str',
         'originator': 'EntityId',
         'severity': 'str',
-        'status': 'str',
+        'acknowledged': 'bool',
+        'cleared': 'bool',
+        'assignee_id': 'UserId',
         'start_ts': 'int',
         'end_ts': 'int',
         'ack_ts': 'int',
         'clear_ts': 'int',
+        'assign_ts': 'int',
         'details': 'JsonNode',
-        'propagate': 'bool',
-        'propagate_to_owner': 'bool',
         'propagate_to_owner_hierarchy': 'bool',
+        'propagate': 'bool',
         'propagate_to_tenant': 'bool',
         'propagate_relation_types': 'list[str]',
-        'originator_name': 'str'
+        'propagate_to_owner': 'bool',
+        'originator_name': 'str',
+        'originator_label': 'str',
+        'assignee': 'AlarmAssignee',
+        'status': 'str'
     }
 
     attribute_map = {
@@ -59,21 +65,27 @@ class AlarmInfo(object):
         'type': 'type',
         'originator': 'originator',
         'severity': 'severity',
-        'status': 'status',
+        'acknowledged': 'acknowledged',
+        'cleared': 'cleared',
+        'assignee_id': 'assigneeId',
         'start_ts': 'startTs',
         'end_ts': 'endTs',
         'ack_ts': 'ackTs',
         'clear_ts': 'clearTs',
+        'assign_ts': 'assignTs',
         'details': 'details',
-        'propagate': 'propagate',
-        'propagate_to_owner': 'propagateToOwner',
         'propagate_to_owner_hierarchy': 'propagateToOwnerHierarchy',
+        'propagate': 'propagate',
         'propagate_to_tenant': 'propagateToTenant',
         'propagate_relation_types': 'propagateRelationTypes',
-        'originator_name': 'originatorName'
+        'propagate_to_owner': 'propagateToOwner',
+        'originator_name': 'originatorName',
+        'originator_label': 'originatorLabel',
+        'assignee': 'assignee',
+        'status': 'status'
     }
 
-    def __init__(self, id=None, created_time=None, tenant_id=None, customer_id=None, name=None, type=None, originator=None, severity=None, status=None, start_ts=None, end_ts=None, ack_ts=None, clear_ts=None, details=None, propagate=None, propagate_to_owner=None, propagate_to_owner_hierarchy=None, propagate_to_tenant=None, propagate_relation_types=None, originator_name=None):  # noqa: E501
+    def __init__(self, id=None, created_time=None, tenant_id=None, customer_id=None, name=None, type=None, originator=None, severity=None, acknowledged=None, cleared=None, assignee_id=None, start_ts=None, end_ts=None, ack_ts=None, clear_ts=None, assign_ts=None, details=None, propagate_to_owner_hierarchy=None, propagate=None, propagate_to_tenant=None, propagate_relation_types=None, propagate_to_owner=None, originator_name=None, originator_label=None, assignee=None, status=None):  # noqa: E501
         """AlarmInfo - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._created_time = None
@@ -83,18 +95,24 @@ class AlarmInfo(object):
         self._type = None
         self._originator = None
         self._severity = None
-        self._status = None
+        self._acknowledged = None
+        self._cleared = None
+        self._assignee_id = None
         self._start_ts = None
         self._end_ts = None
         self._ack_ts = None
         self._clear_ts = None
+        self._assign_ts = None
         self._details = None
-        self._propagate = None
-        self._propagate_to_owner = None
         self._propagate_to_owner_hierarchy = None
+        self._propagate = None
         self._propagate_to_tenant = None
         self._propagate_relation_types = None
+        self._propagate_to_owner = None
         self._originator_name = None
+        self._originator_label = None
+        self._assignee = None
+        self._status = None
         self.discriminator = None
         if id is not None:
             self.id = id
@@ -108,7 +126,10 @@ class AlarmInfo(object):
         self.type = type
         self.originator = originator
         self.severity = severity
-        self.status = status
+        self.acknowledged = acknowledged
+        self.cleared = cleared
+        if assignee_id is not None:
+            self.assignee_id = assignee_id
         if start_ts is not None:
             self.start_ts = start_ts
         if end_ts is not None:
@@ -117,20 +138,27 @@ class AlarmInfo(object):
             self.ack_ts = ack_ts
         if clear_ts is not None:
             self.clear_ts = clear_ts
+        if assign_ts is not None:
+            self.assign_ts = assign_ts
         if details is not None:
             self.details = details
-        if propagate is not None:
-            self.propagate = propagate
-        if propagate_to_owner is not None:
-            self.propagate_to_owner = propagate_to_owner
         if propagate_to_owner_hierarchy is not None:
             self.propagate_to_owner_hierarchy = propagate_to_owner_hierarchy
+        if propagate is not None:
+            self.propagate = propagate
         if propagate_to_tenant is not None:
             self.propagate_to_tenant = propagate_to_tenant
         if propagate_relation_types is not None:
             self.propagate_relation_types = propagate_relation_types
+        if propagate_to_owner is not None:
+            self.propagate_to_owner = propagate_to_owner
         if originator_name is not None:
             self.originator_name = originator_name
+        if originator_label is not None:
+            self.originator_label = originator_label
+        if assignee is not None:
+            self.assignee = assignee
+        self.status = status
 
     @property
     def id(self):
@@ -323,35 +351,75 @@ class AlarmInfo(object):
         self._severity = severity
 
     @property
-    def status(self):
-        """Gets the status of this AlarmInfo.  # noqa: E501
+    def acknowledged(self):
+        """Gets the acknowledged of this AlarmInfo.  # noqa: E501
 
-        Alarm status  # noqa: E501
+        Acknowledged  # noqa: E501
 
-        :return: The status of this AlarmInfo.  # noqa: E501
-        :rtype: str
+        :return: The acknowledged of this AlarmInfo.  # noqa: E501
+        :rtype: bool
         """
-        return self._status
+        return self._acknowledged
 
-    @status.setter
-    def status(self, status):
-        """Sets the status of this AlarmInfo.
+    @acknowledged.setter
+    def acknowledged(self, acknowledged):
+        """Sets the acknowledged of this AlarmInfo.
 
-        Alarm status  # noqa: E501
+        Acknowledged  # noqa: E501
 
-        :param status: The status of this AlarmInfo.  # noqa: E501
-        :type: str
+        :param acknowledged: The acknowledged of this AlarmInfo.  # noqa: E501
+        :type: bool
         """
-        if status is None:
-            raise ValueError("Invalid value for `status`, must not be `None`")  # noqa: E501
-        allowed_values = ["ACTIVE_ACK", "ACTIVE_UNACK", "CLEARED_ACK", "CLEARED_UNACK"]  # noqa: E501
-        if status not in allowed_values:
-            raise ValueError(
-                "Invalid value for `status` ({0}), must be one of {1}"  # noqa: E501
-                .format(status, allowed_values)
-            )
+        if acknowledged is None:
+            raise ValueError("Invalid value for `acknowledged`, must not be `None`")  # noqa: E501
 
-        self._status = status
+        self._acknowledged = acknowledged
+
+    @property
+    def cleared(self):
+        """Gets the cleared of this AlarmInfo.  # noqa: E501
+
+        Cleared  # noqa: E501
+
+        :return: The cleared of this AlarmInfo.  # noqa: E501
+        :rtype: bool
+        """
+        return self._cleared
+
+    @cleared.setter
+    def cleared(self, cleared):
+        """Sets the cleared of this AlarmInfo.
+
+        Cleared  # noqa: E501
+
+        :param cleared: The cleared of this AlarmInfo.  # noqa: E501
+        :type: bool
+        """
+        if cleared is None:
+            raise ValueError("Invalid value for `cleared`, must not be `None`")  # noqa: E501
+
+        self._cleared = cleared
+
+    @property
+    def assignee_id(self):
+        """Gets the assignee_id of this AlarmInfo.  # noqa: E501
+
+
+        :return: The assignee_id of this AlarmInfo.  # noqa: E501
+        :rtype: UserId
+        """
+        return self._assignee_id
+
+    @assignee_id.setter
+    def assignee_id(self, assignee_id):
+        """Sets the assignee_id of this AlarmInfo.
+
+
+        :param assignee_id: The assignee_id of this AlarmInfo.  # noqa: E501
+        :type: UserId
+        """
+
+        self._assignee_id = assignee_id
 
     @property
     def start_ts(self):
@@ -446,6 +514,29 @@ class AlarmInfo(object):
         self._clear_ts = clear_ts
 
     @property
+    def assign_ts(self):
+        """Gets the assign_ts of this AlarmInfo.  # noqa: E501
+
+        Timestamp of the alarm assignment, in milliseconds  # noqa: E501
+
+        :return: The assign_ts of this AlarmInfo.  # noqa: E501
+        :rtype: int
+        """
+        return self._assign_ts
+
+    @assign_ts.setter
+    def assign_ts(self, assign_ts):
+        """Sets the assign_ts of this AlarmInfo.
+
+        Timestamp of the alarm assignment, in milliseconds  # noqa: E501
+
+        :param assign_ts: The assign_ts of this AlarmInfo.  # noqa: E501
+        :type: int
+        """
+
+        self._assign_ts = assign_ts
+
+    @property
     def details(self):
         """Gets the details of this AlarmInfo.  # noqa: E501
 
@@ -465,52 +556,6 @@ class AlarmInfo(object):
         """
 
         self._details = details
-
-    @property
-    def propagate(self):
-        """Gets the propagate of this AlarmInfo.  # noqa: E501
-
-        Propagation flag to specify if alarm should be propagated to parent entities of alarm originator  # noqa: E501
-
-        :return: The propagate of this AlarmInfo.  # noqa: E501
-        :rtype: bool
-        """
-        return self._propagate
-
-    @propagate.setter
-    def propagate(self, propagate):
-        """Sets the propagate of this AlarmInfo.
-
-        Propagation flag to specify if alarm should be propagated to parent entities of alarm originator  # noqa: E501
-
-        :param propagate: The propagate of this AlarmInfo.  # noqa: E501
-        :type: bool
-        """
-
-        self._propagate = propagate
-
-    @property
-    def propagate_to_owner(self):
-        """Gets the propagate_to_owner of this AlarmInfo.  # noqa: E501
-
-        Propagation flag to specify if alarm should be propagated to the owner (tenant or customer) of alarm originator  # noqa: E501
-
-        :return: The propagate_to_owner of this AlarmInfo.  # noqa: E501
-        :rtype: bool
-        """
-        return self._propagate_to_owner
-
-    @propagate_to_owner.setter
-    def propagate_to_owner(self, propagate_to_owner):
-        """Sets the propagate_to_owner of this AlarmInfo.
-
-        Propagation flag to specify if alarm should be propagated to the owner (tenant or customer) of alarm originator  # noqa: E501
-
-        :param propagate_to_owner: The propagate_to_owner of this AlarmInfo.  # noqa: E501
-        :type: bool
-        """
-
-        self._propagate_to_owner = propagate_to_owner
 
     @property
     def propagate_to_owner_hierarchy(self):
@@ -534,6 +579,29 @@ class AlarmInfo(object):
         """
 
         self._propagate_to_owner_hierarchy = propagate_to_owner_hierarchy
+
+    @property
+    def propagate(self):
+        """Gets the propagate of this AlarmInfo.  # noqa: E501
+
+        Propagation flag to specify if alarm should be propagated to parent entities of alarm originator  # noqa: E501
+
+        :return: The propagate of this AlarmInfo.  # noqa: E501
+        :rtype: bool
+        """
+        return self._propagate
+
+    @propagate.setter
+    def propagate(self, propagate):
+        """Sets the propagate of this AlarmInfo.
+
+        Propagation flag to specify if alarm should be propagated to parent entities of alarm originator  # noqa: E501
+
+        :param propagate: The propagate of this AlarmInfo.  # noqa: E501
+        :type: bool
+        """
+
+        self._propagate = propagate
 
     @property
     def propagate_to_tenant(self):
@@ -582,6 +650,29 @@ class AlarmInfo(object):
         self._propagate_relation_types = propagate_relation_types
 
     @property
+    def propagate_to_owner(self):
+        """Gets the propagate_to_owner of this AlarmInfo.  # noqa: E501
+
+        Propagation flag to specify if alarm should be propagated to the owner (tenant or customer) of alarm originator  # noqa: E501
+
+        :return: The propagate_to_owner of this AlarmInfo.  # noqa: E501
+        :rtype: bool
+        """
+        return self._propagate_to_owner
+
+    @propagate_to_owner.setter
+    def propagate_to_owner(self, propagate_to_owner):
+        """Sets the propagate_to_owner of this AlarmInfo.
+
+        Propagation flag to specify if alarm should be propagated to the owner (tenant or customer) of alarm originator  # noqa: E501
+
+        :param propagate_to_owner: The propagate_to_owner of this AlarmInfo.  # noqa: E501
+        :type: bool
+        """
+
+        self._propagate_to_owner = propagate_to_owner
+
+    @property
     def originator_name(self):
         """Gets the originator_name of this AlarmInfo.  # noqa: E501
 
@@ -603,6 +694,81 @@ class AlarmInfo(object):
         """
 
         self._originator_name = originator_name
+
+    @property
+    def originator_label(self):
+        """Gets the originator_label of this AlarmInfo.  # noqa: E501
+
+        Alarm originator label  # noqa: E501
+
+        :return: The originator_label of this AlarmInfo.  # noqa: E501
+        :rtype: str
+        """
+        return self._originator_label
+
+    @originator_label.setter
+    def originator_label(self, originator_label):
+        """Sets the originator_label of this AlarmInfo.
+
+        Alarm originator label  # noqa: E501
+
+        :param originator_label: The originator_label of this AlarmInfo.  # noqa: E501
+        :type: str
+        """
+
+        self._originator_label = originator_label
+
+    @property
+    def assignee(self):
+        """Gets the assignee of this AlarmInfo.  # noqa: E501
+
+
+        :return: The assignee of this AlarmInfo.  # noqa: E501
+        :rtype: AlarmAssignee
+        """
+        return self._assignee
+
+    @assignee.setter
+    def assignee(self, assignee):
+        """Sets the assignee of this AlarmInfo.
+
+
+        :param assignee: The assignee of this AlarmInfo.  # noqa: E501
+        :type: AlarmAssignee
+        """
+
+        self._assignee = assignee
+
+    @property
+    def status(self):
+        """Gets the status of this AlarmInfo.  # noqa: E501
+
+        status of the Alarm  # noqa: E501
+
+        :return: The status of this AlarmInfo.  # noqa: E501
+        :rtype: str
+        """
+        return self._status
+
+    @status.setter
+    def status(self, status):
+        """Sets the status of this AlarmInfo.
+
+        status of the Alarm  # noqa: E501
+
+        :param status: The status of this AlarmInfo.  # noqa: E501
+        :type: str
+        """
+        if status is None:
+            raise ValueError("Invalid value for `status`, must not be `None`")  # noqa: E501
+        allowed_values = ["ACTIVE_ACK", "ACTIVE_UNACK", "CLEARED_ACK", "CLEARED_UNACK"]  # noqa: E501
+        if status not in allowed_values:
+            raise ValueError(
+                "Invalid value for `status` ({0}), must be one of {1}"  # noqa: E501
+                .format(status, allowed_values)
+            )
+
+        self._status = status
 
     def to_dict(self):
         """Returns the model properties as a dict"""

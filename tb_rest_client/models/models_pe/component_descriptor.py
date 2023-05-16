@@ -32,6 +32,7 @@ class ComponentDescriptor(object):
         'created_time': 'int',
         'type': 'str',
         'scope': 'str',
+        'clustering_mode': 'str',
         'name': 'str',
         'clazz': 'str',
         'configuration_descriptor': 'JsonNode',
@@ -43,18 +44,20 @@ class ComponentDescriptor(object):
         'created_time': 'createdTime',
         'type': 'type',
         'scope': 'scope',
+        'clustering_mode': 'clusteringMode',
         'name': 'name',
         'clazz': 'clazz',
         'configuration_descriptor': 'configurationDescriptor',
         'actions': 'actions'
     }
 
-    def __init__(self, id=None, created_time=None, type=None, scope=None, name=None, clazz=None, configuration_descriptor=None, actions=None):  # noqa: E501
+    def __init__(self, id=None, created_time=None, type=None, scope=None, clustering_mode=None, name=None, clazz=None, configuration_descriptor=None, actions=None):  # noqa: E501
         """ComponentDescriptor - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._created_time = None
         self._type = None
         self._scope = None
+        self._clustering_mode = None
         self._name = None
         self._clazz = None
         self._configuration_descriptor = None
@@ -68,6 +71,8 @@ class ComponentDescriptor(object):
             self.type = type
         if scope is not None:
             self.scope = scope
+        if clustering_mode is not None:
+            self.clustering_mode = clustering_mode
         if name is not None:
             self.name = name
         if clazz is not None:
@@ -178,6 +183,35 @@ class ComponentDescriptor(object):
             )
 
         self._scope = scope
+
+    @property
+    def clustering_mode(self):
+        """Gets the clustering_mode of this ComponentDescriptor.  # noqa: E501
+
+        Clustering mode of the RuleNode. This mode represents the ability to start Rule Node in multiple microservices.  # noqa: E501
+
+        :return: The clustering_mode of this ComponentDescriptor.  # noqa: E501
+        :rtype: str
+        """
+        return self._clustering_mode
+
+    @clustering_mode.setter
+    def clustering_mode(self, clustering_mode):
+        """Sets the clustering_mode of this ComponentDescriptor.
+
+        Clustering mode of the RuleNode. This mode represents the ability to start Rule Node in multiple microservices.  # noqa: E501
+
+        :param clustering_mode: The clustering_mode of this ComponentDescriptor.  # noqa: E501
+        :type: str
+        """
+        allowed_values = ["ENABLED", "SINGLETON", "USER_PREFERENCE"]  # noqa: E501
+        if clustering_mode not in allowed_values:
+            raise ValueError(
+                "Invalid value for `clustering_mode` ({0}), must be one of {1}"  # noqa: E501
+                .format(clustering_mode, allowed_values)
+            )
+
+        self._clustering_mode = clustering_mode
 
     @property
     def name(self):

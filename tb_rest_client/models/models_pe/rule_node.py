@@ -35,8 +35,9 @@ class RuleNode(object):
         'type': 'str',
         'name': 'str',
         'debug_mode': 'bool',
-        'configuration': 'JsonNode',
-        'additional_info': 'JsonNode'
+        'singleton_mode': 'bool',
+        'additional_info': 'JsonNode',
+        'configuration': 'JsonNode'
     }
 
     attribute_map = {
@@ -47,11 +48,12 @@ class RuleNode(object):
         'type': 'type',
         'name': 'name',
         'debug_mode': 'debugMode',
-        'configuration': 'configuration',
-        'additional_info': 'additionalInfo'
+        'singleton_mode': 'singletonMode',
+        'additional_info': 'additionalInfo',
+        'configuration': 'configuration'
     }
 
-    def __init__(self, external_id=None, id=None, created_time=None, rule_chain_id=None, type=None, name=None, debug_mode=None, configuration=None, additional_info=None):  # noqa: E501
+    def __init__(self, external_id=None, id=None, created_time=None, rule_chain_id=None, type=None, name=None, debug_mode=None, singleton_mode=None, additional_info=None, configuration=None):  # noqa: E501
         """RuleNode - a model defined in Swagger"""  # noqa: E501
         self._external_id = None
         self._id = None
@@ -60,8 +62,9 @@ class RuleNode(object):
         self._type = None
         self._name = None
         self._debug_mode = None
-        self._configuration = None
+        self._singleton_mode = None
         self._additional_info = None
+        self._configuration = None
         self.discriminator = None
         if external_id is not None:
             self.external_id = external_id
@@ -77,10 +80,12 @@ class RuleNode(object):
             self.name = name
         if debug_mode is not None:
             self.debug_mode = debug_mode
-        if configuration is not None:
-            self.configuration = configuration
+        if singleton_mode is not None:
+            self.singleton_mode = singleton_mode
         if additional_info is not None:
             self.additional_info = additional_info
+        if configuration is not None:
+            self.configuration = configuration
 
     @property
     def external_id(self):
@@ -238,25 +243,27 @@ class RuleNode(object):
         self._debug_mode = debug_mode
 
     @property
-    def configuration(self):
-        """Gets the configuration of this RuleNode.  # noqa: E501
+    def singleton_mode(self):
+        """Gets the singleton_mode of this RuleNode.  # noqa: E501
 
+        Enable/disable singleton mode.   # noqa: E501
 
-        :return: The configuration of this RuleNode.  # noqa: E501
-        :rtype: JsonNode
+        :return: The singleton_mode of this RuleNode.  # noqa: E501
+        :rtype: bool
         """
-        return self._configuration
+        return self._singleton_mode
 
-    @configuration.setter
-    def configuration(self, configuration):
-        """Sets the configuration of this RuleNode.
+    @singleton_mode.setter
+    def singleton_mode(self, singleton_mode):
+        """Sets the singleton_mode of this RuleNode.
 
+        Enable/disable singleton mode.   # noqa: E501
 
-        :param configuration: The configuration of this RuleNode.  # noqa: E501
-        :type: JsonNode
+        :param singleton_mode: The singleton_mode of this RuleNode.  # noqa: E501
+        :type: bool
         """
 
-        self._configuration = configuration
+        self._singleton_mode = singleton_mode
 
     @property
     def additional_info(self):
@@ -278,6 +285,27 @@ class RuleNode(object):
         """
 
         self._additional_info = additional_info
+
+    @property
+    def configuration(self):
+        """Gets the configuration of this RuleNode.  # noqa: E501
+
+
+        :return: The configuration of this RuleNode.  # noqa: E501
+        :rtype: JsonNode
+        """
+        return self._configuration
+
+    @configuration.setter
+    def configuration(self, configuration):
+        """Sets the configuration of this RuleNode.
+
+
+        :param configuration: The configuration of this RuleNode.  # noqa: E501
+        :type: JsonNode
+        """
+
+        self._configuration = configuration
 
     def to_dict(self):
         """Returns the model properties as a dict"""

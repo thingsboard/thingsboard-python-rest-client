@@ -45,6 +45,7 @@ class OwnerControllerApi(object):
         :param str owner_id: A string value representing the customer id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
         :param str entity_type: A string value representing the entity type. For example, 'DEVICE' (required)
         :param str entity_id: A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
+        :param list[str] body:
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -69,12 +70,13 @@ class OwnerControllerApi(object):
         :param str owner_id: A string value representing the customer id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
         :param str entity_type: A string value representing the entity type. For example, 'DEVICE' (required)
         :param str entity_id: A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
+        :param list[str] body:
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['owner_id', 'entity_type', 'entity_id']  # noqa: E501
+        all_params = ['owner_id', 'entity_type', 'entity_id', 'body']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -120,8 +122,14 @@ class OwnerControllerApi(object):
         local_var_files = {}
 
         body_params = None
+        if 'body' in params:
+            body_params = params['body']
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
             ['application/json'])  # noqa: E501
 
         # Authentication setting
@@ -156,6 +164,7 @@ class OwnerControllerApi(object):
         :param str owner_id: A string value representing the tenant id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
         :param str entity_type: A string value representing the entity type. For example, 'DEVICE' (required)
         :param str entity_id: A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
+        :param list[str] body:
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -180,12 +189,13 @@ class OwnerControllerApi(object):
         :param str owner_id: A string value representing the tenant id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
         :param str entity_type: A string value representing the entity type. For example, 'DEVICE' (required)
         :param str entity_id: A string value representing the entity id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
+        :param list[str] body:
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['owner_id', 'entity_type', 'entity_id']  # noqa: E501
+        all_params = ['owner_id', 'entity_type', 'entity_id', 'body']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -231,8 +241,14 @@ class OwnerControllerApi(object):
         local_var_files = {}
 
         body_params = None
+        if 'body' in params:
+            body_params = params['body']
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
             ['application/json'])  # noqa: E501
 
         # Authentication setting

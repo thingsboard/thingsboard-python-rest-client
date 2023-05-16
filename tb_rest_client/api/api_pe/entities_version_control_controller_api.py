@@ -125,7 +125,7 @@ class EntitiesVersionControlControllerApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['HTTP login form']  # noqa: E501
+        auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
             '/api/entities/vc/diff/{entityType}/{internalEntityUuid}{?versionId}', 'GET',
@@ -240,7 +240,7 @@ class EntitiesVersionControlControllerApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['HTTP login form']  # noqa: E501
+        auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
             '/api/entities/vc/info/{versionId}/{entityType}/{externalEntityUuid}{?internalEntityId}', 'GET',
@@ -335,7 +335,7 @@ class EntitiesVersionControlControllerApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['HTTP login form']  # noqa: E501
+        auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
             '/api/entities/vc/version/{requestId}/status', 'GET',
@@ -430,7 +430,7 @@ class EntitiesVersionControlControllerApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['HTTP login form']  # noqa: E501
+        auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
             '/api/entities/vc/entity/{requestId}/status', 'GET',
@@ -525,7 +525,7 @@ class EntitiesVersionControlControllerApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['HTTP login form']  # noqa: E501
+        auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
             '/api/entities/vc/entity/{versionId}', 'GET',
@@ -612,7 +612,7 @@ class EntitiesVersionControlControllerApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['HTTP login form']  # noqa: E501
+        auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
             '/api/entities/vc/branches', 'GET',
@@ -715,7 +715,7 @@ class EntitiesVersionControlControllerApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['HTTP login form']  # noqa: E501
+        auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
             '/api/entities/vc/entity/{entityType}/{versionId}', 'GET',
@@ -846,7 +846,7 @@ class EntitiesVersionControlControllerApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['HTTP login form']  # noqa: E501
+        auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
             '/api/entities/vc/version/{entityType}?sortProperty=timestamp{&branch,page,pageSize,sortOrder,textSearch}', 'GET',
@@ -989,7 +989,7 @@ class EntitiesVersionControlControllerApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['HTTP login form']  # noqa: E501
+        auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
             '/api/entities/vc/version/{entityType}/{externalEntityUuid}?sortProperty=timestamp{&branch,internalEntityId,page,pageSize,sortOrder,textSearch}', 'GET',
@@ -1112,7 +1112,7 @@ class EntitiesVersionControlControllerApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['HTTP login form']  # noqa: E501
+        auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
             '/api/entities/vc/version?sortProperty=timestamp{&branch,page,pageSize,sortOrder,textSearch}', 'GET',
@@ -1207,7 +1207,7 @@ class EntitiesVersionControlControllerApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['HTTP login form']  # noqa: E501
+        auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
             '/api/entities/vc/entity', 'POST',
@@ -1302,7 +1302,7 @@ class EntitiesVersionControlControllerApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['HTTP login form']  # noqa: E501
+        auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
             '/api/entities/vc/version', 'POST',
