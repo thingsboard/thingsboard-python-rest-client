@@ -321,13 +321,13 @@ class EntityGroupControllerTests(TBClientPETests):
     @unittest.skip('ThingsBoard json naming bug')
     def test_get_entities(self):
         self.assertIsInstance(
-            self.client.get_entities(EntityGroupId('4fe07130-edfd-11eb-91fd-1f8899a6f9b3', 'ASSET'), 1, 0),
+            self.client.get_entities(EntityGroupId('4fe07130-edfd-11eb-91fd-1f8899a6f9b3'), 1, 0),
             PageDataShortEntityView)
 
     @unittest.skip('ThingsBoard json naming bug')
     def test_get_group_entity(self):
         self.assertIsInstance(
-            self.client.get_group_entity(EntityGroupId('4fe07130-edfd-11eb-91fd-1f8899a6f9b3', 'ASSET'),
+            self.client.get_group_entity(EntityGroupId('4fe07130-edfd-11eb-91fd-1f8899a6f9b3'),
                                          EntityId('7731eb20-1894-11ed-b864-31da2039250b', 'ASSET')), ShortEntityView)
 
 

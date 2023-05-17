@@ -39,3 +39,5 @@ from .entity_group_controller_api import EntityGroupControllerApi
 from .subscription_controller_api import SubscriptionControllerApi
 from .solution_controller_api import SolutionControllerApi
 from .device_profile_controller_api import DeviceProfileControllerApi
+from .asset_profile_controller_api import AssetProfileControllerApi
+from .two_factor_auth_controller_api import TwoFactorAuthControllerApi

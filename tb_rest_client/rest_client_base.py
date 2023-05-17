@@ -25,7 +25,6 @@ from typing import List, Optional, Union, Any, Dict
 from tb_rest_client.models.models_ce import *
 from tb_rest_client.rest import RESTResponse
 from tb_rest_client.api.api_ce.two_factor_auth_controller_api import TwoFactorAuthControllerApi
-from tb_rest_client.api.api_ce.two_fa_config_controller_api import TwoFaConfigControllerApi
 from tb_rest_client.api.api_ce.entities_version_control_controller_api import EntitiesVersionControlControllerApi
 from tb_rest_client.api.api_ce.admin_controller_api import AdminControllerApi
 from tb_rest_client.api.api_ce.alarm_controller_api import AlarmControllerApi
@@ -52,7 +51,6 @@ from tb_rest_client.api.api_ce.queue_controller_api import QueueControllerApi
 from tb_rest_client.api.api_ce.rpc_v_1_controller_api import RpcV1ControllerApi
 from tb_rest_client.api.api_ce.rpc_v_2_controller_api import RpcV2ControllerApi
 from tb_rest_client.api.api_ce.rule_chain_controller_api import RuleChainControllerApi
-from tb_rest_client.api.api_ce.sign_up_controller_api import SignUpControllerApi
 from tb_rest_client.api.api_ce.tb_resource_controller_api import TbResourceControllerApi
 from tb_rest_client.api.api_ce.telemetry_controller_api import TelemetryControllerApi
 from tb_rest_client.api.api_ce.tenant_controller_api import TenantControllerApi
@@ -62,6 +60,13 @@ from tb_rest_client.api.api_ce.widget_type_controller_api import WidgetTypeContr
 from tb_rest_client.api.api_ce.widgets_bundle_controller_api import WidgetsBundleControllerApi
 from tb_rest_client.api.api_ce.ui_settings_controller_api import UiSettingsControllerApi
 from tb_rest_client.api.api_ce.alarm_comment_controller_api import AlarmCommentControllerApi
+from tb_rest_client.api.api_ce.notification_target_controller_api import NotificationTargetControllerApi
+from tb_rest_client.api.api_ce.usage_info_controller_api import UsageInfoControllerApi
+from tb_rest_client.api.api_ce.notification_rule_controller_api import NotificationRuleControllerApi
+from tb_rest_client.api.api_ce.notification_controller_api import NotificationControllerApi
+from tb_rest_client.api.api_ce.notification_template_controller_api import NotificationTemplateControllerApi
+from tb_rest_client.api.api_ce.asset_profile_controller_api import AssetProfileControllerApi
+from tb_rest_client.api.api_ce.two_factor_auth_config_controller_api import TwoFactorAuthConfigControllerApi
 # from tb_rest_client.models.models_pe import *
 from tb_rest_client.configuration import Configuration
 from tb_rest_client.api_client import ApiClient
@@ -194,7 +199,8 @@ class RestClientBase(Thread):
         return self.asset_controller.delete_asset_using_delete(asset_id=asset_id)
 
     def get_assets_by_ids(self, asset_ids: list) -> List[Asset]:
-        return self.asset_controller.get_assets_by_ids_using_get(asset_ids=str(asset_ids))
+        asset_ids = ','.join(asset_ids)
+        return self.asset_controller.get_assets_by_ids_using_get(asset_ids=asset_ids)
 
     def get_tenant_assets(self, page_size: int, page: int, type: Optional[str] = None, text_search: Optional[str] = None,
                           sort_property: Optional[str] = None,
@@ -327,7 +333,7 @@ class RestClientBase(Thread):
     def get_events_post(self, tenant_id: TenantId, page_size: int, page: int, entity_id: EntityId,
                         body: Optional[EventFilter], text_search: Optional[str] = None, sort_property: Optional[str] = None,
                         sort_order: Optional[str] = None, start_time: Optional[int] = None,
-                        end_time: Optional[int] = None) -> PageDataEvent:
+                        end_time: Optional[int] = None) -> PageDataEventInfo:
         tenant_id = self.get_id(tenant_id)
         entity_type = self.get_type(entity_id)
         entity_id = self.get_id(entity_id)
@@ -350,10 +356,17 @@ class RestClientBase(Thread):
                                                            sort_property=sort_property, sort_order=sort_order,
                                                            start_time=start_time, end_time=end_time)
 
+    def clear_events_post(self, entity_id: EntityId, body: Optional[str] = None, start_time: Optional[int] = None,
+                          end_time: Optional[int] = None):
+        entity_type = self.get_type(entity_id)
+        entity_id = self.get_id(entity_id)
+        return self.event_controller.clear_events_using_post(entity_type=entity_type, entity_id=entity_id, body=body,
+                                                             start_time=start_time, end_time=end_time)
+
     def get_events_get(self, entity_id: EntityId, tenant_id: TenantId, page_size: int, page: int,
                        text_search: Optional[str] = None, sort_property: Optional[str] = None, sort_order: Optional[str] = None,
                        start_time: Optional[int] = None,
-                       end_time: Optional[int] = None) -> PageDataEvent:
+                       end_time: Optional[int] = None) -> PageDataEventInfo:
         entity_type = self.get_type(entity_id)
         entity_id = self.get_id(entity_id)
         tenant_id = self.get_id(tenant_id)
@@ -456,7 +469,7 @@ class RestClientBase(Thread):
         entity_id = self.get_id(entity_id)
         return self.telemetry_controller.save_entity_telemetry_with_ttl_using_post(entity_type=entity_type,
                                                                                    entity_id=entity_id, scope=scope,
-                                                                                   ttl=str(ttl), body=body)
+                                                                                   ttl=ttl, body=body)
 
     def get_attributes(self, entity_id: EntityId, keys: Optional[str] = None):
         entity_type = self.get_type(entity_id)
@@ -471,21 +484,14 @@ class RestClientBase(Thread):
                                                                                entity_id=entity_id, scope=scope,
                                                                                keys=keys)
 
-    # Alarm Controller #
-    def ack_alarm(self, alarm_id: AlarmId) -> None:
+    # Alarm Controller
+    def ack_alarm(self, alarm_id: AlarmId) -> AlarmInfo:
         alarm_id = self.get_id(alarm_id)
         return self.alarm_controller.ack_alarm_using_post(alarm_id=alarm_id)
 
     def get_alarm_info_by_id(self, alarm_id: AlarmId) -> AlarmInfo:
         alarm_id = self.get_id(alarm_id)
         return self.alarm_controller.get_alarm_info_by_id_using_get(alarm_id=alarm_id)
-
-    def get_highest_alarm_severity(self, entity_id: EntityId, search_status: Optional[str] = None,
-                                   status: Optional[str] = None) -> str:
-        entity_type = self.get_type(entity_id)
-        entity_id = self.get_id(entity_id)
-        return self.alarm_controller.get_highest_alarm_severity_using_get(entity_type=entity_type, entity_id=entity_id,
-                                                                          search_status=search_status, status=status)
 
     def delete_alarm(self, alarm_id: AlarmId) -> bool:
         alarm_id = self.get_id(alarm_id)
@@ -501,7 +507,7 @@ class RestClientBase(Thread):
     def get_alarms(self, entity_id: EntityId, page_size: int, page: int, search_status: Optional[str] = None,
                    status: Optional[str] = None, text_search: Optional[str] = None, sort_property: Optional[str] = None,
                    sort_order: Optional[str] = None, start_time: Optional[int] = None, end_time: Optional[int] = None,
-                   fetch_originator: Optional[bool] = None) -> PageDataAlarmInfo:
+                   fetch_originator: Optional[bool] = None, assignee_id: Optional[str] = None) -> PageDataAlarmInfo:
         entity_type = self.get_type(entity_id)
         entity_id = self.get_id(entity_id)
         return self.alarm_controller.get_alarms_using_get(entity_type=entity_type, entity_id=entity_id,
@@ -509,7 +515,92 @@ class RestClientBase(Thread):
                                                           status=status, text_search=text_search,
                                                           sort_property=sort_property, sort_order=sort_order,
                                                           start_time=start_time, end_time=end_time,
-                                                          fetch_originator=fetch_originator)
+                                                          fetch_originator=fetch_originator, assignee_id=assignee_id)
+
+    def unassign_alarm(self, id: AlarmId) -> Alarm:
+        id = self.get_id(id)
+        return self.alarm_controller.unassign_alarm_using_delete(alarm_id=id)
+
+    def get_asset_info_by_id(self, asset_id: AssetId) -> AssetInfo:
+        asset_id = self.get_id(asset_id)
+        return self.asset_controller.get_asset_info_by_id_using_get(asset_id=asset_id)
+
+    def get_customer_asset_infos(self, customer_id: CustomerId, page_size: int, page: int, type: Optional[str] = None,
+                                 text_search: Optional[str] = None,
+                                 sort_property: Optional[str] = None, sort_order: Optional[str] = None, asset_profile_id: Optional[AssetProfileId] = None) -> PageDataAssetInfo:
+        customer_id = self.get_id(customer_id)
+
+        if asset_profile_id:
+            asset_profile_id = self.get_id(asset_profile_id)
+        return self.asset_controller.get_customer_asset_infos_using_get(customer_id=customer_id, page_size=page_size,
+                                                                        page=page, type=type, text_search=text_search,
+                                                                        sort_property=sort_property,
+                                                                        sort_order=sort_order, asset_profile_id=asset_profile_id)
+
+    def count_alarms_by_query(self, body: AlarmCountQuery) -> int:
+        return self.entity_query_controller.count_alarms_by_query_using_post(body=body)
+
+    def get_customer_dashboards(self, customer_id: CustomerId, page_size: int, page: int, mobile: Optional[bool] = None,
+                                text_search: Optional[str] = None,
+                                sort_property: Optional[str] = None, sort_order: Optional[str] = None) -> PageDataDashboardInfo:
+        customer_id = self.get_id(customer_id)
+        return self.dashboard_controller.get_customer_dashboards_using_get(customer_id=customer_id, page_size=page_size,
+                                                                           page=page, mobile=mobile,
+                                                                           text_search=text_search,
+                                                                           sort_property=sort_property,
+                                                                           sort_order=sort_order)
+
+    def get_user_settings(self) -> JsonNode:
+        return self.user_controller.get_user_settings_using_get()
+
+    def get_tenant_usage_info(self) -> UsageInfo:
+        return self.usage_info_controller.get_tenant_usage_info_using_get()
+
+    def save_user_settings(self, body: JsonNode) -> JsonNode:
+        return self.user_controller.save_user_settings_using_post(body=body)
+
+    def put_user_settings(self, body: JsonNode):
+        return self.user_controller.put_user_settings_using_put(body=body)
+
+    def report_user_dashboard_action(self, dashboard_id: DashboardId, action: str) -> UserDashboardsInfo:
+        dashboard_id = self.get_id(dashboard_id)
+        return self.user_controller.report_user_dashboard_action_using_get(dashboard_id=dashboard_id, action=action)
+
+    def get_users_for_assign(self, alarm_id: AlarmId, page_size: int, page: int, text_search: Optional[str] = None,
+                             sort_property: Optional[str] = None,
+                             sort_order: Optional[str] = None) -> PageDataUserEmailInfo:
+        alarm_id = self.get_id(alarm_id)
+        return self.user_controller.get_users_for_assign_using_get(alarm_id=alarm_id, page_size=page_size, page=page,
+                                                                   text_search=text_search,
+                                                                   sort_property=sort_property,
+                                                                   sort_order=sort_order)
+
+    def find_users_by_query(self, page_size: int, page: int, text_search: Optional[str] = None,
+                            sort_property: Optional[str] = None,
+                            sort_order: Optional[str] = None) -> PageDataUserEmailInfo:
+        return self.user_controller.find_users_by_query_using_get(page_size=page_size, page=page,
+                                                                  text_search=text_search,
+                                                                  sort_property=sort_property,
+                                                                  sort_order=sort_order)
+
+    def get_user_dashboards_info(self) -> UserDashboardsInfo:
+        return self.user_controller.get_user_dashboards_info_using_get()
+
+    def delete_user_settings(self, paths: List[str], type: str):
+        paths = ','.join(paths)
+        return self.user_controller.delete_user_settings_using_delete(paths=paths, type=type)
+
+    def get_tenant_profiles_by_ids(self, ids: List[str]) -> List[TenantProfile]:
+        ids = ','.join(ids)
+        return self.tenant_profile_controller.get_tenant_profiles_by_ids_using_get(ids=ids)
+
+    def get_entity_view_info_by_id(self, entity_view_id: EntityViewId) -> EntityViewInfo:
+        entity_view_id = self.get_id(entity_view_id)
+        return self.entity_view_controller.get_entity_view_info_by_id_using_get(entity_view_id=entity_view_id)
+
+    def get_device_info_by_id(self, device_id: DeviceId) -> DeviceInfo:
+        device_id = self.get_id(device_id)
+        return self.device_controller.get_device_info_by_id_using_get(device_id=device_id)
 
     def get_alarm_by_id(self, alarm_id: AlarmId) -> Alarm:
         alarm_id = self.get_id(alarm_id)
@@ -533,13 +624,13 @@ class RestClientBase(Thread):
         return self.alarm_comment_controller.delete_alarm_comment_using_delete(alarm_id=alarm_id, comment_id=comment_id)
 
     def get_alarm_comments(self, alarm_id: AlarmId, page_size: int, page: int, sort_property: Optional[str] = None,
-                           sort_order: Optional[str] = None):
+                           sort_order: Optional[str] = None) -> PageDataAlarmCommentInfo:
         alarm_id = self.get_id(alarm_id)
         return self.alarm_comment_controller.get_alarm_comments_using_get(alarm_id=alarm_id, page_size=page_size,
                                                                           page=page, sort_property=sort_property,
                                                                           sort_order=sort_order)
 
-    def save_alarm_comment(self, alarm_id: AlarmId, body: Optional[AlarmComment] = None):
+    def save_alarm_comment(self, alarm_id: AlarmId, body: Optional[AlarmComment] = None) -> AlarmComment:
         alarm_id = self.get_id(alarm_id)
         return self.alarm_comment_controller.save_alarm_comment_using_post(alarm_id=alarm_id, body=body)
 
@@ -558,7 +649,7 @@ class RestClientBase(Thread):
         edge_id = self.get_id(edge_id)
         return self.edge_controller.get_edge_by_id_using_get(edge_id=edge_id)
 
-    def sync_edge(self, edge_id: EdgeId) -> None:
+    def sync_edge(self, edge_id: EdgeId) -> DeferredResultResponseEntity:
         edge_id = self.get_id(edge_id)
         return self.edge_controller.sync_edge_using_post(edge_id=edge_id)
 
@@ -603,15 +694,6 @@ class RestClientBase(Thread):
     def process_edges_bulk_import(self, body: Optional[BulkImportRequest] = None) -> BulkImportResultEdge:
         return self.edge_controller.process_edges_bulk_import_using_post(body=body)
 
-    def activate_instance(self, license_secret: str, release_date: str) -> Union[
-            dict, str, list, bytes, None, RESTResponse, tuple, Any]:
-        return self.edge_controller.activate_instance_using_post(license_secret=license_secret,
-                                                                 release_date=release_date)
-
-    def check_instance(self, body: Union[dict, str, list, bytes, None, RESTResponse, tuple, Any] = None) -> Union[
-            dict, str, list, bytes, None, RESTResponse, tuple, Any]:
-        return self.edge_controller.check_instance_using_post(body=None)
-
     def get_edge_events(self, edge_id: EdgeId, page_size: int, page: int, text_search: Optional[str] = None,
                         sort_property: Optional[str] = None,
                         sort_order: Optional[str] = None, start_time: Optional[int] = None,
@@ -621,10 +703,6 @@ class RestClientBase(Thread):
                                                                     text_search=text_search,
                                                                     sort_property=sort_property, sort_order=sort_order,
                                                                     start_time=start_time, end_time=end_time)
-
-    def get_edge_docker_install_instruction(self, edge_id: EdgeId):
-        edge_id = self.get_id(edge_id)
-        return self.edge_controller.get_edge_docker_install_instructions_using_get(edge_id=edge_id)
 
     # RPC v2 Controller
     def get_persisted_rpc(self, rpc_id: RpcId) -> Rpc:
@@ -648,6 +726,20 @@ class RestClientBase(Thread):
                                                                             text_search=text_search,
                                                                             sort_property=sort_property,
                                                                             sort_order=sort_order)
+    def get_rule_chain_output_labels_usage(self, rule_chain_id: RuleChainId) -> List[RuleChainOutputLabelsUsage]:
+        rule_chain_id = self.get_id(rule_chain_id)
+        return self.rule_chain_controller.get_rule_chain_output_labels_usage_using_get(rule_chain_id=rule_chain_id)
+
+    def get_rule_chain_output_labels(self, rule_chain_id: RuleChainId) -> List[str]:
+        rule_chain_id = self.get_id(rule_chain_id)
+        return self.rule_chain_controller.get_rule_chain_output_labels_using_get(rule_chain_id=rule_chain_id)
+
+    def is_tbel_enabled(self) -> bool:
+        return self.rule_chain_controller.is_tbel_enabled_using_get()
+
+    def save_rule_chain_meta_data(self, body: Optional[RuleChainMetaData] = None,
+                                  update_related: Optional[bool] = None) -> RuleChainMetaData:
+        return self.rule_chain_controller.save_rule_chain_meta_data_using_post(body=body, update_related=update_related)
 
     def delete_rpc(self, rpc_id: RpcId) -> None:
         rpc_id = self.get_id(rpc_id)
@@ -727,8 +819,19 @@ class RestClientBase(Thread):
         return self.user_controller.send_activation_email_using_post(email=email)
 
     # Queue Controller
-    def get_tenant_queues_by_service_type(self, service_type: str) -> List[str]:
-        return self.queue_controller.get_tenant_queues_by_service_type_using_get(service_type=service_type)
+    def get_tenant_queues_by_service_type(self, service_type: str, page_size: int, page: int,
+                                          type: Optional[str] = None,
+                                          text_search: Optional[str] = None,
+                                          sort_property: Optional[str] = None, sort_order: Optional[str] = None) -> List[str]:
+        return self.queue_controller.get_tenant_queues_by_service_type_using_get(service_type=service_type,
+                                                                                 page_size=page_size,
+                                                                                 page=page, type=type,
+                                                                                 text_search=text_search,
+                                                                                 sort_property=sort_property,
+                                                                                 sort_order=sort_order)
+
+    def save_queue(self, service_type: str, body: Optional[Queue] = None) -> Queue:
+        return self.queue_controller.save_queue_using_post(service_type=service_type, body=body)
 
     # RPC v1 Controller
     def handle_one_way_device_rpc_request(self, device_id: DeviceId,
@@ -969,22 +1072,6 @@ class RestClientBase(Thread):
     def save_jwt_settings(self, body: Optional[JWTSettings] = None) -> JWTPair:
         return self.admin_controller.save_jwt_settings_using_post(body=body)
 
-    # Sign Up Controller
-    def get_recaptcha_public_key(self) -> str:
-        return self.sign_up_controller.get_recaptcha_public_key_using_get()
-
-    def sign_up(self, body: Optional[SignUpRequest] = None) -> str:
-        return self.sign_up_controller.sign_up_using_post(body=body)
-
-    def accept_privacy_policy(self) -> Union[dict, str, list, bytes, None, RESTResponse, tuple, Any]:
-        return self.sign_up_controller.accept_privacy_policy_using_post()
-
-    def privacy_policy_accepted(self) -> bool:
-        return self.sign_up_controller.privacy_policy_accepted_using_get()
-
-    def mobile_login(self, pkg_name: str) -> str:
-        return self.sign_up_controller.mobile_login_using_get(pkg_name=pkg_name)
-
     # TB Resource Controller
     def get_resource_info_by_id(self, resource_id: EntityId) -> TbResourceInfo:
         resource_id = self.get_id(resource_id)
@@ -1023,6 +1110,9 @@ class RestClientBase(Thread):
                                                                                  text_search=text_search,
                                                                                  sort_property=sort_property,
                                                                                  sort_order=sort_order)
+
+    def get_repository_settings_info(self) -> RepositorySettingsInfo:
+        return self.admin_controller.get_repository_settings_info_using_get()
 
     # O Auth 2 Controller
     def get_login_processing_url(self) -> str:
@@ -1194,9 +1284,6 @@ class RestClientBase(Thread):
         return self.dashboard_controller.get_tenant_home_dashboard_info_using_get()
 
     # Entity Query Controller
-    def count_entities_by_query(self, body: Optional[EntityCountQuery] = None) -> int:
-        return self.entity_query_controller.count_entities_by_query_using_post(body=body)
-
     def find_entity_timeseries_and_attributes_keys_by_query(self, timeseries: bool, attributes: bool, body: Optional[
         EntityDataQuery]):
         return self.entity_query_controller.find_entity_timeseries_and_attributes_keys_by_query_using_post(
@@ -1494,6 +1581,17 @@ class RestClientBase(Thread):
                                                                                 sort_property=sort_property,
                                                                                 sort_order=sort_order)
 
+    def delete_queue(self, queue_id: QueueId) -> None:
+        queue_id = self.get_id(queue_id)
+        return self.queue_controller.delete_queue_using_delete(queue_id=queue_id)
+
+    def get_queue_by_id(self, queue_id: QueueId) -> Queue:
+        queue_id = self.get_id(queue_id)
+        return self.queue_controller.get_queue_by_id_using_get(queue_id=queue_id)
+
+    def get_queue_by_name(self, queue_name: str) -> Queue:
+        return self.queue_controller.get_queue_by_name_using_get(queue_name=queue_name)
+
     # Two-Factor Auth Controller
     def check_two_fa_verification_code(self, provider_type: str, verification_code: str) -> JWTPair:
         return self.two_factor_auth_controller.check_two_fa_verification_code_using_post(provider_type=provider_type,
@@ -1505,37 +1603,151 @@ class RestClientBase(Thread):
     def request_two_fa_verification_code(self, provider_type: str) -> None:
         return self.two_factor_auth_controller.request_two_fa_verification_code_using_post(provider_type=provider_type)
 
-    # Two-Factor Config Controller
-    def get_platform_two_fa_settings(self) -> PlatformTwoFaSettings:
-        return self.two_fa_config_controller.get_platform_two_fa_settings_using_get()
-
-    def submit_two_fa_account_config(self, body: Optional[TwoFaAccountConfig] = None) -> None:
-        return self.two_fa_config_controller.submit_two_fa_account_config_using_post(body=body)
-
-    def verify_and_save_two_fa_account_config(self, body: Optional[TwoFaAccountConfig] = None,
-                                              verification_code: Optional[str] = None) -> AccountTwoFaSettings:
-        return self.two_fa_config_controller.verify_and_save_two_fa_account_config_using_post(body=body,
-                                                                                              verification_code=verification_code)
-
-    def get_available_two_fa_providers(self, ) -> List[str]:
-        return self.two_fa_config_controller.get_available_two_fa_providers_using_get()
-
-    def update_two_fa_account_config(self, provider_type: str,
-                                     body: Optional[TwoFaAccountConfigUpdateRequest] = None) -> AccountTwoFaSettings:
-        return self.two_fa_config_controller.update_two_fa_account_config_using_put(provider_type=provider_type,
-                                                                                    body=body)
-
-    def get_account_two_fa_settings(self, ) -> AccountTwoFaSettings:
-        return self.two_fa_config_controller.get_account_two_fa_settings_using_get()
+    # Tow Factor Auth Config Controller
+    def delete_two_fa_account_config(self, provider_type: str) -> AccountTwoFaSettings:
+        return self.two_factor_auth_config_controller.delete_two_fa_account_config_using_delete(provider_type=provider_type)
 
     def generate_two_fa_account_config(self, provider_type: str) -> TwoFaAccountConfig:
-        return self.two_fa_config_controller.generate_two_fa_account_config_using_post(provider_type=provider_type)
+        return self.two_factor_auth_config_controller.generate_two_fa_account_config_using_post(provider_type=provider_type)
 
-    def delete_two_fa_account_config(self, provider_type: str) -> AccountTwoFaSettings:
-        return self.two_fa_config_controller.delete_two_fa_account_config_using_delete(provider_type=provider_type)
+    def get_account_two_fa_settings(self) -> AccountTwoFaSettings:
+        return self.two_factor_auth_config_controller.get_account_two_fa_settings_using_get()
 
-    def save_platform_two_fa_settings(self, body: Optional[PlatformTwoFaSettings] = None) -> PlatformTwoFaSettings:
-        return self.two_fa_config_controller.save_platform_two_fa_settings_using_post(body=body)
+    def get_available_two_fa_providers(self) -> List[str]:
+        return self.two_factor_auth_config_controller.get_available_two_fa_providers_using_get()
+
+    def get_platform_two_fa_settings(self) -> PlatformTwoFaSettings:
+        return self.two_factor_auth_config_controller.get_platform_two_fa_settings_using_get()
+
+    def save_platform_two_fa_settings(self, body: PlatformTwoFaSettings) -> PlatformTwoFaSettings:
+        return self.two_factor_auth_config_controller.save_platform_two_fa_settings_using_post(body=body)
+
+    def submit_two_fa_account_config(self, body: TwoFaAccountConfig):
+        return self.two_factor_auth_config_controller.submit_two_fa_account_config_using_post(body=body)
+
+    def update_two_fa_account_config(self, provider_type: str, body: TwoFaAccountConfigUpdateRequest) -> AccountTwoFaSettings:
+        return self.two_factor_auth_config_controller.update_two_fa_account_config_using_put(provider_type=provider_type, body=body)
+
+    def verify_and_save_two_fa_account_config(self, body: TwoFaAccountConfig, verification_code: str) -> AccountTwoFaSettings:
+        return self.two_factor_auth_config_controller.verify_and_save_two_fa_account_config_using_post(body=body, verification_code=verification_code)
+
+    def create_notification_request(self, body: NotificationRequest) -> NotificationRequest:
+        return self.notification_controller.create_notification_request_using_post(body=body)
+
+    def delete_notification_request(self, id: str):
+        return self.notification_controller.delete_notification_request_using_delete(id=id)
+
+    def delete_notification(self, id: str):
+        return self.notification_controller.delete_notification_using_delete(id=id)
+
+    def get_available_delivery_methods(self) -> List[str]:
+        return self.notification_controller.get_available_delivery_methods_using_get()
+
+    def get_notification_request_by_id(self, id: str) -> NotificationRequestInfo:
+        return self.notification_controller.get_notification_request_by_id_using_get(id=id)
+
+    def get_notification_request_preview(self, body: NotificationRequest,
+                                         recipients_preview_size: Optional[int] = None):
+        return self.notification_controller.get_notification_request_preview_using_post(body=body,
+                                                                                        recipients_preview_size=recipients_preview_size)
+
+    def get_notification_requests(self, page_size: int, page: int, text_search: Optional[str] = None,
+                                  sort_property: Optional[str] = None,
+                                  sort_order: Optional[str] = None) -> PageDataNotificationRequestInfo:
+        return self.notification_controller.get_notification_requests_using_get(page_size=page_size, page=page,
+                                                                                text_search=text_search,
+                                                                                sort_property=sort_property,
+                                                                                sort_order=sort_order)
+
+    def get_notification_settings(self) -> NotificationSettings:
+        return self.notification_controller.get_notification_settings_using_get()
+
+    def get_notifications(self, page_size: int, page: int, text_search: Optional[str] = None,
+                          sort_property: Optional[str] = None,
+                          sort_order: Optional[str] = None) -> PageDataNotification:
+        return self.notification_controller.get_notifications_using_get(page_size=page_size, page=page,
+                                                                        text_search=text_search,
+                                                                        sort_property=sort_property,
+                                                                        sort_order=sort_order)
+
+    def mark_all_notifications_as_read(self):
+        return self.notification_controller.mark_all_notifications_as_read_using_put()
+
+    def mark_notification_as_read(self, id: str):
+        return self.notification_controller.mark_notification_as_read_using_put(id=id)
+
+    def save_notification_settings(self, body: NotificationSettings) -> NotificationSettings:
+        return self.notification_controller.save_notification_settings_using_post(body=body)
+
+    def delete_notification_rule(self, id: str):
+        return self.notification_rule_controller.delete_notification_rule_using_delete(id=id)
+
+    def get_notification_rule_by_id(self, id: str) -> NotificationRuleInfo:
+        return self.notification_rule_controller.get_notification_rule_by_id_using_get(id=id)
+
+    def get_notification_rules(self, page_size: int, page: int, text_search: Optional[str] = None,
+                               sort_property: Optional[str] = None,
+                               sort_order: Optional[str] = None) -> PageDataNotificationRuleInfo:
+        return self.notification_rule_controller.get_notification_rules_using_get(page_size=page_size, page=page,
+                                                                                  text_search=text_search,
+                                                                                  sort_property=sort_property,
+                                                                                  sort_order=sort_order)
+
+    def save_notification_rule(self, body: NotificationRule) -> NotificationRule:
+        return self.notification_rule_controller.save_notification_rule_using_post(body=body)
+
+    def delete_notification_target_by_id(self, id: str):
+        return self.notification_target_controller.delete_notification_target_by_id_using_delete(id=id)
+
+    def get_notification_target_by_id(self, id: str):
+        return self.notification_target_controller.get_notification_target_by_id_using_get(id=id)
+
+    def get_notification_targets_by_ids(self, ids: list) -> List[NotificationTarget]:
+        ids = ','.join(ids)
+        return self.notification_target_controller.get_notification_targets_by_ids_using_get(ids=ids)
+
+    def get_notification_targets_by_supported_notification_type(self, notification_type: str, page_size: int, page: int,
+                                                                text_search: Optional[str] = None,
+                                                                sort_property: Optional[str] = None,
+                                                                sort_order: Optional[str] = None):
+        return self.notification_target_controller.get_notification_targets_by_supported_notification_type_using_get(
+            notification_type=notification_type, page_size=page_size, page=page, text_search=text_search, sort_property=sort_property, sort_order=sort_order)
+
+    def get_notification_targets(self, page_size: int, page: int, text_search: Optional[str] = None,
+                                 sort_property: Optional[str] = None,
+                                 sort_order: Optional[str] = None):
+        return self.notification_target_controller.get_notification_targets_using_get(page_size=page_size, page=page,
+                                                                                      text_search=text_search,
+                                                                                      sort_property=sort_property,
+                                                                                      sort_order=sort_order)
+
+    def get_recipients_for_notification_target_config(self, page_size: int, page: int):
+        return self.notification_target_controller.get_recipients_for_notification_target_config_using_post(
+            page_size=page_size, page=page)
+
+    def save_notification_target(self, body: NotificationTarget) -> NotificationTarget:
+        return self.notification_target_controller.save_notification_target_using_post(body=body)
+
+    def delete_notification_template_by_id(self, id: str):
+        return self.notification_template_controller.delete_notification_template_by_id_using_delete(id=id)
+
+    def get_notification_template_by_id(self, id: str) -> NotificationTemplate:
+        return self.notification_template_controller.get_notification_template_by_id_using_get(id=id)
+
+    def get_notification_templates(self, page_size: int, page: int, text_search: Optional[str] = None,
+                                   sort_property: Optional[str] = None,
+                                   sort_order: Optional[str] = None) -> PageDataNotificationTemplate:
+        return self.notification_template_controller.get_notification_templates_using_get(page_size=page_size,
+                                                                                          page=page,
+                                                                                          text_search=text_search,
+                                                                                          sort_property=sort_property,
+                                                                                          sort_order=sort_order)
+
+    def list_slack_conversations(self, type: str, token: Optional[str] = None) -> List[SlackConversation]:
+        return self.notification_template_controller.list_slack_conversations_using_get(type=type, token=token)
+
+    def save_notification_template(self, body: NotificationTemplate) -> NotificationTemplate:
+        return self.notification_template_controller.save_notification_template_using_post(body=body)
 
     def __load_controllers(self):
         self.audit_log_controller = AuditLogControllerApi(self.api_client)
@@ -1570,12 +1782,17 @@ class RestClientBase(Thread):
         self.ota_package_controller = OtaPackageControllerApi(self.api_client)
         self.alarm_controller = AlarmControllerApi(self.api_client)
         self.edge_event_controller = EdgeEventControllerApi(self.api_client)
-        self.sign_up_controller = SignUpControllerApi(self.api_client)
         self.ui_settings_controller = UiSettingsControllerApi(self.api_client)
         self.entities_version_control_controller = EntitiesVersionControlControllerApi(self.api_client)
-        self.two_fa_config_controller = TwoFaConfigControllerApi(self.api_client)
         self.two_factor_auth_controller = TwoFactorAuthControllerApi(self.api_client)
         self.alarm_comment_controller = AlarmCommentControllerApi(self.api_client)
+        self.notification_target_controller = NotificationTargetControllerApi(self.api_client)
+        self.usage_info_controller = UsageInfoControllerApi(self.api_client)
+        self.notification_rule_controller = NotificationRuleControllerApi(self.api_client)
+        self.notification_controller = NotificationControllerApi(self.api_client)
+        self.notification_template_controller = NotificationTemplateControllerApi(self.api_client)
+        self.asset_profile_controller = AssetProfileControllerApi(self.api_client)
+        self.two_factor_auth_config_controller = TwoFactorAuthConfigControllerApi(self.api_client)
 
     @staticmethod
     def get_type(type):
