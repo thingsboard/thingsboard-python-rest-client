@@ -275,8 +275,6 @@ class Device(object):
         :param label: The label of this Device.  # noqa: E501
         :type: str
         """
-        if label is None:
-            raise ValueError("Invalid value for `label`, must not be `None`")  # noqa: E501
 
         self._label = label
 
