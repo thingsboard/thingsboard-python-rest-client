@@ -14,6 +14,7 @@
 #      limitations under the License.
 #
 
+import jwt
 from time import time, sleep
 
 from requests import post
@@ -161,6 +162,8 @@ class RestClientBase(Thread):
         self.configuration.api_key["X-Authorization"] = token
         self.token_info['token'] = token
         self.token_info['refreshToken'] = refresh_token
+        parsed_token = jwt.decode(token, options={"verify_signature": False})
+        self.token_info['exp'] = parsed_token['exp']
 
     def __load_configuration(self):
         self.api_client = ApiClient(self.configuration)

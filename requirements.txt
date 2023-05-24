@@ -4,3 +4,4 @@ python_dateutil >= 2.5.3
 setuptools >= 21.0.0
 urllib3 >= 1.23
 requests==2.26.0
+pyjwt==2.6.0
