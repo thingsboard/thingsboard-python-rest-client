@@ -39,7 +39,8 @@ class EntityView(object):
         'start_time_ms': 'int',
         'end_time_ms': 'int',
         'additional_info': 'JsonNode',
-        'owner_id': 'EntityId'
+        'owner_id': 'EntityId',
+        'external_id': 'EntityId'
     }
 
     attribute_map = {
@@ -54,10 +55,11 @@ class EntityView(object):
         'start_time_ms': 'startTimeMs',
         'end_time_ms': 'endTimeMs',
         'additional_info': 'additionalInfo',
-        'owner_id': 'ownerId'
+        'owner_id': 'ownerId',
+        'external_id': 'externalId'
     }
 
-    def __init__(self, id=None, created_time=None, tenant_id=None, customer_id=None, name=None, type=None, entity_id=None, keys=None, start_time_ms=None, end_time_ms=None, additional_info=None, owner_id=None):  # noqa: E501
+    def __init__(self, id=None, external_id=None, created_time=None, tenant_id=None, customer_id=None, name=None, type=None, entity_id=None, keys=None, start_time_ms=None, end_time_ms=None, additional_info=None, owner_id=None):  # noqa: E501
         """EntityView - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._created_time = None
@@ -71,7 +73,9 @@ class EntityView(object):
         self._end_time_ms = None
         self._additional_info = None
         self._owner_id = None
+        self._external_id = None
         self.discriminator = None
+        self.external_id = external_id
         if id is not None:
             self.id = id
         if created_time is not None:
@@ -113,6 +117,14 @@ class EntityView(object):
         """
 
         self._id = id
+
+    @property
+    def external_id(self):
+        return self._external_id
+
+    @external_id.setter
+    def external_id(self, external_id):
+        self._external_id = external_id
 
     @property
     def created_time(self):

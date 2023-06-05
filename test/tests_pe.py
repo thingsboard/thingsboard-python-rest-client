@@ -1,6 +1,7 @@
 import unittest
 
 from tb_rest_client.rest_client_pe import *
+from tb_rest_client.rest_client_base import *
 from tb_rest_client.models.models_pe import *
 
 
@@ -27,11 +28,9 @@ class TelemetryControllerTests(TBClientPETests):
     @classmethod
     def setUpClass(cls) -> None:
         super(TelemetryControllerTests, cls).setUpClass()
-        cls.device_profile_id = list(filter(lambda x: x.type == 'DEFAULT', cls.client.get_device_profiles(10, 0).data))[
-            0]
 
-        cls.device = Device(name='Test', type='default',
-                            device_profile_id=cls.device_profile_id.id)
+        cls.device_profile_id = cls.client.get_default_device_profile_info().id
+        cls.device = Device(name='Test PE', device_profile_id=cls.device_profile_id)
         cls.device = cls.client.save_device(cls.device)
 
     @classmethod
@@ -71,8 +70,7 @@ class TelemetryControllerTests(TBClientPETests):
     def test_save_entity_telemetry_with_ttl(self):
         self.assertEqual(
             self.client.save_entity_telemetry_with_ttl(self.device.id,
-                                                       'ANY', body={"temperature": 26, "humidity": 87},
-                                                       ttl=100), b'')
+                                                       scope='ANY', ttl=1000, body={"temperature": 26, "humidity": 87}), b'')
 
     def test_get_timeseries_keys(self):
         self.assertIsInstance(
@@ -120,11 +118,9 @@ class DeviceControllerTest(TBClientPETests):
     @classmethod
     def setUpClass(cls) -> None:
         super(DeviceControllerTest, cls).setUpClass()
-        cls.device_profile_id = list(filter(lambda x: x.type == 'DEFAULT', cls.client.get_device_profiles(10, 0).data))[
-            0]
+        cls.device_profile_id = cls.client.get_default_device_profile_info().id
 
-        cls.device = Device(name='Test', type='default',
-                            device_profile_id=cls.device_profile_id.id)
+        cls.device = Device(name='Test PE', device_profile_id=cls.device_profile_id)
         cls.device = cls.client.save_device(cls.device)
         cls.cred = cls.client.get_device_credentials_by_device_id(cls.device.id)
 
@@ -195,7 +191,7 @@ class DeviceControllerTest(TBClientPETests):
             self.client.get_devices_by_entity_group_id(entity_group.id, 10, 0), PageDataDevice)
 
     def test_save_device_with_credentials(self):
-        test_device = Device(name='Test 1', type='default', device_profile_id=self.device_profile_id.id)
+        test_device = Device(name='Test 1', device_profile_id=self.device_profile_id)
         test_device = self.client.save_device_with_credentials(
             SaveDeviceWithCredentialsRequest(test_device, DeviceCredentials(credentials_type='ACCESS_TOKEN',
                                                                             credentials_id='sdfsdfsdfsdfsdfsdf')))
@@ -206,6 +202,7 @@ class DeviceControllerTest(TBClientPETests):
 class AssetControllerTests(TBClientPETests):
     test_asset = None
     test_entity_group = None
+    asset_profile_id = None
 
     @classmethod
     def setUpClass(cls) -> None:
@@ -213,7 +210,8 @@ class AssetControllerTests(TBClientPETests):
 
         cls.test_entity_group = cls.client.get_entity_groups_by_type('ASSET')[0]
 
-        cls.test_asset = Asset(name="Test Asset", type="building")
+        cls.asset_profile_id = cls.client.get_default_asset_profile_info().id
+        cls.test_asset = Asset(name="Test Asset", asset_profile_id=cls.asset_profile_id)
         cls.test_asset = cls.client.save_asset(body=cls.test_asset,
                                                entity_group_id=cls.test_entity_group.id)
 
@@ -252,11 +250,15 @@ class AssetControllerTests(TBClientPETests):
 class EntityGroupControllerTests(TBClientPETests):
     test_entity_group = None
     test_asset = None
+    customer = None
 
     @classmethod
     def setUpClass(cls) -> None:
         super(EntityGroupControllerTests, cls).setUpClass()
-        cls.test_entity_group = EntityGroup(name='Test 1', type='ASSET')
+
+        cls.customer = cls.client.get_customers(10, 0).data[0]
+
+        cls.test_entity_group = EntityGroup(name='Test 2', type='ASSET')
         cls.test_entity_group = cls.client.save_entity_group(cls.test_entity_group)
 
         cls.test_asset = cls.client.get_tenant_assets(10, 0).data[0]
@@ -269,9 +271,8 @@ class EntityGroupControllerTests(TBClientPETests):
         self.assertIsInstance(self.client.get_entity_groups_by_type('DEVICE'), list)
 
     def test_get_entity_group_by_owner_and_name_and_type(self):
-        customer = self.client.get_customers(10, 0).data[0]
         self.assertIsInstance(
-            self.client.get_entity_group_by_owner_and_name_and_type('CUSTOMER', customer.id, 'ASSET', 'All'),
+            self.client.get_entity_group_by_owner_and_name_and_type(self.customer.id, 'ASSET', 'All'),
             EntityGroupInfo)
 
     def test_get_entity_groups_by_owner_and_type(self):
@@ -309,6 +310,7 @@ class EntityGroupControllerTests(TBClientPETests):
             self.client.get_entity_group_by_id(self.test_entity_group.id),
             EntityGroupInfo)
 
+    @unittest.skip('ThingsBoard json naming bug')
     def test_get_owners(self):
         self.assertIsInstance(self.client.get_owners(1, 0), PageDataContactBasedobject)
 
@@ -321,7 +323,7 @@ class EntityGroupControllerTests(TBClientPETests):
     @unittest.skip('ThingsBoard json naming bug')
     def test_get_entities(self):
         self.assertIsInstance(
-            self.client.get_entities(EntityGroupId('4fe07130-edfd-11eb-91fd-1f8899a6f9b3'), 1, 0),
+            self.client.get_entities(EntityGroupId('4fe07130-edfd-11eb-91fd-1f8899a6f9b3', 'ENTITY_GROUP'), 10, 0),
             PageDataShortEntityView)
 
     @unittest.skip('ThingsBoard json naming bug')
@@ -374,10 +376,11 @@ class DashboardControllerTests(TBClientPETests):
     @classmethod
     def setUpClass(cls) -> None:
         super(DashboardControllerTests, cls).setUpClass()
-        cls.test_dashboard = Dashboard(name='Test from test', title='Test from test')
+
+        cls.test_dashboard = Dashboard(name='Test PE', title='Test PE')
         cls.client.save_dashboard(body=cls.test_dashboard)
         cls.test_dashboard = list(filter(lambda x: x.name == cls.test_dashboard.name,
-                                         cls.client.get_user_dashboards(10, 0).data))[0]
+                                         cls.client.get_user_dashboards(100, 0).data))[0]
         cls.client.set_tenant_home_dashboard_info(
             HomeDashboardInfo(cls.test_dashboard.id, hide_dashboard_toolbar=False))
 
@@ -438,7 +441,7 @@ class ConverterControllerTests(TBClientPETests):
     @classmethod
     def setUpClass(cls) -> None:
         super(ConverterControllerTests, cls).setUpClass()
-        cls.test_converter = Converter(name='Test', type='UPLINK', configuration={
+        cls.test_converter = Converter(name='Test PE', type='UPLINK', configuration={
             "decoder": "// Decode an uplink message from a buffer\n// payload - array of bytes\n// metadata - key/value object\n\n/** Decoder **/\n\n// decode payload to string\nvar payloadStr = decodeToString(payload);\n\n// decode payload to JSON\n// var data = decodeToJson(payload);\n\nvar deviceName = 'Device A';\nvar deviceType = 'thermostat';\nvar customerName = 'customer';\nvar groupName = 'thermostat devices';\n// use assetName and assetType instead of deviceName and deviceType\n// to automatically create assets instead of devices.\n// var assetName = 'Asset A';\n// var assetType = 'building';\n\n// Result object with device/asset attributes/telemetry data\nvar result = {\n// Use deviceName and deviceType or assetName and assetType, but not both.\n   deviceName: deviceName,\n   deviceType: deviceType,\n// assetName: assetName,\n// assetType: assetType,\n   customerName: customerName,\n   groupName: groupName,\n   attributes: {\n       model: 'Model A',\n       serialNumber: 'SN111',\n       integrationName: metadata['integrationName']\n   },\n   telemetry: {\n       temperature: 42,\n       humidity: 80,\n       rawData: payloadStr\n   }\n};\n\n/** Helper functions **/\n\nfunction decodeToString(payload) {\n   return String.fromCharCode.apply(String, payload);\n}\n\nfunction decodeToJson(payload) {\n   // covert payload to string.\n   var str = decodeToString(payload);\n\n   // parse string to JSON\n   var data = JSON.parse(str);\n   return data;\n}\n\nreturn result;",
             "encoder": None
         })
@@ -491,16 +494,14 @@ class AlarmControllerTests(TBClientPETests):
     @classmethod
     def setUpClass(cls) -> None:
         super(AlarmControllerTests, cls).setUpClass()
-        cls.device_profile_id = list(filter(lambda x: x.type == 'DEFAULT', cls.client.get_device_profiles(10, 0).data))[
-            0]
 
-        cls.device = Device(name='Test', type='default',
-                            device_profile_id=cls.device_profile_id.id)
+        cls.device_profile_id = cls.client.get_default_device_profile_info().id
+        cls.device = Device(name='Test PE 1', device_profile_id=cls.device_profile_id)
         cls.device = cls.client.save_device(cls.device)
 
-        cls.test_alarm = Alarm(name='Test', type='default',
+        cls.test_alarm = Alarm(name='Test PE', type='default',
                                originator=cls.device.id,
-                               severity='CRITICAL', status='CLEARED_UNACK')
+                               severity='CRITICAL', status='CLEARED_UNACK', acknowledged=False, cleared=False)
         cls.test_alarm = cls.client.save_alarm(cls.test_alarm)
 
     @classmethod
@@ -523,10 +524,10 @@ class AlarmControllerTests(TBClientPETests):
                               PageDataAlarmInfo)
 
     def test_clear_alarm(self):
-        self.assertEqual(self.client.clear_alarm(self.test_alarm.id), None)
+        self.assertIsInstance(self.client.clear_alarm(self.test_alarm.id), AlarmInfo)
 
     def test_ack_alarm(self):
-        self.assertEqual(self.client.ack_alarm(self.test_alarm.id), None)
+        self.assertIsInstance(self.client.ack_alarm(self.test_alarm.id), AlarmInfo)
 
     def test_get_alarm_by_id(self):
         self.assertIsInstance(self.client.get_alarm_by_id(self.test_alarm.id), Alarm)
@@ -538,7 +539,7 @@ class DeviceProfileControllerTests(TBClientPETests):
     @classmethod
     def setUpClass(cls) -> None:
         super(DeviceProfileControllerTests, cls).setUpClass()
-        cls.test_device_profile = DeviceProfile(name='Test', type='DEFAULT', transport_type='MQTT',
+        cls.test_device_profile = DeviceProfile(name='Test PE 1', type='DEFAULT', transport_type='MQTT',
                                                 provision_type='ALLOW_CREATE_NEW_DEVICES',
                                                 profile_data=DeviceProfileData(
                                                     configuration={"type": "DEFAULT"}, transport_configuration={
@@ -584,20 +585,20 @@ class EntityRelationControllerTests(TBClientPETests):
     test_device = None
     device_profile_id = None
     entity_group = None
+    asset_profile_id = None
 
     @classmethod
     def setUpClass(cls) -> None:
         super(EntityRelationControllerTests, cls).setUpClass()
 
-        cls.device_profile_id = list(filter(lambda x: x.type == 'DEFAULT', cls.client.get_device_profiles(10, 0).data))[
-            0]
+        cls.device_profile_id = cls.client.get_default_device_profile_info().id
 
-        cls.test_device = Device(name='Test from test', type='default',
-                                 device_profile_id=cls.device_profile_id.id)
+        cls.test_device = Device(name='Test from test 1', device_profile_id=cls.device_profile_id)
         cls.test_device = cls.client.save_device(cls.test_device)
 
         cls.entity_group = cls.client.get_entity_groups_by_type('ASSET')[0]
-        cls.test_asset = Asset(name="Test Asset", type="building")
+        cls.asset_profile_id = cls.client.get_default_asset_profile_info().id
+        cls.test_asset = Asset(name="Test Asset", asset_profile_id=cls.asset_profile_id)
         cls.test_asset = cls.client.save_asset(body=cls.test_asset,
                                                entity_group_id=cls.entity_group.id)
 
@@ -635,14 +636,12 @@ class EntityViewControllerTests(TBClientPETests):
     @classmethod
     def setUpClass(cls) -> None:
         super(EntityViewControllerTests, cls).setUpClass()
-        cls.device_profile_id = list(filter(lambda x: x.type == 'DEFAULT', cls.client.get_device_profiles(10, 0).data))[
-            0]
 
-        cls.device = Device(name='Test', type='default',
-                            device_profile_id=cls.device_profile_id.id)
+        cls.device_profile_id = cls.client.get_default_device_profile_info().id
+        cls.device = Device(name='Test PE 1', device_profile_id=cls.device_profile_id)
         cls.device = cls.client.save_device(cls.device)
 
-        cls.test_entity_view = EntityView(name='Test', type='default',
+        cls.test_entity_view = EntityView(name='Test PE', type='default',
                                           entity_id=cls.device.id,
                                           keys=TelemetryEntityView(timeseries=['temp'],
                                                                    attributes=AttributesEntityView(cs=['fff'],
@@ -691,7 +690,7 @@ class RoleControllerTests(TBClientPETests):
     @classmethod
     def setUpClass(cls) -> None:
         super(RoleControllerTests, cls).setUpClass()
-        cls.test_role = Role(name='Test', type='GENERIC', permissions={
+        cls.test_role = Role(name='Test PE 111', type='GENERIC', permissions={
             "ALL": [
                 "READ",
                 "RPC_CALL",

@@ -1,6 +1,7 @@
 import unittest
 
 from tb_rest_client.rest_client_ce import *
+from tb_rest_client.rest_client_base import *
 from tb_rest_client.models.models_ce import *
 
 
@@ -29,17 +30,16 @@ class AlarmControllerTests(TBClientCETests):
     def setUpClass(cls) -> None:
         super(AlarmControllerTests, cls).setUpClass()
 
-        cls.device_profile_id = list(filter(lambda x: x.type == 'DEFAULT', cls.client.get_device_profiles(10, 0).data))[
-            0]
+        cls.device_profile_id = cls.client.get_default_device_profile_info().id
 
-        cls.device = Device(name='Test', type='default',
-                            device_profile_id=cls.device_profile_id.id)
-        cls.device = cls.client.save_device(cls.device)
+        cls.device = Device(name='Test', label='Test', device_profile_id=cls.device_profile_id)
+        cls.device = cls.client.save_device(body=cls.device)
 
         cls.test_alarm = Alarm(name='Test', type='default',
                                originator=cls.device.id,
-                               severity='CRITICAL', status='CLEARED_UNACK')
+                               severity='CRITICAL', status='CLEARED_UNACK', acknowledged=False, cleared=False)
         cls.test_alarm = cls.client.save_alarm(cls.test_alarm)
+        assert isinstance(cls.test_alarm, Alarm)
 
     @classmethod
     def tearDownClass(cls) -> None:
@@ -52,17 +52,14 @@ class AlarmControllerTests(TBClientCETests):
     def test_get_alarm_info_by_id(self):
         self.assertIsInstance(self.client.get_alarm_info_by_id(self.test_alarm.id), AlarmInfo)
 
-    def test_get_highest_alarm_severity(self):
-        self.assertIsInstance(self.client.get_highest_alarm_severity(self.device.id), str)
-
     def test_get_alarms(self):
         self.assertIsInstance(self.client.get_alarms(self.device.id, 10, 0), PageDataAlarmInfo)
 
     def test_clear_alarm(self):
-        self.assertEqual(self.client.clear_alarm(self.test_alarm.id), None)
+        self.assertIsInstance(self.client.clear_alarm(self.test_alarm.id), AlarmInfo)
 
     def test_ack_alarm(self):
-        self.assertEqual(self.client.ack_alarm(self.test_alarm.id), None)
+        self.assertIsInstance(self.client.ack_alarm(self.test_alarm.id), AlarmInfo)
 
     def test_get_alarm_by_id(self):
         self.assertIsInstance(self.client.get_alarm_by_id(self.test_alarm.id), Alarm)
@@ -70,13 +67,16 @@ class AlarmControllerTests(TBClientCETests):
 
 class AssetControllerTests(TBClientCETests):
     test_asset = None
+    asset_profile_id = None
 
     @classmethod
     def setUpClass(cls) -> None:
         super(AssetControllerTests, cls).setUpClass()
 
-        cls.test_asset = Asset(name="Test Asset", type="building")
+        cls.asset_profile_id = cls.client.get_default_asset_profile_info().id
+        cls.test_asset = Asset(name="Test Asset", asset_profile_id=cls.asset_profile_id)
         cls.test_asset = cls.client.save_asset(body=cls.test_asset)
+        cls.customer = cls.client.get_customers(10, 0).data[0]
 
     @classmethod
     def tearDownClass(cls) -> None:
@@ -92,12 +92,10 @@ class AssetControllerTests(TBClientCETests):
         self.assertIsInstance(self.client.get_tenant_asset_infos(10, 0), PageDataAssetInfo)
 
     def test_get_customer_assets(self):
-        customer = self.client.get_customers(10, 0).data[0]
-        self.assertIsInstance(self.client.get_customer_assets(customer.id, 10, 0), PageDataAsset)
+        self.assertIsInstance(self.client.get_customer_assets(self.customer.id, 10, 0), PageDataAsset)
 
     def test_get_customer_asset_infos(self):
-        customer = self.client.get_customers(10, 0).data[0]
-        self.assertIsInstance(self.client.get_customer_asset_infos(customer.id, 10, 0), PageDataAssetInfo)
+        self.assertIsInstance(self.client.get_customer_asset_infos(self.customer.id, 10, 0), PageDataAssetInfo)
 
     def test_get_assets_by_ids(self):
         self.assertIsInstance(self.client.get_assets_by_ids([self.test_asset.id.id]), list)
@@ -119,11 +117,9 @@ class TelemetryControllerTests(TBClientCETests):
     @classmethod
     def setUpClass(cls) -> None:
         super(TelemetryControllerTests, cls).setUpClass()
-        cls.device_profile_id = list(filter(lambda x: x.type == 'DEFAULT', cls.client.get_device_profiles(10, 0).data))[
-            0]
 
-        cls.device = Device(name='Test', type='default',
-                            device_profile_id=cls.device_profile_id.id)
+        cls.device_profile_id = cls.client.get_default_device_profile_info().id
+        cls.device = Device(name='Test', device_profile_id=cls.device_profile_id)
         cls.device = cls.client.save_device(cls.device)
 
     @classmethod
@@ -203,15 +199,15 @@ class TelemetryControllerTests(TBClientCETests):
 class DeviceControllerTests(TBClientCETests):
     device = None
     device_profile_id = None
+    customer = None
 
     @classmethod
     def setUpClass(cls) -> None:
         super(DeviceControllerTests, cls).setUpClass()
-        cls.device_profile_id = list(filter(lambda x: x.type == 'DEFAULT', cls.client.get_device_profiles(10, 0).data))[
-            0]
 
-        cls.device = Device(name='Test', type='default',
-                            device_profile_id=cls.device_profile_id.id)
+        cls.customer = cls.client.get_customers(10, 0).data[0]
+        cls.device_profile_id = cls.device_profile_id = cls.client.get_default_device_profile_info().id
+        cls.device = Device(name='Test', device_profile_id=cls.device_profile_id)
         cls.device = cls.client.save_device(cls.device)
         cls.cred = cls.client.get_device_credentials_by_device_id(cls.device.id)
 
@@ -246,9 +242,7 @@ class DeviceControllerTests(TBClientCETests):
         self.assertIsInstance(self.client.get_device_types(), list)
 
     def test_get_device_credentials_by_device_id(self):
-        self.assertIsInstance(
-            self.client.get_device_credentials_by_device_id(self.device.id),
-            DeviceCredentials)
+        self.assertIsInstance(self.client.get_device_credentials_by_device_id(self.device.id), DeviceCredentials)
 
     def test_update_device_credentials(self):
         self.assertIsInstance(self.client.update_device_credentials(
@@ -264,13 +258,10 @@ class DeviceControllerTests(TBClientCETests):
         self.assertEqual(self.client.re_claim_device(self.device.name), b'')
 
     def test_get_customer_devices(self):
-        customer = self.client.get_customers(10, 0).data[0]
-        self.assertIsInstance(
-            self.client.get_customer_devices(customer.id, 10, 0),
-            PageDataDevice)
+        self.assertIsInstance(self.client.get_customer_devices(self.customer.id, 10, 0), PageDataDevice)
 
     def test_save_device_with_credentials(self):
-        test_device = Device(name='Test 1', type='default', device_profile_id=self.device_profile_id.id)
+        test_device = Device(name='Test 1', type='default', device_profile_id=self.device_profile_id)
         test_device = self.client.save_device_with_credentials(
             SaveDeviceWithCredentialsRequest(test_device, DeviceCredentials(credentials_type='ACCESS_TOKEN',
                                                                             credentials_id='sdfsdfsdfsdfsdfsdf')))
@@ -310,10 +301,13 @@ class CustomerControllerTests(TBClientCETests):
 
 class DashboardControllerTests(TBClientCETests):
     test_dashboard = None
+    customer = None
 
     @classmethod
     def setUpClass(cls) -> None:
         super(DashboardControllerTests, cls).setUpClass()
+
+        cls.customer = cls.client.get_customers(10, 0).data[0]
         cls.test_dashboard = Dashboard(name='Test from test', title='Test from test')
         cls.client.save_dashboard(body=cls.test_dashboard)
         cls.test_dashboard = list(filter(lambda x: x.name == cls.test_dashboard.name,
@@ -357,8 +351,7 @@ class DashboardControllerTests(TBClientCETests):
             self.client.get_dashboard_by_id(self.test_dashboard.id), Dashboard)
 
     def test_get_customer_dashboards(self):
-        customer = self.client.get_customers(10, 0).data[0]
-        self.assertIsInstance(self.client.get_customer_dashboards(customer.id, 10, 0), PageDataDashboardInfo)
+        self.assertIsInstance(self.client.get_customer_dashboards(self.customer.id, 10, 0), PageDataDashboardInfo)
 
 
 class DeviceProfileControllerTests(TBClientCETests):
@@ -409,19 +402,19 @@ class EntityRelationControllerTests(TBClientCETests):
     test_asset = None
     test_device = None
     device_profile_id = None
+    asset_device_profile_id = None
 
     @classmethod
     def setUpClass(cls) -> None:
         super(EntityRelationControllerTests, cls).setUpClass()
 
-        cls.device_profile_id = list(filter(lambda x: x.type == 'DEFAULT', cls.client.get_device_profiles(10, 0).data))[
-            0]
+        cls.device_profile_id = cls.client.get_default_device_profile_info().id
 
-        cls.test_device = Device(name='Test from test', type='default',
-                                 device_profile_id=cls.device_profile_id.id)
+        cls.test_device = Device(name='Test from test 1', device_profile_id=cls.device_profile_id)
         cls.test_device = cls.client.save_device(cls.test_device)
 
-        cls.test_asset = Asset(name="Test Asset", type="building")
+        cls.asset_device_profile_id = cls.client.get_default_asset_profile_info().id
+        cls.test_asset = Asset(name="Test Asset", asset_profile_id=cls.asset_device_profile_id)
         cls.test_asset = cls.client.save_asset(body=cls.test_asset)
 
         cls.test_relation = EntityRelation(_from=cls.test_asset.id, to=cls.test_device.id, type="Contains")
@@ -454,15 +447,17 @@ class EntityViewControllerTests(TBClientCETests):
     test_entity_view = None
     device = None
     device_profile_id = None
+    customer = None
 
     @classmethod
     def setUpClass(cls) -> None:
         super(EntityViewControllerTests, cls).setUpClass()
-        cls.device_profile_id = list(filter(lambda x: x.type == 'DEFAULT', cls.client.get_device_profiles(10, 0).data))[
-            0]
 
-        cls.device = Device(name='Test', type='default',
-                            device_profile_id=cls.device_profile_id.id)
+        cls.customer = cls.client.get_customers(10, 0).data[0]
+
+        cls.device_profile_id = cls.client.get_default_device_profile_info().id
+
+        cls.device = Device(name='Test', device_profile_id=cls.device_profile_id)
         cls.device = cls.client.save_device(cls.device)
 
         cls.test_entity_view = EntityView(name='Test', type='default',
@@ -491,21 +486,20 @@ class EntityViewControllerTests(TBClientCETests):
         self.assertIsInstance(self.client.get_entity_view_by_id(self.test_entity_view.id), EntityView)
 
     def test_get_customer_entity_views(self):
-        customer = self.client.get_customers(10, 0).data[0]
-        self.assertIsInstance(
-            self.client.get_customer_entity_views(customer.id, 10,
-                                                  0), PageDataEntityView)
+        self.assertIsInstance(self.client.get_customer_entity_views(self.customer.id, 10, 0), PageDataEntityView)
 
 
 class UserControllerTests(TBClientCETests):
     test_user = None
+    customer = None
 
     @classmethod
     def setUpClass(cls) -> None:
         super(UserControllerTests, cls).setUpClass()
 
+        cls.customer = cls.client.get_customers(10, 0).data[0]
         cls.test_user = User(name='Test User', email='admin11@gmail.com', authority='TENANT_ADMIN')
-        cls.test_user = cls.client.save_user(cls.test_user)
+        cls.test_user = cls.client.save_user(cls.test_user, send_activation_mail=False)
 
     @classmethod
     def tearDownClass(cls) -> None:
@@ -518,7 +512,7 @@ class UserControllerTests(TBClientCETests):
         self.assertIsInstance(self.client.is_user_token_access_enabled(), bool)
 
     def test_get_user_token(self):
-        self.assertIsInstance(self.client.get_user_token(self.test_user.id), JWTTokenPair)
+        self.assertIsInstance(self.client.get_user_token(self.test_user.id), JWTPair)
 
     def test_get_activation_link(self):
         self.assertIsInstance(self.client.get_activation_link(self.test_user.id), str)
@@ -527,8 +521,7 @@ class UserControllerTests(TBClientCETests):
         self.assertIsInstance(self.client.get_user_by_id(self.test_user.id), User)
 
     def test_get_customer_users(self):
-        customer = self.client.get_customers(10, 0).data[0]
-        self.assertIsInstance(self.client.get_customer_users(customer.id, 10, 0), PageDataUser)
+        self.assertIsInstance(self.client.get_customer_users(self.customer.id, 10, 0), PageDataUser)
 
 
 if __name__ == '__main__':

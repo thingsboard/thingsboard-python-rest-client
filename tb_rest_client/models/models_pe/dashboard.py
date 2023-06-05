@@ -39,7 +39,8 @@ class Dashboard(object):
         'mobile_hide': 'bool',
         'mobile_order': 'int',
         'name': 'str',
-        'configuration': 'JsonNode'
+        'configuration': 'JsonNode',
+        'external_id': 'EntityId'
     }
 
     attribute_map = {
@@ -54,10 +55,11 @@ class Dashboard(object):
         'mobile_hide': 'mobileHide',
         'mobile_order': 'mobileOrder',
         'name': 'name',
-        'configuration': 'configuration'
+        'configuration': 'configuration',
+        'external_id': 'externalId'
     }
 
-    def __init__(self, id=None, created_time=None, tenant_id=None, customer_id=None, owner_id=None, title=None, image=None, assigned_customers=None, mobile_hide=None, mobile_order=None, name=None, configuration=None):  # noqa: E501
+    def __init__(self, id=None, external_id=None, created_time=None, tenant_id=None, customer_id=None, owner_id=None, title=None, image=None, assigned_customers=None, mobile_hide=None, mobile_order=None, name=None, configuration=None):  # noqa: E501
         """Dashboard - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._created_time = None
@@ -71,7 +73,9 @@ class Dashboard(object):
         self._mobile_order = None
         self._name = None
         self._configuration = None
+        self._external_id = None
         self.discriminator = None
+        self.external_id = external_id
         if id is not None:
             self.id = id
         if created_time is not None:
@@ -117,6 +121,14 @@ class Dashboard(object):
         """
 
         self._id = id
+
+    @property
+    def external_id(self):
+        return self._external_id
+
+    @external_id.setter
+    def external_id(self, external_id):
+        self._external_id = external_id
 
     @property
     def created_time(self):
