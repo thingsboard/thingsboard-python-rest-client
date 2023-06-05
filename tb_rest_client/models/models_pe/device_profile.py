@@ -45,7 +45,8 @@ class DeviceProfile(object):
         'provision_type': 'str',
         'profile_data': 'DeviceProfileData',
         'type': 'str',
-        'default_edge_rule_chain_id': 'RuleChainId'
+        'default_edge_rule_chain_id': 'RuleChainId',
+        'external_id': 'EntityId'
     }
 
     attribute_map = {
@@ -66,10 +67,11 @@ class DeviceProfile(object):
         'provision_type': 'provisionType',
         'profile_data': 'profileData',
         'type': 'type',
-        'default_edge_rule_chain_id': 'defaultEdgeRuleChainId'
+        'default_edge_rule_chain_id': 'defaultEdgeRuleChainId',
+        'external_id': 'externalId'
     }
 
-    def __init__(self, id=None, created_time=None, tenant_id=None, name=None, default=None, default_dashboard_id=None, default_rule_chain_id=None, default_queue_name=None, firmware_id=None, software_id=None, description=None, image=None, provision_device_key=None, transport_type=None, provision_type=None, profile_data=None, type=None, default_edge_rule_chain_id=None):  # noqa: E501
+    def __init__(self, id=None, external_id=None, created_time=None, tenant_id=None, name=None, default=None, default_dashboard_id=None, default_rule_chain_id=None, default_queue_name=None, firmware_id=None, software_id=None, description=None, image=None, provision_device_key=None, transport_type=None, provision_type=None, profile_data=None, type=None, default_edge_rule_chain_id=None):  # noqa: E501
         """DeviceProfile - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._created_time = None
@@ -89,7 +91,9 @@ class DeviceProfile(object):
         self._profile_data = None
         self._type = None
         self._default_edge_rule_chain_id = None
+        self._external_id = None
         self.discriminator = None
+        self.external_id = external_id
         if id is not None:
             self.id = id
         if created_time is not None:
@@ -147,6 +151,14 @@ class DeviceProfile(object):
         """
 
         self._id = id
+
+    @property
+    def external_id(self):
+        return self._external_id
+
+    @external_id.setter
+    def external_id(self, external_id):
+        self._external_id = external_id
 
     @property
     def created_time(self):

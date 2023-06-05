@@ -37,7 +37,8 @@ class Asset(object):
         'label': 'str',
         'asset_profile_id': 'AssetProfileId',
         'additional_info': 'JsonNode',
-        'owner_id': 'EntityId'
+        'owner_id': 'EntityId',
+        'external_id': 'EntityId'
     }
 
     attribute_map = {
@@ -50,10 +51,11 @@ class Asset(object):
         'label': 'label',
         'asset_profile_id': 'assetProfileId',
         'additional_info': 'additionalInfo',
-        'owner_id': 'ownerId'
+        'owner_id': 'ownerId',
+        'external_id': 'externalId'
     }
 
-    def __init__(self, id=None, created_time=None, tenant_id=None, customer_id=None, name=None, type=None, label=None, asset_profile_id=None, additional_info=None, owner_id=None):  # noqa: E501
+    def __init__(self, id=None, created_time=None, external_id=None, tenant_id=None, customer_id=None, name=None, type=None, label=None, asset_profile_id=None, additional_info=None, owner_id=None):  # noqa: E501
         """Asset - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._created_time = None
@@ -65,6 +67,7 @@ class Asset(object):
         self._asset_profile_id = None
         self._additional_info = None
         self._owner_id = None
+        self._external_id = None
         self.discriminator = None
         if id is not None:
             self.id = id
@@ -77,6 +80,7 @@ class Asset(object):
         self.name = name
         self.type = type
         self.label = label
+        self.external_id = external_id
         self.asset_profile_id = asset_profile_id
         if additional_info is not None:
             self.additional_info = additional_info
@@ -103,6 +107,14 @@ class Asset(object):
         """
 
         self._id = id
+
+    @property
+    def external_id(self):
+        return self._external_id
+
+    @external_id.setter
+    def external_id(self, external_id):
+        self._external_id = external_id
 
     @property
     def created_time(self):

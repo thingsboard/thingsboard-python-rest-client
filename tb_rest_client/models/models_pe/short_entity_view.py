@@ -29,21 +29,57 @@ class ShortEntityView(object):
     """
     swagger_types = {
         'id': 'EntityId',
-        'name': 'str'
+        'name': 'str',
+        'created_time': 'int',
+        'device_profile': 'str',
+        'label': 'str'
     }
 
     attribute_map = {
         'id': 'id',
-        'name': 'name'
+        'name': 'name',
+        'created_time': 'created_time',
+        'device_profile': 'device_profile',
+        'label': 'label'
     }
 
-    def __init__(self, id=None, name=None):  # noqa: E501
+    def __init__(self, id=None, name=None, label=None, device_profile=None, created_time=None):  # noqa: E501
         """ShortEntityView - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._name = None
+        self._label = None
+        self._device_profile_id = None
+        self._created_time = None
         self.discriminator = None
         self.id = id
         self.name = name
+        self.label = label
+        self.device_profile = device_profile
+        self.created_time = created_time
+
+    @property
+    def label(self):
+        return self._label
+
+    @label.setter
+    def label(self, val):
+        self._label = val
+
+    @property
+    def device_profile(self):
+        return self._device_profile
+
+    @device_profile.setter
+    def device_profile(self, val):
+        self._device_profile = val
+
+    @property
+    def created_time(self):
+        return self._created_time
+
+    @created_time.setter
+    def created_time(self, val):
+        self._created_time = val
 
     @property
     def id(self):

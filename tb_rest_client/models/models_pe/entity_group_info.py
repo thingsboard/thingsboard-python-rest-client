@@ -37,6 +37,7 @@ class EntityGroupInfo(object):
         'configuration': 'JsonNode',
         'group_all': 'bool',
         'edge_group_all': 'bool',
+        'external_id': 'str',
         'owner_ids': 'list[EntityId]'
     }
 
@@ -50,10 +51,11 @@ class EntityGroupInfo(object):
         'configuration': 'configuration',
         'group_all': 'groupAll',
         'edge_group_all': 'edgeGroupAll',
+        'external_id': 'externalId',
         'owner_ids': 'ownerIds'
     }
 
-    def __init__(self, id=None, created_time=None, owner_id=None, name=None, type=None, additional_info=None, configuration=None, group_all=None, edge_group_all=None, owner_ids=None):  # noqa: E501
+    def __init__(self, id=None, created_time=None, owner_id=None, external_id=None, name=None, type=None, additional_info=None, configuration=None, group_all=None, edge_group_all=None, owner_ids=None):  # noqa: E501
         """EntityGroupInfo - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._created_time = None
@@ -65,6 +67,7 @@ class EntityGroupInfo(object):
         self._group_all = None
         self._edge_group_all = None
         self._owner_ids = None
+        self._external_id = None
         self.discriminator = None
         if id is not None:
             self.id = id
@@ -83,6 +86,7 @@ class EntityGroupInfo(object):
         if edge_group_all is not None:
             self.edge_group_all = edge_group_all
         self.owner_ids = owner_ids
+        self.external_id = external_id
 
     @property
     def id(self):
@@ -202,6 +206,14 @@ class EntityGroupInfo(object):
             )
 
         self._type = type
+
+    @property
+    def external_id(self):
+        return self._external_id
+
+    @external_id.setter
+    def external_id(self, value):
+        self._external_id = value
 
     @property
     def additional_info(self):

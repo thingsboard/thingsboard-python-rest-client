@@ -44,7 +44,8 @@ class Customer(object):
         'zip': 'str',
         'phone': 'str',
         'email': 'str',
-        'additional_info': 'JsonNode'
+        'additional_info': 'JsonNode',
+        'external_id': 'EntityId'
     }
 
     attribute_map = {
@@ -64,10 +65,11 @@ class Customer(object):
         'zip': 'zip',
         'phone': 'phone',
         'email': 'email',
-        'additional_info': 'additionalInfo'
+        'additional_info': 'additionalInfo',
+        'external_id': 'externalId'
     }
 
-    def __init__(self, id=None, created_time=None, title=None, name=None, tenant_id=None, parent_customer_id=None, customer_id=None, owner_id=None, country=None, state=None, city=None, address=None, address2=None, zip=None, phone=None, email=None, additional_info=None):  # noqa: E501
+    def __init__(self, id=None, created_time=None, title=None, external_id=None, name=None, tenant_id=None, parent_customer_id=None, customer_id=None, owner_id=None, country=None, state=None, city=None, address=None, address2=None, zip=None, phone=None, email=None, additional_info=None):  # noqa: E501
         """Customer - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._created_time = None
@@ -86,6 +88,8 @@ class Customer(object):
         self._phone = None
         self._email = None
         self._additional_info = None
+        self._external_id = None
+        self.external_id = external_id
         self.discriminator = None
         if id is not None:
             self.id = id
@@ -112,6 +116,14 @@ class Customer(object):
         self.email = email
         if additional_info is not None:
             self.additional_info = additional_info
+
+    @property
+    def external_id(self):
+        return self._external_id
+
+    @external_id.setter
+    def external_id(self, external_id):
+        self._external_id = external_id
 
     @property
     def id(self):

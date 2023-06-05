@@ -36,7 +36,8 @@ class Role(object):
         'name': 'str',
         'type': 'str',
         'permissions': 'JsonNode',
-        'additional_info': 'JsonNode'
+        'additional_info': 'JsonNode',
+        'external_id': 'EntityId'
     }
 
     attribute_map = {
@@ -48,10 +49,11 @@ class Role(object):
         'name': 'name',
         'type': 'type',
         'permissions': 'permissions',
-        'additional_info': 'additionalInfo'
+        'additional_info': 'additionalInfo',
+        'external_id': 'externalId'
     }
 
-    def __init__(self, id=None, created_time=None, tenant_id=None, customer_id=None, owner_id=None, name=None, type=None, permissions=None, additional_info=None):  # noqa: E501
+    def __init__(self, id=None, created_time=None, external_id=None, tenant_id=None, customer_id=None, owner_id=None, name=None, type=None, permissions=None, additional_info=None):  # noqa: E501
         """Role - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._created_time = None
@@ -62,7 +64,9 @@ class Role(object):
         self._type = None
         self._permissions = None
         self._additional_info = None
+        self._external_id = None
         self.discriminator = None
+        self.external_id = external_id
         if id is not None:
             self.id = id
         if created_time is not None:
@@ -99,6 +103,14 @@ class Role(object):
         """
 
         self._id = id
+
+    @property
+    def external_id(self):
+        return self._external_id
+
+    @external_id.setter
+    def external_id(self, external_id):
+        self._external_id = external_id
 
     @property
     def created_time(self):
@@ -141,8 +153,6 @@ class Role(object):
         :param tenant_id: The tenant_id of this Role.  # noqa: E501
         :type: TenantId
         """
-        if tenant_id is None:
-            raise ValueError("Invalid value for `tenant_id`, must not be `None`")  # noqa: E501
 
         self._tenant_id = tenant_id
 

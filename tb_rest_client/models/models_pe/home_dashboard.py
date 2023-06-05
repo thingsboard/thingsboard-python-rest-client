@@ -40,7 +40,8 @@ class HomeDashboard(object):
         'mobile_order': 'int',
         'name': 'str',
         'configuration': 'JsonNode',
-        'hide_dashboard_toolbar': 'bool'
+        'hide_dashboard_toolbar': 'bool',
+        'external_id': 'EntityId'
     }
 
     attribute_map = {
@@ -56,10 +57,11 @@ class HomeDashboard(object):
         'mobile_order': 'mobileOrder',
         'name': 'name',
         'configuration': 'configuration',
-        'hide_dashboard_toolbar': 'hideDashboardToolbar'
+        'hide_dashboard_toolbar': 'hideDashboardToolbar',
+        'external_id': 'externalId'
     }
 
-    def __init__(self, id=None, created_time=None, tenant_id=None, customer_id=None, owner_id=None, title=None, image=None, assigned_customers=None, mobile_hide=None, mobile_order=None, name=None, configuration=None, hide_dashboard_toolbar=None):  # noqa: E501
+    def __init__(self, id=None, external_id=None, created_time=None, tenant_id=None, customer_id=None, owner_id=None, title=None, image=None, assigned_customers=None, mobile_hide=None, mobile_order=None, name=None, configuration=None, hide_dashboard_toolbar=None):  # noqa: E501
         """HomeDashboard - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._created_time = None
@@ -74,7 +76,9 @@ class HomeDashboard(object):
         self._name = None
         self._configuration = None
         self._hide_dashboard_toolbar = None
+        self._external_id = None
         self.discriminator = None
+        self.external_id = external_id
         if id is not None:
             self.id = id
         if created_time is not None:
@@ -122,6 +126,14 @@ class HomeDashboard(object):
         """
 
         self._id = id
+
+    @property
+    def external_id(self):
+        return self._external_id
+
+    @external_id.setter
+    def external_id(self, external_id):
+        self._external_id = external_id
 
     @property
     def created_time(self):

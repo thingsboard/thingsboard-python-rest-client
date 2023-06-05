@@ -28,18 +28,22 @@ class EntityGroupId(object):
                             and the value is json key in definition.
     """
     swagger_types = {
-        'id': 'str'
+        'id': 'str',
+        'entity_type': 'str'
     }
 
     attribute_map = {
-        'id': 'id'
+        'id': 'id',
+        'entity_type': 'entityType'
     }
 
-    def __init__(self, id=None):  # noqa: E501
+    def __init__(self, id=None, entity_type=None):  # noqa: E501
         """EntityGroupId - a model defined in Swagger"""  # noqa: E501
         self._id = None
+        self._entity_type = None
         self.discriminator = None
         self.id = id
+        self.entity_type = entity_type
 
     @property
     def id(self):
@@ -65,6 +69,37 @@ class EntityGroupId(object):
             raise ValueError("Invalid value for `id`, must not be `None`")  # noqa: E501
 
         self._id = id
+
+    @property
+    def entity_type(self):
+        """Gets the entity_type of this AssetId.  # noqa: E501
+
+        string  # noqa: E501
+
+        :return: The entity_type of this AssetId.  # noqa: E501
+        :rtype: str
+        """
+        return self._entity_type
+
+    @entity_type.setter
+    def entity_type(self, entity_type):
+        """Sets the entity_type of this AssetId.
+
+        string  # noqa: E501
+
+        :param entity_type: The entity_type of this AssetId.  # noqa: E501
+        :type: str
+        """
+        if entity_type is None:
+            raise ValueError("Invalid value for `entity_type`, must not be `None`")  # noqa: E501
+        allowed_values = ["ENTITY_GROUP"]  # noqa: E501
+        if entity_type not in allowed_values:
+            raise ValueError(
+                "Invalid value for `entity_type` ({0}), must be one of {1}"  # noqa: E501
+                .format(entity_type, allowed_values)
+            )
+
+        self._entity_type = entity_type
 
     def to_dict(self):
         """Returns the model properties as a dict"""

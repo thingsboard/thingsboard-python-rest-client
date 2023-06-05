@@ -39,7 +39,14 @@ class ContactBasedobject(object):
         'name': 'str',
         'phone': 'str',
         'state': 'str',
-        'zip': 'str'
+        'zip': 'str',
+        'external_id': 'EntityId',
+        'owner_id': 'EntityId',
+        'parent_customer_id': 'CustomerId',
+        'tenant_id': 'TenantId',
+        'title': 'str',
+        'customer_id': 'CustomerId',
+        'tenant_profile_id': 'TenantProfileId'
     }
 
     attribute_map = {
@@ -54,10 +61,17 @@ class ContactBasedobject(object):
         'name': 'name',
         'phone': 'phone',
         'state': 'state',
-        'zip': 'zip'
+        'zip': 'zip',
+        'external_id': 'externalId',
+        'owner_id': 'ownerId',
+        'parent_customer_id': 'parentCustomerId',
+        'tenant_id': 'tenantId',
+        'title': 'title',
+        'customer_id': 'customerId',
+        'tenant_profile_id': 'tenantProfileId'
     }
 
-    def __init__(self, additional_info=None, address=None, address2=None, city=None, country=None, created_time=None, email=None, id=None, name=None, phone=None, state=None, zip=None):  # noqa: E501
+    def __init__(self, additional_info=None, address=None, address2=None, tenant_profile_id=None, external_id=None, customer_id=None, owner_id=None, title=None, tenant_id=None, parent_customer_id=None, city=None, country=None, created_time=None, email=None, id=None, name=None, phone=None, state=None, zip=None):  # noqa: E501
         """ContactBasedobject - a model defined in Swagger"""  # noqa: E501
         self._additional_info = None
         self._address = None
@@ -71,7 +85,21 @@ class ContactBasedobject(object):
         self._phone = None
         self._state = None
         self._zip = None
+        self._external_id = None
+        self._owner_id = None
+        self._parent_customer_id = None
+        self._tenant_id = None
+        self._title = None
+        self._customer_id = None
+        self._tenant_profile_id = None
+        self.parent_customer_id = parent_customer_id
+        self.owner_id = owner_id
         self.discriminator = None
+        self.external_id = external_id
+        self.tenant_id = tenant_id
+        self.title = title
+        self.customer_id = customer_id
+        self.tenant_profile_id = tenant_profile_id
         if additional_info is not None:
             self.additional_info = additional_info
         if address is not None:
@@ -96,6 +124,62 @@ class ContactBasedobject(object):
             self.state = state
         if zip is not None:
             self.zip = zip
+
+    @property
+    def external_id(self):
+        return self._external_id
+
+    @external_id.setter
+    def external_id(self, external_id):
+        self._external_id = external_id
+
+    @property
+    def owner_id(self):
+        return self._owner_id
+
+    @owner_id.setter
+    def owner_id(self, owner_id):
+        self._owner_id = owner_id
+
+    @property
+    def parent_customer_id(self):
+        return self._parent_customer_id
+
+    @parent_customer_id.setter
+    def parent_customer_id(self, parent_customer_id):
+        self._parent_customer_id = parent_customer_id
+
+    @property
+    def tenant_id(self):
+        return self._tenant_id
+
+    @tenant_id.setter
+    def tenant_id(self, tenant_id):
+        self._tenant_id = tenant_id
+
+    @property
+    def title(self):
+        return self._title
+
+    @title.setter
+    def title(self, title):
+        self._title = title
+
+    @property
+    def customer_id(self):
+        return self._customer_id
+
+    @customer_id.setter
+    def customer_id(self, customer_id):
+        self._customer_id = customer_id
+
+    @property
+    def tenant_profile_id(self):
+        return self._tenant_profile_id
+
+    @tenant_profile_id.setter
+    def tenant_profile_id(self, tenant_profile_id):
+        self._tenant_profile_id = tenant_profile_id
 
     @property
     def additional_info(self):

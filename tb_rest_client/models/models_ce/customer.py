@@ -206,8 +206,6 @@ class Customer(object):
         :param tenant_id: The tenant_id of this Customer.  # noqa: E501
         :type: TenantId
         """
-        if tenant_id is None:
-            raise ValueError("Invalid value for `tenant_id`, must not be `None`")  # noqa: E501
 
         self._tenant_id = tenant_id
 
