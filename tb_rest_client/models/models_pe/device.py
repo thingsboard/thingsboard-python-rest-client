@@ -40,7 +40,8 @@ class Device(object):
         'device_data': 'DeviceData',
         'firmware_id': 'OtaPackageId',
         'software_id': 'OtaPackageId',
-        'additional_info': 'JsonNode'
+        'additional_info': 'JsonNode',
+        'external_id': 'EntityId'
     }
 
     attribute_map = {
@@ -56,10 +57,11 @@ class Device(object):
         'device_data': 'deviceData',
         'firmware_id': 'firmwareId',
         'software_id': 'softwareId',
-        'additional_info': 'additionalInfo'
+        'additional_info': 'additionalInfo',
+        'external_id': 'externalId'
     }
 
-    def __init__(self, id=None, created_time=None, tenant_id=None, customer_id=None, owner_id=None, name=None, type=None, label=None, device_profile_id=None, device_data=None, firmware_id=None, software_id=None, additional_info=None):  # noqa: E501
+    def __init__(self, id=None, created_time=None, external_id=None, tenant_id=None, customer_id=None, owner_id=None, name=None, type=None, label=None, device_profile_id=None, device_data=None, firmware_id=None, software_id=None, additional_info=None):  # noqa: E501
         """Device - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._created_time = None
@@ -74,6 +76,7 @@ class Device(object):
         self._firmware_id = None
         self._software_id = None
         self._additional_info = None
+        self._external_id = None
         self.discriminator = None
         if id is not None:
             self.id = id
@@ -88,6 +91,7 @@ class Device(object):
         self.name = name
         self.type = type
         self.label = label
+        self.external_id = external_id
         self.device_profile_id = device_profile_id
         if device_data is not None:
             self.device_data = device_data
@@ -141,6 +145,14 @@ class Device(object):
         """
 
         self._created_time = created_time
+
+    @property
+    def external_id(self):
+        return self._external_id
+
+    @external_id.setter
+    def external_id(self, external_id):
+        self._external_id = external_id
 
     @property
     def tenant_id(self):

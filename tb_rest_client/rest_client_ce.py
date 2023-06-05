@@ -902,11 +902,6 @@ class RestClientCE(RestClientBase):
     def get_system_info(self) -> SystemInfo:
         return self.admin_controller.get_system_info_using_get()
 
-    def get_highest_alarm_severity(self, entity_id: EntityId, search_status: Optional[str] = None, status: Optional[str] = None, assignee_id: Optional[str] = None) -> str:
-        entity_type = self.get_type(entity_id)
-        entity_id = self.get_id(entity_id)
-        return self.alarm_controller.get_highest_alarm_severity_using_get(entity_id=entity_id, entity_type=entity_type, search_status=search_status, status=status, assignee_id=assignee_id)
-
     # O Auth 2 Controller
     def get_login_processing_url(self, ) -> str:
         return self.o_auth2_controller.get_login_processing_url_using_get()

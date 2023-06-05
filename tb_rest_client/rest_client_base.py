@@ -470,6 +470,7 @@ class RestClientBase(Thread):
                                        body: Optional[dict] = None):
         entity_type = self.get_type(entity_id)
         entity_id = self.get_id(entity_id)
+        ttl = str(ttl)
         return self.telemetry_controller.save_entity_telemetry_with_ttl_using_post(entity_type=entity_type,
                                                                                    entity_id=entity_id, scope=scope,
                                                                                    ttl=ttl, body=body)
@@ -500,7 +501,7 @@ class RestClientBase(Thread):
         alarm_id = self.get_id(alarm_id)
         return self.alarm_controller.delete_alarm_using_delete(alarm_id=alarm_id)
 
-    def clear_alarm(self, alarm_id: AlarmId) -> None:
+    def clear_alarm(self, alarm_id: AlarmId) -> AlarmInfo:
         alarm_id = self.get_id(alarm_id)
         return self.alarm_controller.clear_alarm_using_post(alarm_id=alarm_id)
 
@@ -1260,6 +1261,14 @@ class RestClientBase(Thread):
 
     def get_server_time(self) -> int:
         return self.dashboard_controller.get_server_time_using_get()
+
+    def get_highest_alarm_severity(self, entity_id: EntityId, search_status: Optional[str] = None,
+                                   status: Optional[str] = None, assignee_id: Optional[str] = None) -> str:
+        entity_type = self.get_type(entity_id)
+        entity_id = self.get_id(entity_id)
+        return self.alarm_controller.get_highest_alarm_severity_using_get(entity_id=entity_id, entity_type=entity_type,
+                                                                          search_status=search_status, status=status,
+                                                                          assignee_id=assignee_id)
 
     def get_max_datapoints_limit(self) -> int:
         return self.dashboard_controller.get_max_datapoints_limit_using_get()

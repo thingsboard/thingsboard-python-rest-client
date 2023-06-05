@@ -28,18 +28,22 @@ class SchedulerEventId(object):
                             and the value is json key in definition.
     """
     swagger_types = {
-        'id': 'str'
+        'id': 'str',
+        'entity_type': 'str'
     }
 
     attribute_map = {
-        'id': 'id'
+        'id': 'id',
+        'entity_type': 'entityType'
     }
 
-    def __init__(self, id=None):  # noqa: E501
+    def __init__(self, id=None, entity_type=None):  # noqa: E501
         """SchedulerEventId - a model defined in Swagger"""  # noqa: E501
         self._id = None
+        self._entity_type = None
         self.discriminator = None
         self.id = id
+        self.entity_type = entity_type
 
     @property
     def id(self):
@@ -65,6 +69,14 @@ class SchedulerEventId(object):
             raise ValueError("Invalid value for `id`, must not be `None`")  # noqa: E501
 
         self._id = id
+
+    @property
+    def entity_type(self):
+        return self._entity_type
+
+    @entity_type.setter
+    def entity_type(self, entity_type):
+        self._entity_type = entity_type
 
     def to_dict(self):
         """Returns the model properties as a dict"""

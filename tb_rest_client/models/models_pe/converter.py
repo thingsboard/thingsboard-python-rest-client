@@ -36,7 +36,8 @@ class Converter(object):
         'debug_mode': 'bool',
         'configuration': 'JsonNode',
         'additional_info': 'JsonNode',
-        'edge_template': 'bool'
+        'edge_template': 'bool',
+        'external_id': 'EntityId'
     }
 
     attribute_map = {
@@ -48,10 +49,11 @@ class Converter(object):
         'debug_mode': 'debugMode',
         'configuration': 'configuration',
         'additional_info': 'additionalInfo',
-        'edge_template': 'edgeTemplate'
+        'edge_template': 'edgeTemplate',
+        'external_id': 'externalId'
     }
 
-    def __init__(self, id=None, created_time=None, tenant_id=None, name=None, type=None, debug_mode=None, configuration=None, additional_info=None, edge_template=None):  # noqa: E501
+    def __init__(self, id=None, external_id=None, created_time=None, tenant_id=None, name=None, type=None, debug_mode=None, configuration=None, additional_info=None, edge_template=None):  # noqa: E501
         """Converter - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._created_time = None
@@ -62,7 +64,9 @@ class Converter(object):
         self._configuration = None
         self._additional_info = None
         self._edge_template = None
+        self._external_id = None
         self.discriminator = None
+        self.external_id = external_id
         if id is not None:
             self.id = id
         if created_time is not None:
@@ -100,6 +104,14 @@ class Converter(object):
         """
 
         self._id = id
+
+    @property
+    def external_id(self):
+        return self._external_id
+
+    @external_id.setter
+    def external_id(self, external_id):
+        self._external_id = external_id
 
     @property
     def created_time(self):
