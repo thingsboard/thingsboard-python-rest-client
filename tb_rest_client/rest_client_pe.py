@@ -1057,33 +1057,35 @@ class RestClientPE(RestClientBase):
         entity_group_id = self.get_id(entity_group_id)
         return self.dashboard_controller.export_group_dashboards_using_get(entity_group_id=entity_group_id, limit=limit)
 
-    def check_integration_connection_post(self, body: Optional[Integration] = None) -> None:
+    def check_integration_connection(self, body: Optional[Integration] = None) -> None:
         return self.integration_controller.check_integration_connection_using_post(body=body)
 
-    def delete_integration_delete(self, integration_id: IntegrationId) -> None:
+    def delete_integration(self, integration_id: IntegrationId) -> None:
         integration_id = self.get_id(integration_id)
         return self.integration_controller.delete_integration_using_delete(integration_id=integration_id)
 
-    def get_integration_by_id_get(self, integration_id: IntegrationId) -> Integration:
+    def get_integration_by_id(self, integration_id: IntegrationId) -> Integration:
         integration_id = self.get_id(integration_id)
         return self.integration_controller.get_integration_by_id_using_get(integration_id=integration_id)
 
-    def get_integration_by_routing_key_get(self, routing_key: str) -> Integration:
+    def get_integration_by_routing_key(self, routing_key: str) -> Integration:
         return self.integration_controller.get_integration_by_routing_key_using_get(routing_key=routing_key)
 
-    def get_integrations_by_ids_get(self, integration_ids: list) -> List[Integration]:
-        return self.integration_controller.get_integrations_by_ids_using_get(integration_ids=str(integration_ids))
+    def get_integrations_by_ids(self, integration_ids: list) -> List[Integration]:
+        integration_ids = ','.join(integration_ids)
+        return self.integration_controller.get_integrations_by_ids_using_get(integration_ids=integration_ids)
 
     def get_integration_infos(self, page_size: int, page: int, is_edge_template: Optional[bool],
                               text_search: Optional[str] = None,
-                              sort_property: Optional[str] = None, sort_order: Optional[str] = None):
+                              sort_property: Optional[str] = None,
+                              sort_order: Optional[str] = None) -> PageDataIntegrationInfo:
         return self.integration_controller.get_integration_infos_using_get(page_size=page_size, page=page,
                                                                            is_edge_template=is_edge_template,
                                                                            text_search=text_search,
                                                                            sort_property=sort_property,
                                                                            sort_order=sort_order)
 
-    def get_integrations_get(self, page_size: int, page: int, is_edge_template: Optional[bool], text_search: Optional[str] = None,
+    def get_integrations(self, page_size: int, page: int, is_edge_template: Optional[bool], text_search: Optional[str] = None,
                              sort_property: Optional[str] = None, sort_order: Optional[str] = None,) -> PageDataIntegration:
         return self.integration_controller.get_integrations_using_get(page_size=page_size, page=page,
                                                                       is_edge_template=is_edge_template,
@@ -1091,7 +1093,7 @@ class RestClientPE(RestClientBase):
                                                                       sort_property=sort_property,
                                                                       sort_order=sort_order)
 
-    def save_integration_post(self, body: Optional[Integration] = None) -> Integration:
+    def save_integration(self, body: Optional[Integration] = None) -> Integration:
         return self.integration_controller.save_integration_using_post(body=body)
 
     def get_current_custom_menu(self, ) -> CustomMenu:

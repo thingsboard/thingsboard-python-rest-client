@@ -28,16 +28,32 @@ class NotificationRuleTriggerConfig(object):
                             and the value is json key in definition.
     """
     swagger_types = {
-        'trigger_type': 'str'
+        'trigger_type': 'str',
+        'alarm_severities': 'list[str]',
+        'clear_rule': 'bool',
+        'notify_on': 'list[str]',
+        'alarm_types': 'list[str]'
     }
 
     attribute_map = {
-        'trigger_type': 'triggerType'
+        'trigger_type': 'triggerType',
+        'clear_rule': 'clearRule',
+        'notify_on': 'notifyOn',
+        'alarm_types': 'alarmTypes',
+        'alarm_severities': 'alarmSeverities'
     }
 
-    def __init__(self, trigger_type=None):  # noqa: E501
+    def __init__(self, trigger_type=None, clear_rule=None, notify_on=None, alarm_types=None, alarm_severities=None):  # noqa: E501
         """NotificationRuleTriggerConfig - a model defined in Swagger"""  # noqa: E501
         self._trigger_type = None
+        self._clear_rule = None
+        self._notify_on = None
+        self._alarm_types = None
+        self._alarm_severities = None
+        self.clear_rule = clear_rule
+        self.notify_on = notify_on
+        self.alarm_types = alarm_types
+        self.alarm_severities = alarm_severities
         self.discriminator = None
         if trigger_type is not None:
             self.trigger_type = trigger_type
@@ -68,6 +84,38 @@ class NotificationRuleTriggerConfig(object):
             )
 
         self._trigger_type = trigger_type
+
+    @property
+    def clear_rule(self):
+        return self._clear_rule
+
+    @clear_rule.setter
+    def clear_rule(self, clear_rule):
+        self._clear_rule = clear_rule
+
+    @property
+    def notify_on(self):
+        return self._notify_on
+
+    @notify_on.setter
+    def notify_on(self, notify_on):
+        self._notify_on = notify_on
+
+    @property
+    def alarm_types(self):
+        return self._alarm_types
+
+    @alarm_types.setter
+    def alarm_types(self, alarm_types):
+        self._alarm_types = alarm_types
+
+    @property
+    def alarm_severities(self):
+        return self._alarm_severities
+
+    @alarm_severities.setter
+    def alarm_severities(self, alarm_severities):
+        self._alarm_severities = alarm_severities
 
     def to_dict(self):
         """Returns the model properties as a dict"""

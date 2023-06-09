@@ -43,7 +43,8 @@ class Integration(object):
         'configuration': 'JsonNode',
         'additional_info': 'JsonNode',
         'name': 'str',
-        'edge_template': 'bool'
+        'edge_template': 'bool',
+        'external_id': 'EntityId'
     }
 
     attribute_map = {
@@ -62,10 +63,11 @@ class Integration(object):
         'configuration': 'configuration',
         'additional_info': 'additionalInfo',
         'name': 'name',
-        'edge_template': 'edgeTemplate'
+        'edge_template': 'edgeTemplate',
+        'external_id': 'externalId'
     }
 
-    def __init__(self, id=None, created_time=None, tenant_id=None, default_converter_id=None, downlink_converter_id=None, routing_key=None, type=None, debug_mode=None, enabled=None, remote=None, allow_create_devices_or_assets=None, secret=None, configuration=None, additional_info=None, name=None, edge_template=None):  # noqa: E501
+    def __init__(self, id=None, external_id=None, created_time=None, tenant_id=None, default_converter_id=None, downlink_converter_id=None, routing_key=None, type=None, debug_mode=None, enabled=None, remote=None, allow_create_devices_or_assets=None, secret=None, configuration=None, additional_info=None, name=None, edge_template=None):  # noqa: E501
         """Integration - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._created_time = None
@@ -83,7 +85,9 @@ class Integration(object):
         self._additional_info = None
         self._name = None
         self._edge_template = None
+        self._external_id = None
         self.discriminator = None
+        self.external_id = external_id
         if id is not None:
             self.id = id
         if created_time is not None:
@@ -132,6 +136,14 @@ class Integration(object):
         """
 
         self._id = id
+
+    @property
+    def external_id(self):
+        return self._external_id
+
+    @external_id.setter
+    def external_id(self, external_id):
+        self._external_id = external_id
 
     @property
     def created_time(self):

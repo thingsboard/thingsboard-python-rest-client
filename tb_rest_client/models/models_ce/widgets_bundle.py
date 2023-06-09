@@ -35,7 +35,8 @@ class WidgetsBundle(object):
         'alias': 'str',
         'title': 'str',
         'image': 'str',
-        'description': 'str'
+        'description': 'str',
+        'external_id': 'EntityId'
     }
 
     attribute_map = {
@@ -46,10 +47,11 @@ class WidgetsBundle(object):
         'alias': 'alias',
         'title': 'title',
         'image': 'image',
-        'description': 'description'
+        'description': 'description',
+        'external_id': 'externalId'
     }
 
-    def __init__(self, id=None, created_time=None, name=None, tenant_id=None, alias=None, title=None, image=None, description=None):  # noqa: E501
+    def __init__(self, id=None, external_id=None, created_time=None, name=None, tenant_id=None, alias=None, title=None, image=None, description=None):  # noqa: E501
         """WidgetsBundle - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._created_time = None
@@ -59,6 +61,8 @@ class WidgetsBundle(object):
         self._title = None
         self._image = None
         self._description = None
+        self._external_id = None
+        self.external_id = external_id
         self.discriminator = None
         if id is not None:
             self.id = id
@@ -97,6 +101,14 @@ class WidgetsBundle(object):
         """
 
         self._id = id
+
+    @property
+    def external_id(self):
+        return self._external_id
+
+    @external_id.setter
+    def external_id(self, external_id):
+        self._external_id = external_id
 
     @property
     def created_time(self):
