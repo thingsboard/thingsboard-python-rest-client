@@ -28,19 +28,43 @@ class NotificationTargetConfig(object):
                             and the value is json key in definition.
     """
     swagger_types = {
-        'description': 'str'
+        'description': 'str',
+        'type': 'str',
+        'users_filter': 'JsonNode'
     }
 
     attribute_map = {
-        'description': 'description'
+        'description': 'description',
+        'type': 'type',
+        'users_filter': 'usersFilter'
     }
 
-    def __init__(self, description=None):  # noqa: E501
+    def __init__(self, description=None, type=None, users_filter=None):  # noqa: E501
         """NotificationTargetConfig - a model defined in Swagger"""  # noqa: E501
         self._description = None
+        self._type = None
+        self._users_filter = None
+        self.type = type
+        self.users_filter = users_filter
         self.discriminator = None
         if description is not None:
             self.description = description
+
+    @property
+    def type(self):
+        return self._type
+
+    @type.setter
+    def type(self, type):
+        self._type = type
+
+    @property
+    def users_filter(self):
+        return self._users_filter
+
+    @users_filter.setter
+    def users_filter(self, users_filter):
+        self._users_filter = users_filter
 
     @property
     def description(self):

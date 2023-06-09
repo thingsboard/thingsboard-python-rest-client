@@ -1711,7 +1711,7 @@ class RestClientBase(Thread):
     def delete_notification_target_by_id(self, id: str):
         return self.notification_target_controller.delete_notification_target_by_id_using_delete(id=id)
 
-    def get_notification_target_by_id(self, id: str):
+    def get_notification_target_by_id(self, id: str) -> NotificationTarget:
         return self.notification_target_controller.get_notification_target_by_id_using_get(id=id)
 
     def get_notification_targets_by_ids(self, ids: list) -> List[NotificationTarget]:
@@ -1721,13 +1721,15 @@ class RestClientBase(Thread):
     def get_notification_targets_by_supported_notification_type(self, notification_type: str, page_size: int, page: int,
                                                                 text_search: Optional[str] = None,
                                                                 sort_property: Optional[str] = None,
-                                                                sort_order: Optional[str] = None):
+                                                                sort_order: Optional[
+                                                                    str] = None) -> PageDataNotificationTarget:
         return self.notification_target_controller.get_notification_targets_by_supported_notification_type_using_get(
-            notification_type=notification_type, page_size=page_size, page=page, text_search=text_search, sort_property=sort_property, sort_order=sort_order)
+            notification_type=notification_type, page_size=page_size, page=page, text_search=text_search,
+            sort_property=sort_property, sort_order=sort_order)
 
     def get_notification_targets(self, page_size: int, page: int, text_search: Optional[str] = None,
                                  sort_property: Optional[str] = None,
-                                 sort_order: Optional[str] = None):
+                                 sort_order: Optional[str] = None) -> PageDataNotificationTarget:
         return self.notification_target_controller.get_notification_targets_using_get(page_size=page_size, page=page,
                                                                                       text_search=text_search,
                                                                                       sort_property=sort_property,
