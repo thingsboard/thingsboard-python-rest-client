@@ -162,8 +162,11 @@ class RestClientBase(Thread):
         self.configuration.api_key["X-Authorization"] = token
         self.token_info['token'] = token
         self.token_info['refreshToken'] = refresh_token
-        parsed_token = jwt.decode(token, options={"verify_signature": False})
-        self.token_info['exp'] = parsed_token['exp']
+        try:
+            parsed_token = jwt.decode(token, options={"verify_signature": False})
+            self.token_info['exp'] = parsed_token['exp']
+        except Exception:
+            return
 
     def __load_configuration(self):
         self.api_client = ApiClient(self.configuration)
