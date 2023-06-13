@@ -1130,7 +1130,8 @@ class RestClientPE(RestClientBase):
         role_ids = ','.join(role_ids)
         return self.role_controller.get_roles_by_ids_using_get(role_ids=role_ids)
 
-    def get_roles(self, page_size: int, page: int, type: Optional[str] = None,text_search: Optional[str] = None, sort_property: Optional[str] = None, sort_order: Optional[str] = None,) -> PageDataRole:
+    def get_roles(self, page_size: int, page: int, type: Optional[str] = None, text_search: Optional[str] = None,
+                  sort_property: Optional[str] = None, sort_order: Optional[str] = None, ) -> PageDataRole:
         return self.role_controller.get_roles_using_get(page_size=page_size, page=page, type=type,
                                                         text_search=text_search, sort_property=sort_property,
                                                         sort_order=sort_order)
