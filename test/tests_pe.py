@@ -147,6 +147,7 @@ class TelemetryControllerTests(TBClientPETests):
 class DeviceControllerTest(TBClientPETests):
     device = None
     device_profile_id = None
+    ota_package_request = None
 
     @classmethod
     def setUpClass(cls) -> None:
@@ -157,9 +158,14 @@ class DeviceControllerTest(TBClientPETests):
         cls.device = cls.client.save_device(cls.device)
         cls.cred = cls.client.get_device_credentials_by_device_id(cls.device.id)
 
+        cls.ota_package_request = cls.client.save_ota_package_info(
+            SaveOtaPackageInfoRequest(device_profile_id=cls.device_profile_id, title='Test OTA', version=1,
+                                      type='FIRMWARE', file_name='tests_pe.py'))
+
     @classmethod
     def tearDownClass(cls) -> None:
         cls.client.delete_device(cls.device.id)
+        cls.client.delete_ota_package(cls.ota_package_request.id)
 
     def test_get_user_devices(self):
         devices = self.client.get_user_devices(10, 0)
@@ -352,7 +358,8 @@ class EntityGroupControllerTests(TBClientPETests):
         cls.customer = cls.client.get_customers(10, 0).data[0]
         cls.user_group = cls.client.get_entity_groups_by_owner_and_type('TENANT', cls.user.owner_id, 'USER')[-1]
 
-        cls.role = cls.client.get_roles(10, 0, text_search='Entity Group Write User').data[0]
+        cls.role = Role(name='Test PE EGC', type='GROUP', permissions=['ALL'])
+        cls.role = cls.client.save_role(cls.role)
 
         cls.test_entity_group = EntityGroup(name='Test 4', type='ASSET')
         cls.test_entity_group = cls.client.save_entity_group(cls.test_entity_group)
@@ -362,6 +369,7 @@ class EntityGroupControllerTests(TBClientPETests):
     @classmethod
     def tearDownClass(cls) -> None:
         cls.client.delete_entity_group(cls.test_entity_group.id)
+        cls.client.delete_role(cls.role.id)
 
     def test_get_entity_groups_by_type(self):
         self.assertIsInstance(self.client.get_entity_groups_by_type('DEVICE'), list)
@@ -1043,7 +1051,8 @@ class NotificationRuleControllerTests(TBClientPETests):
 
         cls.rule = NotificationRule(name='Test', trigger_type='ALARM',
                                     recipients_config={'triggerType': 'ALARM', 'escalationTable': {'0': []}},
-                                    trigger_config=NotificationRuleTriggerConfig(trigger_type='ALARM', notify_on=['CREATED']),
+                                    trigger_config=NotificationRuleTriggerConfig(trigger_type='ALARM',
+                                                                                 notify_on=['CREATED']),
                                     template_id=cls.template.id)
         cls.rule = cls.client.save_notification_rule(cls.rule)
 
