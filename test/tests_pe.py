@@ -348,12 +348,13 @@ class EntityGroupControllerTests(TBClientPETests):
     def setUpClass(cls) -> None:
         super(EntityGroupControllerTests, cls).setUpClass()
 
+        cls.user = cls.client.get_user()
         cls.customer = cls.client.get_customers(10, 0).data[0]
-        cls.user_group = cls.client.get_entity_groups_by_owner_and_type('CUSTOMER', cls.customer.id, 'ASSET')[-1]
+        cls.user_group = cls.client.get_entity_groups_by_owner_and_type('TENANT', cls.user.owner_id, 'USER')[-1]
 
-        cls.role = cls.client.get_roles(10, 0).data[0]
+        cls.role = cls.client.get_roles(10, 0, text_search='Entity Group Write User').data[0]
 
-        cls.test_entity_group = EntityGroup(name='Test 3', type='ASSET')
+        cls.test_entity_group = EntityGroup(name='Test 4', type='ASSET')
         cls.test_entity_group = cls.client.save_entity_group(cls.test_entity_group)
 
         cls.test_asset = cls.client.get_tenant_assets(10, 0).data[0]
