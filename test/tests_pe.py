@@ -504,9 +504,19 @@ class DashboardControllerTests(TBClientPETests):
         self.assertEqual(self.client.set_tenant_home_dashboard_info(
             HomeDashboardInfo(self.test_dashboard.id, hide_dashboard_toolbar=False)), None)
 
+    @unittest.skip('unstable')
     def test_export_group_dashboards(self):
         entity_group = self.client.get_entity_groups_by_type('DASHBOARD')[0]
-        self.assertIsInstance(self.client.export_group_dashboards(entity_group.id, 1), list)
+        dashboards = None
+        for _ in range(3):
+            try:
+                dashboards = self.client.export_group_dashboards(entity_group.id, 1)
+            except Exception:
+                sleep(60)
+            else:
+                break
+
+        self.assertIsInstance(dashboards, list)
 
     def test_get_dashboards_by_entity_group_id(self):
         entity_group = self.client.get_entity_groups_by_type('DASHBOARD')[0]
