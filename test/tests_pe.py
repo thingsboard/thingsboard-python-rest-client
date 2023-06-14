@@ -340,14 +340,20 @@ class EntityGroupControllerTests(TBClientPETests):
     test_entity_group = None
     test_asset = None
     customer = None
+    user = None
+    user_group = None
+    role = None
 
     @classmethod
     def setUpClass(cls) -> None:
         super(EntityGroupControllerTests, cls).setUpClass()
 
         cls.customer = cls.client.get_customers(10, 0).data[0]
+        cls.user_group = cls.client.get_entity_groups_by_owner_and_type('CUSTOMER', cls.customer.id, 'ASSET')[-1]
 
-        cls.test_entity_group = EntityGroup(name='Test 2', type='ASSET')
+        cls.role = cls.client.get_roles(10, 0).data[0]
+
+        cls.test_entity_group = EntityGroup(name='Test 3', type='ASSET')
         cls.test_entity_group = cls.client.save_entity_group(cls.test_entity_group)
 
         cls.test_asset = cls.client.get_tenant_assets(10, 0).data[0]
@@ -404,10 +410,9 @@ class EntityGroupControllerTests(TBClientPETests):
         self.assertIsInstance(self.client.get_owners(1, 0), PageDataContactBasedobject)
 
     def test_share_entity_group_to_child_owner_user_group(self):
-        self.assertEqual(self.client.share_entity_group_to_child_owner_user_group(
-            self.test_entity_group.id,
-            EntityId('4ff7a2b0-edfd-11eb-91fd-1f8899a6f9b3', 'USER'),
-            RoleId('29b466c0-43ab-11ec-b286-536c9e21a8b1', 'CUSTOMER')), None)
+        self.assertEqual(
+            self.client.share_entity_group_to_child_owner_user_group(self.test_entity_group.id, self.user_group.id,
+                                                                     self.role.id), None)
 
     @unittest.skip('ThingsBoard json naming bug')
     def test_get_entities(self):
@@ -439,7 +444,7 @@ class CustomerControllerTests(TBClientPETests):
         self.assertIsInstance(self.client.get_user_customers(10, 0), PageDataCustomer)
 
     def test_get_tenant_customer(self):
-        self.assertIsInstance(self.client.get_tenant_customer('Public'), Customer)
+        self.assertIsInstance(self.client.get_tenant_customer('Test from test'), Customer)
 
     def test_get_customers_by_entity_group_id(self):
         entity_group = self.client.get_entity_groups_by_type('CUSTOMER')[0]

@@ -504,23 +504,108 @@ class EntityQueryControllerTests(TBClientCETests):
 
     def test_count_alarms_by_query(self):
         self.assertIsInstance(self.client.count_alarms_by_query(AlarmCountQuery(assignee_id=self.user.id, key_filters=[
-            KeyFilter(key={'key': 'string', 'type': 'ALARM_FIELD'}, value_type='BOOLEAN')],
+            KeyFilter(key={'key': 'temperature', 'type': 'TIME_SERIES'}, value_type='BOOLEAN')],
                                                                                 search_propagated_alarms=True,
                                                                                 severity_list=['CRITICAL'])), int)
 
-    @unittest.skip('TB parsing bug')
     def test_find_alarms_by_query(self):
-        alarm_query = AlarmDataQuery(alarm_fields=[{'key': 'ALARM_FIELD'}],
-                                     entity_fields=[{'key': 'string', 'type': 'ALARM_FIELD'}],
-                                     entity_filter={}, key_filters=[
-                KeyFilter(key={'key': 'string', 'type': 'ALARM_FIELD'}, value_type='BOOLEAN', predicate={})],
-                                     latest_values=[{'key': 'string', 'type': 'ALARM_FIELD'}],
-                                     page_link=AlarmDataPageLink(assignee_id=self.user.id,
-                                                                 dynamic=True,
+        alarm_query = AlarmDataQuery(alarm_fields=[{'key': 'createdTime', 'type': 'ALARM_FIELD'}],
+                                     entity_fields=[{'key': 'name', 'type': 'ENTITY_FIELD'}],
+                                     entity_filter=EntityFilter(type='entityType', resolve_multiple=True,
+                                                                entity_type='DEVICE'), key_filters=[
+                KeyFilter(key={'key': 'temperature', 'type': 'TIME_SERIES'}, value_type='BOOLEAN',
+                          predicate={"operation": "GREATER",
+                                     "value": {
+                                         "defaultValue": 0,
+                                         "dynamicValue": None
+                                     },
+                                     "type": "NUMERIC"})],
+                                     latest_values=[{'key': 'model', 'type': 'ATTRIBUTE'}],
+                                     page_link=AlarmDataPageLink(dynamic=True,
                                                                  search_propagated_alarms=True,
                                                                  severity_list=[
-                                                                     'CRITICAL']))
+                                                                     'CRITICAL'], page_size=10))
         self.assertIsInstance(self.client.find_alarm_data_by_query(alarm_query), PageDataAlarmData)
+
+    def test_count_entities_by_query(self):
+        entity_count_query = EntityCountQuery(entity_filter=EntityFilter(type='entityType', entity_type='DEVICE'),
+                                              key_filters=[KeyFilter(key={"type": "ATTRIBUTE",
+                                                                          "key": "active"}, value_type='BOOLEAN',
+                                                                     predicate={"operation": "EQUAL",
+                                                                                "value": {
+                                                                                    "defaultValue": True,
+                                                                                    "dynamicValue": None
+                                                                                },
+                                                                                "type": "BOOLEAN"})])
+        self.assertIsInstance(self.client.count_entities_by_query(entity_count_query), int)
+
+    def test_find_entity_data_by_query(self):
+        entity_data_query = EntityDataQuery(
+            entity_filter=EntityFilter(type='entityType', resolve_multiple=True, entity_type='DEVICE'),
+            key_filters=[KeyFilter(key={"type": "TIME_SERIES",
+                                        "key": "temperature"},
+                                   value_type='NUMERIC',
+                                   predicate={"operation": "GREATER",
+                                              "value": {
+                                                  "defaultValue": 0,
+                                                  "dynamicValue": {
+                                                      "sourceType": "CURRENT_USER",
+                                                      "sourceAttribute": "temperatureThreshold",
+                                                      "inherit": False
+                                                  }
+                                              },
+                                              "type": "NUMERIC"})],
+            entity_fields=[{"type": "ENTITY_FIELD",
+                            "key": "name"}],
+            latest_values=[{
+                "type": "ATTRIBUTE",
+                "key": "model"
+            }],
+            page_link={"page": 0,
+                       "pageSize": 10,
+                       "sortOrder": {
+                           "key": {
+                               "key": "name",
+                               "type": "ENTITY_FIELD"
+                           },
+                           "direction": "ASC"
+                       }})
+        self.assertIsInstance(self.client.find_entity_data_by_query(entity_data_query), PageDataEntityData)
+
+    def test_find_entity_keys_by_query(self):
+        entity_data_query = EntityDataQuery(
+            entity_filter=EntityFilter(type='entityType', resolve_multiple=True, entity_type='DEVICE'),
+            key_filters=[KeyFilter(key={"type": "TIME_SERIES",
+                                        "key": "temperature"},
+                                   value_type='NUMERIC',
+                                   predicate={"operation": "GREATER",
+                                              "value": {
+                                                  "defaultValue": 0,
+                                                  "dynamicValue": {
+                                                      "sourceType": "CURRENT_USER",
+                                                      "sourceAttribute": "temperatureThreshold",
+                                                      "inherit": False
+                                                  }
+                                              },
+                                              "type": "NUMERIC"})],
+            entity_fields=[{"type": "ENTITY_FIELD",
+                            "key": "name"}],
+            latest_values=[{
+                "type": "ATTRIBUTE",
+                "key": "model"
+            }],
+            page_link={"page": 0,
+                       "pageSize": 10,
+                       "sortOrder": {
+                           "key": {
+                               "key": "name",
+                               "type": "ENTITY_FIELD"
+                           },
+                           "direction": "ASC"
+                       }})
+        self.assertIsInstance(
+            self.client.find_entity_timeseries_and_attributes_keys_by_query(timeseries=True, attributes=True,
+                                                                            body=entity_data_query), dict)
 
 
 class EntityRelationControllerTests(TBClientCETests):
