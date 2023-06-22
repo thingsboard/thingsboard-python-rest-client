@@ -334,10 +334,16 @@ class ApiClient(object):
                     klass = found_class
 
             except AttributeError:
-                found_class = getattr(tb_rest_client.models.models_ce, klass)
-                # if all(attr in list(found_class.attribute_map.values()) for attr in list(data.keys())):
-                # if sorted(list(found_class.attribute_map.values())) == sorted(list(data.keys())):
-                klass = found_class
+                try:
+                    found_class = getattr(tb_rest_client.models.models_ce, klass)
+                    # if all(attr in list(found_class.attribute_map.values()) for attr in list(data.keys())):
+                    # if sorted(list(found_class.attribute_map.values())) == sorted(list(data.keys())):
+                    klass = found_class
+                except AttributeError:
+                    print('WARNING: received data fields not the same as in the {0} model (dyn fields problem)'.format(
+                        klass))
+                    found_class = getattr(tb_rest_client.models.models_pe, klass)
+                    klass = found_class
         # else:
         #     return self.__deserialize(data, type(data))
         return self.__deserialize_data(data, klass)
