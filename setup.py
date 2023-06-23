@@ -18,7 +18,7 @@ from setuptools import setup, find_packages  # noqa: H301
 from os import path
 
 NAME = "tb-rest-client"
-VERSION = "1.7"
+VERSION = "3.5"
 
 this_directory = path.abspath(path.dirname(__file__))
 with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
