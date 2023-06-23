@@ -1,18 +1,17 @@
-# coding: utf-8
-#      Copyright 2020. ThingsBoard
-#  #
-#      Licensed under the Apache License, Version 2.0 (the "License");
-#      you may not use this file except in compliance with the License.
-#      You may obtain a copy of the License at
-#  #
-#          http://www.apache.org/licenses/LICENSE-2.0
-#  #
-#      Unless required by applicable law or agreed to in writing, software
-#      distributed under the License is distributed on an "AS IS" BASIS,
-#      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#      See the License for the specific language governing permissions and
-#      limitations under the License.
+#  Copyright 2023. ThingsBoard
 #
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+
 
 import jwt
 from time import time, sleep
@@ -162,8 +161,11 @@ class RestClientBase(Thread):
         self.configuration.api_key["X-Authorization"] = token
         self.token_info['token'] = token
         self.token_info['refreshToken'] = refresh_token
-        parsed_token = jwt.decode(token, options={"verify_signature": False})
-        self.token_info['exp'] = parsed_token['exp']
+        try:
+            parsed_token = jwt.decode(token, options={"verify_signature": False})
+            self.token_info['exp'] = parsed_token['exp']
+        except Exception:
+            return
 
     def __load_configuration(self):
         self.api_client = ApiClient(self.configuration)
@@ -1711,7 +1713,7 @@ class RestClientBase(Thread):
     def delete_notification_target_by_id(self, id: str):
         return self.notification_target_controller.delete_notification_target_by_id_using_delete(id=id)
 
-    def get_notification_target_by_id(self, id: str):
+    def get_notification_target_by_id(self, id: str) -> NotificationTarget:
         return self.notification_target_controller.get_notification_target_by_id_using_get(id=id)
 
     def get_notification_targets_by_ids(self, ids: list) -> List[NotificationTarget]:
@@ -1721,13 +1723,15 @@ class RestClientBase(Thread):
     def get_notification_targets_by_supported_notification_type(self, notification_type: str, page_size: int, page: int,
                                                                 text_search: Optional[str] = None,
                                                                 sort_property: Optional[str] = None,
-                                                                sort_order: Optional[str] = None):
+                                                                sort_order: Optional[
+                                                                    str] = None) -> PageDataNotificationTarget:
         return self.notification_target_controller.get_notification_targets_by_supported_notification_type_using_get(
-            notification_type=notification_type, page_size=page_size, page=page, text_search=text_search, sort_property=sort_property, sort_order=sort_order)
+            notification_type=notification_type, page_size=page_size, page=page, text_search=text_search,
+            sort_property=sort_property, sort_order=sort_order)
 
     def get_notification_targets(self, page_size: int, page: int, text_search: Optional[str] = None,
                                  sort_property: Optional[str] = None,
-                                 sort_order: Optional[str] = None):
+                                 sort_order: Optional[str] = None) -> PageDataNotificationTarget:
         return self.notification_target_controller.get_notification_targets_using_get(page_size=page_size, page=page,
                                                                                       text_search=text_search,
                                                                                       sort_property=sort_property,

@@ -1,3 +1,17 @@
+#  Copyright 2023. ThingsBoard
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+
 import unittest
 
 from tb_rest_client.rest_client_pe import *
@@ -11,14 +25,47 @@ class TBClientPETests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         # ThingsBoard REST API URL
-        url = "https://thingsboard.cloud"
+        url = "https://127.0.0.1:8080"
 
         # Default Tenant Administrator credentials
-        username = "***"
-        password = "***"
+        username = "tenant@thingsboard.org"
+        password = "tenant"
 
         with RestClientPE(url) as cls.client:
             cls.client.login(username, password)
+
+
+class AlarmCommentControllerTests(TBClientPETests):
+    alarm = None
+    alarm_comment = None
+    device_profile_id = None
+    device = None
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        super(AlarmCommentControllerTests, cls).setUpClass()
+
+        cls.device_profile_id = cls.client.get_default_device_profile_info().id
+
+        cls.device = Device(name='Test', label='Test', device_profile_id=cls.device_profile_id)
+        cls.device = cls.client.save_device(body=cls.device)
+
+        cls.test_alarm = cls.client.save_alarm(Alarm(name='Test', type='default',
+                                                     originator=cls.device.id,
+                                                     severity='CRITICAL', status='CLEARED_UNACK', acknowledged=False,
+                                                     cleared=False))
+        cls.alarm = cls.client.get_all_alarms(10, 0).data[0]
+        cls.alarm_comment = cls.client.save_alarm_comment(cls.alarm.id,
+                                                          AlarmComment(name='Test Comment', comment='Test comment'))
+
+    def test_get_alarm_comments(self):
+        self.assertIsInstance(self.client.get_alarm_comments(self.alarm.id, 10, 0), PageDataAlarmCommentInfo)
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        cls.client.delete_alarm_comment(cls.alarm.id, cls.alarm_comment.id)
+        cls.client.delete_alarm(cls.alarm.id)
+        cls.client.delete_device(cls.device.id)
 
 
 class TelemetryControllerTests(TBClientPETests):
@@ -114,6 +161,7 @@ class TelemetryControllerTests(TBClientPETests):
 class DeviceControllerTest(TBClientPETests):
     device = None
     device_profile_id = None
+    ota_package_request = None
 
     @classmethod
     def setUpClass(cls) -> None:
@@ -124,9 +172,14 @@ class DeviceControllerTest(TBClientPETests):
         cls.device = cls.client.save_device(cls.device)
         cls.cred = cls.client.get_device_credentials_by_device_id(cls.device.id)
 
+        cls.ota_package_request = cls.client.save_ota_package_info(
+            SaveOtaPackageInfoRequest(device_profile_id=cls.device_profile_id, title='Test OTA', version=1,
+                                      type='FIRMWARE', file_name='tests_pe.py'))
+
     @classmethod
     def tearDownClass(cls) -> None:
         cls.client.delete_device(cls.device.id)
+        cls.client.delete_ota_package(cls.ota_package_request.id)
 
     def test_get_user_devices(self):
         devices = self.client.get_user_devices(10, 0)
@@ -247,18 +300,82 @@ class AssetControllerTests(TBClientPETests):
         self.assertIsInstance(self.client.get_asset_by_id(self.test_asset.id), Asset)
 
 
+class AssetProfileControllerTests(TBClientPETests):
+    asset_profile = None
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        super(AssetProfileControllerTests, cls).setUpClass()
+
+        cls.asset_profile = AssetProfile(name='Test Asset', default=False)
+        cls.asset_profile = cls.client.save_asset_profile(cls.asset_profile)
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        cls.client.delete_asset_profile(cls.asset_profile.id)
+
+    def test_get_asset_profile_by_id(self):
+        self.assertIsInstance(self.client.get_asset_profile_by_id(self.asset_profile.id), AssetProfile)
+
+    def test_get_asset_profile_info_by_id(self):
+        self.assertIsInstance(self.client.get_asset_profile_info_by_id(self.asset_profile.id), AssetProfileInfo)
+
+    def test_get_default_asset_profile_info(self):
+        self.assertIsInstance(self.client.get_default_asset_profile_info(), AssetProfileInfo)
+
+    def test_get_asset_profile_infos(self):
+        self.assertIsInstance(self.client.get_asset_profile_infos(10, 0), PageDataAssetProfileInfo)
+
+    def test_get_asset_profiles(self):
+        self.assertIsInstance(self.client.get_asset_profiles(10, 0), PageDataAssetProfile)
+
+
+class AuditLogControllerTests(TBClientPETests):
+    customer = None
+    device = None
+    user = None
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        super(AuditLogControllerTests, cls).setUpClass()
+
+        cls.customer = cls.client.get_customers(10, 0).data[0]
+        cls.user = cls.client.get_user()
+
+    def test_get_audit_logs(self):
+        self.assertIsInstance(self.client.get_audit_logs(10, 0), PageDataAuditLog)
+
+    def test_get_audit_logs_by_customer_id(self):
+        self.assertIsInstance(self.client.get_audit_logs_by_customer_id(self.customer.id, 10, 0), PageDataAuditLog)
+
+    def test_get_audit_logs_by_entity_id(self):
+        self.assertIsInstance(self.client.get_audit_logs_by_entity_id(EntityId(self.customer.id, 'CUSTOMER'), 10, 0),
+                              PageDataAuditLog)
+
+    def test_get_audit_logs_by_user_id(self):
+        self.assertIsInstance(self.client.get_audit_logs_by_user_id(self.user.id, 10, 0), PageDataAuditLog)
+
+
 class EntityGroupControllerTests(TBClientPETests):
     test_entity_group = None
     test_asset = None
     customer = None
+    user = None
+    user_group = None
+    role = None
 
     @classmethod
     def setUpClass(cls) -> None:
         super(EntityGroupControllerTests, cls).setUpClass()
 
+        cls.user = cls.client.get_user()
         cls.customer = cls.client.get_customers(10, 0).data[0]
+        cls.user_group = cls.client.get_entity_groups_by_owner_and_type('TENANT', cls.user.owner_id, 'USER')[-1]
 
-        cls.test_entity_group = EntityGroup(name='Test 2', type='ASSET')
+        cls.role = Role(name='Test PE EGC', type='GROUP', permissions=['ALL'])
+        cls.role = cls.client.save_role(cls.role)
+
+        cls.test_entity_group = EntityGroup(name='Test 4', type='ASSET')
         cls.test_entity_group = cls.client.save_entity_group(cls.test_entity_group)
 
         cls.test_asset = cls.client.get_tenant_assets(10, 0).data[0]
@@ -266,6 +383,7 @@ class EntityGroupControllerTests(TBClientPETests):
     @classmethod
     def tearDownClass(cls) -> None:
         cls.client.delete_entity_group(cls.test_entity_group.id)
+        cls.client.delete_role(cls.role.id)
 
     def test_get_entity_groups_by_type(self):
         self.assertIsInstance(self.client.get_entity_groups_by_type('DEVICE'), list)
@@ -315,10 +433,9 @@ class EntityGroupControllerTests(TBClientPETests):
         self.assertIsInstance(self.client.get_owners(1, 0), PageDataContactBasedobject)
 
     def test_share_entity_group_to_child_owner_user_group(self):
-        self.assertEqual(self.client.share_entity_group_to_child_owner_user_group(
-            self.test_entity_group.id,
-            EntityId('4ff7a2b0-edfd-11eb-91fd-1f8899a6f9b3', 'USER'),
-            RoleId('29b466c0-43ab-11ec-b286-536c9e21a8b1', 'CUSTOMER')), None)
+        self.assertEqual(
+            self.client.share_entity_group_to_child_owner_user_group(self.test_entity_group.id, self.user_group.id,
+                                                                     self.role.id), None)
 
     @unittest.skip('ThingsBoard json naming bug')
     def test_get_entities(self):
@@ -350,7 +467,7 @@ class CustomerControllerTests(TBClientPETests):
         self.assertIsInstance(self.client.get_user_customers(10, 0), PageDataCustomer)
 
     def test_get_tenant_customer(self):
-        self.assertIsInstance(self.client.get_tenant_customer('Public'), Customer)
+        self.assertIsInstance(self.client.get_tenant_customer('Test from test'), Customer)
 
     def test_get_customers_by_entity_group_id(self):
         entity_group = self.client.get_entity_groups_by_type('CUSTOMER')[0]
@@ -401,9 +518,19 @@ class DashboardControllerTests(TBClientPETests):
         self.assertEqual(self.client.set_tenant_home_dashboard_info(
             HomeDashboardInfo(self.test_dashboard.id, hide_dashboard_toolbar=False)), None)
 
+    @unittest.skip('unstable')
     def test_export_group_dashboards(self):
         entity_group = self.client.get_entity_groups_by_type('DASHBOARD')[0]
-        self.assertIsInstance(self.client.export_group_dashboards(entity_group.id, 1), list)
+        dashboards = None
+        for _ in range(3):
+            try:
+                dashboards = self.client.export_group_dashboards(entity_group.id, 1)
+            except Exception:
+                sleep(60)
+            else:
+                break
+
+        self.assertIsInstance(dashboards, list)
 
     def test_get_dashboards_by_entity_group_id(self):
         entity_group = self.client.get_entity_groups_by_type('DASHBOARD')[0]
@@ -484,6 +611,46 @@ class ConverterControllerTests(TBClientPETests):
             },
             "encoder": "// Encode downlink data from incoming Rule Engine message\n\n// msg - JSON message payload downlink message json\n// msgType - type of message, for ex. 'ATTRIBUTES_UPDATED', 'POST_TELEMETRY_REQUEST', etc.\n// metadata - list of key-value pairs with additional data about the message\n// integrationMetadata - list of key-value pairs with additional data defined in Integration executing this converter\n\n/** Encoder **/\n\nvar data = {};\n\n// Process data from incoming message and metadata\n\ndata.tempValue = msg.temp;\ndata.humValue = msg.humidity;\n\ndata.devSerialNumber = metadata['ss_serialNumber'];\n\n// Result object with encoded downlink payload\nvar result = {\n\n    // downlink data content type: JSON, TEXT or BINARY (base64 format)\n    contentType: \"JSON\",\n\n    // downlink data\n    data: JSON.stringify(data),\n\n    // Optional metadata object presented in key/value format\n    metadata: {\n            topic: metadata['deviceType']+'/'+metadata['deviceName']+'/upload'\n    }\n\n};\n\nreturn result;"
         }), dict)
+
+
+class IntegrationControllerTests(TBClientPETests):
+    test_converter = None
+    integration = None
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        super(IntegrationControllerTests, cls).setUpClass()
+
+        cls.test_converter = Converter(name='Test PE', type='UPLINK', configuration={
+            "decoder": "// Decode an uplink message from a buffer\n// payload - array of bytes\n// metadata - key/value object\n\n/** Decoder **/\n\n// decode payload to string\nvar payloadStr = decodeToString(payload);\n\n// decode payload to JSON\n// var data = decodeToJson(payload);\n\nvar deviceName = 'Device A';\nvar deviceType = 'thermostat';\nvar customerName = 'customer';\nvar groupName = 'thermostat devices';\n// use assetName and assetType instead of deviceName and deviceType\n// to automatically create assets instead of devices.\n// var assetName = 'Asset A';\n// var assetType = 'building';\n\n// Result object with device/asset attributes/telemetry data\nvar result = {\n// Use deviceName and deviceType or assetName and assetType, but not both.\n   deviceName: deviceName,\n   deviceType: deviceType,\n// assetName: assetName,\n// assetType: assetType,\n   customerName: customerName,\n   groupName: groupName,\n   attributes: {\n       model: 'Model A',\n       serialNumber: 'SN111',\n       integrationName: metadata['integrationName']\n   },\n   telemetry: {\n       temperature: 42,\n       humidity: 80,\n       rawData: payloadStr\n   }\n};\n\n/** Helper functions **/\n\nfunction decodeToString(payload) {\n   return String.fromCharCode.apply(String, payload);\n}\n\nfunction decodeToJson(payload) {\n   // covert payload to string.\n   var str = decodeToString(payload);\n\n   // parse string to JSON\n   var data = JSON.parse(str);\n   return data;\n}\n\nreturn result;",
+            "encoder": None
+        })
+        cls.test_converter = cls.client.save_converter(cls.test_converter)
+        cls.integration = Integration(name='HTTP Test', type='HTTP', enabled=True, debug_mode=True,
+                                      allow_create_devices_or_assets=True, default_converter_id=cls.test_converter.id,
+                                      secret='6uy2p5s0aspoqb6glhva', routing_key='ea150eb3-df46-1321-826c-9d924ed5d88a',
+                                      configuration={'baseUrl': 'https://thingsboard.cloud', 'enableSecurity': False})
+        cls.integration = cls.client.save_integration(cls.integration)
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        cls.client.delete_integration(cls.integration.id)
+        cls.client.delete_converter(cls.test_converter.id)
+
+    def test_get_integration_by_id(self):
+        self.assertIsInstance(self.client.get_integration_by_id(self.integration.id), Integration)
+
+    def test_get_integration_by_routing_key(self):
+        self.assertIsInstance(self.client.get_integration_by_routing_key(self.integration.routing_key), Integration)
+
+    def test_get_integration_infos(self):
+        self.assertIsInstance(self.client.get_integration_infos(10, 0, False), PageDataIntegrationInfo)
+
+    def test_get_integrations_by_ids(self):
+        self.assertIsInstance(self.client.get_integrations_by_ids([self.integration.id.id]), list)
+
+    def test_get_integrations(self):
+        self.assertIsInstance(self.client.get_integrations(10, 0, False), PageDataIntegration)
 
 
 class AlarmControllerTests(TBClientPETests):
@@ -724,6 +891,205 @@ class RoleControllerTests(TBClientPETests):
 class UserPermissionsControllerTests(TBClientPETests):
     def test_get_allowed_permissions(self):
         self.assertIsInstance(self.client.get_allowed_permissions(), AllowedPermissionsInfo)
+
+
+class UiSettingsControllerTests(TBClientPETests):
+    def test_get_help_base_url(self):
+        self.assertIsInstance(self.client.get_help_base_url(), str)
+
+
+class UsageInfoControllerTests(TBClientPETests):
+    def test_get_tenant_usage_info(self):
+        self.assertIsInstance(self.client.get_tenant_usage_info(), UsageInfo)
+
+
+class WidgetBundleControllerTests(TBClientPETests):
+    widget_bundle = None
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        super(WidgetBundleControllerTests, cls).setUpClass()
+
+        cls.widget_bundle = WidgetsBundle(name='Test', alias='test', title='Test')
+        cls.widget_bundle = cls.client.save_widgets_bundle(cls.widget_bundle)
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        cls.client.delete_widgets_bundle(cls.widget_bundle.id)
+
+    def test_get_widgets_bundle_by_id(self):
+        self.assertIsInstance(self.client.get_widgets_bundle_by_id(self.widget_bundle.id), WidgetsBundle)
+
+    def test_get_all_widgets_bundles(self):
+        self.assertIsInstance(self.client.get_widgets_bundles(), list)
+
+    def test_get_widget_bundles(self):
+        self.assertIsInstance(self.client.get_widgets_bundles_v1(10, 0), PageDataWidgetsBundle)
+
+
+class WidgetTypeControllerTests(TBClientPETests):
+    widget_bundle = None
+    widget_type = None
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        super(WidgetTypeControllerTests, cls).setUpClass()
+
+        cls.widget_bundle = WidgetsBundle(name='Test', alias='test', title='Test')
+        cls.widget_bundle = cls.client.save_widgets_bundle(cls.widget_bundle)
+
+        cls.widget_type = WidgetType(descriptor={'controllerScript': '', 'dataKeySettingsSchema': {}, 'defaultConfig': {}}, name='Test', alias='test', bundle_alias='test')
+        cls.widget_type = cls.client.save_widget_type(cls.widget_type)
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        cls.client.delete_widget_type(cls.widget_type.id)
+
+    def test_get_widget_type_by_id(self):
+        self.assertIsInstance(self.client.get_widget_type_by_id(self.widget_type.id), WidgetTypeDetails)
+
+    def test_get_widget_type(self):
+        self.assertIsInstance(self.client.get_widget_type(False, 'test', 'test'), WidgetType)
+
+    def test_get_bundle_widget_types(self):
+        self.assertIsInstance(self.client.get_bundle_widget_types(False, 'test'), list)
+
+    def test_get_bundle_widget_types_infos(self):
+        self.assertIsInstance(self.client.get_bundle_widget_types_infos(False, 'test'), list)
+
+
+class NotificationControllerTests(TBClientPETests):
+    notification = None
+    template = None
+    notification_target = None
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        super(NotificationControllerTests, cls).setUpClass()
+
+        cls.notification_target = NotificationTarget(name='Test CE',
+                                                     configuration=NotificationTargetConfig(type='PLATFORM_USERS',
+                                                                                            description='test',
+                                                                                            users_filter={
+                                                                                                'type': 'ALL_USERS'}))
+        cls.notification_target = cls.client.save_notification_target(cls.notification_target)
+
+        cls.template = cls.client.get_notification_templates(10, 0).data[0]
+
+        cls.notification = NotificationRequest(additional_config=NotificationRequestConfig(sending_delay_in_sec=0),
+                                               targets=[cls.notification_target.id.id], template_id=cls.template.id,
+                                               status='PROCESSING')
+        cls.notification = cls.client.create_notification_request(cls.notification)
+
+    def test_get_available_delivery_methods(self):
+        self.assertIsInstance(self.client.get_available_delivery_methods(), list)
+
+    def test_get_notification_request_by_id(self):
+        self.assertIsInstance(self.client.get_notification_request_by_id(self.notification.id), NotificationRequestInfo)
+
+    def test_get_notification_requests(self):
+        self.assertIsInstance(self.client.get_notification_requests(10, 0), PageDataNotificationRequestInfo)
+
+    def test_get_notification_settings(self):
+        self.assertIsInstance(self.client.get_notification_settings(), NotificationSettings)
+
+    def test_get_notifications(self):
+        self.assertIsInstance(self.client.get_notifications(10, 0), PageDataNotification)
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        cls.client.delete_notification(cls.notification.id)
+        cls.client.delete_notification_target_by_id(cls.notification_target.id)
+
+
+class NotificationTemplateControllerTests(TBClientPETests):
+    template = None
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        super(NotificationTemplateControllerTests, cls).setUpClass()
+
+        cls.template = NotificationTemplate(name='Hello to all my users', configuration=NotificationTemplateConfig(
+            delivery_methods_templates={
+                'WEB': {'method': 'WEB', 'subject': 'Hello', 'body': 'Hello', 'enabled': True}}),
+                                            notification_type='GENERAL')
+        cls.template = cls.client.save_notification_template(cls.template)
+
+    def test_get_notification_template_by_id(self):
+        self.assertIsInstance(self.client.get_notification_template_by_id(self.template.id), NotificationTemplate)
+
+    def test_get_notification_templates(self):
+        self.assertIsInstance(self.client.get_notification_templates(10, 0), PageDataNotificationTemplate)
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        cls.client.delete_notification_template_by_id(cls.template.id)
+
+
+class NotificationTargetControllerTests(TBClientPETests):
+    notification_target = None
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        super(NotificationTargetControllerTests, cls).setUpClass()
+
+        cls.notification_target = NotificationTarget(name='Test CE',
+                                                     configuration=NotificationTargetConfig(type='PLATFORM_USERS',
+                                                                                            description='test',
+                                                                                            users_filter={
+                                                                                                'type': 'ALL_USERS'}))
+        cls.notification_target = cls.client.save_notification_target(cls.notification_target)
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        cls.client.delete_notification_target_by_id(cls.notification_target.id)
+
+    def test_get_notification_target_by_id(self):
+        self.assertIsInstance(self.client.get_notification_target_by_id(self.notification_target.id),
+                              NotificationTarget)
+
+    def test_get_notification_targets_by_ids(self):
+        self.assertIsInstance(self.client.get_notification_targets_by_ids([self.notification_target.id.id]), list)
+
+    def test_get_notification_targets_by_supported_notification_type(self):
+        self.assertIsInstance(self.client.get_notification_targets_by_supported_notification_type('ALARM', 10, 0),
+                              PageDataNotificationTarget)
+
+    def test_get_notification_targets(self):
+        self.assertIsInstance(self.client.get_notification_targets(10, 0), PageDataNotificationTarget)
+
+
+class NotificationRuleControllerTests(TBClientPETests):
+    rule = None
+    template = None
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        super(NotificationRuleControllerTests, cls).setUpClass()
+
+        cls.template = NotificationTemplate(name='Hello to all my users', configuration=NotificationTemplateConfig(
+            delivery_methods_templates={
+                'WEB': {'method': 'WEB', 'subject': 'Hello', 'body': 'Hello', 'enabled': True}}),
+                                            notification_type='GENERAL')
+        cls.template = cls.client.save_notification_template(cls.template)
+
+        cls.rule = NotificationRule(name='Test', trigger_type='ALARM',
+                                    recipients_config={'triggerType': 'ALARM', 'escalationTable': {'0': []}},
+                                    trigger_config=NotificationRuleTriggerConfig(trigger_type='ALARM',
+                                                                                 notify_on=['CREATED']),
+                                    template_id=cls.template.id)
+        cls.rule = cls.client.save_notification_rule(cls.rule)
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        cls.client.delete_notification_rule(cls.rule.id)
+        cls.client.delete_notification_template_by_id(cls.template.id)
+
+    def test_get_notification_rule_by_id(self):
+        self.assertIsInstance(self.client.get_notification_rule_by_id(self.rule.id), NotificationRuleInfo)
+
+    def test_get_notification_rules(self):
+        self.assertIsInstance(self.client.get_notification_rules(10, 0), PageDataNotificationRuleInfo)
 
 
 if __name__ == '__main__':

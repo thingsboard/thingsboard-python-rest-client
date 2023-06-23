@@ -1,15 +1,27 @@
+#  Copyright 2023. ThingsBoard
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+
 from .default_device_profile_transport_configuration import DefaultDeviceProfileTransportConfiguration
 from .json_node import JsonNode
 from .merged_user_permissions import MergedUserPermissions
 from .page_data_edge import PageDataEdge
 from .tenant_solution_template_info import TenantSolutionTemplateInfo
-from .tenant_info import TenantInfo
 from .debug_rule_node_event_filter import DebugRuleNodeEventFilter
 from .admin_settings_id import AdminSettingsId
 from .entity_data import EntityData
 from .server_security_config import ServerSecurityConfig
 from .login_response import LoginResponse
-from .widget_type import WidgetType
 from .event_id import EventId
 from .scheduler_event_info import SchedulerEventInfo
 from .test_sms_request import TestSmsRequest
@@ -39,10 +51,8 @@ from .bulk_import_result_device import BulkImportResultDevice
 from .device_search_query_filter import DeviceSearchQueryFilter
 from .dashboard_info import DashboardInfo
 from .byte_buffer import ByteBuffer
-from .entity_info import EntityInfo
 from .edge import Edge
 from .scheduler_event_with_customer_info import SchedulerEventWithCustomerInfo
-from .tenant import Tenant
 from .entity_relations_query import EntityRelationsQuery
 from .sms_provider_configuration import SmsProviderConfiguration
 from .entity_relation_info import EntityRelationInfo
@@ -130,7 +140,6 @@ from .entity_group_id import EntityGroupId
 from .telemetry_mapping_configuration import TelemetryMappingConfiguration
 from .default_device_profile_configuration import DefaultDeviceProfileConfiguration
 from .any_time_schedule import AnyTimeSchedule
-from .page_data_tenant import PageDataTenant
 from .allow_create_new_devices_device_profile_provision_configuration import \
     AllowCreateNewDevicesDeviceProfileProvisionConfiguration
 from .to_device_rpc_request_snmp_communication_config import ToDeviceRpcRequestSnmpCommunicationConfig
@@ -168,7 +177,6 @@ from .palette_settings import PaletteSettings
 from .response_entity import ResponseEntity
 from .page_data_event import PageDataEvent
 from .entity_list_filter import EntityListFilter
-from .deferred_result_response_entity import DeferredResultResponseEntity
 from .entity_type_filter import EntityTypeFilter
 from .custom_time_schedule import CustomTimeSchedule
 from .tenant_solution_template_instructions import TenantSolutionTemplateInstructions
@@ -186,14 +194,10 @@ from .custom_menu import CustomMenu
 from .relations_search_parameters import RelationsSearchParameters
 from .thingsboard_credentials_expired_response import ThingsboardCredentialsExpiredResponse
 from .o_auth2_basic_mapper_config import OAuth2BasicMapperConfig
-from .page_data_widgets_bundle import PageDataWidgetsBundle
 from .simple_alarm_condition_spec import SimpleAlarmConditionSpec
 from .rpc import Rpc
 from .group_permission_info import GroupPermissionInfo
-from .widgets_bundle import WidgetsBundle
 from .rpc_id import RpcId
-from .page_data_entity_info import PageDataEntityInfo
-from .page_data_alarm_data import PageDataAlarmData
 from .default_rule_chain_create_request import DefaultRuleChainCreateRequest
 from .transport_payload_type_configuration import TransportPayloadTypeConfiguration
 from .entity_group import EntityGroup
@@ -226,23 +230,18 @@ from .asset_search_query import AssetSearchQuery
 from .entity_filter import EntityFilter
 from .debug_integration_event_filter import DebugIntegrationEventFilter
 from .entity_view_type_filter import EntityViewTypeFilter
-from .page_data_entity_data import PageDataEntityData
 from .dynamic_valueboolean import DynamicValueboolean
-from .page_data_tenant_info import PageDataTenantInfo
-from .page_data_audit_log import PageDataAuditLog
 from .tenant_profile_configuration import TenantProfileConfiguration
 from .customer import Customer
 from .dynamic_valuelong import DynamicValuelong
 from .device_profile_transport_configuration import DeviceProfileTransportConfiguration
 from .tb_resource_info import TbResourceInfo
-from .widget_type_details import WidgetTypeDetails
 from .object_attributes import ObjectAttributes
 from .relation_entity_type_filter import RelationEntityTypeFilter
 from .asset_search_query_filter import AssetSearchQueryFilter
 from .reset_password_email_request import ResetPasswordEmailRequest
 from .tenant_solution_template_details import TenantSolutionTemplateDetails
 from .tenant_profile_id import TenantProfileId
-from .tenant_profile import TenantProfile
 from .blob_entity_id import BlobEntityId
 from .key_filter_predicate import KeyFilterPredicate
 from .o_auth2_mapper_config import OAuth2MapperConfig
@@ -258,7 +257,6 @@ from .dynamic_valuedouble import DynamicValuedouble
 from .dynamic_valuestring import DynamicValuestring
 from .lw_m2m_instance import LwM2mInstance
 from .repeating_alarm_condition_spec import RepeatingAlarmConditionSpec
-from .page_data_tenant_profile import PageDataTenantProfile
 from .custom_time_schedule_item import CustomTimeScheduleItem
 from .mapping import Mapping
 from .user_password_policy import UserPasswordPolicy
@@ -331,7 +329,6 @@ from .two_fa_account_config_update_request import TwoFaAccountConfigUpdateReques
 from .two_fa_provider_info import TwoFaProviderInfo
 from .entity_load_error import EntityLoadError
 from .array_node import ArrayNode
-from .asset_profile_info import AssetProfileInfo
 from .integration_info import IntegrationInfo
 from .page_data_integration_info import PageDataIntegrationInfo
 from .raw_data_event_filter import RawDataEventFilter
@@ -350,7 +347,6 @@ from .alarm_comment_notification_rule_trigger_config import AlarmCommentNotifica
 from .all_users_filter import AllUsersFilter
 from .api_usage_limit_notification_rule_trigger_config import ApiUsageLimitNotificationRuleTriggerConfig
 from .asset_info import AssetInfo
-from .asset_profile import AssetProfile
 from .asset_profile_id import AssetProfileId
 from .clear_rule import ClearRule
 from .comparison_ts_value import ComparisonTsValue
@@ -359,7 +355,6 @@ from .customer_users_filter import CustomerUsersFilter
 from .delivery_method_notification_template import DeliveryMethodNotificationTemplate
 from .device_activity_notification_rule_trigger_config import DeviceActivityNotificationRuleTriggerConfig
 from .device_info import DeviceInfo
-from .device_profile import DeviceProfile
 from .edge_info import EdgeInfo
 from .edge_install_instructions import EdgeInstallInstructions
 from .email_delivery_method_notification_template import EmailDeliveryMethodNotificationTemplate
@@ -382,34 +377,18 @@ from .notification_request import NotificationRequest
 from .notification_request_config import NotificationRequestConfig
 from .notification_request_id import NotificationRequestId
 from .notification_request_preview import NotificationRequestPreview
-from .notification_request_info import NotificationRequestInfo
 from .notification_request_stats import NotificationRequestStats
-from .notification_rule import NotificationRule
 from .notification_rule_config import NotificationRuleConfig
 from .notification_rule_id import NotificationRuleId
-from .notification_rule_info import NotificationRuleInfo
 from .notification_rule_recipients_config import NotificationRuleRecipientsConfig
-from .notification_rule_trigger_config import NotificationRuleTriggerConfig
-from .notification_settings import NotificationSettings
-from .notification_template import NotificationTemplate
-from .notification_target import NotificationTarget
-from .notification_target_config import NotificationTargetConfig
 from .notification_target_id import NotificationTargetId
 from .notification_template_config import NotificationTemplateConfig
 from .notification_template_id import NotificationTemplateId
 from .originator_entity_owner_users_filter import OriginatorEntityOwnerUsersFilter
-from .page_data_alarm_comment_info import PageDataAlarmCommentInfo
-from .page_data_asset_profile import PageDataAssetProfile
-from .page_data_asset_profile_info import PageDataAssetProfileInfo
 from .page_data_customer_info import PageDataCustomerInfo
 from .page_data_edge_info import PageDataEdgeInfo
 from .page_data_entity_view_info import PageDataEntityViewInfo
 from .page_data_event_info import PageDataEventInfo
-from .page_data_notification import PageDataNotification
-from .page_data_notification_request_info import PageDataNotificationRequestInfo
-from .page_data_notification_rule_info import PageDataNotificationRuleInfo
-from .page_data_notification_target import PageDataNotificationTarget
-from .page_data_notification_template import PageDataNotificationTemplate
 from .page_data_user_email_info import PageDataUserEmailInfo
 from .page_data_user_info import PageDataUserInfo
 from .platform_users_notification_target_config import PlatformUsersNotificationTargetConfig
@@ -428,7 +407,6 @@ from .system_administrators_filter import SystemAdministratorsFilter
 from .system_info import SystemInfo
 from .system_info_data import SystemInfoData
 from .tenant_administrators_filter import TenantAdministratorsFilter
-from .usage_info import UsageInfo
 from .user_dashboards_info import UserDashboardsInfo
 from .user_email_info import UserEmailInfo
 from .user_group_list_filter import UserGroupListFilter
