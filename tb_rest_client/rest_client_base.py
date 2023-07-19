@@ -1765,6 +1765,9 @@ class RestClientBase(Thread):
     def save_notification_template(self, body: NotificationTemplate) -> NotificationTemplate:
         return self.notification_template_controller.save_notification_template_using_post(body=body)
 
+    def count_entities_by_query(self, body: Optional[EntityCountQuery] = None) -> int:
+        return self.entity_query_controller.count_entities_by_query_using_post(body=body)
+
     def __load_controllers(self):
         self.audit_log_controller = AuditLogControllerApi(self.api_client)
         self.o_auth2_config_template_controller = OAuth2ConfigTemplateControllerApi(self.api_client)

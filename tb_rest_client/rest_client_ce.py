@@ -1126,9 +1126,6 @@ class RestClientCE(RestClientBase):
                                                                                        dashboard_id=dashboard_id)
 
     # Entity Query Controller
-    def count_entities_by_query(self, body: Optional[EntityCountQuery] = None) -> int:
-        return self.entity_query_controller.count_entities_by_query_using_post(body=body)
-
     def find_entity_timeseries_and_attributes_keys_by_query(self, timeseries: bool, attributes: bool, body: Optional[
         EntityDataQuery]) -> DeferredResultResponseEntity:
         return self.entity_query_controller.find_entity_timeseries_and_attributes_keys_by_query_using_post(
