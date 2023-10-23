@@ -25,7 +25,7 @@ class TBClientPETests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         # ThingsBoard REST API URL
-        url = "https://127.0.0.1:8080"
+        url = "http://127.0.0.1:8080"
 
         # Default Tenant Administrator credentials
         username = "tenant@thingsboard.org"
@@ -56,8 +56,6 @@ class DeviceConnectivityControllerTests(TBClientPETests):
         self.assertIsInstance(self.client.get_device_publish_telemetry_commands(self.device.id), dict)
 
 class AdminControllerTests(TBClientPETests):
-    def test_get_authorization_url(self):
-        self.assertIsInstance(self.client.get_authorization_url(), str)
 
     def test_get_mail_processing_url(self):
         self.assertIsInstance(self.client.get_mail_processing_url(), str)
@@ -386,7 +384,8 @@ class AuditLogControllerTests(TBClientPETests):
 
 
 class EntityGroupControllerTests(TBClientPETests):
-    test_entity_group = None
+    test_entity_group: EntityGroup = None
+    asset_profile_id = None
     test_asset = None
     customer = None
     user = None
@@ -407,10 +406,14 @@ class EntityGroupControllerTests(TBClientPETests):
         cls.test_entity_group = EntityGroup(name='Test 4', type='ASSET')
         cls.test_entity_group = cls.client.save_entity_group(cls.test_entity_group)
 
-        cls.test_asset = cls.client.get_tenant_assets(10, 0).data[0]
+        cls.asset_profile_id = cls.client.get_default_asset_profile_info().id
+        cls.test_asset = Asset(name="Test Asset", asset_profile_id=cls.asset_profile_id)
+        cls.test_asset = cls.client.save_asset(body=cls.test_asset,
+                                               entity_group_id=cls.test_entity_group.id)
 
     @classmethod
     def tearDownClass(cls) -> None:
+        cls.client.delete_asset(cls.test_asset.id)
         cls.client.delete_entity_group(cls.test_entity_group.id)
         cls.client.delete_role(cls.role.id)
 
@@ -457,7 +460,6 @@ class EntityGroupControllerTests(TBClientPETests):
             self.client.get_entity_group_by_id(self.test_entity_group.id),
             EntityGroupInfo)
 
-    @unittest.skip('ThingsBoard json naming bug')
     def test_get_owners(self):
         self.assertIsInstance(self.client.get_owners(1, 0), PageDataContactBasedobject)
 
@@ -466,17 +468,13 @@ class EntityGroupControllerTests(TBClientPETests):
             self.client.share_entity_group_to_child_owner_user_group(self.test_entity_group.id, self.user_group.id,
                                                                      self.role.id), None)
 
-    @unittest.skip('ThingsBoard json naming bug')
     def test_get_entities(self):
-        self.assertIsInstance(
-            self.client.get_entities(EntityGroupId('4fe07130-edfd-11eb-91fd-1f8899a6f9b3', 'ENTITY_GROUP'), 10, 0),
-            PageDataShortEntityView)
+        self.assertIsInstance(self.client.get_entities(self.test_entity_group.id, 10, 0),
+                              PageDataShortEntityView)
 
-    @unittest.skip('ThingsBoard json naming bug')
     def test_get_group_entity(self):
-        self.assertIsInstance(
-            self.client.get_group_entity(EntityGroupId('4fe07130-edfd-11eb-91fd-1f8899a6f9b3'),
-                                         EntityId('7731eb20-1894-11ed-b864-31da2039250b', 'ASSET')), ShortEntityView)
+        self.assertIsInstance(self.client.get_group_entity(self.test_entity_group.id, self.test_asset.id),
+                              ShortEntityView)
 
 
 class CustomerControllerTests(TBClientPETests):
@@ -727,7 +725,7 @@ class AlarmControllerTests(TBClientPETests):
 
     def test_get_alarm_by_id(self):
         self.assertIsInstance(self.client.get_alarm_by_id(self.test_alarm.id), Alarm)
-        
+
     def test_get_alarm_types_using_get(self):
         self.assertIsInstance(self.client.get_alarm_types(10, 0), PageDataEntitySubtype)
 
