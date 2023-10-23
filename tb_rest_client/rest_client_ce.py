@@ -324,17 +324,6 @@ class RestClientCE(RestClientBase):
         return self.telemetry_controller.delete_device_attributes_using_delete(device_id=device_id, scope=scope,
                                                                                keys=keys)
 
-    def delete_entity_timeseries(self, entity_id: EntityId, keys: str, delete_all_data_for_keys: Optional[bool] = None,
-                                 start_ts: Optional[int] = None, end_ts: Optional[int] = None,
-                                 rewrite_latest_if_deleted: Optional[bool] = None):
-        entity_type = self.get_type(entity_id)
-        entity_id = self.get_id(entity_id)
-        return self.telemetry_controller.delete_entity_timeseries_using_delete(entity_type=entity_type,
-                                                                               entity_id=entity_id, keys=keys,
-                                                                               delete_all_data_for_keys=delete_all_data_for_keys,
-                                                                               start_ts=start_ts, end_ts=end_ts,
-                                                                               rewrite_latest_if_deleted=rewrite_latest_if_deleted)
-
     def save_entity_attributes_v1(self, entity_id: EntityId, scope: str,
                                   body: Union[dict, str, list, bytes, None, RESTResponse, tuple, Any] = None) -> Union[
             dict, str, list, bytes, None, RESTResponse, tuple, Any]:
@@ -1138,28 +1127,9 @@ class RestClientCE(RestClientBase):
         return self.entity_query_controller.find_entity_data_by_query_using_post(body=body)
 
     # Widget Type Controller
-    def get_bundle_widget_types_infos(self, is_system: bool, bundle_alias: str) -> List[WidgetTypeInfo]:
-        return self.widget_type_controller.get_bundle_widget_types_infos_using_get(is_system=is_system,
-                                                                                   bundle_alias=bundle_alias)
-
-    def get_bundle_widget_types_details(self, is_system: bool, bundle_alias: str) -> List[WidgetTypeDetails]:
-        return self.widget_type_controller.get_bundle_widget_types_details_using_get(is_system=is_system,
-                                                                                     bundle_alias=bundle_alias)
-
     def delete_widget_type(self, widget_type_id: WidgetTypeId) -> None:
         widget_type_id = self.get_id(widget_type_id)
         return self.widget_type_controller.delete_widget_type_using_delete(widget_type_id=widget_type_id)
-
-    def save_widget_type(self, body: Optional[WidgetTypeDetails] = None) -> WidgetTypeDetails:
-        return self.widget_type_controller.save_widget_type_using_post(body=body)
-
-    def get_bundle_widget_types(self, is_system: bool, bundle_alias: str) -> List[WidgetType]:
-        return self.widget_type_controller.get_bundle_widget_types_using_get(is_system=is_system,
-                                                                             bundle_alias=bundle_alias)
-
-    def get_widget_type(self, is_system: bool, bundle_alias: str, alias: str) -> WidgetType:
-        return self.widget_type_controller.get_widget_type_using_get(is_system=is_system, bundle_alias=bundle_alias,
-                                                                     alias=alias)
 
     def get_widget_type_by_id(self, widget_type_id: WidgetTypeId) -> WidgetTypeDetails:
         widget_type_id = self.get_id(widget_type_id)

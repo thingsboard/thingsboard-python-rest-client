@@ -55,3 +55,5 @@ from .solution_controller_api import SolutionControllerApi
 from .device_profile_controller_api import DeviceProfileControllerApi
 from .asset_profile_controller_api import AssetProfileControllerApi
 from .two_factor_auth_controller_api import TwoFactorAuthControllerApi
+from .device_connectivity_controller_api import DeviceConnectivityControllerApi
+from .mail_config_template_controller_api import MailConfigTemplateControllerApi
