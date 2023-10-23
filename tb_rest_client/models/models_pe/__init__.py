@@ -46,10 +46,8 @@ from .share_group_request import ShareGroupRequest
 from .save_ota_package_info_request import SaveOtaPackageInfoRequest
 from .mqtt_device_transport_configuration import MqttDeviceTransportConfiguration
 from .page_data_tb_resource_info import PageDataTbResourceInfo
-from .home_dashboard import HomeDashboard
 from .bulk_import_result_device import BulkImportResultDevice
 from .device_search_query_filter import DeviceSearchQueryFilter
-from .dashboard_info import DashboardInfo
 from .byte_buffer import ByteBuffer
 from .edge import Edge
 from .scheduler_event_with_customer_info import SchedulerEventWithCustomerInfo
@@ -71,7 +69,6 @@ from .role_id import RoleId
 from .check_pre_provisioned_devices_device_profile_provision_configuration import \
     CheckPreProvisionedDevicesDeviceProfileProvisionConfiguration
 from .alarm_info import AlarmInfo
-from .asset import Asset
 from .debug_converter_event_filter import DebugConverterEventFilter
 from .o_auth2_client_info import OAuth2ClientInfo
 from .boolean_filter_predicate import BooleanFilterPredicate
@@ -86,7 +83,6 @@ from .proto_transport_payload_configuration import ProtoTransportPayloadConfigur
 from .dashboard_id import DashboardId
 from .change_password_request import ChangePasswordRequest
 from .tenant_profile_data import TenantProfileData
-from .device import Device
 from .shared_attributes_setting_snmp_communication_config import SharedAttributesSettingSnmpCommunicationConfig
 from .sign_up_self_registration_params import SignUpSelfRegistrationParams
 from .report_config import ReportConfig
@@ -126,7 +122,6 @@ from .alarm_condition_filter import AlarmConditionFilter
 from .alarm import Alarm
 from .attributes_entity_view import AttributesEntityView
 from .login_request import LoginRequest
-from .entity_view import EntityView
 from .device_profile_provision_configuration import DeviceProfileProvisionConfiguration
 from .specific_time_schedule import SpecificTimeSchedule
 from .favicon import Favicon
@@ -181,7 +176,6 @@ from .entity_type_filter import EntityTypeFilter
 from .custom_time_schedule import CustomTimeSchedule
 from .tenant_solution_template_instructions import TenantSolutionTemplateInstructions
 from .snmp_communication_config import SnmpCommunicationConfig
-from .dashboard import Dashboard
 from .rule_chain_meta_data import RuleChainMetaData
 from .filter_predicate_valueint import FilterPredicateValueint
 from .bulk_import_result_asset import BulkImportResultAsset
@@ -232,7 +226,6 @@ from .debug_integration_event_filter import DebugIntegrationEventFilter
 from .entity_view_type_filter import EntityViewTypeFilter
 from .dynamic_valueboolean import DynamicValueboolean
 from .tenant_profile_configuration import TenantProfileConfiguration
-from .customer import Customer
 from .dynamic_valuelong import DynamicValuelong
 from .device_profile_transport_configuration import DeviceProfileTransportConfiguration
 from .tb_resource_info import TbResourceInfo

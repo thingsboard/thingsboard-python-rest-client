@@ -67,6 +67,8 @@ from tb_rest_client.api.api_ce.notification_controller_api import NotificationCo
 from tb_rest_client.api.api_ce.notification_template_controller_api import NotificationTemplateControllerApi
 from tb_rest_client.api.api_ce.asset_profile_controller_api import AssetProfileControllerApi
 from tb_rest_client.api.api_ce.two_factor_auth_config_controller_api import TwoFactorAuthConfigControllerApi
+from tb_rest_client.api.api_ce.device_connectivity_controller_api import DeviceConnectivityControllerApi
+from tb_rest_client.api.api_ce.mail_config_template_controller_api import MailConfigTemplateControllerApi
 # from tb_rest_client.models.models_pe import *
 from tb_rest_client.configuration import Configuration
 from tb_rest_client.api_client import ApiClient
@@ -180,8 +182,8 @@ class RestClientBase(Thread):
         return self.o_auth2_config_template_controller.delete_client_registration_template_using_delete(
             client_registration_template_id=client_registration_template_id)
 
-    def get_client_registration_templates(self) -> List[OAuth2ClientRegistrationTemplate]:
-        return self.o_auth2_config_template_controller.get_client_registration_templates_using_get()
+    def get_client_registration_templates1(self) -> List[OAuth2ClientRegistrationTemplate]:
+        return self.o_auth2_config_template_controller.get_client_registration_templates_using_get1()
 
     def save_client_registration_template(self,
                                           body: Optional[OAuth2ClientRegistrationTemplate]) -> OAuth2ClientRegistrationTemplate:
@@ -414,6 +416,7 @@ class RestClientBase(Thread):
 
     def delete_entity_timeseries(self, entity_id: EntityId, keys: str, delete_all_data_for_keys: Optional[bool] = None,
                                  start_ts: Optional[int] = None, end_ts: Optional[int] = None,
+                                 delete_latest: Optional[bool] = None,
                                  rewrite_latest_if_deleted: Optional[bool] = None):
         entity_type = self.get_type(entity_id)
         entity_id = self.get_id(entity_id)
@@ -421,6 +424,7 @@ class RestClientBase(Thread):
                                                                                entity_id=entity_id, keys=keys,
                                                                                delete_all_data_for_keys=delete_all_data_for_keys,
                                                                                start_ts=start_ts, end_ts=end_ts,
+                                                                               delete_latest=delete_latest,
                                                                                rewrite_latest_if_deleted=rewrite_latest_if_deleted)
 
     def save_device_attributes(self, device_id: DeviceId, scope: str,
@@ -1117,6 +1121,37 @@ class RestClientBase(Thread):
                                                                                  sort_property=sort_property,
                                                                                  sort_order=sort_order)
 
+    def code_processing_url(self, code: str, state: str):
+        return self.admin_controller.code_processing_url_using_get(code=code, state=state)
+
+    def get_authorization_url(self) -> str:
+        return self.admin_controller.get_authorization_url_using_get()
+
+    def get_mail_processing_url(self) -> str:
+        return self.admin_controller.get_mail_processing_url_using_get()
+
+    def download_jks_resource_if_changed(self, resource_id: EntityId, if_none_match: Optional[str] = None) -> Resource:
+        resource_id = self.get_id(resource_id)
+        return self.tb_resource_controller.download_jks_resource_if_changed_using_get(resource_id=resource_id,
+                                                                                      if_none_match=if_none_match)
+
+    def download_js_resource_if_changed(self, resource_id: EntityId, if_none_match: Optional[str] = None) -> Resource:
+        resource_id = self.get_id(resource_id)
+        return self.tb_resource_controller.download_js_resource_if_changed_using_get(resource_id=resource_id,
+                                                                                     if_none_match=if_none_match)
+
+    def download_lwm2m_resource_if_changed(self, resource_id: EntityId,
+                                           if_none_match: Optional[str] = None) -> Resource:
+        resource_id = self.get_id(resource_id)
+        return self.tb_resource_controller.download_lwm2m_resource_if_changed_using_get(resource_id=resource_id,
+                                                                                        if_none_match=if_none_match)
+
+    def download_pkcs12_resource_if_changed(self, resource_id: EntityId,
+                                            if_none_match: Optional[str] = None) -> Resource:
+        resource_id = self.get_id(resource_id)
+        return self.tb_resource_controller.download_pkcs12_resource_if_changed_using_get(resource_id=resource_id,
+                                                                                         if_none_match=if_none_match)
+
     def get_repository_settings_info(self) -> RepositorySettingsInfo:
         return self.admin_controller.get_repository_settings_info_using_get()
 
@@ -1173,6 +1208,18 @@ class RestClientBase(Thread):
                                                                                  sort_order=sort_order)
 
     # Widgets Bundle Controller
+    def update_widgets_bundle_widget_fqns(self, widgets_bundle_id: WidgetsBundleId, body: List[str]):
+        widgets_bundle_id = self.get_id(widgets_bundle_id)
+        body = ','.join(body)
+        return self.widgets_bundle_controller.update_widgets_bundle_widget_fqns_using_post(
+            widgets_bundle_id=widgets_bundle_id, body=body)
+
+    def update_widgets_bundle_widget_types(self, widgets_bundle_id: WidgetsBundleId, body: List[str]):
+        widgets_bundle_id = self.get_id(widgets_bundle_id)
+        body = ','.join(body)
+        return self.widgets_bundle_controller.update_widgets_bundle_widget_types_using_post(
+            widgets_bundle_id=widgets_bundle_id, body=body)
+
     def get_widgets_bundle_by_id(self, widgets_bundle_id: WidgetsBundleId) -> WidgetsBundle:
         widgets_bundle_id = self.get_id(widgets_bundle_id)
         return self.widgets_bundle_controller.get_widgets_bundle_by_id_using_get(widgets_bundle_id=widgets_bundle_id)
@@ -1272,6 +1319,11 @@ class RestClientBase(Thread):
                                                                           search_status=search_status, status=status,
                                                                           assignee_id=assignee_id)
 
+    def get_alarm_types(self, page_size: int, page: int,
+                        text_search: Optional[str] = None, sort_order: Optional[str] = None):
+        return self.alarm_controller.get_alarm_types_using_get(page_size=page_size, page=page, text_search=text_search,
+                                                               sort_order=sort_order)
+
     def get_max_datapoints_limit(self) -> int:
         return self.dashboard_controller.get_max_datapoints_limit_using_get()
 
@@ -1310,28 +1362,66 @@ class RestClientBase(Thread):
         return self.entity_query_controller.find_entity_data_by_query_using_post(body=body)
 
     # Widget Type Controller
-    def get_bundle_widget_types_infos(self, is_system: bool, bundle_alias: str) -> List[WidgetTypeInfo]:
-        return self.widget_type_controller.get_bundle_widget_types_infos_using_get(is_system=is_system,
-                                                                                   bundle_alias=bundle_alias)
+    def get_bundle_widget_type_fqns(self, widgets_bundle_id: WidgetsBundleId) -> List[str]:
+        widgets_bundle_id = self.get_id(widgets_bundle_id)
+        return self.widget_type_controller.get_bundle_widget_type_fqns_using_get(widgets_bundle_id=widgets_bundle_id)
 
-    def get_bundle_widget_types_details(self, is_system: bool, bundle_alias: str) -> List[WidgetTypeDetails]:
-        return self.widget_type_controller.get_bundle_widget_types_details_using_get(is_system=is_system,
-                                                                                     bundle_alias=bundle_alias)
+    def get_bundle_widget_types_by_bundle_alias(self, is_system: bool, bundle_alias: str) -> List[WidgetType]:
+        return self.widget_type_controller.get_bundle_widget_types_by_bundle_alias_using_get(is_system=is_system,
+                                                                                             bundle_alias=bundle_alias)
+
+    def get_bundle_widget_types_details_by_bundle_alias(self, is_system: bool, bundle_alias: str) -> List[
+        WidgetTypeDetails]:
+        return self.widget_type_controller.get_bundle_widget_types_details_by_bundle_alias_using_get(
+            is_system=is_system, bundle_alias=bundle_alias)
+
+    def get_bundle_widget_types_infos_by_bundle_alias(self, is_system: bool, bundle_alias: str) -> List[WidgetTypeInfo]:
+        return self.widget_type_controller.get_bundle_widget_types_infos_by_bundle_alias_using_get(is_system=is_system,
+                                                                                                   bundle_alias=bundle_alias)
+
+    def get_widget_type_by_bundle_alias_and_type_alias(self, is_system: bool, bundle_alias: str, alias: str):
+        return self.widget_type_controller.get_widget_type_by_bundle_alias_and_type_alias_using_get(is_system=is_system,
+                                                                                                    bundle_alias=bundle_alias,
+                                                                                                    alias=alias)
+
+    def get_widget_types(self, page_size: int, page: int,
+                         text_search: Optional[str] = None,
+                         sort_property: Optional[str] = None, sort_order: Optional[str] = None,
+                         tenant_only: Optional[bool] = None, full_search: Optional[bool] = None):
+        return self.widget_type_controller.get_widget_types_using_get(page_size=page_size, page=page,
+                                                                      text_search=text_search,
+                                                                      sort_property=sort_property,
+                                                                      sort_order=sort_order, tenant_only=tenant_only,
+                                                                      full_search=full_search)
+
+    def get_widget_type_info_by_id(self, widget_type_id: WidgetTypeId) -> WidgetTypeInfo:
+        widget_type_id = self.get_id(widget_type_id)
+        return self.widget_type_controller.get_widget_type_info_by_id_using_get(widget_type_id=widget_type_id)
+
+    def get_bundle_widget_types_infos(self, widgets_bundle_id: WidgetsBundleId) -> List[WidgetTypeInfo]:
+        widgets_bundle_id = self.get_id(widgets_bundle_id)
+        return self.widget_type_controller.get_bundle_widget_types_infos_using_get(widgets_bundle_id=widgets_bundle_id)
+
+    def get_bundle_widget_types_details(self, widgets_bundle_id: WidgetsBundleId) -> List[WidgetTypeDetails]:
+        widgets_bundle_id = self.get_id(widgets_bundle_id)
+        return self.widget_type_controller.get_bundle_widget_types_details_using_get(
+            widgets_bundle_id=widgets_bundle_id)
 
     def delete_widget_type(self, widget_type_id: WidgetTypeId) -> None:
         widget_type_id = self.get_id(widget_type_id)
         return self.widget_type_controller.delete_widget_type_using_delete(widget_type_id=widget_type_id)
 
-    def save_widget_type(self, body: Optional[WidgetTypeDetails] = None) -> WidgetTypeDetails:
-        return self.widget_type_controller.save_widget_type_using_post(body=body)
+    def save_widget_type(self, body: Optional[WidgetTypeDetails] = None,
+                         update_existing_by_fqn: Optional[bool] = None) -> WidgetTypeDetails:
+        return self.widget_type_controller.save_widget_type_using_post(body=body,
+                                                                       update_existing_by_fqn=update_existing_by_fqn)
 
-    def get_bundle_widget_types(self, is_system: bool, bundle_alias: str) -> List[WidgetType]:
-        return self.widget_type_controller.get_bundle_widget_types_using_get(is_system=is_system,
-                                                                             bundle_alias=bundle_alias)
+    def get_bundle_widget_types(self, widgets_bundle_id: WidgetsBundleId) -> List[WidgetType]:
+        widgets_bundle_id = self.get_id(widgets_bundle_id)
+        return self.widget_type_controller.get_bundle_widget_types_using_get(widgets_bundle_id=widgets_bundle_id)
 
-    def get_widget_type(self, is_system: bool, bundle_alias: str, alias: str):
-        return self.widget_type_controller.get_widget_type_using_get(is_system=is_system, bundle_alias=bundle_alias,
-                                                                     alias=alias)
+    def get_widget_type(self, fqn: str):
+        return self.widget_type_controller.get_widget_type_using_get(fqn=fqn)
 
     def get_widget_type_by_id(self, widget_type_id: WidgetTypeId) -> WidgetType:
         widget_type_id = self.get_id(widget_type_id)
@@ -1693,6 +1783,12 @@ class RestClientBase(Thread):
     def save_notification_settings(self, body: NotificationSettings) -> NotificationSettings:
         return self.notification_controller.save_notification_settings_using_post(body=body)
 
+    def get_user_notification_settings(self) -> UserNotificationSettings:
+        return self.notification_controller.get_user_notification_settings_using_get()
+
+    def save_user_notification_settings(self, body: UserNotificationSettings) -> UserNotificationSettings:
+        return self.notification_controller.save_user_notification_settings_using_post(body=body)
+
     def delete_notification_rule(self, id: str):
         return self.notification_rule_controller.delete_notification_rule_using_delete(id=id)
 
@@ -1768,6 +1864,26 @@ class RestClientBase(Thread):
     def count_entities_by_query(self, body: Optional[EntityCountQuery] = None) -> int:
         return self.entity_query_controller.count_entities_by_query_using_post(body=body)
 
+    def get_edge_docker_install_instructions(self, edge_id: EdgeId, method: str) -> EdgeInstallInstructions:
+        edge_id = self.get_id(edge_id)
+        return self.edge_controller.get_edge_docker_install_instructions_using_get(edge_id=edge_id, method=method)
+
+    # Device Connectivity Controller
+    def download_server_certificate(self, protocol: str) -> Resource:
+        return self.device_connectivity_controller.download_server_certificate_using_get(protocol=protocol)
+
+    def get_device_publish_telemetry_commands(self, device_id: DeviceId):
+        device_id = self.get_id(device_id)
+        return self.device_connectivity_controller.get_device_publish_telemetry_commands_using_get(device_id=device_id)
+
+    def get_gateway_launch_commands(self, device_id: DeviceId):
+        device_id = self.get_id(device_id)
+        return self.device_connectivity_controller.get_gateway_launch_commands_using_get(device_id=device_id)
+
+    # Mail Config Template Controller
+    def get_client_registration_templates_mail(self):
+        return self.mail_config_template_controller.get_client_registration_templates_using_get()
+
     def __load_controllers(self):
         self.audit_log_controller = AuditLogControllerApi(self.api_client)
         self.o_auth2_config_template_controller = OAuth2ConfigTemplateControllerApi(self.api_client)
@@ -1812,6 +1928,8 @@ class RestClientBase(Thread):
         self.notification_template_controller = NotificationTemplateControllerApi(self.api_client)
         self.asset_profile_controller = AssetProfileControllerApi(self.api_client)
         self.two_factor_auth_config_controller = TwoFactorAuthConfigControllerApi(self.api_client)
+        self.device_connectivity_controller = DeviceConnectivityControllerApi(self.api_client)
+        self.mail_config_template_controller = MailConfigTemplateControllerApi(self.api_client)
 
     @staticmethod
     def get_type(type):

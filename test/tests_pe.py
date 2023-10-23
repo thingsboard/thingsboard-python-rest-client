@@ -35,6 +35,34 @@ class TBClientPETests(unittest.TestCase):
             cls.client.login(username, password)
 
 
+class DeviceConnectivityControllerTests(TBClientPETests):
+    device_profile_id = None
+    device = None
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        super(DeviceConnectivityControllerTests, cls).setUpClass()
+
+        cls.device_profile_id = cls.client.get_default_device_profile_info().id
+
+        cls.device = Device(name='Test', label='Test', device_profile_id=cls.device_profile_id)
+        cls.device = cls.client.save_device(body=cls.device)
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        cls.client.delete_device(cls.device.id)
+
+    def test_get_device_publish_telemetry_commands(self):
+        self.assertIsInstance(self.client.get_device_publish_telemetry_commands(self.device.id), dict)
+
+class AdminControllerTests(TBClientPETests):
+    def test_get_authorization_url(self):
+        self.assertIsInstance(self.client.get_authorization_url(), str)
+
+    def test_get_mail_processing_url(self):
+        self.assertIsInstance(self.client.get_mail_processing_url(), str)
+
+
 class AlarmCommentControllerTests(TBClientPETests):
     alarm = None
     alarm_comment = None
@@ -250,6 +278,7 @@ class DeviceControllerTest(TBClientPETests):
                                                                             credentials_id='sdfsdfsdfsdfsdfsdf')))
         self.assertIsInstance(test_device, Device)
         self.client.delete_device(test_device.id)
+        sleep(0.5)
 
 
 class AssetControllerTests(TBClientPETests):
@@ -698,6 +727,9 @@ class AlarmControllerTests(TBClientPETests):
 
     def test_get_alarm_by_id(self):
         self.assertIsInstance(self.client.get_alarm_by_id(self.test_alarm.id), Alarm)
+        
+    def test_get_alarm_types_using_get(self):
+        self.assertIsInstance(self.client.get_alarm_types(10, 0), PageDataEntitySubtype)
 
 
 class DeviceProfileControllerTests(TBClientPETests):
@@ -938,7 +970,7 @@ class WidgetTypeControllerTests(TBClientPETests):
         cls.widget_bundle = WidgetsBundle(name='Test', alias='test', title='Test')
         cls.widget_bundle = cls.client.save_widgets_bundle(cls.widget_bundle)
 
-        cls.widget_type = WidgetType(descriptor={'controllerScript': '', 'dataKeySettingsSchema': {}, 'defaultConfig': {}}, name='Test', alias='test', bundle_alias='test')
+        cls.widget_type = WidgetType(descriptor={'controllerScript': '', 'dataKeySettingsSchema': {}, 'defaultConfig': {}}, name='Test')
         cls.widget_type = cls.client.save_widget_type(cls.widget_type)
 
     @classmethod
@@ -949,13 +981,13 @@ class WidgetTypeControllerTests(TBClientPETests):
         self.assertIsInstance(self.client.get_widget_type_by_id(self.widget_type.id), WidgetTypeDetails)
 
     def test_get_widget_type(self):
-        self.assertIsInstance(self.client.get_widget_type(False, 'test', 'test'), WidgetType)
+        self.assertIsInstance(self.client.get_widget_type(self.widget_type.fqn), WidgetType)
 
     def test_get_bundle_widget_types(self):
-        self.assertIsInstance(self.client.get_bundle_widget_types(False, 'test'), list)
+        self.assertIsInstance(self.client.get_bundle_widget_types(self.widget_bundle.id), list)
 
     def test_get_bundle_widget_types_infos(self):
-        self.assertIsInstance(self.client.get_bundle_widget_types_infos(False, 'test'), list)
+        self.assertIsInstance(self.client.get_bundle_widget_types_infos(self.widget_bundle.id), list)
 
 
 class NotificationControllerTests(TBClientPETests):
@@ -967,7 +999,7 @@ class NotificationControllerTests(TBClientPETests):
     def setUpClass(cls) -> None:
         super(NotificationControllerTests, cls).setUpClass()
 
-        cls.notification_target = NotificationTarget(name='Test CE',
+        cls.notification_target = NotificationTarget(name='Test PE',
                                                      configuration=NotificationTargetConfig(type='PLATFORM_USERS',
                                                                                             description='test',
                                                                                             users_filter={
@@ -995,6 +1027,9 @@ class NotificationControllerTests(TBClientPETests):
 
     def test_get_notifications(self):
         self.assertIsInstance(self.client.get_notifications(10, 0), PageDataNotification)
+
+    def test_get_user_notification_settings(self):
+        self.assertIsInstance(self.client.get_user_notification_settings(), UserNotificationSettings)
 
     @classmethod
     def tearDownClass(cls) -> None:

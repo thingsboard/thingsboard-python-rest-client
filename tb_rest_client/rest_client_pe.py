@@ -494,8 +494,12 @@ class RestClientPE(RestClientBase):
                                                                  text_search=text_search, sort_property=sort_property,
                                                                  sort_order=sort_order)
 
-    def save_device_with_credentials(self, body: Optional[SaveDeviceWithCredentialsRequest] = None) -> Device:
-        return self.device_controller.save_device_with_credentials_using_post(body=body)
+    def save_device_with_credentials(self, body: Optional[SaveDeviceWithCredentialsRequest] = None,
+                                     entity_group_id: Optional[str] = None,
+                                     entity_group_ids: Optional[str] = None) -> Device:
+        return self.device_controller.save_device_with_credentials_using_post(body=body,
+                                                                              entity_group_id=entity_group_id,
+                                                                              entity_group_ids=entity_group_ids)
 
     def update_device_credentials(self, body: Optional[DeviceCredentials] = None) -> DeviceCredentials:
         return self.device_controller.update_device_credentials_using_post(body=body)
@@ -569,10 +573,20 @@ class RestClientPE(RestClientBase):
                                                                   text_search=text_search, sort_property=sort_property,
                                                                   sort_order=sort_order)
 
-    def get_latest_converter_debug_input(self, converter_id: ConverterId) -> Union[
-            dict, str, list, bytes, None, RESTResponse, tuple, Any]:
+    def get_latest_converter_debug_input(self, converter_id: ConverterId, integration: Optional[Integration] = None) -> \
+    Union[
+        dict, str, list, bytes, None, RESTResponse, tuple, Any]:
         converter_id = self.get_id(converter_id)
-        return self.converter_controller.get_latest_converter_debug_input_using_get(converter_id=converter_id)
+
+        integration_type = None
+        integration_name = None
+        if integration:
+            integration_type = self.get_type(integration)
+            integration_name = self.get_id(integration)
+
+        return self.converter_controller.get_latest_converter_debug_input_using_get(converter_id=converter_id,
+                                                                                    integration_type=integration_type,
+                                                                                    integration_name=integration_name)
 
     def assign_integration_to_edge(self, edge_id: EdgeId, integration_id: IntegrationId) -> Integration:
         edge_id = self.get_id(edge_id)
@@ -696,7 +710,7 @@ class RestClientPE(RestClientBase):
         entity_id = self.get_id(entity_id)
         return self.rule_engine_controller.handle_rule_engine_request_using_post1(entity_type=entity_type,
                                                                                   entity_id=entity_id, body=body,
-                                                                                  queue_nam=queue_name, timeout=timeout)
+                                                                                  queue_name=queue_name, timeout=timeout)
 
     def handle_rule_engine_request_v2(self, entity_id: EntityId, body: Optional[str] = None):
         entity_type = self.get_type(entity_id)
@@ -998,10 +1012,6 @@ class RestClientPE(RestClientBase):
 
     def set_customer_home_dashboard_info(self, body: Optional[HomeDashboardInfo] = None) -> None:
         return self.dashboard_controller.set_customer_home_dashboard_info_using_post(body=body)
-
-    def get_edge_docker_install_instructions(self, edge_id: EdgeId) -> EdgeInstallInstructions:
-        edge_id = self.get_id(edge_id)
-        return self.edge_controller.get_edge_docker_install_instructions_using_get(edge_id=edge_id)
 
     def get_tenant_dashboards_v1(self, tenant_id: TenantId, page_size: int, page: int,text_search: Optional[str] = None,
                                  sort_property: Optional[str] = None, sort_order: Optional[str] = None,) -> PageDataDashboardInfo:

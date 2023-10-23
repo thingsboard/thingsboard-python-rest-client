@@ -19,7 +19,7 @@ from tb_rest_client.rest_client_base import *
 from tb_rest_client.models.models_ce import *
 
 
-TB_URL_CE = 'http://127.0.0.1:8080'
+TB_URL_CE = 'http://0.0.0.0:8080'
 
 TB_TENANT_USERNAME_CE = 'tenant@thingsboard.org'
 TB_TENANT_PASSWORD_CE = 'tenant'
@@ -1002,7 +1002,7 @@ class WidgetTypeControllerTests(TBClientCETests):
         cls.widget_bundle = WidgetsBundle(name='Test', alias='test', title='Test')
         cls.widget_bundle = cls.client.save_widgets_bundle(cls.widget_bundle)
 
-        cls.widget_type = WidgetType(descriptor={'controllerScript': '', 'dataKeySettingsSchema': {}, 'defaultConfig': {}}, name='Test', alias='test', bundle_alias='test')
+        cls.widget_type = WidgetType(descriptor={'controllerScript': '', 'dataKeySettingsSchema': {}, 'defaultConfig': {}}, name='Test')
         cls.widget_type = cls.client.save_widget_type(cls.widget_type)
 
     @classmethod
@@ -1013,13 +1013,52 @@ class WidgetTypeControllerTests(TBClientCETests):
         self.assertIsInstance(self.client.get_widget_type_by_id(self.widget_type.id), WidgetTypeDetails)
 
     def test_get_widget_type(self):
-        self.assertIsInstance(self.client.get_widget_type(False, 'test', 'test'), WidgetType)
+        self.assertIsInstance(self.client.get_widget_type(self.widget_type.fqn), WidgetType)
 
     def test_get_bundle_widget_types(self):
-        self.assertIsInstance(self.client.get_bundle_widget_types(False, 'test'), list)
+        self.assertIsInstance(self.client.get_bundle_widget_types(self.widget_bundle.id), list)
 
     def test_get_bundle_widget_types_infos(self):
-        self.assertIsInstance(self.client.get_bundle_widget_types_infos(False, 'test'), list)
+        self.assertIsInstance(self.client.get_bundle_widget_types_infos(self.widget_bundle.id), list)
+
+class DeviceConnectivityControllerTests(TBClientCETests):
+    device_profile_id = None
+    device = None
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        super(DeviceConnectivityControllerTests, cls).setUpClass()
+
+        cls.device_profile_id = cls.client.get_default_device_profile_info().id
+
+        cls.device = Device(name='Test', label='Test', device_profile_id=cls.device_profile_id)
+        cls.device = cls.client.save_device(body=cls.device)
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        cls.client.delete_device(cls.device.id)
+
+    def test_get_device_publish_telemetry_commands(self):
+        self.assertIsInstance(self.client.get_device_publish_telemetry_commands(self.device.id), dict)
+
+class AdminControllerTests(TBClientCETests):
+    @classmethod
+    def setUpClass(cls) -> None:
+        # ThingsBoard REST API URL
+        url = TB_URL_CE
+
+        # Default Tenant Administrator credentials
+        username = TB_SYSADMIN_USERNAME_CE
+        password = TB_SYSADMIN_PASSWORD_CE
+
+        with RestClientCE(url) as cls.client:
+            cls.client.login(username, password)
+
+    def test_get_authorization_url(self):
+        self.assertIsInstance(self.client.get_authorization_url(), str)
+
+    def test_get_mail_processing_url(self):
+        self.assertIsInstance(self.client.get_mail_processing_url(), str)
 
 
 if __name__ == '__main__':
