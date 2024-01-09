@@ -1,4 +1,4 @@
-#  Copyright 2023. ThingsBoard
+#  Copyright 2024. ThingsBoard
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@ from setuptools import setup, find_packages  # noqa: H301
 from os import path
 
 NAME = "tb-rest-client"
-VERSION = "3.6"
+VERSION = "3.6.2"
 
 this_directory = path.abspath(path.dirname(__file__))
 with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:

@@ -1,4 +1,4 @@
-#  Copyright 2023. ThingsBoard
+#  Copyright 2024. ThingsBoard
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -69,6 +69,7 @@ from tb_rest_client.api.api_ce.asset_profile_controller_api import AssetProfileC
 from tb_rest_client.api.api_ce.two_factor_auth_config_controller_api import TwoFactorAuthConfigControllerApi
 from tb_rest_client.api.api_ce.device_connectivity_controller_api import DeviceConnectivityControllerApi
 from tb_rest_client.api.api_ce.mail_config_template_controller_api import MailConfigTemplateControllerApi
+from tb_rest_client.api.api_ce.image_controller_api import ImageControllerApi
 # from tb_rest_client.models.models_pe import *
 from tb_rest_client.configuration import Configuration
 from tb_rest_client.api_client import ApiClient
@@ -1095,7 +1096,7 @@ class RestClientBase(Thread):
         resource_id = self.get_id(resource_id)
         return self.tb_resource_controller.get_resource_by_id_using_get(resource_id=resource_id)
 
-    def save_resource(self, body: Optional[TbResource] = None) -> TbResource:
+    def save_resource(self, body: Optional[TbResource] = None) -> TbResourceInfo:
         return self.tb_resource_controller.save_resource_using_post(body=body)
 
     def get_resources(self, page_size: int, page: int, text_search: Optional[str] = None, sort_property: Optional[str] = None,
@@ -1109,7 +1110,7 @@ class RestClientBase(Thread):
                                                                             sort_property=sort_property,
                                                                             object_ids=str(object_ids))
 
-    def download_resource(self, resource_id: EntityId) -> Resource:
+    def download_resource(self, resource_id: EntityId) -> ByteArrayResource:
         resource_id = self.get_id(resource_id)
         return self.tb_resource_controller.download_resource_using_get(resource_id=resource_id)
 
@@ -1121,6 +1122,14 @@ class RestClientBase(Thread):
                                                                                  sort_property=sort_property,
                                                                                  sort_order=sort_order)
 
+    def get_tenant_resources(self, page_size: int, page: int, text_search: Optional[str] = None,
+                             sort_property: Optional[str] = None,
+                             sort_order: Optional[str] = None) -> PageDataTbResourceInfo:
+        return self.tb_resource_controller.get_tenant_resources_using_get(page_size=page_size, page=page,
+                                                                          text_search=text_search,
+                                                                          sort_property=sort_property,
+                                                                          sort_order=sort_order)
+
     def code_processing_url(self, code: str, state: str):
         return self.admin_controller.code_processing_url_using_get(code=code, state=state)
 
@@ -1130,24 +1139,25 @@ class RestClientBase(Thread):
     def get_mail_processing_url(self) -> str:
         return self.admin_controller.get_mail_processing_url_using_get()
 
-    def download_jks_resource_if_changed(self, resource_id: EntityId, if_none_match: Optional[str] = None) -> Resource:
+    def download_jks_resource_if_changed(self, resource_id: EntityId,
+                                         if_none_match: Optional[str] = '') -> ByteArrayResource:
         resource_id = self.get_id(resource_id)
         return self.tb_resource_controller.download_jks_resource_if_changed_using_get(resource_id=resource_id,
                                                                                       if_none_match=if_none_match)
 
-    def download_js_resource_if_changed(self, resource_id: EntityId, if_none_match: Optional[str] = None) -> Resource:
+    def download_js_resource_if_changed(self, resource_id: EntityId, if_none_match: Optional[str] = '') -> ByteArrayResource:
         resource_id = self.get_id(resource_id)
         return self.tb_resource_controller.download_js_resource_if_changed_using_get(resource_id=resource_id,
                                                                                      if_none_match=if_none_match)
 
     def download_lwm2m_resource_if_changed(self, resource_id: EntityId,
-                                           if_none_match: Optional[str] = None) -> Resource:
+                                           if_none_match: Optional[str] = '') -> ByteArrayResource:
         resource_id = self.get_id(resource_id)
         return self.tb_resource_controller.download_lwm2m_resource_if_changed_using_get(resource_id=resource_id,
                                                                                         if_none_match=if_none_match)
 
     def download_pkcs12_resource_if_changed(self, resource_id: EntityId,
-                                            if_none_match: Optional[str] = None) -> Resource:
+                                            if_none_match: Optional[str] = '') -> ByteArrayResource:
         resource_id = self.get_id(resource_id)
         return self.tb_resource_controller.download_pkcs12_resource_if_changed_using_get(resource_id=resource_id,
                                                                                          if_none_match=if_none_match)
@@ -1220,19 +1230,25 @@ class RestClientBase(Thread):
         return self.widgets_bundle_controller.update_widgets_bundle_widget_types_using_post(
             widgets_bundle_id=widgets_bundle_id, body=body)
 
-    def get_widgets_bundle_by_id(self, widgets_bundle_id: WidgetsBundleId) -> WidgetsBundle:
+    def get_widgets_bundle_by_id(self, widgets_bundle_id: WidgetsBundleId,
+                                 inline_images: Optional[bool] = None) -> WidgetsBundle:
         widgets_bundle_id = self.get_id(widgets_bundle_id)
-        return self.widgets_bundle_controller.get_widgets_bundle_by_id_using_get(widgets_bundle_id=widgets_bundle_id)
+        return self.widgets_bundle_controller.get_widgets_bundle_by_id_using_get(widgets_bundle_id=widgets_bundle_id,
+                                                                                 inline_images=inline_images)
 
     def save_widgets_bundle(self, body: Optional[WidgetsBundle] = None) -> WidgetsBundle:
         return self.widgets_bundle_controller.save_widgets_bundle_using_post(body=body)
 
     def get_widgets_bundles_v1(self, page_size: int, page: int, text_search: Optional[str] = None,
-                               sort_property: Optional[str] = None, sort_order: Optional[str] = None) -> PageDataWidgetsBundle:
+                               sort_property: Optional[str] = None, sort_order: Optional[str] = None,
+                               tenant_only: Optional[bool] = None,
+                               full_search: Optional[bool] = None) -> PageDataWidgetsBundle:
         return self.widgets_bundle_controller.get_widgets_bundles_using_get1(page_size=page_size, page=page,
                                                                              text_search=text_search,
                                                                              sort_property=sort_property,
-                                                                             sort_order=sort_order)
+                                                                             sort_order=sort_order,
+                                                                             tenant_only=tenant_only,
+                                                                             full_search=full_search)
 
     def delete_widgets_bundle(self, widgets_bundle_id: WidgetsBundleId) -> None:
         widgets_bundle_id = self.get_id(widgets_bundle_id)
@@ -1285,9 +1301,11 @@ class RestClientBase(Thread):
                                                                             sort_property=sort_property,
                                                                             sort_order=sort_order)
 
-    def get_device_profile_by_id(self, device_profile_id: DeviceProfileId) -> DeviceProfile:
+    def get_device_profile_by_id(self, device_profile_id: DeviceProfileId,
+                                 inline_images: Optional[bool] = None) -> DeviceProfile:
         device_profile_id = self.get_id(device_profile_id)
-        return self.device_profile_controller.get_device_profile_by_id_using_get(device_profile_id=device_profile_id)
+        return self.device_profile_controller.get_device_profile_by_id_using_get(device_profile_id=device_profile_id,
+                                                                                 inline_images=inline_images)
 
     # Dashboard Controller
     def get_tenant_dashboards_v1(self, tenant_id: TenantId, page_size: int, page: int, text_search: Optional[str] = None,
@@ -1330,9 +1348,10 @@ class RestClientBase(Thread):
     def get_home_dashboard_info(self) -> HomeDashboardInfo:
         return self.dashboard_controller.get_home_dashboard_info_using_get()
 
-    def get_dashboard_by_id(self, dashboard_id: DashboardId) -> Dashboard:
+    def get_dashboard_by_id(self, dashboard_id: DashboardId, inline_images: Optional[bool] = None) -> Dashboard:
         dashboard_id = self.get_id(dashboard_id)
-        return self.dashboard_controller.get_dashboard_by_id_using_get(dashboard_id=dashboard_id)
+        return self.dashboard_controller.get_dashboard_by_id_using_get(dashboard_id=dashboard_id,
+                                                                       inline_images=inline_images)
 
     def get_tenant_dashboards(self, page_size: int, page: int, mobile: Optional[bool] = None, text_search: Optional[str] = None,
                               sort_property: Optional[str] = None,
@@ -1387,25 +1406,46 @@ class RestClientBase(Thread):
     def get_widget_types(self, page_size: int, page: int,
                          text_search: Optional[str] = None,
                          sort_property: Optional[str] = None, sort_order: Optional[str] = None,
-                         tenant_only: Optional[bool] = None, full_search: Optional[bool] = None):
+                         tenant_only: Optional[bool] = None, full_search: Optional[bool] = None,
+                         deprecated_filter: Optional[str] = None, widget_type_list: Optional[List[str]] = None):
+        if widget_type_list:
+            widget_type_list = ','.join(widget_type_list)
         return self.widget_type_controller.get_widget_types_using_get(page_size=page_size, page=page,
                                                                       text_search=text_search,
                                                                       sort_property=sort_property,
                                                                       sort_order=sort_order, tenant_only=tenant_only,
-                                                                      full_search=full_search)
+                                                                      full_search=full_search,
+                                                                      deprecated_filter=deprecated_filter,
+                                                                      widget_type_list=widget_type_list)
 
     def get_widget_type_info_by_id(self, widget_type_id: WidgetTypeId) -> WidgetTypeInfo:
         widget_type_id = self.get_id(widget_type_id)
         return self.widget_type_controller.get_widget_type_info_by_id_using_get(widget_type_id=widget_type_id)
 
-    def get_bundle_widget_types_infos(self, widgets_bundle_id: WidgetsBundleId) -> List[WidgetTypeInfo]:
+    def get_bundle_widget_types_infos(self, widgets_bundle_id: WidgetsBundleId, page_size: int, page: int,
+                                      text_search: Optional[str] = None,
+                                      sort_property: Optional[str] = None, sort_order: Optional[str] = None,
+                                      full_search: Optional[bool] = None, deprecated_filter: Optional[str] = None,
+                                      widget_type_list: Optional[List[str]] = None) -> List[WidgetTypeInfo]:
         widgets_bundle_id = self.get_id(widgets_bundle_id)
-        return self.widget_type_controller.get_bundle_widget_types_infos_using_get(widgets_bundle_id=widgets_bundle_id)
 
-    def get_bundle_widget_types_details(self, widgets_bundle_id: WidgetsBundleId) -> List[WidgetTypeDetails]:
+        if widget_type_list:
+            widget_type_list = ','.join(widget_type_list)
+
+        return self.widget_type_controller.get_bundle_widget_types_infos_using_get(widgets_bundle_id=widgets_bundle_id,
+                                                                                   page_size=page_size, page=page,
+                                                                                   text_search=text_search,
+                                                                                   sort_property=sort_property,
+                                                                                   sort_order=sort_order,
+                                                                                   full_search=full_search,
+                                                                                   deprecated_filter=deprecated_filter,
+                                                                                   widget_type_list=widget_type_list)
+
+    def get_bundle_widget_types_details(self, widgets_bundle_id: WidgetsBundleId,
+                                        inline_images: Optional[bool] = None) -> List[WidgetTypeDetails]:
         widgets_bundle_id = self.get_id(widgets_bundle_id)
         return self.widget_type_controller.get_bundle_widget_types_details_using_get(
-            widgets_bundle_id=widgets_bundle_id)
+            widgets_bundle_id=widgets_bundle_id, inline_images=inline_images)
 
     def delete_widget_type(self, widget_type_id: WidgetTypeId) -> None:
         widget_type_id = self.get_id(widget_type_id)
@@ -1423,9 +1463,10 @@ class RestClientBase(Thread):
     def get_widget_type(self, fqn: str):
         return self.widget_type_controller.get_widget_type_using_get(fqn=fqn)
 
-    def get_widget_type_by_id(self, widget_type_id: WidgetTypeId) -> WidgetType:
+    def get_widget_type_by_id(self, widget_type_id: WidgetTypeId, inline_images: Optional[bool] = None) -> WidgetType:
         widget_type_id = self.get_id(widget_type_id)
-        return self.widget_type_controller.get_widget_type_by_id_using_get(widget_type_id=widget_type_id)
+        return self.widget_type_controller.get_widget_type_by_id_using_get(widget_type_id=widget_type_id,
+                                                                           inline_images=inline_images)
 
     # Audit Log Controller
     def get_audit_logs_by_customer_id(self, customer_id: CustomerId, page_size: int, page: int,
@@ -1876,13 +1917,77 @@ class RestClientBase(Thread):
         device_id = self.get_id(device_id)
         return self.device_connectivity_controller.get_device_publish_telemetry_commands_using_get(device_id=device_id)
 
-    def get_gateway_launch_commands(self, device_id: DeviceId):
-        device_id = self.get_id(device_id)
-        return self.device_connectivity_controller.get_gateway_launch_commands_using_get(device_id=device_id)
-
     # Mail Config Template Controller
     def get_client_registration_templates_mail(self):
         return self.mail_config_template_controller.get_client_registration_templates_using_get()
+
+    # Image Controller
+    def delete_image(self, _type: str, key: str, force: Optional[bool] = None) -> TbImageDeleteResult:
+        return self.image_controller.delete_image_using_delete(type=_type, key=key, force=force)
+
+    def download_image_preview(self, _type: str, key: str, if_none_match: Optional[str] = '') -> ByteArrayResource:
+        return self.image_controller.download_image_preview_using_get(type=_type, key=key, if_none=if_none_match)
+
+    def download_image(self, _type: str, key: str, if_none_match: Optional[str] = '') -> ByteArrayResource:
+        return self.image_controller.download_image_using_get(type=_type, key=key, if_none_match=if_none_match)
+
+    def download_public_image(self, public_resource_key: str, if_none_match: Optional[str] = '') -> ByteArrayResource:
+        return self.image_controller.download_public_image_using_get(public_resource_key=public_resource_key,
+                                                                     if_none_match=if_none_match)
+
+    def export_image(self, _type: str, key: str) -> ImageExportData:
+        return self.image_controller.export_image_using_get(type=_type, key=key)
+
+    def get_image_info(self, _type: str, key: str) -> TbResourceInfo:
+        return self.image_controller.get_image_info_using_get(type=_type, key=key)
+
+    def get_images(self, page_size: int, page: int, text_search: Optional[str] = None,
+                   include_system_images: Optional[bool] = None,
+                   sort_property: Optional[str] = None,
+                   sort_order: Optional[str] = None) -> PageDataTbResourceInfo:
+        return self.image_controller.get_images_using_get(page_size=page_size, page=page, text_search=text_search,
+                                                          include_system_images=include_system_images,
+                                                          sort_order=sort_order, sort_property=sort_property)
+
+    def import_image(self, body: ImageExportData) -> TbResourceInfo:
+        return self.image_controller.import_image_using_put(body=body)
+
+    def update_image_info(self, _type: str, key: str, body: TbResourceInfo) -> TbResourceInfo:
+        return self.image_controller.update_image_info_using_put(type=_type, key=key, body=body)
+
+    def update_image_public_status(self, _type: str, key: str, is_public: Optional[bool] = None) -> TbResourceInfo:
+        return self.image_controller.update_image_public_status_using_put(type=_type, key=key, is_public=is_public)
+
+    def update_image(self, _type: str, key: str, file: str) -> TbResourceInfo:
+        return self.image_controller.update_image_using_put(type=_type, key=key, file=file)
+
+    def upload_image(self, title: str, file: str) -> TbResourceInfo:
+        return self.image_controller.upload_image_using_post(title=title, file=file)
+
+    def get_asset_profile_by_id(self, asset_profile_id: str, inline_images: Optional[bool] = None) -> AssetProfile:
+        return self.asset_profile_controller.get_asset_profile_by_id_using_get(asset_profile_id=asset_profile_id,
+                                                                               inline_images=inline_images)
+
+    def get_asset_profile_by_names(self, active_only: Optional[bool]) -> List[EntityInfo]:
+        return self.asset_profile_controller.get_asset_profile_names_using_get(active_only=active_only)
+
+    def download_gateway_docker_compose(self, device_id: DeviceId) -> Resource:
+        device_id = self.get_id(device_id)
+        return self.device_connectivity_controller.download_gateway_docker_compose_using_get(device_id=device_id)
+
+    def get_device_profile_names(self, active_only: Optional[bool]) -> List[EntityInfo]:
+        return self.device_profile_controller.get_device_profile_names_using_get(active_only=active_only)
+
+    def get_edge_install_instructions(self, edge_id: EdgeId, method: str) -> EdgeInstructions:
+        edge_id = self.get_id(edge_id)
+        return self.edge_controller.get_edge_install_instructions_using_get(edge_id=edge_id, method=method)
+
+    def get_edge_upgrade_instructions(self, edge_version: str, method: str) -> EdgeInstructions:
+        return self.edge_controller.get_edge_upgrade_instructions_using_get(edge_version=edge_version, method=method)
+
+    def is_edge_upgrade_available(self, edge_id: EdgeId) -> bool:
+        edge_id = self.get_id(edge_id)
+        return self.edge_controller.is_edge_upgrade_available_using_get(edge_id=edge_id)
 
     def __load_controllers(self):
         self.audit_log_controller = AuditLogControllerApi(self.api_client)
@@ -1930,6 +2035,7 @@ class RestClientBase(Thread):
         self.two_factor_auth_config_controller = TwoFactorAuthConfigControllerApi(self.api_client)
         self.device_connectivity_controller = DeviceConnectivityControllerApi(self.api_client)
         self.mail_config_template_controller = MailConfigTemplateControllerApi(self.api_client)
+        self.image_controller = ImageControllerApi(self.api_client)
 
     @staticmethod
     def get_type(type):

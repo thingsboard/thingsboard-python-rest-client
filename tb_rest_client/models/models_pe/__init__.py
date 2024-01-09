@@ -1,4 +1,4 @@
-#  Copyright 2023. ThingsBoard
+#  Copyright 2024. ThingsBoard
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -45,7 +45,6 @@ from .sign_up_request import SignUpRequest
 from .share_group_request import ShareGroupRequest
 from .save_ota_package_info_request import SaveOtaPackageInfoRequest
 from .mqtt_device_transport_configuration import MqttDeviceTransportConfiguration
-from .page_data_tb_resource_info import PageDataTbResourceInfo
 from .bulk_import_result_device import BulkImportResultDevice
 from .device_search_query_filter import DeviceSearchQueryFilter
 from .byte_buffer import ByteBuffer
@@ -228,7 +227,6 @@ from .dynamic_valueboolean import DynamicValueboolean
 from .tenant_profile_configuration import TenantProfileConfiguration
 from .dynamic_valuelong import DynamicValuelong
 from .device_profile_transport_configuration import DeviceProfileTransportConfiguration
-from .tb_resource_info import TbResourceInfo
 from .object_attributes import ObjectAttributes
 from .relation_entity_type_filter import RelationEntityTypeFilter
 from .asset_search_query_filter import AssetSearchQueryFilter

@@ -1,4 +1,4 @@
-#  Copyright 2023. ThingsBoard
+#  Copyright 2024. ThingsBoard
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ class TBClientPETests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         # ThingsBoard REST API URL
-        url = "http://127.0.0.1:8080"
+        url = "http://10.7.1.65:8080"
 
         # Default Tenant Administrator credentials
         username = "tenant@thingsboard.org"
@@ -143,7 +143,8 @@ class TelemetryControllerTests(TBClientPETests):
     def test_save_entity_telemetry_with_ttl(self):
         self.assertEqual(
             self.client.save_entity_telemetry_with_ttl(self.device.id,
-                                                       scope='ANY', ttl=1000, body={"temperature": 26, "humidity": 87}), b'')
+                                                       scope='ANY', ttl=1000, body={"temperature": 26, "humidity": 87}),
+            b'')
 
     def test_get_timeseries_keys(self):
         self.assertIsInstance(
@@ -985,7 +986,8 @@ class WidgetTypeControllerTests(TBClientPETests):
         self.assertIsInstance(self.client.get_bundle_widget_types(self.widget_bundle.id), list)
 
     def test_get_bundle_widget_types_infos(self):
-        self.assertIsInstance(self.client.get_bundle_widget_types_infos(self.widget_bundle.id), list)
+        self.assertIsInstance(self.client.get_bundle_widget_types_infos(self.widget_bundle.id, 10, 0),
+                              PageDataWidgetTypeInfo)
 
 
 class NotificationControllerTests(TBClientPETests):
@@ -1123,6 +1125,36 @@ class NotificationRuleControllerTests(TBClientPETests):
 
     def test_get_notification_rules(self):
         self.assertIsInstance(self.client.get_notification_rules(10, 0), PageDataNotificationRuleInfo)
+
+
+class ImageControllerTests(TBClientPETests):
+    image_info = None
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        super(ImageControllerTests, cls).setUpClass()
+
+        cls.image_info = cls.client.upload_image('test', 'data/images/task_done.png')
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        cls.client.delete_image('tenant', 'task_done.png')
+
+    def test_upload_image(self):
+        self.assertIsInstance(self.client.upload_image('tenant', 'data/images/task_done.png'), TbResourceInfo)
+
+    def test_update_image(self):
+        self.assertIsInstance(self.client.update_image('tenant', 'task_done.png', 'data/images/task_done.png'),
+                              TbResourceInfo)
+
+    def test_get_image_info(self):
+        self.assertIsInstance(self.client.get_image_info('tenant', 'task_done.png'), TbResourceInfo)
+
+    def test_get_images(self):
+        self.assertIsInstance(self.client.get_images(10, 0), PageDataTbResourceInfo)
+
+    def test_download_image(self):
+        self.assertIsInstance(self.client.download_image('tenant', 'task_done.png'), str)
 
 
 if __name__ == '__main__':
