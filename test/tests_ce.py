@@ -1,4 +1,4 @@
-#  Copyright 2023. ThingsBoard
+#  Copyright 2024. ThingsBoard
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -869,6 +869,7 @@ class NotificationRuleControllerTests(TBClientCETests):
                                     trigger_config=NotificationRuleTriggerConfig(trigger_type='ALARM', notify_on=['CREATED']),
                                     template_id=cls.template.id)
         cls.rule = cls.client.save_notification_rule(cls.rule)
+        print(cls.rule)
 
     @classmethod
     def tearDownClass(cls) -> None:
@@ -1019,7 +1020,9 @@ class WidgetTypeControllerTests(TBClientCETests):
         self.assertIsInstance(self.client.get_bundle_widget_types(self.widget_bundle.id), list)
 
     def test_get_bundle_widget_types_infos(self):
-        self.assertIsInstance(self.client.get_bundle_widget_types_infos(self.widget_bundle.id), list)
+        self.assertIsInstance(self.client.get_bundle_widget_types_infos(self.widget_bundle.id, 10, 0),
+                              PageDataWidgetTypeInfo)
+
 
 class DeviceConnectivityControllerTests(TBClientCETests):
     device_profile_id = None
@@ -1059,6 +1062,36 @@ class AdminControllerTests(TBClientCETests):
 
     def test_get_mail_processing_url(self):
         self.assertIsInstance(self.client.get_mail_processing_url(), str)
+
+
+class ImageControllerTests(TBClientCETests):
+    image_info = None
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        super(ImageControllerTests, cls).setUpClass()
+
+        cls.image_info = cls.client.upload_image('test', 'data/images/task_done.png')
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        cls.client.delete_image('tenant', 'task_done.png')
+
+    def test_upload_image(self):
+        self.assertIsInstance(self.client.upload_image('tenant', 'data/images/task_done.png'), TbResourceInfo)
+
+    def test_update_image(self):
+        self.assertIsInstance(self.client.update_image('tenant', 'task_done.png', 'data/images/task_done.png'),
+                              TbResourceInfo)
+
+    def test_get_image_info(self):
+        self.assertIsInstance(self.client.get_image_info('tenant', 'task_done.png'), TbResourceInfo)
+
+    def test_get_images(self):
+        self.assertIsInstance(self.client.get_images(10, 0), PageDataTbResourceInfo)
+
+    def test_download_image(self):
+        self.assertIsInstance(self.client.download_image('tenant', 'task_done.png'), str)
 
 
 if __name__ == '__main__':

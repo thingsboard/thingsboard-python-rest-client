@@ -1,4 +1,4 @@
-#  Copyright 2023. ThingsBoard
+#  Copyright 2024. ThingsBoard
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -403,3 +403,10 @@ from .rate_limits_notification_rule_trigger_config import RateLimitsNotification
 from .to_server_rpc_request_snmp_communication_config import ToServerRpcRequestSnmpCommunicationConfig
 from .user_notification_settings import UserNotificationSettings
 from .widget_type_export_data import WidgetTypeExportData
+from .api_image_body import ApiImageBody
+from .byte_array_resource import ByteArrayResource
+from .edge_instructions import EdgeInstructions
+from .has_idobject import HasIdobject
+from .image_export_data import ImageExportData
+from .tb_image_delete_result import TbImageDeleteResult
+from .type_key_body import TypeKeyBody

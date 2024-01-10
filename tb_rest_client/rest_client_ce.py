@@ -1,4 +1,4 @@
-#  Copyright 2023. ThingsBoard
+#  Copyright 2024. ThingsBoard
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -1280,9 +1280,6 @@ class RestClientCE(RestClientBase):
     # Asset Profile Controller
     def delete_asset_profile(self, asset_profile_id: str):
         return self.asset_profile_controller.delete_asset_profile_using_delete(asset_profile_id=asset_profile_id)
-
-    def get_asset_profile_by_id(self, asset_profile_id: str) -> AssetProfile:
-        return self.asset_profile_controller.get_asset_profile_by_id_using_get(asset_profile_id=asset_profile_id)
 
     def get_asset_profile_info_by_id(self, asset_profile_id: str) -> AssetProfileInfo:
         return self.asset_profile_controller.get_asset_profile_info_by_id_using_get(asset_profile_id=asset_profile_id)

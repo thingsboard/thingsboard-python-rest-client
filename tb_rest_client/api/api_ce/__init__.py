@@ -1,4 +1,4 @@
-#  Copyright 2023. ThingsBoard
+#  Copyright 2024. ThingsBoard
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -54,3 +54,4 @@ from .notification_target_controller_api import NotificationTargetControllerApi
 from .notification_template_controller_api import NotificationTemplateControllerApi
 from .usage_info_controller_api import UsageInfoControllerApi
 from .two_factor_auth_config_controller_api import TwoFactorAuthConfigControllerApi
+from .image_controller_api import ImageControllerApi
