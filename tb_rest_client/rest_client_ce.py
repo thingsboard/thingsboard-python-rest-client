@@ -534,7 +534,7 @@ class RestClientCE(RestClientBase):
         return self.rpc_v1_controller.handle_one_way_device_rpc_request_using_post(device_id=device_id, body=body)
 
     def handle_two_way_device_rpc_request(self, device_id: DeviceId,
-                                          body: Optional[str] = None):
+                                          body: Optional[Dict] = None):
         device_id = self.get_id(device_id)
         return self.rpc_v1_controller.handle_two_way_device_rpc_request_using_post(device_id=device_id, body=body)
 

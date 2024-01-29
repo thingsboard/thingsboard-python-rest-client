@@ -851,7 +851,7 @@ class RestClientBase(Thread):
         return self.rpc_v1_controller.handle_one_way_device_rpc_request_using_post(device_id=device_id, body=body)
 
     def handle_two_way_device_rpc_request(self, device_id: DeviceId,
-                                          body: Optional[str] = None):
+                                          body: Optional[Dict] = None):
         device_id = self.get_id(device_id)
         return self.rpc_v1_controller.handle_two_way_device_rpc_request_using_post(device_id=device_id, body=body)
 
@@ -1577,7 +1577,7 @@ class RestClientBase(Thread):
     def claim_device(self, device_token: str, body: Optional[str] = None) -> DeferredResultResponseEntity:
         return self.device_api_controller.claim_device_using_post(device_token=device_token, body=body)
 
-    def post_rpc_request(self, device_token: str, body: Optional[str] = None) -> DeferredResultResponseEntity:
+    def post_rpc_request(self, device_token: str, body: Optional[Dict] = None) -> DeferredResultResponseEntity:
         return self.device_api_controller.post_rpc_request_using_post(device_token=device_token, body=body)
 
     def provision_device(self, body: Optional[str] = None) -> DeferredResultResponseEntity:
