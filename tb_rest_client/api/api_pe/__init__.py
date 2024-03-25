@@ -57,3 +57,4 @@ from .asset_profile_controller_api import AssetProfileControllerApi
 from .two_factor_auth_controller_api import TwoFactorAuthControllerApi
 from .device_connectivity_controller_api import DeviceConnectivityControllerApi
 from .mail_config_template_controller_api import MailConfigTemplateControllerApi
+from .image_controller_api import ImageControllerApi

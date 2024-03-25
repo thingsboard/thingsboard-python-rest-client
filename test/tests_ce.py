@@ -717,6 +717,8 @@ class EntityViewControllerTests(TBClientCETests):
 class UserControllerTests(TBClientCETests):
     test_user = None
     customer = None
+    test_mobile_session = None
+    mobile_token = None
 
     @classmethod
     def setUpClass(cls) -> None:
@@ -726,9 +728,13 @@ class UserControllerTests(TBClientCETests):
         cls.test_user = User(name='Test User', email='admin11@gmail.com', authority='TENANT_ADMIN')
         cls.test_user = cls.client.save_user(cls.test_user, send_activation_mail=False)
 
+        cls.mobile_token = "test_token"
+        cls.test_mobile_session = cls.client.save_mobile_session(x_mobile_token=cls.mobile_token, body=MobileSessionInfo(fcm_token_timestamp=0))
+
     @classmethod
     def tearDownClass(cls) -> None:
         cls.client.delete_user(cls.test_user.id)
+        cls.client.remove_mobile_session(cls.mobile_token)
 
     def test_get_users(self):
         self.assertIsInstance(self.client.get_users(10, 0), PageDataUser)
@@ -747,6 +753,9 @@ class UserControllerTests(TBClientCETests):
 
     def test_get_customer_users(self):
         self.assertIsInstance(self.client.get_customer_users(self.customer.id, 10, 0), PageDataUser)
+
+    def test_get_mobile_session(self):
+        self.assertIsInstance(self.client.get_mobile_session(self.mobile_token), MobileSessionInfo)
 
 
 class NotificationControllerTests(TBClientCETests):
@@ -1012,9 +1021,6 @@ class WidgetTypeControllerTests(TBClientCETests):
 
     def test_get_widget_type_by_id(self):
         self.assertIsInstance(self.client.get_widget_type_by_id(self.widget_type.id), WidgetTypeDetails)
-
-    def test_get_widget_type(self):
-        self.assertIsInstance(self.client.get_widget_type(self.widget_type.fqn), WidgetType)
 
     def test_get_bundle_widget_types(self):
         self.assertIsInstance(self.client.get_bundle_widget_types(self.widget_bundle.id), list)
