@@ -308,17 +308,6 @@ class RestClientCE(RestClientBase):
         return self.telemetry_controller.get_attribute_keys_by_scope_using_get(entity_type=entity_type,
                                                                                entity_id=entity_id, scope=scope)
 
-    def get_timeseries(self, entity_id: EntityId, keys: str, start_ts: int, end_ts: int,
-                       interval: Optional[int] = None, limit: Optional[int] = None, agg: Optional[str] = None, order_by: Optional[str] = None,
-                       use_strict_data_types: Optional[bool] = None):
-        entity_type = self.get_type(entity_id)
-        entity_id = self.get_id(entity_id)
-        return self.telemetry_controller.get_timeseries_using_get(entity_type=entity_type, entity_id=entity_id,
-                                                                  keys=keys, start_ts=start_ts, end_ts=end_ts,
-                                                                  interval=interval, limit=limit, agg=agg,
-                                                                  order_by=order_by,
-                                                                  use_strict_data_types=use_strict_data_types)
-
     def delete_device_attributes(self, device_id: DeviceId, scope: str, keys: str):
         device_id = self.get_id(device_id)
         return self.telemetry_controller.delete_device_attributes_using_delete(device_id=device_id, scope=scope,
@@ -627,9 +616,6 @@ class RestClientCE(RestClientBase):
         device_id = self.get_id(device_id)
         return self.device_controller.assign_device_to_tenant_using_post(tenant_id=tenant_id, device_id=device_id)
 
-    def find_by_query_v1(self, body: DeviceSearchQuery) -> List[Device]:
-        return self.device_controller.find_by_query_using_post1(body=body)
-
     def assign_device_to_edge(self, edge_id: EdgeId, device_id: DeviceId) -> Device:
         edge_id = self.get_id(edge_id)
         device_id = self.get_id(device_id)
@@ -702,12 +688,6 @@ class RestClientCE(RestClientBase):
         from_id = self.get_id(from_id)
         return self.entity_relation_controller.find_by_from_using_get1(from_id=from_id, from_type=from_type,
                                                                        relation_type_group=relation_type_group)
-
-    def find_by_query_v3(self, body: EntityRelationsQuery) -> List[EntityRelation]:
-        return self.entity_relation_controller.find_by_query_using_post3(body=body)
-
-    def find_info_by_query(self, body: EntityRelationsQuery) -> List[EntityRelationInfo]:
-        return self.entity_relation_controller.find_info_by_query_using_post(body=body)
 
     def save_relation(self, body: Optional[EntityRelation] = None) -> None:
         return self.entity_relation_controller.save_relation_using_post(body=body)
@@ -828,9 +808,6 @@ class RestClientCE(RestClientBase):
         return self.entity_view_controller.assign_entity_view_to_public_customer_using_post(
             entity_view_id=entity_view_id)
 
-    def find_by_query_v4(self, body: EntityViewSearchQuery) -> List[EntityView]:
-        return self.entity_view_controller.find_by_query_using_post4(body=body)
-
     def get_customer_entity_views(self, customer_id: CustomerId, page_size: int, page: int, type: Optional[str] = None,
                                   text_search: Optional[str] = None,
                                   sort_property: Optional[str] = None, sort_order: Optional[str] = None) -> PageDataEntityView:
@@ -943,20 +920,8 @@ class RestClientCE(RestClientBase):
                                                                                  sort_order=sort_order)
 
     # Widgets Bundle Controller
-    def get_widgets_bundle_by_id(self, widgets_bundle_id: WidgetsBundleId) -> WidgetsBundle:
-        widgets_bundle_id = self.get_id(widgets_bundle_id)
-        return self.widgets_bundle_controller.get_widgets_bundle_by_id_using_get(widgets_bundle_id=widgets_bundle_id)
-
     def save_widgets_bundle(self, body: Optional[WidgetsBundle] = None) -> WidgetsBundle:
         return self.widgets_bundle_controller.save_widgets_bundle_using_post(body=body)
-
-    def get_widgets_bundles_v1(self, page_size: int, page: int, text_search: Optional[str] = None,
-                               sort_property: Optional[str] = None,
-                               sort_order: Optional[str] = None) -> PageDataWidgetsBundle:
-        return self.widgets_bundle_controller.get_widgets_bundles_using_get1(page_size=page_size, page=page,
-                                                                             text_search=text_search,
-                                                                             sort_property=sort_property,
-                                                                             sort_order=sort_order)
 
     def delete_widgets_bundle(self, widgets_bundle_id: WidgetsBundleId) -> None:
         widgets_bundle_id = self.get_id(widgets_bundle_id)
@@ -1009,10 +974,6 @@ class RestClientCE(RestClientBase):
                                                                             sort_property=sort_property,
                                                                             sort_order=sort_order)
 
-    def get_device_profile_by_id(self, device_profile_id: DeviceProfileId) -> DeviceProfile:
-        device_profile_id = self.get_id(device_profile_id)
-        return self.device_profile_controller.get_device_profile_by_id_using_get(device_profile_id=device_profile_id)
-
     # Dashboard Controller
     def add_dashboard_customers(self, dashboard_id: DashboardId, body: Optional[List[str]] = None) -> Dashboard:
         dashboard_id = self.get_id(dashboard_id)
@@ -1029,10 +990,6 @@ class RestClientCE(RestClientBase):
 
     def get_server_time(self, ) -> int:
         return self.dashboard_controller.get_server_time_using_get()
-
-    def get_dashboard_by_id(self, dashboard_id: DashboardId) -> Dashboard:
-        dashboard_id = self.get_id(dashboard_id)
-        return self.dashboard_controller.get_dashboard_by_id_using_get(dashboard_id=dashboard_id)
 
     def assign_dashboard_to_public_customer(self, dashboard_id: DashboardId) -> Dashboard:
         dashboard_id = self.get_id(dashboard_id)
@@ -1115,11 +1072,6 @@ class RestClientCE(RestClientBase):
                                                                                        dashboard_id=dashboard_id)
 
     # Entity Query Controller
-    def find_entity_timeseries_and_attributes_keys_by_query(self, timeseries: bool, attributes: bool, body: Optional[
-        EntityDataQuery]) -> DeferredResultResponseEntity:
-        return self.entity_query_controller.find_entity_timeseries_and_attributes_keys_by_query_using_post(
-            timeseries=timeseries, attributes=attributes, body=body)
-
     def find_alarm_data_by_query(self, body: Optional[AlarmDataQuery] = None) -> PageDataAlarmData:
         return self.entity_query_controller.find_alarm_data_by_query_using_post(body=body)
 
@@ -1130,10 +1082,6 @@ class RestClientCE(RestClientBase):
     def delete_widget_type(self, widget_type_id: WidgetTypeId) -> None:
         widget_type_id = self.get_id(widget_type_id)
         return self.widget_type_controller.delete_widget_type_using_delete(widget_type_id=widget_type_id)
-
-    def get_widget_type_by_id(self, widget_type_id: WidgetTypeId) -> WidgetTypeDetails:
-        widget_type_id = self.get_id(widget_type_id)
-        return self.widget_type_controller.get_widget_type_by_id_using_get(widget_type_id=widget_type_id)
 
     # Audit Log Controller
     def get_audit_logs_by_customer_id(self, customer_id: CustomerId, page_size: int, page: int,

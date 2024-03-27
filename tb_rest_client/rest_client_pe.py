@@ -993,10 +993,6 @@ class RestClientPE(RestClientBase):
                                                                                      sort_property=sort_property,
                                                                                      sort_order=sort_order)
 
-    def get_dashboard_by_id(self, dashboard_id: DashboardId) -> Dashboard:
-        dashboard_id = self.get_id(dashboard_id)
-        return self.dashboard_controller.get_dashboard_by_id_using_get(dashboard_id=dashboard_id)
-
     def delete_dashboard(self, dashboard_id: DashboardId) -> None:
         dashboard_id = self.get_id(dashboard_id)
         return self.dashboard_controller.delete_dashboard_using_delete(dashboard_id=dashboard_id)
@@ -1767,6 +1763,17 @@ class RestClientPE(RestClientBase):
         user_id = self.get_id(user_id)
         return self.user_controller.get_user_info_by_id_using_get(user_id=user_id)
 
+    def download_login_favicon(self, type: str, key: str, if_none_match: str) -> ByteArrayResource:
+        return self.image_controller.download_login_favicon_using_get(type=type, key=key, if_none_match=if_none_match)
+
+    def download_login_logo(self, type: str, key: str, if_none_match: str) -> ByteArrayResource:
+        return self.image_controller.download_login_logo_using_get(type=type, key=key, if_none_match=if_none_match)
+
+    def enable_scheduler_event(self, scheduler_event_id: SchedulerEventId, enabled_value: bool) -> SchedulerEvent:
+        scheduler_event_id = self.get_id(scheduler_event_id)
+        return self.scheduler_event_controller.enable_scheduler_event_using_put(scheduler_event_id=scheduler_event_id,
+                                                                                enabled_value=enabled_value)
+
     def __load_controllers(self):
         self.dashboard_controller = DashboardControllerApi(self.api_client)
         self.device_profile_controller = DeviceProfileControllerApi(self.api_client)
@@ -1810,3 +1817,4 @@ class RestClientPE(RestClientBase):
         self.subscription_controller = SubscriptionControllerApi(self.api_client)
         self.solution_controller = SolutionControllerApi(self.api_client)
         self.asset_profile_controller = AssetProfileControllerApi(self.api_client)
+        self.image_controller = ImageControllerApi(self.api_client)

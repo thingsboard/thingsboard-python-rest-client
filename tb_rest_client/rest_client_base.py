@@ -392,15 +392,16 @@ class RestClientBase(Thread):
                                                                                entity_id=entity_id, scope=scope)
 
     def get_timeseries(self, entity_id: EntityId, keys: str, start_ts: int, end_ts: int,
-                       interval: Optional[int] = None, limit: Optional[int] = None, agg: Optional[str] = None, order_by: Optional[str] = None,
-                       use_strict_data_types: Optional[bool] = None):
+                       interval_type: Optional[str] = None, interval: Optional[int] = None,
+                       time_zone: Optional[str] = None, limit: Optional[int] = None, agg: Optional[str] = None,
+                       order_by: Optional[str] = None, use_strict_data_types: Optional[bool] = None):
         entity_type = self.get_type(entity_id)
         entity_id = self.get_id(entity_id)
         return self.telemetry_controller.get_timeseries_using_get(entity_type=entity_type, entity_id=entity_id,
                                                                   keys=keys, start_ts=start_ts, end_ts=end_ts,
                                                                   interval=interval, limit=limit, agg=agg,
-                                                                  order_by=order_by,
-                                                                  use_strict_data_types=use_strict_data_types)
+                                                                  order_by=order_by, interval_type=interval_type,
+                                                                  use_strict_data_types=use_strict_data_types, time_zone=time_zone)
 
     def delete_device_attributes(self, device_id: DeviceId, scope: str, keys: str):
         device_id = self.get_id(device_id)
@@ -601,6 +602,15 @@ class RestClientBase(Thread):
         paths = ','.join(paths)
         return self.user_controller.delete_user_settings_using_delete(paths=paths, type=type)
 
+    def get_mobile_session(self, x_mobile_token: str) -> MobileSessionInfo:
+        return self.user_controller.get_mobile_session_using_get(x_mobile_token=x_mobile_token)
+
+    def remove_mobile_session(self, x_mobile_token: str) -> None:
+        return self.user_controller.remove_mobile_session_using_delete(x_mobile_token=x_mobile_token)
+
+    def save_mobile_session(self, x_mobile_token: str, body: MobileSessionInfo):
+        return self.user_controller.save_mobile_session_using_post(x_mobile_token=x_mobile_token, body=body)
+
     def get_tenant_profiles_by_ids(self, ids: List[str]) -> List[TenantProfile]:
         ids = ','.join(ids)
         return self.tenant_profile_controller.get_tenant_profiles_by_ids_using_get(ids=ids)
@@ -756,10 +766,6 @@ class RestClientBase(Thread):
         rpc_id = self.get_id(rpc_id)
         return self.rpc_v2_controller.delete_rpc_using_delete(rpc_id=rpc_id)
 
-    def delete_resource(self, rpc_id: RpcId) -> None:
-        rpc_id = self.get_id(rpc_id)
-        return self.rpc_v2_controller.delete_resource_using_delete(rpc_id=rpc_id)
-
     # Customer Controller #
     def get_customer_title_by_id(self, customer_id: CustomerId) -> str:
         customer_id = self.get_id(customer_id)
@@ -890,7 +896,7 @@ class RestClientBase(Thread):
         device_id = self.get_id(device_id)
         return self.device_controller.get_device_by_id_using_get(device_id=device_id)
 
-    def find_by_query_v1(self, body: Optional[DeviceSearchQuery] = None) -> List[Device]:
+    def find_by_query_v1(self, body: DeviceSearchQuery) -> List[Device]:
         return self.device_controller.find_by_query_using_post1(body=body)
 
     def get_customer_devices(self, customer_id: CustomerId, page_size: int, page: int, type: Optional[str] = None,
@@ -945,10 +951,10 @@ class RestClientBase(Thread):
                                                                             to_type=to_type,
                                                                             relation_type_group=relation_type_group)
 
-    def find_info_by_query(self, body: Optional[EntityRelationsQuery] = None) -> List[EntityRelationInfo]:
+    def find_info_by_query(self, body: EntityRelationsQuery) -> List[EntityRelationInfo]:
         return self.entity_relation_controller.find_info_by_query_using_post(body=body)
 
-    def find_by_query_v3(self, body: Optional[EntityRelationsQuery] = None) -> List[EntityRelation]:
+    def find_by_query_v3(self, body: EntityRelationsQuery) -> List[EntityRelation]:
         return self.entity_relation_controller.find_by_query_using_post3(body=body)
 
     def save_relation(self, body: Optional[EntityRelation] = None) -> None:
@@ -1011,7 +1017,7 @@ class RestClientBase(Thread):
         entity_view_id = self.get_id(entity_view_id)
         return self.entity_view_controller.get_entity_view_by_id_using_get(entity_view_id=entity_view_id)
 
-    def find_by_query_v4(self, body: Optional[EntityViewSearchQuery] = None) -> List[EntityView]:
+    def find_by_query_v4(self, body: EntityViewSearchQuery) -> List[EntityView]:
         return self.entity_view_controller.find_by_query_using_post4(body=body)
 
     def get_entity_view_types(self) -> List[EntitySubtype]:
@@ -1087,14 +1093,6 @@ class RestClientBase(Thread):
     def get_resource_info_by_id(self, resource_id: EntityId) -> TbResourceInfo:
         resource_id = self.get_id(resource_id)
         return self.tb_resource_controller.get_resource_info_by_id_using_get(resource_id=resource_id)
-
-    def delete_resource_v1(self, resource_id: EntityId):
-        resource_id = self.get_id(resource_id)
-        return self.tb_resource_controller.delete_resource_using_delete1(resource_id=resource_id)
-
-    def get_resource_by_id(self, resource_id: EntityId) -> None:
-        resource_id = self.get_id(resource_id)
-        return self.tb_resource_controller.get_resource_by_id_using_get(resource_id=resource_id)
 
     def save_resource(self, body: Optional[TbResource] = None) -> TbResourceInfo:
         return self.tb_resource_controller.save_resource_using_post(body=body)
@@ -1370,9 +1368,9 @@ class RestClientBase(Thread):
 
     # Entity Query Controller
     def find_entity_timeseries_and_attributes_keys_by_query(self, timeseries: bool, attributes: bool, body: Optional[
-        EntityDataQuery]):
+        EntityDataQuery], scope: Optional[str] = None) -> DeferredResultResponseEntity:
         return self.entity_query_controller.find_entity_timeseries_and_attributes_keys_by_query_using_post(
-            timeseries=timeseries, attributes=attributes, body=body)
+            timeseries=timeseries, attributes=attributes, body=body, scope=scope)
 
     def find_alarm_data_by_query(self, body: Optional[AlarmDataQuery] = None) -> PageDataAlarmData:
         return self.entity_query_controller.find_alarm_data_by_query_using_post(body=body)
@@ -1459,9 +1457,6 @@ class RestClientBase(Thread):
     def get_bundle_widget_types(self, widgets_bundle_id: WidgetsBundleId) -> List[WidgetType]:
         widgets_bundle_id = self.get_id(widgets_bundle_id)
         return self.widget_type_controller.get_bundle_widget_types_using_get(widgets_bundle_id=widgets_bundle_id)
-
-    def get_widget_type(self, fqn: str):
-        return self.widget_type_controller.get_widget_type_using_get(fqn=fqn)
 
     def get_widget_type_by_id(self, widget_type_id: WidgetTypeId, inline_images: Optional[bool] = None) -> WidgetType:
         widget_type_id = self.get_id(widget_type_id)
@@ -1904,10 +1899,6 @@ class RestClientBase(Thread):
 
     def count_entities_by_query(self, body: Optional[EntityCountQuery] = None) -> int:
         return self.entity_query_controller.count_entities_by_query_using_post(body=body)
-
-    def get_edge_docker_install_instructions(self, edge_id: EdgeId, method: str) -> EdgeInstallInstructions:
-        edge_id = self.get_id(edge_id)
-        return self.edge_controller.get_edge_docker_install_instructions_using_get(edge_id=edge_id, method=method)
 
     # Device Connectivity Controller
     def download_server_certificate(self, protocol: str) -> Resource:

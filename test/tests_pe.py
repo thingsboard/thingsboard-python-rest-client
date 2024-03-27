@@ -25,7 +25,7 @@ class TBClientPETests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         # ThingsBoard REST API URL
-        url = "http://10.7.1.65:8080"
+        url = "http://0.0.0.0:8080"
 
         # Default Tenant Administrator credentials
         username = "tenant@thingsboard.org"
@@ -978,9 +978,6 @@ class WidgetTypeControllerTests(TBClientPETests):
 
     def test_get_widget_type_by_id(self):
         self.assertIsInstance(self.client.get_widget_type_by_id(self.widget_type.id), WidgetTypeDetails)
-
-    def test_get_widget_type(self):
-        self.assertIsInstance(self.client.get_widget_type(self.widget_type.fqn), WidgetType)
 
     def test_get_bundle_widget_types(self):
         self.assertIsInstance(self.client.get_bundle_widget_types(self.widget_bundle.id), list)
