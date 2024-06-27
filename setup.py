@@ -42,7 +42,7 @@ setup(
         'python_dateutil >= 2.5.3',
         'setuptools >= 21.0.0',
         'urllib3 >= 2.0.7',
-        'requests>=2.29.0',
+        'requests>=2.31.0',
         'pyjwt==2.6.0',
     ]
 )
