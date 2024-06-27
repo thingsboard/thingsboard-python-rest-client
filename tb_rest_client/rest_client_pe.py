@@ -1117,11 +1117,27 @@ class RestClientPE(RestClientBase):
     def get_current_custom_translation(self, ) -> CustomTranslation:
         return self.custom_translation_controller.get_current_custom_translation_using_get()
 
-    def get_custom_translation(self, ) -> CustomTranslation:
-        return self.custom_translation_controller.get_custom_translation_using_get()
+    def get_custom_translation(self, locale_code: str) -> CustomTranslation:
+        return self.custom_translation_controller.get_custom_translation_using_get(locale_code=locale_code)
 
-    def save_custom_translation(self, body: Optional[CustomTranslation] = None) -> CustomTranslation:
-        return self.custom_translation_controller.save_custom_translation_using_post(body=body)
+    def save_custom_translation(self, locale_code: str, body: CustomTranslation) -> CustomTranslation:
+        return self.custom_translation_controller.save_custom_translation_using_post(body=body, locale_code=locale_code)
+
+    def delete_custom_translation(self, locale_code: str) -> None:
+        return self.custom_translation_controller.delete_custom_translation(locale_code=locale_code)
+
+    def delete_custom_translation_key(self, locale_code: str, key_path: str):
+        return self.custom_translation_controller.delete_custom_translation_key(locale_code=locale_code,
+                                                                                key_path=key_path)
+
+    def patch_custom_translation(self, body: CustomTranslation, locale_code: str):
+        return self.custom_translation_controller.patch_custom_translation(body=body, locale_code=locale_code)
+
+    def upload_custom_translation(self, locale_code: str, file):
+        return self.custom_translation_controller.upload_custom_translation(locale_code=locale_code, file=file)
+
+    def get_merged_custom_translation(self, locale_code: str) -> CustomTranslation:
+        return self.custom_translation_controller.get_merged_custom_translation(locale_code=locale_code)
 
     def delete_role(self, role_id: RoleId) -> None:
         role_id = self.get_id(role_id)
@@ -1747,14 +1763,13 @@ class RestClientPE(RestClientBase):
                                                                  include_customers=include_customers)
 
     def get_customer_user_infos(self, customer_id: CustomerId, page_size: int, page: int,
-                                type: Optional[str] = None,
                                 text_search: Optional[str] = None, sort_property: Optional[str] = None,
                                 sort_order: Optional[str] = None,
                                 include_customers: Optional[bool] = None) -> PageDataUserInfo:
         customer_id = self.get_id(customer_id)
         return self.user_controller.get_customer_user_infos_using_get(customer_id=customer_id,
                                                                       page_size=page_size, page=page,
-                                                                      type=type, text_search=text_search,
+                                                                      text_search=text_search,
                                                                       sort_property=sort_property,
                                                                       sort_order=sort_order,
                                                                       include_customers=include_customers)
@@ -1773,6 +1788,35 @@ class RestClientPE(RestClientBase):
         scheduler_event_id = self.get_id(scheduler_event_id)
         return self.scheduler_event_controller.enable_scheduler_event_using_put(scheduler_event_id=scheduler_event_id,
                                                                                 enabled_value=enabled_value)
+
+    def get_merged_mobile_app_settings(self) -> MobileAppSettings:
+        return self.mobile_application_controller.get_merged_mobile_app_settings()
+
+    def download_full_translation(self, locale_code: str) -> str:
+        return self.translation_controller.download_full_translation(locale_code=locale_code)
+
+    def get_available_java_locales(self) -> JsonNode:
+        return self.translation_controller.get_available_java_locales()
+
+    def get_available_locales(self) -> JsonNode:
+        return self.translation_controller.get_available_locales()
+
+    def get_full_translation(self, locale_code: str, if_none_match: Optional[str] = None,
+                             accept_encoding: Optional[str] = None):
+        return self.translation_controller.get_full_translation(locale_code=locale_code, if_none_match=if_none_match,
+                                                                accept_encoding=accept_encoding)
+
+    def get_login_page_translation(self, locale_code: str, if_none_match: Optional[str] = None,
+                                   accept_encoding: Optional[str] = None):
+        return self.translation_controller.get_login_page_translation(locale_code=locale_code,
+                                                                      if_none_match=if_none_match,
+                                                                      accept_encoding=accept_encoding)
+
+    def get_translation_for_basic_edit(self, locale_code: str) -> JsonNode:
+        return self.translation_controller.get_translation_for_basic_edit(locale_code=locale_code)
+
+    def get_translation_infos(self) -> List[TranslationInfo]:
+        return self.translation_controller.get_translation_infos()
 
     def __load_controllers(self):
         self.dashboard_controller = DashboardControllerApi(self.api_client)
@@ -1818,3 +1862,5 @@ class RestClientPE(RestClientBase):
         self.solution_controller = SolutionControllerApi(self.api_client)
         self.asset_profile_controller = AssetProfileControllerApi(self.api_client)
         self.image_controller = ImageControllerApi(self.api_client)
+        self.mobile_application_controller = MobileApplicationControllerApi(self.api_client)
+        self.translation_controller = TranslationControllerApi(self.api_client)

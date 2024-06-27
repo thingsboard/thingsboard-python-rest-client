@@ -466,7 +466,7 @@ class RestClientCE(RestClientBase):
         return self.customer_controller.delete_customer_using_delete(customer_id=customer_id)
 
     # User Controller
-    def get_user_token(self, user_id: UserId) -> JWTPair:
+    def get_user_token(self, user_id: UserId) -> JwtPair:
         user_id = self.get_id(user_id)
         return self.user_controller.get_user_token_using_get(user_id=user_id)
 

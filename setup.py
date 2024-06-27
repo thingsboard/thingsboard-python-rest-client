@@ -36,4 +36,13 @@ setup(
     long_description=long_description,
     download_url='https://github.com/thingsboard/thingsboard-python-rest-client/archive/refs/tags/%s.tar.gz' % VERSION,
     python_requires=">=3.7",
+    install_requires=[
+        'certifi >= 2023.7.22',
+        'six >= 1.10',
+        'python_dateutil >= 2.5.3',
+        'setuptools >= 21.0.0',
+        'urllib3 >= 2.0.7',
+        'requests>=2.29.0',
+        'pyjwt==2.6.0',
+    ]
 )

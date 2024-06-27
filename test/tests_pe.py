@@ -1154,5 +1154,47 @@ class ImageControllerTests(TBClientPETests):
         self.assertIsInstance(self.client.download_image('tenant', 'task_done.png'), str)
 
 
+class QueueStatsControllerTests(TBClientPETests):
+    queue_stats = None
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        super(QueueStatsControllerTests, cls).setUpClass()
+
+        cls.queue_stats = cls.client.get_tenant_queue_stats(10, 0).data[0]
+        assert cls.queue_stats is not None
+
+    def test_get_tenant_queue_stats(self):
+        s = self.client.get_tenant_queue_stats(10, 0)
+        self.assertIsInstance(self.client.get_tenant_queue_stats(10, 0), PageDataQueueStats)
+
+    def test_get_queue_stats_by_id(self):
+        self.assertIsInstance(self.client.get_queue_stats_by_id(self.queue_stats.id.id), QueueStats)
+
+    def test_get_queue_stats_by_ids(self):
+        self.assertIsInstance(self.client.get_queue_stats_by_ids([self.queue_stats.id.id]), list)
+
+
+class TranslationControllerTests(TBClientPETests):
+    @classmethod
+    def setUpClass(cls) -> None:
+        super(TranslationControllerTests, cls).setUpClass()
+
+    def test_download_full_translation(self):
+        self.assertIsInstance(self.client.download_full_translation(locale_code='en_US'), str)
+
+    def test_get_available_java_locales(self):
+        self.assertIsInstance(self.client.get_available_java_locales(), dict)
+
+    def test_get_available_locales(self):
+        self.assertIsInstance(self.client.get_available_locales(), dict)
+
+    def test_get_translation_infos(self):
+        self.assertIsInstance(self.client.get_translation_infos(), list)
+
+    def test_get_translation_for_basic_edit(self):
+        self.assertIsInstance(self.client.get_translation_for_basic_edit(locale_code='en_US'), dict)
+
+
 if __name__ == '__main__':
     unittest.main()
