@@ -194,7 +194,7 @@ class MobileApplicationControllerApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['HTTP login form']  # noqa: E501
+        auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
             '/api/mobile/app/settings/merged', 'GET',
@@ -278,10 +278,10 @@ class MobileApplicationControllerApi(object):
         body_params = None
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(
-            ['text/plain', 'application/json'])  # noqa: E501
+            ['text/plain'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['HTTP login form']  # noqa: E501
+        auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
             '/api/mobile/deepLink', 'GET',
@@ -368,7 +368,7 @@ class MobileApplicationControllerApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['HTTP login form']  # noqa: E501
+        auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
             '/api/mobile/app/settings', 'GET',
@@ -562,7 +562,7 @@ class MobileApplicationControllerApi(object):
             ['application/json'])  # noqa: E501
 
         # Authentication setting
-        auth_settings = ['HTTP login form']  # noqa: E501
+        auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
             '/api/mobile/app/settings', 'POST',
