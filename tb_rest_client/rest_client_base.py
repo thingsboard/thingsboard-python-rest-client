@@ -70,6 +70,8 @@ from tb_rest_client.api.api_ce.two_factor_auth_config_controller_api import TwoF
 from tb_rest_client.api.api_ce.device_connectivity_controller_api import DeviceConnectivityControllerApi
 from tb_rest_client.api.api_ce.mail_config_template_controller_api import MailConfigTemplateControllerApi
 from tb_rest_client.api.api_ce.image_controller_api import ImageControllerApi
+from tb_rest_client.api.api_ce.mobile_application_controller_api import MobileApplicationControllerApi
+from tb_rest_client.api.api_ce.queue_stats_controller_api import QueueStatsControllerApi
 # from tb_rest_client.models.models_pe import *
 from tb_rest_client.configuration import Configuration
 from tb_rest_client.api_client import ApiClient
@@ -322,10 +324,10 @@ class RestClientBase(Thread):
     def check_reset_token(self, reset_token: str) -> str:
         return self.auth_controller.check_reset_token_using_get(reset_token=reset_token)
 
-    def reset_password(self, body: Optional[ResetPasswordRequest] = None) -> JWTPair:
+    def reset_password(self, body: Optional[ResetPasswordRequest] = None) -> JwtPair:
         return self.auth_controller.reset_password_using_post(body=body)
 
-    def activate_user(self, body: Optional[ActivateUserRequest], send_activation_mail: bool) -> JWTPair:
+    def activate_user(self, body: Optional[ActivateUserRequest], send_activation_mail: bool) -> JwtPair:
         return self.auth_controller.activate_user_using_post(body=body, send_activation_mail=send_activation_mail)
 
     def get_user_password_policy(self) -> UserPasswordPolicy:
@@ -364,7 +366,7 @@ class RestClientBase(Thread):
                                                            sort_property=sort_property, sort_order=sort_order,
                                                            start_time=start_time, end_time=end_time)
 
-    def clear_events_post(self, entity_id: EntityId, body: Optional[str] = None, start_time: Optional[int] = None,
+    def clear_events_post(self, entity_id: EntityId, body: Optional[EntityIdClearstartTimeendTimeBody] = None, start_time: Optional[int] = None,
                           end_time: Optional[int] = None):
         entity_type = self.get_type(entity_id)
         entity_id = self.get_id(entity_id)
@@ -793,7 +795,7 @@ class RestClientBase(Thread):
         return self.customer_controller.delete_customer_using_delete(customer_id=customer_id)
 
     # User Controller #
-    def get_user_token(self, user_id: UserId) -> JWTPair:
+    def get_user_token(self, user_id: UserId) -> JwtPair:
         user_id = self.get_id(user_id)
         return self.user_controller.get_user_token_using_get(user_id=user_id)
 
@@ -1083,10 +1085,10 @@ class RestClientBase(Thread):
     def get_auto_commit_settings(self) -> Dict[str, AutoVersionCreateConfig]:
         return self.admin_controller.get_auto_commit_settings_using_get()
 
-    def get_jwt_setting(self) -> JWTSettings:
+    def get_jwt_setting(self) -> JwtSettings:
         return self.admin_controller.get_jwt_settings_using_get()
 
-    def save_jwt_settings(self, body: Optional[JWTSettings] = None) -> JWTPair:
+    def save_jwt_settings(self, body: Optional[JwtSettings] = None) -> JwtPair:
         return self.admin_controller.save_jwt_settings_using_post(body=body)
 
     # TB Resource Controller
@@ -1420,6 +1422,10 @@ class RestClientBase(Thread):
         widget_type_id = self.get_id(widget_type_id)
         return self.widget_type_controller.get_widget_type_info_by_id_using_get(widget_type_id=widget_type_id)
 
+    def get_widget_type(self, fqn) -> WidgetType:
+        fqn = str(fqn)
+        return self.widget_type_controller.get_widget_type(fqn=fqn)
+
     def get_bundle_widget_types_infos(self, widgets_bundle_id: WidgetsBundleId, page_size: int, page: int,
                                       text_search: Optional[str] = None,
                                       sort_property: Optional[str] = None, sort_order: Optional[str] = None,
@@ -1733,7 +1739,7 @@ class RestClientBase(Thread):
         return self.queue_controller.get_queue_by_name_using_get(queue_name=queue_name)
 
     # Two-Factor Auth Controller
-    def check_two_fa_verification_code(self, provider_type: str, verification_code: str) -> JWTPair:
+    def check_two_fa_verification_code(self, provider_type: str, verification_code: str) -> JwtPair:
         return self.two_factor_auth_controller.check_two_fa_verification_code_using_post(provider_type=provider_type,
                                                                                          verification_code=verification_code)
 
@@ -1765,11 +1771,15 @@ class RestClientBase(Thread):
     def submit_two_fa_account_config(self, body: TwoFaAccountConfig):
         return self.two_factor_auth_config_controller.submit_two_fa_account_config_using_post(body=body)
 
-    def update_two_fa_account_config(self, provider_type: str, body: TwoFaAccountConfigUpdateRequest) -> AccountTwoFaSettings:
-        return self.two_factor_auth_config_controller.update_two_fa_account_config_using_put(provider_type=provider_type, body=body)
+    def update_two_fa_account_config(self, provider_type: str,
+                                     body: TwoFaAccountConfigUpdateRequest) -> AccountTwoFaSettings:
+        return self.two_factor_auth_config_controller.update_two_fa_account_config_using_put(
+            provider_type=provider_type, body=body)
 
-    def verify_and_save_two_fa_account_config(self, body: TwoFaAccountConfig, verification_code: str) -> AccountTwoFaSettings:
-        return self.two_factor_auth_config_controller.verify_and_save_two_fa_account_config_using_post(body=body, verification_code=verification_code)
+    def verify_and_save_two_fa_account_config(self, body: TwoFaAccountConfig,
+                                              verification_code: str) -> AccountTwoFaSettings:
+        return self.two_factor_auth_config_controller.verify_and_save_two_fa_account_config_using_post(body=body,
+                                                                                                       verification_code=verification_code)
 
     def create_notification_request(self, body: NotificationRequest) -> NotificationRequest:
         return self.notification_controller.create_notification_request_using_post(body=body)
@@ -1804,11 +1814,15 @@ class RestClientBase(Thread):
 
     def get_notifications(self, page_size: int, page: int, text_search: Optional[str] = None,
                           sort_property: Optional[str] = None,
-                          sort_order: Optional[str] = None) -> PageDataNotification:
+                          sort_order: Optional[str] = None, delivery_method: Optional[str] = None) -> PageDataNotification:
         return self.notification_controller.get_notifications_using_get(page_size=page_size, page=page,
                                                                         text_search=text_search,
                                                                         sort_property=sort_property,
-                                                                        sort_order=sort_order)
+                                                                        sort_order=sort_order,
+                                                                        delivery_method=delivery_method)
+
+    def get_unread_notifications_count(self, delivery_method: Optional[str] = None) -> int:
+        return self.notification_controller.get_unread_notifications_count(delivery_method=delivery_method)
 
     def mark_all_notifications_as_read(self):
         return self.notification_controller.mark_all_notifications_as_read_using_put()
@@ -1980,6 +1994,36 @@ class RestClientBase(Thread):
         edge_id = self.get_id(edge_id)
         return self.edge_controller.is_edge_upgrade_available_using_get(edge_id=edge_id)
 
+    def get_application_redirect(self, user_agent: str):
+        return self.mobile_application_controller.get_application_redirect(user_agent=user_agent)
+
+    def get_mobile_app_deep_link(self) -> str:
+        return self.mobile_application_controller.get_mobile_app_deep_link()
+
+    def get_mobile_app_settings(self) -> MobileAppSettings:
+        return self.mobile_application_controller.get_mobile_app_settings()
+
+    def get_user_token_by_mobile_secret(self, secret: str) -> JwtPair:
+        return self.mobile_application_controller.get_user_token_by_mobile_secret(secret=secret)
+
+    def save_mobile_app_settings(self, body: MobileAppSettings) -> MobileAppSettings:
+        return self.mobile_application_controller.save_mobile_app_settings(body=body)
+
+    def get_queue_stats_by_id(self, queue_stats_id: QueueId) -> QueueStats:
+        queue_stats_id = self.get_id(queue_stats_id)
+        return self.queue_stats_controller.get_queue_stats_by_id(queue_stats_id=queue_stats_id)
+
+    def get_queue_stats_by_ids(self, queue_stats_ids: List[str]) -> List[QueueStats]:
+        queue_stats_ids = ','.join(queue_stats_ids)
+        return self.queue_stats_controller.get_queue_stats_by_ids(queue_stats_ids=queue_stats_ids)
+
+    def get_tenant_queue_stats(self, page_size: int, page: int, text_search: Optional[str] = None,
+                               sort_property: Optional[str] = None,
+                               sort_order: Optional[str] = None) -> List[QueueStats]:
+        return self.queue_stats_controller.get_tenant_queue_stats(page_size=page_size, page=page,
+                                                                  text_search=text_search, sort_property=sort_property,
+                                                                  sort_order=sort_order)
+
     def __load_controllers(self):
         self.audit_log_controller = AuditLogControllerApi(self.api_client)
         self.o_auth2_config_template_controller = OAuth2ConfigTemplateControllerApi(self.api_client)
@@ -2027,6 +2071,8 @@ class RestClientBase(Thread):
         self.device_connectivity_controller = DeviceConnectivityControllerApi(self.api_client)
         self.mail_config_template_controller = MailConfigTemplateControllerApi(self.api_client)
         self.image_controller = ImageControllerApi(self.api_client)
+        self.mobile_application_controller = MobileApplicationControllerApi(self.api_client)
+        self.queue_stats_controller = QueueStatsControllerApi(self.api_client)
 
     @staticmethod
     def get_type(type):

@@ -102,12 +102,16 @@ def main():
                         email=user_email,
                         additional_info=additional_info)
             user = rest_client.save_user(user, send_activation_mail=False)
-            rest_client.activate_user(body=ActivateUserRequest(user.id, user_password), send_activation_mail=False)
+            activation_link = rest_client.get_activation_link(user.id.id)
+            activate_token = activation_link.split('=')[-1][:-1]
+            rest_client.activate_user(body=ActivateUserRequest(activate_token, user_password),
+                                      send_activation_mail=False)
 
             rest_client.add_entities_to_entity_group(customer1_administrators.id, [user.id.id])
             logging.info('User created:\n%r\n', user)
         except ApiException as e:
             logging.exception(e)
+
 
 if __name__ == '__main__':
     main()

@@ -43,3 +43,5 @@ from .notification_template_controller_api import NotificationTemplateController
 from .usage_info_controller_api import UsageInfoControllerApi
 from .two_factor_auth_config_controller_api import TwoFactorAuthConfigControllerApi
 from .image_controller_api import ImageControllerApi
+from .mobile_application_controller_api import MobileApplicationControllerApi
+from .queue_stats_controller_api import QueueStatsControllerApi

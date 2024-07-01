@@ -49,6 +49,8 @@ def main():
             # Also, you can use default Device Profile:
             # default_device_profile_id = rest_client.get_default_device_profile_info().id
             device_profile = DeviceProfile(name="Thermometer",
+                                           type="DEFAULT",
+                                           transport_type="DEFAULT",
                                            profile_data=DeviceProfileData(configuration={"type": "DEFAULT"},
                                                                           transport_configuration={"type": "DEFAULT"}))
             device_profile = rest_client.save_device_profile(device_profile)

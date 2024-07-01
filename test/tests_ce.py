@@ -743,7 +743,7 @@ class UserControllerTests(TBClientCETests):
         self.assertIsInstance(self.client.is_user_token_access_enabled(), bool)
 
     def test_get_user_token(self):
-        self.assertIsInstance(self.client.get_user_token(self.test_user.id), JWTPair)
+        self.assertIsInstance(self.client.get_user_token(self.test_user.id), JwtPair)
 
     def test_get_activation_link(self):
         self.assertIsInstance(self.client.get_activation_link(self.test_user.id), str)
@@ -795,6 +795,9 @@ class NotificationControllerTests(TBClientCETests):
 
     def test_get_notifications(self):
         self.assertIsInstance(self.client.get_notifications(10, 0), PageDataNotification)
+
+    def test_get_unread_notifications_count(self):
+        self.assertIsInstance(self.client.get_unread_notifications_count(), int)
 
     @classmethod
     def tearDownClass(cls) -> None:
@@ -1029,6 +1032,10 @@ class WidgetTypeControllerTests(TBClientCETests):
         self.assertIsInstance(self.client.get_bundle_widget_types_infos(self.widget_bundle.id, 10, 0),
                               PageDataWidgetTypeInfo)
 
+    @unittest.skip("TB bug")
+    def test_get_widget_types(self):
+        self.assertIsInstance(self.client.get_widget_type('horizontal_humidity_card'), WidgetType)
+
 
 class DeviceConnectivityControllerTests(TBClientCETests):
     device_profile_id = None
@@ -1098,6 +1105,39 @@ class ImageControllerTests(TBClientCETests):
 
     def test_download_image(self):
         self.assertIsInstance(self.client.download_image('tenant', 'task_done.png'), str)
+
+
+class MobileApplicationControllerTests(TBClientCETests):
+    @classmethod
+    def setUpClass(cls) -> None:
+        super(MobileApplicationControllerTests, cls).setUpClass()
+
+    def test_get_mobile_app_deep_link(self):
+        self.assertIsInstance(self.client.get_mobile_app_deep_link(), str)
+
+    def test_get_mobile_app_settings(self):
+        self.assertIsInstance(self.client.get_mobile_app_settings(), MobileAppSettings)
+
+
+class QueueStatsControllerTests(TBClientCETests):
+    queue_stats = None
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        super(QueueStatsControllerTests, cls).setUpClass()
+
+        cls.queue_stats = cls.client.get_tenant_queue_stats(10, 0).data[0]
+        assert cls.queue_stats is not None
+
+    def test_get_tenant_queue_stats(self):
+        s = self.client.get_tenant_queue_stats(10, 0)
+        self.assertIsInstance(self.client.get_tenant_queue_stats(10, 0), PageDataQueueStats)
+
+    def test_get_queue_stats_by_id(self):
+        self.assertIsInstance(self.client.get_queue_stats_by_id(self.queue_stats.id.id), QueueStats)
+
+    def test_get_queue_stats_by_ids(self):
+        self.assertIsInstance(self.client.get_queue_stats_by_ids([self.queue_stats.id.id]), list)
 
 
 if __name__ == '__main__':

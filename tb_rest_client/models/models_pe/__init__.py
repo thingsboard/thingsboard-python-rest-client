@@ -51,7 +51,6 @@ from .entity_relations_query import EntityRelationsQuery
 from .sms_provider_configuration import SmsProviderConfiguration
 from .entity_relation_info import EntityRelationInfo
 from .tenant_id import TenantId
-from .filter_predicate_valueboolean import FilterPredicateValueboolean
 from .component_descriptor import ComponentDescriptor
 from .short_customer_info import ShortCustomerInfo
 from .duration_alarm_condition_spec import DurationAlarmConditionSpec
@@ -111,8 +110,6 @@ from .entity_view_id import EntityViewId
 from .alarm_condition_filter_key import AlarmConditionFilterKey
 from .merged_group_type_permission_info import MergedGroupTypePermissionInfo
 from .device_transport_configuration import DeviceTransportConfiguration
-from .filter_predicate_valuedouble import FilterPredicateValuedouble
-from .filter_predicate_valuestring import FilterPredicateValuestring
 from .page_data_role import PageDataRole
 from .alarm_condition_filter import AlarmConditionFilter
 from .alarm import Alarm
@@ -172,12 +169,10 @@ from .custom_time_schedule import CustomTimeSchedule
 from .tenant_solution_template_instructions import TenantSolutionTemplateInstructions
 from .snmp_communication_config import SnmpCommunicationConfig
 from .rule_chain_meta_data import RuleChainMetaData
-from .filter_predicate_valueint import FilterPredicateValueint
 from .bulk_import_result_asset import BulkImportResultAsset
 from .edge_event_id import EdgeEventId
 from .column_mapping import ColumnMapping
 from .claim_request import ClaimRequest
-from .filter_predicate_valuelong import FilterPredicateValuelong
 from .widget_type_id import WidgetTypeId
 from .custom_menu import CustomMenu
 from .relations_search_parameters import RelationsSearchParameters
@@ -198,13 +193,11 @@ from .entity_group_name_filter import EntityGroupNameFilter
 from .entity_data_query import EntityDataQuery
 from .custom_translation import CustomTranslation
 from .entity_count_query import EntityCountQuery
-from .contact_basedobject import ContactBasedobject
 from .entity_view_search_query import EntityViewSearchQuery
 from .o_auth2_domain_info import OAuth2DomainInfo
 from .bulk_import_request import BulkImportRequest
 from .node_connection_info import NodeConnectionInfo
 from .entity_data_page_link import EntityDataPageLink
-from .dynamic_valueint import DynamicValueint
 from .thingsboard_error_response import ThingsboardErrorResponse
 from .coap_device_transport_configuration import CoapDeviceTransportConfiguration
 from .string_filter_predicate import StringFilterPredicate
@@ -218,9 +211,7 @@ from .asset_search_query import AssetSearchQuery
 from .entity_filter import EntityFilter
 from .debug_integration_event_filter import DebugIntegrationEventFilter
 from .entity_view_type_filter import EntityViewTypeFilter
-from .dynamic_valueboolean import DynamicValueboolean
 from .tenant_profile_configuration import TenantProfileConfiguration
-from .dynamic_valuelong import DynamicValuelong
 from .device_profile_transport_configuration import DeviceProfileTransportConfiguration
 from .object_attributes import ObjectAttributes
 from .relation_entity_type_filter import RelationEntityTypeFilter
@@ -239,8 +230,6 @@ from .relations_query_filter import RelationsQueryFilter
 from .alarm_condition import AlarmCondition
 from .self_registration_params import SelfRegistrationParams
 from .rule_chain_data import RuleChainData
-from .dynamic_valuedouble import DynamicValuedouble
-from .dynamic_valuestring import DynamicValuestring
 from .lw_m2m_instance import LwM2mInstance
 from .repeating_alarm_condition_spec import RepeatingAlarmConditionSpec
 from .custom_time_schedule_item import CustomTimeScheduleItem
@@ -281,7 +270,6 @@ from .page_data_contact_basedobject import PageDataContactBasedobject
 from .rule_chain import RuleChain
 from .entities_by_group_name_filter import EntitiesByGroupNameFilter
 from .version_create_request import VersionCreateRequest
-from .entity_export_dataobject import EntityExportDataobject
 from .two_fa_provider_config import TwoFaProviderConfig
 from .version_load_request import VersionLoadRequest
 from .lw_m2_m_bootstrap_server_credential import LwM2MBootstrapServerCredential
@@ -347,8 +335,7 @@ from .entity_view_info import EntityViewInfo
 from .escalated_notification_rule_recipients_config import EscalatedNotificationRuleRecipientsConfig
 from .event_info import EventInfo
 from .features_info import FeaturesInfo
-from .integration_lifecycle_event_notification_rule_trigger_config import IntegrationLifecycleEventNotificationRuleTriggerConfig
-from .jwt_settings import JWTSettings
+from .integration_lifecycle_event_notification_rule_trigger_config import IntegrationLifecycleEventNotificationRuleTriggerConfig  # noqa: E501
 from .last_visited_dashboard_info import LastVisitedDashboardInfo
 from .license_usage_info import LicenseUsageInfo
 from .new_platform_version_notification_rule_trigger_config import NewPlatformVersionNotificationRuleTriggerConfig
@@ -378,7 +365,7 @@ from .psklw_m2_m_bootstrap_server_credential import PSKLwM2MBootstrapServerCrede
 from .repository_settings import RepositorySettings
 from .rpklw_m2_m_bootstrap_server_credential import RPKLwM2MBootstrapServerCredential
 from .rule_chain_debug_event_filter import RuleChainDebugEventFilter
-from .rule_engine_component_lifecycle_event_notification_rule_trigger_config import RuleEngineComponentLifecycleEventNotificationRuleTriggerConfig
+from .rule_engine_component_lifecycle_event_notification_rule_trigger_config import RuleEngineComponentLifecycleEventNotificationRuleTriggerConfig  # noqa: E501
 from .slack_conversation import SlackConversation
 from .slack_delivery_method_notification_template import SlackDeliveryMethodNotificationTemplate
 from .slack_notification_delivery_method_config import SlackNotificationDeliveryMethodConfig
@@ -398,3 +385,9 @@ from .user_role_filter import UserRoleFilter
 from .users_filter import UsersFilter
 from .web_delivery_method_notification_template import WebDeliveryMethodNotificationTemplate
 from .x509_certificate_chain_provision_configuration import X509CertificateChainProvisionConfiguration
+from .contact_based_object import ContactBasedObject
+from .locale_code_upload_body import LocaleCodeUploadBody
+from .mobile_app_settings import MobileAppSettings
+from .mobile_app_settings_id import MobileAppSettingsId
+from .translation_info import TranslationInfo
+from .alarm_notification_rule_trigger_config import AlarmNotificationRuleTriggerConfig
