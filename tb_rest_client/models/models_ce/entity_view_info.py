@@ -52,6 +52,7 @@ class EntityViewInfo(object):
         'keys': 'TelemetryEntityView',
         'start_time_ms': 'int',
         'end_time_ms': 'int',
+        'version': 'int',
         'customer_title': 'str',
         'customer_is_public': 'bool',
         'additional_info': 'JsonNode'
@@ -68,12 +69,13 @@ class EntityViewInfo(object):
         'keys': 'keys',
         'start_time_ms': 'startTimeMs',
         'end_time_ms': 'endTimeMs',
+        'version': 'version',
         'customer_title': 'customerTitle',
         'customer_is_public': 'customerIsPublic',
         'additional_info': 'additionalInfo'
     }
 
-    def __init__(self, id=None, created_time=None, entity_id=None, tenant_id=None, customer_id=None, name=None, type=None, keys=None, start_time_ms=None, end_time_ms=None, customer_title=None, customer_is_public=None, additional_info=None):  # noqa: E501
+    def __init__(self, id=None, created_time=None, entity_id=None, tenant_id=None, customer_id=None, name=None, type=None, keys=None, start_time_ms=None, end_time_ms=None, version=None, customer_title=None, customer_is_public=None, additional_info=None):  # noqa: E501
         """EntityViewInfo - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._created_time = None
@@ -85,6 +87,7 @@ class EntityViewInfo(object):
         self._keys = None
         self._start_time_ms = None
         self._end_time_ms = None
+        self._version = None
         self._customer_title = None
         self._customer_is_public = None
         self._additional_info = None
@@ -106,6 +109,8 @@ class EntityViewInfo(object):
             self.start_time_ms = start_time_ms
         if end_time_ms is not None:
             self.end_time_ms = end_time_ms
+        if version is not None:
+            self.version = version
         if customer_title is not None:
             self.customer_title = customer_title
         if customer_is_public is not None:
@@ -338,6 +343,27 @@ class EntityViewInfo(object):
         """
 
         self._end_time_ms = end_time_ms
+
+    @property
+    def version(self):
+        """Gets the version of this EntityViewInfo.  # noqa: E501
+
+
+        :return: The version of this EntityViewInfo.  # noqa: E501
+        :rtype: int
+        """
+        return self._version
+
+    @version.setter
+    def version(self, version):
+        """Sets the version of this EntityViewInfo.
+
+
+        :param version: The version of this EntityViewInfo.  # noqa: E501
+        :type: int
+        """
+
+        self._version = version
 
     @property
     def customer_title(self):

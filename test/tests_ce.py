@@ -19,7 +19,7 @@ from tb_rest_client.rest_client_base import *
 from tb_rest_client.models.models_ce import *
 
 
-TB_URL_CE = 'http://0.0.0.0:8080'
+TB_URL_CE = 'http://192.168.1.201:8380'
 
 TB_TENANT_USERNAME_CE = 'tenant@thingsboard.org'
 TB_TENANT_PASSWORD_CE = 'tenant'
@@ -757,6 +757,9 @@ class UserControllerTests(TBClientCETests):
     def test_get_mobile_session(self):
         self.assertIsInstance(self.client.get_mobile_session(self.mobile_token), MobileSessionInfo)
 
+    def test_get_activation_link_info(self):
+        self.assertIsInstance(self.client.get_activation_link_info(self.test_user.id), str)
+
 
 class NotificationControllerTests(TBClientCETests):
     notification = None
@@ -1138,6 +1141,35 @@ class QueueStatsControllerTests(TBClientCETests):
 
     def test_get_queue_stats_by_ids(self):
         self.assertIsInstance(self.client.get_queue_stats_by_ids([self.queue_stats.id.id]), list)
+
+
+class MobileAppControllerTests(TBClientCETests):
+    mobile_app = None
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        # ThingsBoard REST API URL
+        url = TB_URL_CE
+
+        # Default Tenant Administrator credentials
+        username = TB_SYSADMIN_USERNAME_CE
+        password = TB_SYSADMIN_PASSWORD_CE
+
+        with RestClientCE(url) as cls.client:
+            cls.client.login(username, password)
+
+        cls.mobile_app = cls.client.save_mobile_app(body=MobileApp(name='Test Mobile App', pkg_name='string', app_secret='SDgegheheegheghthgehdsfsdFegfwE', oauth2_enabled=True))
+        assert cls.mobile_app is not None
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        cls.client.delete_mobile_app(cls.mobile_app.id)
+
+    def test_get_mobile_app_info_by_id(self):
+        self.assertIsInstance(self.client.get_mobile_app_info_by_id(self.mobile_app.id), MobileAppInfo)
+
+    def test_get_tenant_mobile_app_infos(self):
+        self.assertIsInstance(self.client.get_tenant_mobile_app_infos(10, 0), PageDataMobileAppInfo)
 
 
 if __name__ == '__main__':

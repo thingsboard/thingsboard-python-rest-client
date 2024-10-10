@@ -51,8 +51,8 @@ class BlobEntityWithCustomerInfo(object):
         'content_type': 'str',
         'customer_title': 'str',
         'customer_is_public': 'bool',
-        'owner_id': 'EntityId',
-        'additional_info': 'JsonNode'
+        'additional_info': 'JsonNode',
+        'owner_id': 'EntityId'
     }
 
     attribute_map = {
@@ -65,11 +65,11 @@ class BlobEntityWithCustomerInfo(object):
         'content_type': 'contentType',
         'customer_title': 'customerTitle',
         'customer_is_public': 'customerIsPublic',
-        'owner_id': 'ownerId',
-        'additional_info': 'additionalInfo'
+        'additional_info': 'additionalInfo',
+        'owner_id': 'ownerId'
     }
 
-    def __init__(self, id=None, created_time=None, tenant_id=None, customer_id=None, name=None, type=None, content_type=None, customer_title=None, customer_is_public=None, owner_id=None, additional_info=None):  # noqa: E501
+    def __init__(self, id=None, created_time=None, tenant_id=None, customer_id=None, name=None, type=None, content_type=None, customer_title=None, customer_is_public=None, additional_info=None, owner_id=None):  # noqa: E501
         """BlobEntityWithCustomerInfo - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._created_time = None
@@ -80,8 +80,8 @@ class BlobEntityWithCustomerInfo(object):
         self._content_type = None
         self._customer_title = None
         self._customer_is_public = None
-        self._owner_id = None
         self._additional_info = None
+        self._owner_id = None
         self.discriminator = None
         if id is not None:
             self.id = id
@@ -101,10 +101,10 @@ class BlobEntityWithCustomerInfo(object):
             self.customer_title = customer_title
         if customer_is_public is not None:
             self.customer_is_public = customer_is_public
-        if owner_id is not None:
-            self.owner_id = owner_id
         if additional_info is not None:
             self.additional_info = additional_info
+        if owner_id is not None:
+            self.owner_id = owner_id
 
     @property
     def id(self):
@@ -314,27 +314,6 @@ class BlobEntityWithCustomerInfo(object):
         self._customer_is_public = customer_is_public
 
     @property
-    def owner_id(self):
-        """Gets the owner_id of this BlobEntityWithCustomerInfo.  # noqa: E501
-
-
-        :return: The owner_id of this BlobEntityWithCustomerInfo.  # noqa: E501
-        :rtype: EntityId
-        """
-        return self._owner_id
-
-    @owner_id.setter
-    def owner_id(self, owner_id):
-        """Sets the owner_id of this BlobEntityWithCustomerInfo.
-
-
-        :param owner_id: The owner_id of this BlobEntityWithCustomerInfo.  # noqa: E501
-        :type: EntityId
-        """
-
-        self._owner_id = owner_id
-
-    @property
     def additional_info(self):
         """Gets the additional_info of this BlobEntityWithCustomerInfo.  # noqa: E501
 
@@ -354,6 +333,27 @@ class BlobEntityWithCustomerInfo(object):
         """
 
         self._additional_info = additional_info
+
+    @property
+    def owner_id(self):
+        """Gets the owner_id of this BlobEntityWithCustomerInfo.  # noqa: E501
+
+
+        :return: The owner_id of this BlobEntityWithCustomerInfo.  # noqa: E501
+        :rtype: EntityId
+        """
+        return self._owner_id
+
+    @owner_id.setter
+    def owner_id(self, owner_id):
+        """Sets the owner_id of this BlobEntityWithCustomerInfo.
+
+
+        :param owner_id: The owner_id of this BlobEntityWithCustomerInfo.  # noqa: E501
+        :type: EntityId
+        """
+
+        self._owner_id = owner_id
 
     def to_dict(self):
         """Returns the model properties as a dict"""

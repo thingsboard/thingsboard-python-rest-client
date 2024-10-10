@@ -45,3 +45,5 @@ from .two_factor_auth_config_controller_api import TwoFactorAuthConfigController
 from .image_controller_api import ImageControllerApi
 from .mobile_application_controller_api import MobileApplicationControllerApi
 from .queue_stats_controller_api import QueueStatsControllerApi
+from .domain_controller_api import DomainControllerApi
+from .mobile_app_controller_api import MobileAppControllerApi

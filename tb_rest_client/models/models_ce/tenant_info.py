@@ -55,6 +55,7 @@ class TenantInfo(object):
         'title': 'str',
         'region': 'str',
         'tenant_profile_id': 'TenantProfileId',
+        'version': 'int',
         'tenant_profile_name': 'str',
         'name': 'str',
         'additional_info': 'JsonNode'
@@ -74,12 +75,13 @@ class TenantInfo(object):
         'title': 'title',
         'region': 'region',
         'tenant_profile_id': 'tenantProfileId',
+        'version': 'version',
         'tenant_profile_name': 'tenantProfileName',
         'name': 'name',
         'additional_info': 'additionalInfo'
     }
 
-    def __init__(self, id=None, created_time=None, country=None, state=None, city=None, address=None, address2=None, zip=None, phone=None, email=None, title=None, region=None, tenant_profile_id=None, tenant_profile_name=None, name=None, additional_info=None):  # noqa: E501
+    def __init__(self, id=None, created_time=None, country=None, state=None, city=None, address=None, address2=None, zip=None, phone=None, email=None, title=None, region=None, tenant_profile_id=None, version=None, tenant_profile_name=None, name=None, additional_info=None):  # noqa: E501
         """TenantInfo - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._created_time = None
@@ -94,6 +96,7 @@ class TenantInfo(object):
         self._title = None
         self._region = None
         self._tenant_profile_id = None
+        self._version = None
         self._tenant_profile_name = None
         self._name = None
         self._additional_info = None
@@ -123,6 +126,8 @@ class TenantInfo(object):
             self.region = region
         if tenant_profile_id is not None:
             self.tenant_profile_id = tenant_profile_id
+        if version is not None:
+            self.version = version
         if tenant_profile_name is not None:
             self.tenant_profile_name = tenant_profile_name
         if name is not None:
@@ -426,6 +431,27 @@ class TenantInfo(object):
         """
 
         self._tenant_profile_id = tenant_profile_id
+
+    @property
+    def version(self):
+        """Gets the version of this TenantInfo.  # noqa: E501
+
+
+        :return: The version of this TenantInfo.  # noqa: E501
+        :rtype: int
+        """
+        return self._version
+
+    @version.setter
+    def version(self, version):
+        """Sets the version of this TenantInfo.
+
+
+        :param version: The version of this TenantInfo.  # noqa: E501
+        :type: int
+        """
+
+        self._version = version
 
     @property
     def tenant_profile_name(self):

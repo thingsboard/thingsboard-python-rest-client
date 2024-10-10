@@ -52,10 +52,11 @@ class EntityViewInfo(object):
         'keys': 'TelemetryEntityView',
         'start_time_ms': 'int',
         'end_time_ms': 'int',
+        'version': 'int',
         'owner_name': 'str',
         'groups': 'list[EntityInfo]',
-        'owner_id': 'EntityId',
-        'additional_info': 'JsonNode'
+        'additional_info': 'JsonNode',
+        'owner_id': 'EntityId'
     }
 
     attribute_map = {
@@ -69,13 +70,14 @@ class EntityViewInfo(object):
         'keys': 'keys',
         'start_time_ms': 'startTimeMs',
         'end_time_ms': 'endTimeMs',
+        'version': 'version',
         'owner_name': 'ownerName',
         'groups': 'groups',
-        'owner_id': 'ownerId',
-        'additional_info': 'additionalInfo'
+        'additional_info': 'additionalInfo',
+        'owner_id': 'ownerId'
     }
 
-    def __init__(self, id=None, created_time=None, entity_id=None, tenant_id=None, customer_id=None, name=None, type=None, keys=None, start_time_ms=None, end_time_ms=None, owner_name=None, groups=None, owner_id=None, additional_info=None):  # noqa: E501
+    def __init__(self, id=None, created_time=None, entity_id=None, tenant_id=None, customer_id=None, name=None, type=None, keys=None, start_time_ms=None, end_time_ms=None, version=None, owner_name=None, groups=None, additional_info=None, owner_id=None):  # noqa: E501
         """EntityViewInfo - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._created_time = None
@@ -87,10 +89,11 @@ class EntityViewInfo(object):
         self._keys = None
         self._start_time_ms = None
         self._end_time_ms = None
+        self._version = None
         self._owner_name = None
         self._groups = None
-        self._owner_id = None
         self._additional_info = None
+        self._owner_id = None
         self.discriminator = None
         if id is not None:
             self.id = id
@@ -109,14 +112,16 @@ class EntityViewInfo(object):
             self.start_time_ms = start_time_ms
         if end_time_ms is not None:
             self.end_time_ms = end_time_ms
+        if version is not None:
+            self.version = version
         if owner_name is not None:
             self.owner_name = owner_name
         if groups is not None:
             self.groups = groups
-        if owner_id is not None:
-            self.owner_id = owner_id
         if additional_info is not None:
             self.additional_info = additional_info
+        if owner_id is not None:
+            self.owner_id = owner_id
 
     @property
     def id(self):
@@ -345,6 +350,27 @@ class EntityViewInfo(object):
         self._end_time_ms = end_time_ms
 
     @property
+    def version(self):
+        """Gets the version of this EntityViewInfo.  # noqa: E501
+
+
+        :return: The version of this EntityViewInfo.  # noqa: E501
+        :rtype: int
+        """
+        return self._version
+
+    @version.setter
+    def version(self, version):
+        """Sets the version of this EntityViewInfo.
+
+
+        :param version: The version of this EntityViewInfo.  # noqa: E501
+        :type: int
+        """
+
+        self._version = version
+
+    @property
     def owner_name(self):
         """Gets the owner_name of this EntityViewInfo.  # noqa: E501
 
@@ -391,27 +417,6 @@ class EntityViewInfo(object):
         self._groups = groups
 
     @property
-    def owner_id(self):
-        """Gets the owner_id of this EntityViewInfo.  # noqa: E501
-
-
-        :return: The owner_id of this EntityViewInfo.  # noqa: E501
-        :rtype: EntityId
-        """
-        return self._owner_id
-
-    @owner_id.setter
-    def owner_id(self, owner_id):
-        """Sets the owner_id of this EntityViewInfo.
-
-
-        :param owner_id: The owner_id of this EntityViewInfo.  # noqa: E501
-        :type: EntityId
-        """
-
-        self._owner_id = owner_id
-
-    @property
     def additional_info(self):
         """Gets the additional_info of this EntityViewInfo.  # noqa: E501
 
@@ -431,6 +436,27 @@ class EntityViewInfo(object):
         """
 
         self._additional_info = additional_info
+
+    @property
+    def owner_id(self):
+        """Gets the owner_id of this EntityViewInfo.  # noqa: E501
+
+
+        :return: The owner_id of this EntityViewInfo.  # noqa: E501
+        :rtype: EntityId
+        """
+        return self._owner_id
+
+    @owner_id.setter
+    def owner_id(self, owner_id):
+        """Sets the owner_id of this EntityViewInfo.
+
+
+        :param owner_id: The owner_id of this EntityViewInfo.  # noqa: E501
+        :type: EntityId
+        """
+
+        self._owner_id = owner_id
 
     def to_dict(self):
         """Returns the model properties as a dict"""

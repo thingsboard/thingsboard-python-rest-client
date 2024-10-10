@@ -47,10 +47,11 @@ class Role(object):
         'name': 'str',
         'type': 'str',
         'permissions': 'JsonNode',
+        'version': 'int',
         'id': 'RoleId',
         'created_time': 'int',
-        'owner_id': 'EntityId',
-        'additional_info': 'JsonNode'
+        'additional_info': 'JsonNode',
+        'owner_id': 'EntityId'
     }
 
     attribute_map = {
@@ -59,23 +60,25 @@ class Role(object):
         'name': 'name',
         'type': 'type',
         'permissions': 'permissions',
+        'version': 'version',
         'id': 'id',
         'created_time': 'createdTime',
-        'owner_id': 'ownerId',
-        'additional_info': 'additionalInfo'
+        'additional_info': 'additionalInfo',
+        'owner_id': 'ownerId'
     }
 
-    def __init__(self, tenant_id=None, customer_id=None, name=None, type=None, permissions=None, id=None, created_time=None, owner_id=None, additional_info=None):  # noqa: E501
+    def __init__(self, tenant_id=None, customer_id=None, name=None, type=None, permissions=None, version=None, id=None, created_time=None, additional_info=None, owner_id=None):  # noqa: E501
         """Role - a model defined in Swagger"""  # noqa: E501
         self._tenant_id = None
         self._customer_id = None
         self._name = None
         self._type = None
         self._permissions = None
+        self._version = None
         self._id = None
         self._created_time = None
-        self._owner_id = None
         self._additional_info = None
+        self._owner_id = None
         self.discriminator = None
         self.tenant_id = tenant_id
         if customer_id is not None:
@@ -84,14 +87,16 @@ class Role(object):
         self.type = type
         if permissions is not None:
             self.permissions = permissions
+        if version is not None:
+            self.version = version
         if id is not None:
             self.id = id
         if created_time is not None:
             self.created_time = created_time
-        if owner_id is not None:
-            self.owner_id = owner_id
         if additional_info is not None:
             self.additional_info = additional_info
+        if owner_id is not None:
+            self.owner_id = owner_id
 
     @property
     def tenant_id(self):
@@ -213,6 +218,27 @@ class Role(object):
         self._permissions = permissions
 
     @property
+    def version(self):
+        """Gets the version of this Role.  # noqa: E501
+
+
+        :return: The version of this Role.  # noqa: E501
+        :rtype: int
+        """
+        return self._version
+
+    @version.setter
+    def version(self, version):
+        """Sets the version of this Role.
+
+
+        :param version: The version of this Role.  # noqa: E501
+        :type: int
+        """
+
+        self._version = version
+
+    @property
     def id(self):
         """Gets the id of this Role.  # noqa: E501
 
@@ -257,27 +283,6 @@ class Role(object):
         self._created_time = created_time
 
     @property
-    def owner_id(self):
-        """Gets the owner_id of this Role.  # noqa: E501
-
-
-        :return: The owner_id of this Role.  # noqa: E501
-        :rtype: EntityId
-        """
-        return self._owner_id
-
-    @owner_id.setter
-    def owner_id(self, owner_id):
-        """Sets the owner_id of this Role.
-
-
-        :param owner_id: The owner_id of this Role.  # noqa: E501
-        :type: EntityId
-        """
-
-        self._owner_id = owner_id
-
-    @property
     def additional_info(self):
         """Gets the additional_info of this Role.  # noqa: E501
 
@@ -297,6 +302,27 @@ class Role(object):
         """
 
         self._additional_info = additional_info
+
+    @property
+    def owner_id(self):
+        """Gets the owner_id of this Role.  # noqa: E501
+
+
+        :return: The owner_id of this Role.  # noqa: E501
+        :rtype: EntityId
+        """
+        return self._owner_id
+
+    @owner_id.setter
+    def owner_id(self, owner_id):
+        """Sets the owner_id of this Role.
+
+
+        :param owner_id: The owner_id of this Role.  # noqa: E501
+        :type: EntityId
+        """
+
+        self._owner_id = owner_id
 
     def to_dict(self):
         """Returns the model properties as a dict"""

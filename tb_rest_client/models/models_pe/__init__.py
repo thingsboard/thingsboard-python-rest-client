@@ -50,7 +50,6 @@ from .scheduler_event_with_customer_info import SchedulerEventWithCustomerInfo
 from .entity_relations_query import EntityRelationsQuery
 from .sms_provider_configuration import SmsProviderConfiguration
 from .entity_relation_info import EntityRelationInfo
-from .tenant_id import TenantId
 from .component_descriptor import ComponentDescriptor
 from .short_customer_info import ShortCustomerInfo
 from .duration_alarm_condition_spec import DurationAlarmConditionSpec
@@ -387,7 +386,16 @@ from .web_delivery_method_notification_template import WebDeliveryMethodNotifica
 from .x509_certificate_chain_provision_configuration import X509CertificateChainProvisionConfiguration
 from .contact_based_object import ContactBasedObject
 from .locale_code_upload_body import LocaleCodeUploadBody
-from .mobile_app_settings import MobileAppSettings
 from .mobile_app_settings_id import MobileAppSettingsId
 from .translation_info import TranslationInfo
 from .alarm_notification_rule_trigger_config import AlarmNotificationRuleTriggerConfig
+from .converters_info import ConvertersInfo
+from .custom_menu_info import CustomMenuInfo
+from .custom_menu_delete_result import CustomMenuDeleteResult
+from .custom_menu_id import CustomMenuId
+from .custom_menu_config import CustomMenuConfig
+from .default_menu_item import DefaultMenuItem
+from .home_menu_item import HomeMenuItem
+from .integration_converters_info import IntegrationConvertersInfo
+from .menu_item import MenuItem
+from .model import Model

@@ -51,6 +51,8 @@ class WidgetTypeDetails(object):
         'id': 'WidgetTypeId',
         'created_time': 'int',
         'tenant_id': 'TenantId',
+        'scada': 'bool',
+        'version': 'int',
         'tags': 'list[str]'
     }
 
@@ -64,10 +66,12 @@ class WidgetTypeDetails(object):
         'id': 'id',
         'created_time': 'createdTime',
         'tenant_id': 'tenantId',
+        'scada': 'scada',
+        'version': 'version',
         'tags': 'tags'
     }
 
-    def __init__(self, fqn=None, name=None, deprecated=None, image=None, description=None, descriptor=None, id=None, created_time=None, tenant_id=None, tags=None):  # noqa: E501
+    def __init__(self, fqn=None, name=None, deprecated=None, image=None, description=None, descriptor=None, id=None, created_time=None, tenant_id=None, scada=None, version=None, tags=None):  # noqa: E501
         """WidgetTypeDetails - a model defined in Swagger"""  # noqa: E501
         self._fqn = None
         self._name = None
@@ -78,6 +82,8 @@ class WidgetTypeDetails(object):
         self._id = None
         self._created_time = None
         self._tenant_id = None
+        self._scada = None
+        self._version = None
         self._tags = None
         self.discriminator = None
         if fqn is not None:
@@ -98,6 +104,10 @@ class WidgetTypeDetails(object):
             self.created_time = created_time
         if tenant_id is not None:
             self.tenant_id = tenant_id
+        if scada is not None:
+            self.scada = scada
+        if version is not None:
+            self.version = version
         if tags is not None:
             self.tags = tags
 
@@ -301,6 +311,50 @@ class WidgetTypeDetails(object):
         """
 
         self._tenant_id = tenant_id
+
+    @property
+    def scada(self):
+        """Gets the scada of this WidgetTypeDetails.  # noqa: E501
+
+        Whether widget type is SCADA symbol.  # noqa: E501
+
+        :return: The scada of this WidgetTypeDetails.  # noqa: E501
+        :rtype: bool
+        """
+        return self._scada
+
+    @scada.setter
+    def scada(self, scada):
+        """Sets the scada of this WidgetTypeDetails.
+
+        Whether widget type is SCADA symbol.  # noqa: E501
+
+        :param scada: The scada of this WidgetTypeDetails.  # noqa: E501
+        :type: bool
+        """
+
+        self._scada = scada
+
+    @property
+    def version(self):
+        """Gets the version of this WidgetTypeDetails.  # noqa: E501
+
+
+        :return: The version of this WidgetTypeDetails.  # noqa: E501
+        :rtype: int
+        """
+        return self._version
+
+    @version.setter
+    def version(self, version):
+        """Sets the version of this WidgetTypeDetails.
+
+
+        :param version: The version of this WidgetTypeDetails.  # noqa: E501
+        :type: int
+        """
+
+        self._version = version
 
     @property
     def tags(self):

@@ -52,6 +52,7 @@ class Device(object):
         'device_profile_id': 'DeviceProfileId',
         'firmware_id': 'OtaPackageId',
         'software_id': 'OtaPackageId',
+        'version': 'int',
         'additional_info': 'JsonNode',
         'device_data': 'DeviceData'
     }
@@ -67,11 +68,12 @@ class Device(object):
         'device_profile_id': 'deviceProfileId',
         'firmware_id': 'firmwareId',
         'software_id': 'softwareId',
+        'version': 'version',
         'additional_info': 'additionalInfo',
         'device_data': 'deviceData'
     }
 
-    def __init__(self, id=None, created_time=None, tenant_id=None, customer_id=None, name=None, type=None, label=None, device_profile_id=None, firmware_id=None, software_id=None, additional_info=None, device_data=None):  # noqa: E501
+    def __init__(self, id=None, created_time=None, tenant_id=None, customer_id=None, name=None, type=None, label=None, device_profile_id=None, firmware_id=None, software_id=None, version=None, additional_info=None, device_data=None):  # noqa: E501
         """Device - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._created_time = None
@@ -83,6 +85,7 @@ class Device(object):
         self._device_profile_id = None
         self._firmware_id = None
         self._software_id = None
+        self._version = None
         self._additional_info = None
         self._device_data = None
         self.discriminator = None
@@ -104,6 +107,8 @@ class Device(object):
             self.firmware_id = firmware_id
         if software_id is not None:
             self.software_id = software_id
+        if version is not None:
+            self.version = version
         if additional_info is not None:
             self.additional_info = additional_info
         if device_data is not None:
@@ -330,6 +335,27 @@ class Device(object):
         """
 
         self._software_id = software_id
+
+    @property
+    def version(self):
+        """Gets the version of this Device.  # noqa: E501
+
+
+        :return: The version of this Device.  # noqa: E501
+        :rtype: int
+        """
+        return self._version
+
+    @version.setter
+    def version(self, version):
+        """Sets the version of this Device.
+
+
+        :param version: The version of this Device.  # noqa: E501
+        :type: int
+        """
+
+        self._version = version
 
     @property
     def additional_info(self):

@@ -45,22 +45,28 @@ class SecuritySettings(object):
         'password_policy': 'UserPasswordPolicy',
         'max_failed_login_attempts': 'int',
         'user_lockout_notification_email': 'str',
-        'mobile_secret_key_length': 'int'
+        'mobile_secret_key_length': 'int',
+        'user_activation_token_ttl': 'int',
+        'password_reset_token_ttl': 'int'
     }
 
     attribute_map = {
         'password_policy': 'passwordPolicy',
         'max_failed_login_attempts': 'maxFailedLoginAttempts',
         'user_lockout_notification_email': 'userLockoutNotificationEmail',
-        'mobile_secret_key_length': 'mobileSecretKeyLength'
+        'mobile_secret_key_length': 'mobileSecretKeyLength',
+        'user_activation_token_ttl': 'userActivationTokenTtl',
+        'password_reset_token_ttl': 'passwordResetTokenTtl'
     }
 
-    def __init__(self, password_policy=None, max_failed_login_attempts=None, user_lockout_notification_email=None, mobile_secret_key_length=None):  # noqa: E501
+    def __init__(self, password_policy=None, max_failed_login_attempts=None, user_lockout_notification_email=None, mobile_secret_key_length=None, user_activation_token_ttl=None, password_reset_token_ttl=None):  # noqa: E501
         """SecuritySettings - a model defined in Swagger"""  # noqa: E501
         self._password_policy = None
         self._max_failed_login_attempts = None
         self._user_lockout_notification_email = None
         self._mobile_secret_key_length = None
+        self._user_activation_token_ttl = None
+        self._password_reset_token_ttl = None
         self.discriminator = None
         if password_policy is not None:
             self.password_policy = password_policy
@@ -70,6 +76,8 @@ class SecuritySettings(object):
             self.user_lockout_notification_email = user_lockout_notification_email
         if mobile_secret_key_length is not None:
             self.mobile_secret_key_length = mobile_secret_key_length
+        self.user_activation_token_ttl = user_activation_token_ttl
+        self.password_reset_token_ttl = password_reset_token_ttl
 
     @property
     def password_policy(self):
@@ -160,6 +168,56 @@ class SecuritySettings(object):
         """
 
         self._mobile_secret_key_length = mobile_secret_key_length
+
+    @property
+    def user_activation_token_ttl(self):
+        """Gets the user_activation_token_ttl of this SecuritySettings.  # noqa: E501
+
+        TTL in hours for user activation link  # noqa: E501
+
+        :return: The user_activation_token_ttl of this SecuritySettings.  # noqa: E501
+        :rtype: int
+        """
+        return self._user_activation_token_ttl
+
+    @user_activation_token_ttl.setter
+    def user_activation_token_ttl(self, user_activation_token_ttl):
+        """Sets the user_activation_token_ttl of this SecuritySettings.
+
+        TTL in hours for user activation link  # noqa: E501
+
+        :param user_activation_token_ttl: The user_activation_token_ttl of this SecuritySettings.  # noqa: E501
+        :type: int
+        """
+        if user_activation_token_ttl is None:
+            raise ValueError("Invalid value for `user_activation_token_ttl`, must not be `None`")  # noqa: E501
+
+        self._user_activation_token_ttl = user_activation_token_ttl
+
+    @property
+    def password_reset_token_ttl(self):
+        """Gets the password_reset_token_ttl of this SecuritySettings.  # noqa: E501
+
+        TTL in hours for password reset link  # noqa: E501
+
+        :return: The password_reset_token_ttl of this SecuritySettings.  # noqa: E501
+        :rtype: int
+        """
+        return self._password_reset_token_ttl
+
+    @password_reset_token_ttl.setter
+    def password_reset_token_ttl(self, password_reset_token_ttl):
+        """Sets the password_reset_token_ttl of this SecuritySettings.
+
+        TTL in hours for password reset link  # noqa: E501
+
+        :param password_reset_token_ttl: The password_reset_token_ttl of this SecuritySettings.  # noqa: E501
+        :type: int
+        """
+        if password_reset_token_ttl is None:
+            raise ValueError("Invalid value for `password_reset_token_ttl`, must not be `None`")  # noqa: E501
+
+        self._password_reset_token_ttl = password_reset_token_ttl
 
     def to_dict(self):
         """Returns the model properties as a dict"""

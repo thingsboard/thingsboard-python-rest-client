@@ -17,7 +17,6 @@ from .http_integration_controller_api import HttpIntegrationControllerApi
 from .asset_controller_api import AssetControllerApi
 from .device_group_ota_package_controller_api import DeviceGroupOtaPackageControllerApi
 from .edge_controller_api import EdgeControllerApi
-from .ocean_connect_integration_controller_api import OceanConnectIntegrationControllerApi
 from .user_permissions_controller_api import UserPermissionsControllerApi
 from .owner_controller_api import OwnerControllerApi
 from .rpc_v_2_controller_api import RpcV2ControllerApi
@@ -32,7 +31,6 @@ from .rule_engine_controller_api import RuleEngineControllerApi
 from .admin_controller_api import AdminControllerApi
 from .t_mobile_iot_cdp_integration_controller_api import TMobileIotCdpIntegrationControllerApi
 from .sign_up_controller_api import SignUpControllerApi
-from .trail_controller_api import TrailControllerApi
 from .thing_park_integration_controller_api import ThingParkIntegrationControllerApi
 from .sig_fox_integration_controller_api import SigFoxIntegrationControllerApi
 from .scheduler_event_controller_api import SchedulerEventControllerApi
@@ -44,7 +42,6 @@ from .lwm_2m_controller_api import Lwm2mControllerApi
 from .custom_translation_controller_api import CustomTranslationControllerApi
 from .role_controller_api import RoleControllerApi
 from .blob_entity_controller_api import BlobEntityControllerApi
-from .loriot_integration_controller_api import LoriotIntegrationControllerApi
 from .tenant_controller_api import TenantControllerApi
 from .chirp_stack_integration_controller_api import ChirpStackIntegrationControllerApi
 from .white_labeling_controller_api import WhiteLabelingControllerApi
@@ -61,3 +58,6 @@ from .image_controller_api import ImageControllerApi
 from .mobile_application_controller_api import MobileApplicationControllerApi
 from .queue_stats_controller_api import QueueStatsControllerApi
 from .translation_controller_api import TranslationControllerApi
+from .converter_library_controller_api import ConverterLibraryControllerApi
+from .domain_controller_api import DomainControllerApi
+from .mobile_app_controller_api import MobileAppControllerApi

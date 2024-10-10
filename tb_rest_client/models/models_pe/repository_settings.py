@@ -51,7 +51,8 @@ class RepositorySettings(object):
         'private_key_password': 'str',
         'default_branch': 'str',
         'read_only': 'bool',
-        'show_merge_commits': 'bool'
+        'show_merge_commits': 'bool',
+        'local_only': 'bool'
     }
 
     attribute_map = {
@@ -64,10 +65,11 @@ class RepositorySettings(object):
         'private_key_password': 'privateKeyPassword',
         'default_branch': 'defaultBranch',
         'read_only': 'readOnly',
-        'show_merge_commits': 'showMergeCommits'
+        'show_merge_commits': 'showMergeCommits',
+        'local_only': 'localOnly'
     }
 
-    def __init__(self, repository_uri=None, auth_method=None, username=None, password=None, private_key_file_name=None, private_key=None, private_key_password=None, default_branch=None, read_only=None, show_merge_commits=None):  # noqa: E501
+    def __init__(self, repository_uri=None, auth_method=None, username=None, password=None, private_key_file_name=None, private_key=None, private_key_password=None, default_branch=None, read_only=None, show_merge_commits=None, local_only=None):  # noqa: E501
         """RepositorySettings - a model defined in Swagger"""  # noqa: E501
         self._repository_uri = None
         self._auth_method = None
@@ -79,6 +81,7 @@ class RepositorySettings(object):
         self._default_branch = None
         self._read_only = None
         self._show_merge_commits = None
+        self._local_only = None
         self.discriminator = None
         if repository_uri is not None:
             self.repository_uri = repository_uri
@@ -100,6 +103,8 @@ class RepositorySettings(object):
             self.read_only = read_only
         if show_merge_commits is not None:
             self.show_merge_commits = show_merge_commits
+        if local_only is not None:
+            self.local_only = local_only
 
     @property
     def repository_uri(self):
@@ -316,6 +321,27 @@ class RepositorySettings(object):
         """
 
         self._show_merge_commits = show_merge_commits
+
+    @property
+    def local_only(self):
+        """Gets the local_only of this RepositorySettings.  # noqa: E501
+
+
+        :return: The local_only of this RepositorySettings.  # noqa: E501
+        :rtype: bool
+        """
+        return self._local_only
+
+    @local_only.setter
+    def local_only(self, local_only):
+        """Sets the local_only of this RepositorySettings.
+
+
+        :param local_only: The local_only of this RepositorySettings.  # noqa: E501
+        :type: bool
+        """
+
+        self._local_only = local_only
 
     def to_dict(self):
         """Returns the model properties as a dict"""

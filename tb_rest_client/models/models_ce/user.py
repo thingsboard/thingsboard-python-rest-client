@@ -51,6 +51,7 @@ class User(object):
         'first_name': 'str',
         'last_name': 'str',
         'phone': 'str',
+        'version': 'int',
         'name': 'str',
         'additional_info': 'JsonNode'
     }
@@ -65,11 +66,12 @@ class User(object):
         'first_name': 'firstName',
         'last_name': 'lastName',
         'phone': 'phone',
+        'version': 'version',
         'name': 'name',
         'additional_info': 'additionalInfo'
     }
 
-    def __init__(self, id=None, created_time=None, tenant_id=None, customer_id=None, email=None, authority=None, first_name=None, last_name=None, phone=None, name=None, additional_info=None):  # noqa: E501
+    def __init__(self, id=None, created_time=None, tenant_id=None, customer_id=None, email=None, authority=None, first_name=None, last_name=None, phone=None, version=None, name=None, additional_info=None):  # noqa: E501
         """User - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._created_time = None
@@ -80,6 +82,7 @@ class User(object):
         self._first_name = None
         self._last_name = None
         self._phone = None
+        self._version = None
         self._name = None
         self._additional_info = None
         self.discriminator = None
@@ -99,6 +102,8 @@ class User(object):
             self.last_name = last_name
         if phone is not None:
             self.phone = phone
+        if version is not None:
+            self.version = version
         if name is not None:
             self.name = name
         if additional_info is not None:
@@ -314,6 +319,27 @@ class User(object):
         """
 
         self._phone = phone
+
+    @property
+    def version(self):
+        """Gets the version of this User.  # noqa: E501
+
+
+        :return: The version of this User.  # noqa: E501
+        :rtype: int
+        """
+        return self._version
+
+    @version.setter
+    def version(self, version):
+        """Sets the version of this User.
+
+
+        :param version: The version of this User.  # noqa: E501
+        :type: int
+        """
+
+        self._version = version
 
     @property
     def name(self):

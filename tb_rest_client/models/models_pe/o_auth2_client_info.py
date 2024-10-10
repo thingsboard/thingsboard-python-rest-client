@@ -42,35 +42,167 @@ class OAuth2ClientInfo(object):
                             and the value is json key in definition.
     """
     swagger_types = {
-        'name': 'str',
-        'icon': 'str',
-        'url': 'str'
+        'id': 'OAuth2ClientId',
+        'created_time': 'int',
+        'title': 'str',
+        'provider_name': 'str',
+        'platforms': 'list[str]',
+        'name': 'str'
     }
 
     attribute_map = {
-        'name': 'name',
-        'icon': 'icon',
-        'url': 'url'
+        'id': 'id',
+        'created_time': 'createdTime',
+        'title': 'title',
+        'provider_name': 'providerName',
+        'platforms': 'platforms',
+        'name': 'name'
     }
 
-    def __init__(self, name=None, icon=None, url=None):  # noqa: E501
+    def __init__(self, id=None, created_time=None, title=None, provider_name=None, platforms=None, name=None):  # noqa: E501
         """OAuth2ClientInfo - a model defined in Swagger"""  # noqa: E501
+        self._id = None
+        self._created_time = None
+        self._title = None
+        self._provider_name = None
+        self._platforms = None
         self._name = None
-        self._icon = None
-        self._url = None
         self.discriminator = None
+        if id is not None:
+            self.id = id
+        if created_time is not None:
+            self.created_time = created_time
+        if title is not None:
+            self.title = title
+        if provider_name is not None:
+            self.provider_name = provider_name
+        if platforms is not None:
+            self.platforms = platforms
         if name is not None:
             self.name = name
-        if icon is not None:
-            self.icon = icon
-        if url is not None:
-            self.url = url
+
+    @property
+    def id(self):
+        """Gets the id of this OAuth2ClientInfo.  # noqa: E501
+
+
+        :return: The id of this OAuth2ClientInfo.  # noqa: E501
+        :rtype: OAuth2ClientId
+        """
+        return self._id
+
+    @id.setter
+    def id(self, id):
+        """Sets the id of this OAuth2ClientInfo.
+
+
+        :param id: The id of this OAuth2ClientInfo.  # noqa: E501
+        :type: OAuth2ClientId
+        """
+
+        self._id = id
+
+    @property
+    def created_time(self):
+        """Gets the created_time of this OAuth2ClientInfo.  # noqa: E501
+
+
+        :return: The created_time of this OAuth2ClientInfo.  # noqa: E501
+        :rtype: int
+        """
+        return self._created_time
+
+    @created_time.setter
+    def created_time(self, created_time):
+        """Sets the created_time of this OAuth2ClientInfo.
+
+
+        :param created_time: The created_time of this OAuth2ClientInfo.  # noqa: E501
+        :type: int
+        """
+
+        self._created_time = created_time
+
+    @property
+    def title(self):
+        """Gets the title of this OAuth2ClientInfo.  # noqa: E501
+
+        Oauth2 client registration title (e.g. My google)  # noqa: E501
+
+        :return: The title of this OAuth2ClientInfo.  # noqa: E501
+        :rtype: str
+        """
+        return self._title
+
+    @title.setter
+    def title(self, title):
+        """Sets the title of this OAuth2ClientInfo.
+
+        Oauth2 client registration title (e.g. My google)  # noqa: E501
+
+        :param title: The title of this OAuth2ClientInfo.  # noqa: E501
+        :type: str
+        """
+
+        self._title = title
+
+    @property
+    def provider_name(self):
+        """Gets the provider_name of this OAuth2ClientInfo.  # noqa: E501
+
+        Oauth2 client provider name (e.g. Google)  # noqa: E501
+
+        :return: The provider_name of this OAuth2ClientInfo.  # noqa: E501
+        :rtype: str
+        """
+        return self._provider_name
+
+    @provider_name.setter
+    def provider_name(self, provider_name):
+        """Sets the provider_name of this OAuth2ClientInfo.
+
+        Oauth2 client provider name (e.g. Google)  # noqa: E501
+
+        :param provider_name: The provider_name of this OAuth2ClientInfo.  # noqa: E501
+        :type: str
+        """
+
+        self._provider_name = provider_name
+
+    @property
+    def platforms(self):
+        """Gets the platforms of this OAuth2ClientInfo.  # noqa: E501
+
+        List of platforms for which usage of the OAuth2 client is allowed (empty for all allowed)  # noqa: E501
+
+        :return: The platforms of this OAuth2ClientInfo.  # noqa: E501
+        :rtype: list[str]
+        """
+        return self._platforms
+
+    @platforms.setter
+    def platforms(self, platforms):
+        """Sets the platforms of this OAuth2ClientInfo.
+
+        List of platforms for which usage of the OAuth2 client is allowed (empty for all allowed)  # noqa: E501
+
+        :param platforms: The platforms of this OAuth2ClientInfo.  # noqa: E501
+        :type: list[str]
+        """
+        allowed_values = ["WEB", "ANDROID", "IOS"]  # noqa: E501
+        if not set(platforms).issubset(set(allowed_values)):
+            raise ValueError(
+                "Invalid values for `platforms` [{0}], must be a subset of [{1}]"  # noqa: E501
+                .format(", ".join(map(str, set(platforms) - set(allowed_values))),  # noqa: E501
+                        ", ".join(map(str, allowed_values)))
+            )
+
+        self._platforms = platforms
 
     @property
     def name(self):
         """Gets the name of this OAuth2ClientInfo.  # noqa: E501
 
-        OAuth2 client name  # noqa: E501
 
         :return: The name of this OAuth2ClientInfo.  # noqa: E501
         :rtype: str
@@ -81,59 +213,12 @@ class OAuth2ClientInfo(object):
     def name(self, name):
         """Sets the name of this OAuth2ClientInfo.
 
-        OAuth2 client name  # noqa: E501
 
         :param name: The name of this OAuth2ClientInfo.  # noqa: E501
         :type: str
         """
 
         self._name = name
-
-    @property
-    def icon(self):
-        """Gets the icon of this OAuth2ClientInfo.  # noqa: E501
-
-        Name of the icon, displayed on OAuth2 log in button  # noqa: E501
-
-        :return: The icon of this OAuth2ClientInfo.  # noqa: E501
-        :rtype: str
-        """
-        return self._icon
-
-    @icon.setter
-    def icon(self, icon):
-        """Sets the icon of this OAuth2ClientInfo.
-
-        Name of the icon, displayed on OAuth2 log in button  # noqa: E501
-
-        :param icon: The icon of this OAuth2ClientInfo.  # noqa: E501
-        :type: str
-        """
-
-        self._icon = icon
-
-    @property
-    def url(self):
-        """Gets the url of this OAuth2ClientInfo.  # noqa: E501
-
-        URI for OAuth2 log in. On HTTP GET request to this URI, it redirects to the OAuth2 provider page  # noqa: E501
-
-        :return: The url of this OAuth2ClientInfo.  # noqa: E501
-        :rtype: str
-        """
-        return self._url
-
-    @url.setter
-    def url(self, url):
-        """Sets the url of this OAuth2ClientInfo.
-
-        URI for OAuth2 log in. On HTTP GET request to this URI, it redirects to the OAuth2 provider page  # noqa: E501
-
-        :param url: The url of this OAuth2ClientInfo.  # noqa: E501
-        :type: str
-        """
-
-        self._url = url
 
     def to_dict(self):
         """Returns the model properties as a dict"""

@@ -42,72 +42,243 @@ class CustomMenu(object):
                             and the value is json key in definition.
     """
     swagger_types = {
-        'disabled_menu_items': 'list[str]',
-        'menu_items': 'list[CustomMenuItem]'
+        'id': 'CustomMenuId',
+        'created_time': 'int',
+        'tenant_id': 'TenantId',
+        'customer_id': 'CustomerId',
+        'name': 'str',
+        'scope': 'str',
+        'assignee_type': 'str',
+        'config': 'CustomMenuConfig'
     }
 
     attribute_map = {
-        'disabled_menu_items': 'disabledMenuItems',
-        'menu_items': 'menuItems'
+        'id': 'id',
+        'created_time': 'createdTime',
+        'tenant_id': 'tenantId',
+        'customer_id': 'customerId',
+        'name': 'name',
+        'scope': 'scope',
+        'assignee_type': 'assigneeType',
+        'config': 'config'
     }
 
-    def __init__(self, disabled_menu_items=None, menu_items=None):  # noqa: E501
+    def __init__(self, id=None, created_time=None, tenant_id=None, customer_id=None, name=None, scope=None, assignee_type=None, config=None):  # noqa: E501
         """CustomMenu - a model defined in Swagger"""  # noqa: E501
-        self._disabled_menu_items = None
-        self._menu_items = None
+        self._id = None
+        self._created_time = None
+        self._tenant_id = None
+        self._customer_id = None
+        self._name = None
+        self._scope = None
+        self._assignee_type = None
+        self._config = None
         self.discriminator = None
-        self.disabled_menu_items = disabled_menu_items
-        self.menu_items = menu_items
+        if id is not None:
+            self.id = id
+        if created_time is not None:
+            self.created_time = created_time
+        if tenant_id is not None:
+            self.tenant_id = tenant_id
+        if customer_id is not None:
+            self.customer_id = customer_id
+        self.name = name
+        self.scope = scope
+        self.assignee_type = assignee_type
+        if config is not None:
+            self.config = config
 
     @property
-    def disabled_menu_items(self):
-        """Gets the disabled_menu_items of this CustomMenu.  # noqa: E501
+    def id(self):
+        """Gets the id of this CustomMenu.  # noqa: E501
 
-        List of disabled regular menu items  # noqa: E501
 
-        :return: The disabled_menu_items of this CustomMenu.  # noqa: E501
-        :rtype: list[str]
+        :return: The id of this CustomMenu.  # noqa: E501
+        :rtype: CustomMenuId
         """
-        return self._disabled_menu_items
+        return self._id
 
-    @disabled_menu_items.setter
-    def disabled_menu_items(self, disabled_menu_items):
-        """Sets the disabled_menu_items of this CustomMenu.
+    @id.setter
+    def id(self, id):
+        """Sets the id of this CustomMenu.
 
-        List of disabled regular menu items  # noqa: E501
 
-        :param disabled_menu_items: The disabled_menu_items of this CustomMenu.  # noqa: E501
-        :type: list[str]
+        :param id: The id of this CustomMenu.  # noqa: E501
+        :type: CustomMenuId
         """
-        if disabled_menu_items is None:
-            raise ValueError("Invalid value for `disabled_menu_items`, must not be `None`")  # noqa: E501
 
-        self._disabled_menu_items = disabled_menu_items
+        self._id = id
 
     @property
-    def menu_items(self):
-        """Gets the menu_items of this CustomMenu.  # noqa: E501
+    def created_time(self):
+        """Gets the created_time of this CustomMenu.  # noqa: E501
 
-        List of custom menu items  # noqa: E501
 
-        :return: The menu_items of this CustomMenu.  # noqa: E501
-        :rtype: list[CustomMenuItem]
+        :return: The created_time of this CustomMenu.  # noqa: E501
+        :rtype: int
         """
-        return self._menu_items
+        return self._created_time
 
-    @menu_items.setter
-    def menu_items(self, menu_items):
-        """Sets the menu_items of this CustomMenu.
+    @created_time.setter
+    def created_time(self, created_time):
+        """Sets the created_time of this CustomMenu.
 
-        List of custom menu items  # noqa: E501
 
-        :param menu_items: The menu_items of this CustomMenu.  # noqa: E501
-        :type: list[CustomMenuItem]
+        :param created_time: The created_time of this CustomMenu.  # noqa: E501
+        :type: int
         """
-        if menu_items is None:
-            raise ValueError("Invalid value for `menu_items`, must not be `None`")  # noqa: E501
 
-        self._menu_items = menu_items
+        self._created_time = created_time
+
+    @property
+    def tenant_id(self):
+        """Gets the tenant_id of this CustomMenu.  # noqa: E501
+
+
+        :return: The tenant_id of this CustomMenu.  # noqa: E501
+        :rtype: TenantId
+        """
+        return self._tenant_id
+
+    @tenant_id.setter
+    def tenant_id(self, tenant_id):
+        """Sets the tenant_id of this CustomMenu.
+
+
+        :param tenant_id: The tenant_id of this CustomMenu.  # noqa: E501
+        :type: TenantId
+        """
+
+        self._tenant_id = tenant_id
+
+    @property
+    def customer_id(self):
+        """Gets the customer_id of this CustomMenu.  # noqa: E501
+
+
+        :return: The customer_id of this CustomMenu.  # noqa: E501
+        :rtype: CustomerId
+        """
+        return self._customer_id
+
+    @customer_id.setter
+    def customer_id(self, customer_id):
+        """Sets the customer_id of this CustomMenu.
+
+
+        :param customer_id: The customer_id of this CustomMenu.  # noqa: E501
+        :type: CustomerId
+        """
+
+        self._customer_id = customer_id
+
+    @property
+    def name(self):
+        """Gets the name of this CustomMenu.  # noqa: E501
+
+        Custom menu name  # noqa: E501
+
+        :return: The name of this CustomMenu.  # noqa: E501
+        :rtype: str
+        """
+        return self._name
+
+    @name.setter
+    def name(self, name):
+        """Sets the name of this CustomMenu.
+
+        Custom menu name  # noqa: E501
+
+        :param name: The name of this CustomMenu.  # noqa: E501
+        :type: str
+        """
+        if name is None:
+            raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
+
+        self._name = name
+
+    @property
+    def scope(self):
+        """Gets the scope of this CustomMenu.  # noqa: E501
+
+        Custom menu scope. Possible values: SYSTEM, TENANT, CUSTOMER  # noqa: E501
+
+        :return: The scope of this CustomMenu.  # noqa: E501
+        :rtype: str
+        """
+        return self._scope
+
+    @scope.setter
+    def scope(self, scope):
+        """Sets the scope of this CustomMenu.
+
+        Custom menu scope. Possible values: SYSTEM, TENANT, CUSTOMER  # noqa: E501
+
+        :param scope: The scope of this CustomMenu.  # noqa: E501
+        :type: str
+        """
+        if scope is None:
+            raise ValueError("Invalid value for `scope`, must not be `None`")  # noqa: E501
+        allowed_values = ["SYSTEM", "TENANT", "CUSTOMER"]  # noqa: E501
+        if scope not in allowed_values:
+            raise ValueError(
+                "Invalid value for `scope` ({0}), must be one of {1}"  # noqa: E501
+                .format(scope, allowed_values)
+            )
+
+        self._scope = scope
+
+    @property
+    def assignee_type(self):
+        """Gets the assignee_type of this CustomMenu.  # noqa: E501
+
+        Custom menu assignee type. Possible values are: All (all users of specified scope), CUSTOMERS (specified customers), USERS (specified list of users), NO_ASSIGN (no assignees)  # noqa: E501
+
+        :return: The assignee_type of this CustomMenu.  # noqa: E501
+        :rtype: str
+        """
+        return self._assignee_type
+
+    @assignee_type.setter
+    def assignee_type(self, assignee_type):
+        """Sets the assignee_type of this CustomMenu.
+
+        Custom menu assignee type. Possible values are: All (all users of specified scope), CUSTOMERS (specified customers), USERS (specified list of users), NO_ASSIGN (no assignees)  # noqa: E501
+
+        :param assignee_type: The assignee_type of this CustomMenu.  # noqa: E501
+        :type: str
+        """
+        if assignee_type is None:
+            raise ValueError("Invalid value for `assignee_type`, must not be `None`")  # noqa: E501
+        allowed_values = ["NO_ASSIGN", "ALL", "CUSTOMERS", "USERS"]  # noqa: E501
+        if assignee_type not in allowed_values:
+            raise ValueError(
+                "Invalid value for `assignee_type` ({0}), must be one of {1}"  # noqa: E501
+                .format(assignee_type, allowed_values)
+            )
+
+        self._assignee_type = assignee_type
+
+    @property
+    def config(self):
+        """Gets the config of this CustomMenu.  # noqa: E501
+
+
+        :return: The config of this CustomMenu.  # noqa: E501
+        :rtype: CustomMenuConfig
+        """
+        return self._config
+
+    @config.setter
+    def config(self, config):
+        """Sets the config of this CustomMenu.
+
+
+        :param config: The config of this CustomMenu.  # noqa: E501
+        :type: CustomMenuConfig
+        """
+
+        self._config = config
 
     def to_dict(self):
         """Returns the model properties as a dict"""

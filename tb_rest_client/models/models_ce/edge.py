@@ -52,6 +52,7 @@ class Edge(object):
         'label': 'str',
         'routing_key': 'str',
         'secret': 'str',
+        'version': 'int',
         'additional_info': 'JsonNode'
     }
 
@@ -66,10 +67,11 @@ class Edge(object):
         'label': 'label',
         'routing_key': 'routingKey',
         'secret': 'secret',
+        'version': 'version',
         'additional_info': 'additionalInfo'
     }
 
-    def __init__(self, id=None, created_time=None, tenant_id=None, customer_id=None, root_rule_chain_id=None, name=None, type=None, label=None, routing_key=None, secret=None, additional_info=None):  # noqa: E501
+    def __init__(self, id=None, created_time=None, tenant_id=None, customer_id=None, root_rule_chain_id=None, name=None, type=None, label=None, routing_key=None, secret=None, version=None, additional_info=None):  # noqa: E501
         """Edge - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._created_time = None
@@ -81,6 +83,7 @@ class Edge(object):
         self._label = None
         self._routing_key = None
         self._secret = None
+        self._version = None
         self._additional_info = None
         self.discriminator = None
         if id is not None:
@@ -99,6 +102,8 @@ class Edge(object):
             self.label = label
         self.routing_key = routing_key
         self.secret = secret
+        if version is not None:
+            self.version = version
         if additional_info is not None:
             self.additional_info = additional_info
 
@@ -331,6 +336,27 @@ class Edge(object):
             raise ValueError("Invalid value for `secret`, must not be `None`")  # noqa: E501
 
         self._secret = secret
+
+    @property
+    def version(self):
+        """Gets the version of this Edge.  # noqa: E501
+
+
+        :return: The version of this Edge.  # noqa: E501
+        :rtype: int
+        """
+        return self._version
+
+    @version.setter
+    def version(self, version):
+        """Sets the version of this Edge.
+
+
+        :param version: The version of this Edge.  # noqa: E501
+        :type: int
+        """
+
+        self._version = version
 
     @property
     def additional_info(self):

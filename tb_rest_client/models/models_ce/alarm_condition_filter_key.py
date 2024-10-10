@@ -81,7 +81,7 @@ class AlarmConditionFilterKey(object):
         :param type: The type of this AlarmConditionFilterKey.  # noqa: E501
         :type: str
         """
-        allowed_values = ["ATTRIBUTE", "CONSTANT", "ENTITY_FIELD", "TIME_SERIES"]  # noqa: E501
+        allowed_values = ["ATTRIBUTE", "TIME_SERIES", "ENTITY_FIELD", "CONSTANT"]  # noqa: E501
         if type not in allowed_values:
             raise ValueError(
                 "Invalid value for `type` ({0}), must be one of {1}"  # noqa: E501

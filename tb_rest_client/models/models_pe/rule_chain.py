@@ -50,6 +50,7 @@ class RuleChain(object):
         'first_rule_node_id': 'RuleNodeId',
         'root': 'bool',
         'debug_mode': 'bool',
+        'version': 'int',
         'configuration': 'JsonNode',
         'additional_info': 'JsonNode'
     }
@@ -63,11 +64,12 @@ class RuleChain(object):
         'first_rule_node_id': 'firstRuleNodeId',
         'root': 'root',
         'debug_mode': 'debugMode',
+        'version': 'version',
         'configuration': 'configuration',
         'additional_info': 'additionalInfo'
     }
 
-    def __init__(self, id=None, created_time=None, tenant_id=None, name=None, type=None, first_rule_node_id=None, root=None, debug_mode=None, configuration=None, additional_info=None):  # noqa: E501
+    def __init__(self, id=None, created_time=None, tenant_id=None, name=None, type=None, first_rule_node_id=None, root=None, debug_mode=None, version=None, configuration=None, additional_info=None):  # noqa: E501
         """RuleChain - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._created_time = None
@@ -77,6 +79,7 @@ class RuleChain(object):
         self._first_rule_node_id = None
         self._root = None
         self._debug_mode = None
+        self._version = None
         self._configuration = None
         self._additional_info = None
         self.discriminator = None
@@ -94,6 +97,8 @@ class RuleChain(object):
             self.root = root
         if debug_mode is not None:
             self.debug_mode = debug_mode
+        if version is not None:
+            self.version = version
         if configuration is not None:
             self.configuration = configuration
         if additional_info is not None:
@@ -286,6 +291,27 @@ class RuleChain(object):
         """
 
         self._debug_mode = debug_mode
+
+    @property
+    def version(self):
+        """Gets the version of this RuleChain.  # noqa: E501
+
+
+        :return: The version of this RuleChain.  # noqa: E501
+        :rtype: int
+        """
+        return self._version
+
+    @version.setter
+    def version(self, version):
+        """Sets the version of this RuleChain.
+
+
+        :param version: The version of this RuleChain.  # noqa: E501
+        :type: int
+        """
+
+        self._version = version
 
     @property
     def configuration(self):

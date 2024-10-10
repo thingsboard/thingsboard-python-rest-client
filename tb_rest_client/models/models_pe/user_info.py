@@ -51,11 +51,13 @@ class UserInfo(object):
         'first_name': 'str',
         'last_name': 'str',
         'phone': 'str',
+        'custom_menu_id': 'CustomMenuId',
+        'version': 'int',
         'owner_name': 'str',
         'groups': 'list[EntityInfo]',
         'name': 'str',
-        'owner_id': 'EntityId',
-        'additional_info': 'JsonNode'
+        'additional_info': 'JsonNode',
+        'owner_id': 'EntityId'
     }
 
     attribute_map = {
@@ -68,14 +70,16 @@ class UserInfo(object):
         'first_name': 'firstName',
         'last_name': 'lastName',
         'phone': 'phone',
+        'custom_menu_id': 'customMenuId',
+        'version': 'version',
         'owner_name': 'ownerName',
         'groups': 'groups',
         'name': 'name',
-        'owner_id': 'ownerId',
-        'additional_info': 'additionalInfo'
+        'additional_info': 'additionalInfo',
+        'owner_id': 'ownerId'
     }
 
-    def __init__(self, id=None, created_time=None, tenant_id=None, customer_id=None, email=None, authority=None, first_name=None, last_name=None, phone=None, owner_name=None, groups=None, name=None, owner_id=None, additional_info=None):  # noqa: E501
+    def __init__(self, id=None, created_time=None, tenant_id=None, customer_id=None, email=None, authority=None, first_name=None, last_name=None, phone=None, custom_menu_id=None, version=None, owner_name=None, groups=None, name=None, additional_info=None, owner_id=None):  # noqa: E501
         """UserInfo - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._created_time = None
@@ -86,11 +90,13 @@ class UserInfo(object):
         self._first_name = None
         self._last_name = None
         self._phone = None
+        self._custom_menu_id = None
+        self._version = None
         self._owner_name = None
         self._groups = None
         self._name = None
-        self._owner_id = None
         self._additional_info = None
+        self._owner_id = None
         self.discriminator = None
         if id is not None:
             self.id = id
@@ -108,16 +114,20 @@ class UserInfo(object):
             self.last_name = last_name
         if phone is not None:
             self.phone = phone
+        if custom_menu_id is not None:
+            self.custom_menu_id = custom_menu_id
+        if version is not None:
+            self.version = version
         if owner_name is not None:
             self.owner_name = owner_name
         if groups is not None:
             self.groups = groups
         if name is not None:
             self.name = name
-        if owner_id is not None:
-            self.owner_id = owner_id
         if additional_info is not None:
             self.additional_info = additional_info
+        if owner_id is not None:
+            self.owner_id = owner_id
 
     @property
     def id(self):
@@ -331,6 +341,48 @@ class UserInfo(object):
         self._phone = phone
 
     @property
+    def custom_menu_id(self):
+        """Gets the custom_menu_id of this UserInfo.  # noqa: E501
+
+
+        :return: The custom_menu_id of this UserInfo.  # noqa: E501
+        :rtype: CustomMenuId
+        """
+        return self._custom_menu_id
+
+    @custom_menu_id.setter
+    def custom_menu_id(self, custom_menu_id):
+        """Sets the custom_menu_id of this UserInfo.
+
+
+        :param custom_menu_id: The custom_menu_id of this UserInfo.  # noqa: E501
+        :type: CustomMenuId
+        """
+
+        self._custom_menu_id = custom_menu_id
+
+    @property
+    def version(self):
+        """Gets the version of this UserInfo.  # noqa: E501
+
+
+        :return: The version of this UserInfo.  # noqa: E501
+        :rtype: int
+        """
+        return self._version
+
+    @version.setter
+    def version(self, version):
+        """Sets the version of this UserInfo.
+
+
+        :param version: The version of this UserInfo.  # noqa: E501
+        :type: int
+        """
+
+        self._version = version
+
+    @property
     def owner_name(self):
         """Gets the owner_name of this UserInfo.  # noqa: E501
 
@@ -400,27 +452,6 @@ class UserInfo(object):
         self._name = name
 
     @property
-    def owner_id(self):
-        """Gets the owner_id of this UserInfo.  # noqa: E501
-
-
-        :return: The owner_id of this UserInfo.  # noqa: E501
-        :rtype: EntityId
-        """
-        return self._owner_id
-
-    @owner_id.setter
-    def owner_id(self, owner_id):
-        """Sets the owner_id of this UserInfo.
-
-
-        :param owner_id: The owner_id of this UserInfo.  # noqa: E501
-        :type: EntityId
-        """
-
-        self._owner_id = owner_id
-
-    @property
     def additional_info(self):
         """Gets the additional_info of this UserInfo.  # noqa: E501
 
@@ -440,6 +471,27 @@ class UserInfo(object):
         """
 
         self._additional_info = additional_info
+
+    @property
+    def owner_id(self):
+        """Gets the owner_id of this UserInfo.  # noqa: E501
+
+
+        :return: The owner_id of this UserInfo.  # noqa: E501
+        :rtype: EntityId
+        """
+        return self._owner_id
+
+    @owner_id.setter
+    def owner_id(self, owner_id):
+        """Sets the owner_id of this UserInfo.
+
+
+        :param owner_id: The owner_id of this UserInfo.  # noqa: E501
+        :type: EntityId
+        """
+
+        self._owner_id = owner_id
 
     def to_dict(self):
         """Returns the model properties as a dict"""

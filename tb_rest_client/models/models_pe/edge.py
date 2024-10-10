@@ -54,6 +54,7 @@ class Edge(object):
         'secret': 'str',
         'edge_license_key': 'str',
         'cloud_endpoint': 'str',
+        'version': 'int',
         'owner_id': 'EntityId',
         'additional_info': 'JsonNode'
     }
@@ -71,11 +72,12 @@ class Edge(object):
         'secret': 'secret',
         'edge_license_key': 'edgeLicenseKey',
         'cloud_endpoint': 'cloudEndpoint',
+        'version': 'version',
         'owner_id': 'ownerId',
         'additional_info': 'additionalInfo'
     }
 
-    def __init__(self, id=None, created_time=None, tenant_id=None, customer_id=None, root_rule_chain_id=None, name=None, type=None, label=None, routing_key=None, secret=None, edge_license_key=None, cloud_endpoint=None, owner_id=None, additional_info=None):  # noqa: E501
+    def __init__(self, id=None, created_time=None, tenant_id=None, customer_id=None, root_rule_chain_id=None, name=None, type=None, label=None, routing_key=None, secret=None, edge_license_key=None, cloud_endpoint=None, version=None, owner_id=None, additional_info=None):  # noqa: E501
         """Edge - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._created_time = None
@@ -89,6 +91,7 @@ class Edge(object):
         self._secret = None
         self._edge_license_key = None
         self._cloud_endpoint = None
+        self._version = None
         self._owner_id = None
         self._additional_info = None
         self.discriminator = None
@@ -110,6 +113,8 @@ class Edge(object):
         self.secret = secret
         self.edge_license_key = edge_license_key
         self.cloud_endpoint = cloud_endpoint
+        if version is not None:
+            self.version = version
         if owner_id is not None:
             self.owner_id = owner_id
         if additional_info is not None:
@@ -394,6 +399,27 @@ class Edge(object):
             raise ValueError("Invalid value for `cloud_endpoint`, must not be `None`")  # noqa: E501
 
         self._cloud_endpoint = cloud_endpoint
+
+    @property
+    def version(self):
+        """Gets the version of this Edge.  # noqa: E501
+
+
+        :return: The version of this Edge.  # noqa: E501
+        :rtype: int
+        """
+        return self._version
+
+    @version.setter
+    def version(self, version):
+        """Sets the version of this Edge.
+
+
+        :param version: The version of this Edge.  # noqa: E501
+        :type: int
+        """
+
+        self._version = version
 
     @property
     def owner_id(self):

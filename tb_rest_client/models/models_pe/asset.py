@@ -50,8 +50,9 @@ class Asset(object):
         'type': 'str',
         'label': 'str',
         'asset_profile_id': 'AssetProfileId',
-        'owner_id': 'EntityId',
-        'additional_info': 'JsonNode'
+        'version': 'int',
+        'additional_info': 'JsonNode',
+        'owner_id': 'EntityId'
     }
 
     attribute_map = {
@@ -63,11 +64,12 @@ class Asset(object):
         'type': 'type',
         'label': 'label',
         'asset_profile_id': 'assetProfileId',
-        'owner_id': 'ownerId',
-        'additional_info': 'additionalInfo'
+        'version': 'version',
+        'additional_info': 'additionalInfo',
+        'owner_id': 'ownerId'
     }
 
-    def __init__(self, id=None, created_time=None, tenant_id=None, customer_id=None, name=None, type=None, label=None, asset_profile_id=None, owner_id=None, additional_info=None):  # noqa: E501
+    def __init__(self, id=None, created_time=None, tenant_id=None, customer_id=None, name=None, type=None, label=None, asset_profile_id=None, version=None, additional_info=None, owner_id=None):  # noqa: E501
         """Asset - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._created_time = None
@@ -77,8 +79,9 @@ class Asset(object):
         self._type = None
         self._label = None
         self._asset_profile_id = None
-        self._owner_id = None
+        self._version = None
         self._additional_info = None
+        self._owner_id = None
         self.discriminator = None
         if id is not None:
             self.id = id
@@ -95,10 +98,12 @@ class Asset(object):
             self.label = label
         if asset_profile_id is not None:
             self.asset_profile_id = asset_profile_id
-        if owner_id is not None:
-            self.owner_id = owner_id
+        if version is not None:
+            self.version = version
         if additional_info is not None:
             self.additional_info = additional_info
+        if owner_id is not None:
+            self.owner_id = owner_id
 
     @property
     def id(self):
@@ -279,25 +284,25 @@ class Asset(object):
         self._asset_profile_id = asset_profile_id
 
     @property
-    def owner_id(self):
-        """Gets the owner_id of this Asset.  # noqa: E501
+    def version(self):
+        """Gets the version of this Asset.  # noqa: E501
 
 
-        :return: The owner_id of this Asset.  # noqa: E501
-        :rtype: EntityId
+        :return: The version of this Asset.  # noqa: E501
+        :rtype: int
         """
-        return self._owner_id
+        return self._version
 
-    @owner_id.setter
-    def owner_id(self, owner_id):
-        """Sets the owner_id of this Asset.
+    @version.setter
+    def version(self, version):
+        """Sets the version of this Asset.
 
 
-        :param owner_id: The owner_id of this Asset.  # noqa: E501
-        :type: EntityId
+        :param version: The version of this Asset.  # noqa: E501
+        :type: int
         """
 
-        self._owner_id = owner_id
+        self._version = version
 
     @property
     def additional_info(self):
@@ -319,6 +324,27 @@ class Asset(object):
         """
 
         self._additional_info = additional_info
+
+    @property
+    def owner_id(self):
+        """Gets the owner_id of this Asset.  # noqa: E501
+
+
+        :return: The owner_id of this Asset.  # noqa: E501
+        :rtype: EntityId
+        """
+        return self._owner_id
+
+    @owner_id.setter
+    def owner_id(self, owner_id):
+        """Sets the owner_id of this Asset.
+
+
+        :param owner_id: The owner_id of this Asset.  # noqa: E501
+        :type: EntityId
+        """
+
+        self._owner_id = owner_id
 
     def to_dict(self):
         """Returns the model properties as a dict"""

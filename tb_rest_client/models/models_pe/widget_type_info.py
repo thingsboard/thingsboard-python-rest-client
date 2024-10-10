@@ -48,6 +48,8 @@ class WidgetTypeInfo(object):
         'fqn': 'str',
         'name': 'str',
         'deprecated': 'bool',
+        'scada': 'bool',
+        'version': 'int',
         'image': 'str',
         'description': 'str',
         'tags': 'list[str]',
@@ -61,13 +63,15 @@ class WidgetTypeInfo(object):
         'fqn': 'fqn',
         'name': 'name',
         'deprecated': 'deprecated',
+        'scada': 'scada',
+        'version': 'version',
         'image': 'image',
         'description': 'description',
         'tags': 'tags',
         'widget_type': 'widgetType'
     }
 
-    def __init__(self, id=None, created_time=None, tenant_id=None, fqn=None, name=None, deprecated=None, image=None, description=None, tags=None, widget_type=None):  # noqa: E501
+    def __init__(self, id=None, created_time=None, tenant_id=None, fqn=None, name=None, deprecated=None, scada=None, version=None, image=None, description=None, tags=None, widget_type=None):  # noqa: E501
         """WidgetTypeInfo - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._created_time = None
@@ -75,6 +79,8 @@ class WidgetTypeInfo(object):
         self._fqn = None
         self._name = None
         self._deprecated = None
+        self._scada = None
+        self._version = None
         self._image = None
         self._description = None
         self._tags = None
@@ -92,6 +98,10 @@ class WidgetTypeInfo(object):
             self.name = name
         if deprecated is not None:
             self.deprecated = deprecated
+        if scada is not None:
+            self.scada = scada
+        if version is not None:
+            self.version = version
         if image is not None:
             self.image = image
         if description is not None:
@@ -234,6 +244,50 @@ class WidgetTypeInfo(object):
         """
 
         self._deprecated = deprecated
+
+    @property
+    def scada(self):
+        """Gets the scada of this WidgetTypeInfo.  # noqa: E501
+
+        Whether widget type is SCADA symbol.  # noqa: E501
+
+        :return: The scada of this WidgetTypeInfo.  # noqa: E501
+        :rtype: bool
+        """
+        return self._scada
+
+    @scada.setter
+    def scada(self, scada):
+        """Sets the scada of this WidgetTypeInfo.
+
+        Whether widget type is SCADA symbol.  # noqa: E501
+
+        :param scada: The scada of this WidgetTypeInfo.  # noqa: E501
+        :type: bool
+        """
+
+        self._scada = scada
+
+    @property
+    def version(self):
+        """Gets the version of this WidgetTypeInfo.  # noqa: E501
+
+
+        :return: The version of this WidgetTypeInfo.  # noqa: E501
+        :rtype: int
+        """
+        return self._version
+
+    @version.setter
+    def version(self, version):
+        """Sets the version of this WidgetTypeInfo.
+
+
+        :param version: The version of this WidgetTypeInfo.  # noqa: E501
+        :type: int
+        """
+
+        self._version = version
 
     @property
     def image(self):

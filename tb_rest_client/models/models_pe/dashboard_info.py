@@ -51,10 +51,11 @@ class DashboardInfo(object):
         'assigned_customers': 'list[ShortCustomerInfo]',
         'mobile_hide': 'bool',
         'mobile_order': 'int',
+        'version': 'int',
         'owner_name': 'str',
         'groups': 'list[EntityInfo]',
-        'name': 'str',
         'configuration': 'JsonNode',
+        'name': 'str',
         'owner_id': 'EntityId'
     }
 
@@ -68,14 +69,15 @@ class DashboardInfo(object):
         'assigned_customers': 'assignedCustomers',
         'mobile_hide': 'mobileHide',
         'mobile_order': 'mobileOrder',
+        'version': 'version',
         'owner_name': 'ownerName',
         'groups': 'groups',
-        'name': 'name',
         'configuration': 'configuration',
+        'name': 'name',
         'owner_id': 'ownerId'
     }
 
-    def __init__(self, id=None, created_time=None, tenant_id=None, customer_id=None, title=None, image=None, assigned_customers=None, mobile_hide=None, mobile_order=None, owner_name=None, groups=None, name=None, configuration=None, owner_id=None):  # noqa: E501
+    def __init__(self, id=None, created_time=None, tenant_id=None, customer_id=None, title=None, image=None, assigned_customers=None, mobile_hide=None, mobile_order=None, version=None, owner_name=None, groups=None, configuration=None, name=None, owner_id=None):  # noqa: E501
         """DashboardInfo - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._created_time = None
@@ -86,10 +88,11 @@ class DashboardInfo(object):
         self._assigned_customers = None
         self._mobile_hide = None
         self._mobile_order = None
+        self._version = None
         self._owner_name = None
         self._groups = None
-        self._name = None
         self._configuration = None
+        self._name = None
         self._owner_id = None
         self.discriminator = None
         if id is not None:
@@ -110,14 +113,16 @@ class DashboardInfo(object):
             self.mobile_hide = mobile_hide
         if mobile_order is not None:
             self.mobile_order = mobile_order
+        if version is not None:
+            self.version = version
         if owner_name is not None:
             self.owner_name = owner_name
         if groups is not None:
             self.groups = groups
-        if name is not None:
-            self.name = name
         if configuration is not None:
             self.configuration = configuration
+        if name is not None:
+            self.name = name
         if owner_id is not None:
             self.owner_id = owner_id
 
@@ -323,6 +328,27 @@ class DashboardInfo(object):
         self._mobile_order = mobile_order
 
     @property
+    def version(self):
+        """Gets the version of this DashboardInfo.  # noqa: E501
+
+
+        :return: The version of this DashboardInfo.  # noqa: E501
+        :rtype: int
+        """
+        return self._version
+
+    @version.setter
+    def version(self, version):
+        """Sets the version of this DashboardInfo.
+
+
+        :param version: The version of this DashboardInfo.  # noqa: E501
+        :type: int
+        """
+
+        self._version = version
+
+    @property
     def owner_name(self):
         """Gets the owner_name of this DashboardInfo.  # noqa: E501
 
@@ -369,6 +395,27 @@ class DashboardInfo(object):
         self._groups = groups
 
     @property
+    def configuration(self):
+        """Gets the configuration of this DashboardInfo.  # noqa: E501
+
+
+        :return: The configuration of this DashboardInfo.  # noqa: E501
+        :rtype: JsonNode
+        """
+        return self._configuration
+
+    @configuration.setter
+    def configuration(self, configuration):
+        """Sets the configuration of this DashboardInfo.
+
+
+        :param configuration: The configuration of this DashboardInfo.  # noqa: E501
+        :type: JsonNode
+        """
+
+        self._configuration = configuration
+
+    @property
     def name(self):
         """Gets the name of this DashboardInfo.  # noqa: E501
 
@@ -390,27 +437,6 @@ class DashboardInfo(object):
         """
 
         self._name = name
-
-    @property
-    def configuration(self):
-        """Gets the configuration of this DashboardInfo.  # noqa: E501
-
-
-        :return: The configuration of this DashboardInfo.  # noqa: E501
-        :rtype: JsonNode
-        """
-        return self._configuration
-
-    @configuration.setter
-    def configuration(self, configuration):
-        """Sets the configuration of this DashboardInfo.
-
-
-        :param configuration: The configuration of this DashboardInfo.  # noqa: E501
-        :type: JsonNode
-        """
-
-        self._configuration = configuration
 
     @property
     def owner_id(self):

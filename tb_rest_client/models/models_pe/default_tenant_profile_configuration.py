@@ -69,6 +69,7 @@ class DefaultTenantProfileConfiguration(TenantProfileConfiguration):
         'transport_gateway_device_telemetry_data_points_rate_limit': 'str',
         'integration_msgs_per_tenant_rate_limit': 'str',
         'integration_msgs_per_device_rate_limit': 'str',
+        'integration_msgs_per_asset_rate_limit': 'str',
         'tenant_entity_export_rate_limit': 'str',
         'tenant_entity_import_rate_limit': 'str',
         'tenant_notification_requests_rate_limit': 'str',
@@ -138,6 +139,7 @@ class DefaultTenantProfileConfiguration(TenantProfileConfiguration):
         'transport_gateway_device_telemetry_data_points_rate_limit': 'transportGatewayDeviceTelemetryDataPointsRateLimit',
         'integration_msgs_per_tenant_rate_limit': 'integrationMsgsPerTenantRateLimit',
         'integration_msgs_per_device_rate_limit': 'integrationMsgsPerDeviceRateLimit',
+        'integration_msgs_per_asset_rate_limit': 'integrationMsgsPerAssetRateLimit',
         'tenant_entity_export_rate_limit': 'tenantEntityExportRateLimit',
         'tenant_entity_import_rate_limit': 'tenantEntityImportRateLimit',
         'tenant_notification_requests_rate_limit': 'tenantNotificationRequestsRateLimit',
@@ -180,7 +182,7 @@ class DefaultTenantProfileConfiguration(TenantProfileConfiguration):
     if hasattr(TenantProfileConfiguration, "attribute_map"):
         attribute_map.update(TenantProfileConfiguration.attribute_map)
 
-    def __init__(self, max_devices=None, max_assets=None, max_customers=None, max_users=None, max_dashboards=None, max_rule_chains=None, max_resources_in_bytes=None, max_ota_packages_in_bytes=None, max_resource_size=None, max_integrations=None, max_converters=None, max_scheduler_events=None, transport_tenant_msg_rate_limit=None, transport_tenant_telemetry_msg_rate_limit=None, transport_tenant_telemetry_data_points_rate_limit=None, transport_device_msg_rate_limit=None, transport_device_telemetry_msg_rate_limit=None, transport_device_telemetry_data_points_rate_limit=None, transport_gateway_msg_rate_limit=None, transport_gateway_telemetry_msg_rate_limit=None, transport_gateway_telemetry_data_points_rate_limit=None, transport_gateway_device_msg_rate_limit=None, transport_gateway_device_telemetry_msg_rate_limit=None, transport_gateway_device_telemetry_data_points_rate_limit=None, integration_msgs_per_tenant_rate_limit=None, integration_msgs_per_device_rate_limit=None, tenant_entity_export_rate_limit=None, tenant_entity_import_rate_limit=None, tenant_notification_requests_rate_limit=None, tenant_notification_requests_per_rule_rate_limit=None, max_transport_messages=None, max_transport_data_points=None, max_re_executions=None, max_js_executions=None, max_tbel_executions=None, max_dp_storage_days=None, max_rule_node_executions_per_message=None, max_emails=None, sms_enabled=None, max_sms=None, max_created_alarms=None, tenant_server_rest_limits_configuration=None, customer_server_rest_limits_configuration=None, max_ws_sessions_per_tenant=None, max_ws_sessions_per_customer=None, max_ws_sessions_per_regular_user=None, max_ws_sessions_per_public_user=None, ws_msg_queue_limit_per_session=None, max_ws_subscriptions_per_tenant=None, max_ws_subscriptions_per_customer=None, max_ws_subscriptions_per_regular_user=None, max_ws_subscriptions_per_public_user=None, ws_updates_per_session_rate_limit=None, cassandra_query_tenant_rate_limits_configuration=None, edge_event_rate_limits=None, edge_event_rate_limits_per_edge=None, edge_uplink_messages_rate_limits=None, edge_uplink_messages_rate_limits_per_edge=None, default_storage_ttl_days=None, alarms_ttl_days=None, rpc_ttl_days=None, queue_stats_ttl_days=None, rule_engine_exceptions_ttl_days=None, warn_threshold=None, *args, **kwargs):  # noqa: E501
+    def __init__(self, max_devices=None, max_assets=None, max_customers=None, max_users=None, max_dashboards=None, max_rule_chains=None, max_resources_in_bytes=None, max_ota_packages_in_bytes=None, max_resource_size=None, max_integrations=None, max_converters=None, max_scheduler_events=None, transport_tenant_msg_rate_limit=None, transport_tenant_telemetry_msg_rate_limit=None, transport_tenant_telemetry_data_points_rate_limit=None, transport_device_msg_rate_limit=None, transport_device_telemetry_msg_rate_limit=None, transport_device_telemetry_data_points_rate_limit=None, transport_gateway_msg_rate_limit=None, transport_gateway_telemetry_msg_rate_limit=None, transport_gateway_telemetry_data_points_rate_limit=None, transport_gateway_device_msg_rate_limit=None, transport_gateway_device_telemetry_msg_rate_limit=None, transport_gateway_device_telemetry_data_points_rate_limit=None, integration_msgs_per_tenant_rate_limit=None, integration_msgs_per_device_rate_limit=None, integration_msgs_per_asset_rate_limit=None, tenant_entity_export_rate_limit=None, tenant_entity_import_rate_limit=None, tenant_notification_requests_rate_limit=None, tenant_notification_requests_per_rule_rate_limit=None, max_transport_messages=None, max_transport_data_points=None, max_re_executions=None, max_js_executions=None, max_tbel_executions=None, max_dp_storage_days=None, max_rule_node_executions_per_message=None, max_emails=None, sms_enabled=None, max_sms=None, max_created_alarms=None, tenant_server_rest_limits_configuration=None, customer_server_rest_limits_configuration=None, max_ws_sessions_per_tenant=None, max_ws_sessions_per_customer=None, max_ws_sessions_per_regular_user=None, max_ws_sessions_per_public_user=None, ws_msg_queue_limit_per_session=None, max_ws_subscriptions_per_tenant=None, max_ws_subscriptions_per_customer=None, max_ws_subscriptions_per_regular_user=None, max_ws_subscriptions_per_public_user=None, ws_updates_per_session_rate_limit=None, cassandra_query_tenant_rate_limits_configuration=None, edge_event_rate_limits=None, edge_event_rate_limits_per_edge=None, edge_uplink_messages_rate_limits=None, edge_uplink_messages_rate_limits_per_edge=None, default_storage_ttl_days=None, alarms_ttl_days=None, rpc_ttl_days=None, queue_stats_ttl_days=None, rule_engine_exceptions_ttl_days=None, warn_threshold=None, *args, **kwargs):  # noqa: E501
         """DefaultTenantProfileConfiguration - a model defined in Swagger"""  # noqa: E501
         self._max_devices = None
         self._max_assets = None
@@ -208,6 +210,7 @@ class DefaultTenantProfileConfiguration(TenantProfileConfiguration):
         self._transport_gateway_device_telemetry_data_points_rate_limit = None
         self._integration_msgs_per_tenant_rate_limit = None
         self._integration_msgs_per_device_rate_limit = None
+        self._integration_msgs_per_asset_rate_limit = None
         self._tenant_entity_export_rate_limit = None
         self._tenant_entity_import_rate_limit = None
         self._tenant_notification_requests_rate_limit = None
@@ -299,6 +302,8 @@ class DefaultTenantProfileConfiguration(TenantProfileConfiguration):
             self.integration_msgs_per_tenant_rate_limit = integration_msgs_per_tenant_rate_limit
         if integration_msgs_per_device_rate_limit is not None:
             self.integration_msgs_per_device_rate_limit = integration_msgs_per_device_rate_limit
+        if integration_msgs_per_asset_rate_limit is not None:
+            self.integration_msgs_per_asset_rate_limit = integration_msgs_per_asset_rate_limit
         if tenant_entity_export_rate_limit is not None:
             self.tenant_entity_export_rate_limit = tenant_entity_export_rate_limit
         if tenant_entity_import_rate_limit is not None:
@@ -922,6 +927,27 @@ class DefaultTenantProfileConfiguration(TenantProfileConfiguration):
         """
 
         self._integration_msgs_per_device_rate_limit = integration_msgs_per_device_rate_limit
+
+    @property
+    def integration_msgs_per_asset_rate_limit(self):
+        """Gets the integration_msgs_per_asset_rate_limit of this DefaultTenantProfileConfiguration.  # noqa: E501
+
+
+        :return: The integration_msgs_per_asset_rate_limit of this DefaultTenantProfileConfiguration.  # noqa: E501
+        :rtype: str
+        """
+        return self._integration_msgs_per_asset_rate_limit
+
+    @integration_msgs_per_asset_rate_limit.setter
+    def integration_msgs_per_asset_rate_limit(self, integration_msgs_per_asset_rate_limit):
+        """Sets the integration_msgs_per_asset_rate_limit of this DefaultTenantProfileConfiguration.
+
+
+        :param integration_msgs_per_asset_rate_limit: The integration_msgs_per_asset_rate_limit of this DefaultTenantProfileConfiguration.  # noqa: E501
+        :type: str
+        """
+
+        self._integration_msgs_per_asset_rate_limit = integration_msgs_per_asset_rate_limit
 
     @property
     def tenant_entity_export_rate_limit(self):

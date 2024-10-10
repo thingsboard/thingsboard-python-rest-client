@@ -43,28 +43,32 @@ class ApiImageBody(object):
     """
     swagger_types = {
         'file': 'str',
-        'title': 'str'
+        'title': 'str',
+        'image_sub_type': 'str'
     }
 
     attribute_map = {
         'file': 'file',
-        'title': 'title'
+        'title': 'title',
+        'image_sub_type': 'imageSubType'
     }
 
-    def __init__(self, file=None, title=None):  # noqa: E501
+    def __init__(self, file=None, title=None, image_sub_type=None):  # noqa: E501
         """ApiImageBody - a model defined in Swagger"""  # noqa: E501
         self._file = None
         self._title = None
+        self._image_sub_type = None
         self.discriminator = None
         self.file = file
         if title is not None:
             self.title = title
+        if image_sub_type is not None:
+            self.image_sub_type = image_sub_type
 
     @property
     def file(self):
         """Gets the file of this ApiImageBody.  # noqa: E501
 
-        file  # noqa: E501
 
         :return: The file of this ApiImageBody.  # noqa: E501
         :rtype: str
@@ -75,7 +79,6 @@ class ApiImageBody(object):
     def file(self, file):
         """Sets the file of this ApiImageBody.
 
-        file  # noqa: E501
 
         :param file: The file of this ApiImageBody.  # noqa: E501
         :type: str
@@ -89,7 +92,6 @@ class ApiImageBody(object):
     def title(self):
         """Gets the title of this ApiImageBody.  # noqa: E501
 
-        title  # noqa: E501
 
         :return: The title of this ApiImageBody.  # noqa: E501
         :rtype: str
@@ -100,13 +102,33 @@ class ApiImageBody(object):
     def title(self, title):
         """Sets the title of this ApiImageBody.
 
-        title  # noqa: E501
 
         :param title: The title of this ApiImageBody.  # noqa: E501
         :type: str
         """
 
         self._title = title
+
+    @property
+    def image_sub_type(self):
+        """Gets the image_sub_type of this ApiImageBody.  # noqa: E501
+
+
+        :return: The image_sub_type of this ApiImageBody.  # noqa: E501
+        :rtype: str
+        """
+        return self._image_sub_type
+
+    @image_sub_type.setter
+    def image_sub_type(self, image_sub_type):
+        """Sets the image_sub_type of this ApiImageBody.
+
+
+        :param image_sub_type: The image_sub_type of this ApiImageBody.  # noqa: E501
+        :type: str
+        """
+
+        self._image_sub_type = image_sub_type
 
     def to_dict(self):
         """Returns the model properties as a dict"""

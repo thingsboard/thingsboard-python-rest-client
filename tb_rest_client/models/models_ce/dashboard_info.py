@@ -50,6 +50,7 @@ class DashboardInfo(object):
         'assigned_customers': 'list[ShortCustomerInfo]',
         'mobile_hide': 'bool',
         'mobile_order': 'int',
+        'version': 'int',
         'name': 'str'
     }
 
@@ -62,10 +63,11 @@ class DashboardInfo(object):
         'assigned_customers': 'assignedCustomers',
         'mobile_hide': 'mobileHide',
         'mobile_order': 'mobileOrder',
+        'version': 'version',
         'name': 'name'
     }
 
-    def __init__(self, id=None, created_time=None, tenant_id=None, title=None, image=None, assigned_customers=None, mobile_hide=None, mobile_order=None, name=None):  # noqa: E501
+    def __init__(self, id=None, created_time=None, tenant_id=None, title=None, image=None, assigned_customers=None, mobile_hide=None, mobile_order=None, version=None, name=None):  # noqa: E501
         """DashboardInfo - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._created_time = None
@@ -75,6 +77,7 @@ class DashboardInfo(object):
         self._assigned_customers = None
         self._mobile_hide = None
         self._mobile_order = None
+        self._version = None
         self._name = None
         self.discriminator = None
         if id is not None:
@@ -92,6 +95,8 @@ class DashboardInfo(object):
             self.mobile_hide = mobile_hide
         if mobile_order is not None:
             self.mobile_order = mobile_order
+        if version is not None:
+            self.version = version
         if name is not None:
             self.name = name
 
@@ -276,6 +281,27 @@ class DashboardInfo(object):
         """
 
         self._mobile_order = mobile_order
+
+    @property
+    def version(self):
+        """Gets the version of this DashboardInfo.  # noqa: E501
+
+
+        :return: The version of this DashboardInfo.  # noqa: E501
+        :rtype: int
+        """
+        return self._version
+
+    @version.setter
+    def version(self, version):
+        """Sets the version of this DashboardInfo.
+
+
+        :param version: The version of this DashboardInfo.  # noqa: E501
+        :type: int
+        """
+
+        self._version = version
 
     @property
     def name(self):

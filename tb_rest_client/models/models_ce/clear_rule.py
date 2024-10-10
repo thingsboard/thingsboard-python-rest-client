@@ -74,7 +74,7 @@ class ClearRule(object):
         :param alarm_statuses: The alarm_statuses of this ClearRule.  # noqa: E501
         :type: list[str]
         """
-        allowed_values = ["ACK", "ACTIVE", "ANY", "CLEARED", "UNACK"]  # noqa: E501
+        allowed_values = ["ANY", "ACTIVE", "CLEARED", "ACK", "UNACK"]  # noqa: E501
         if not set(alarm_statuses).issubset(set(allowed_values)):
             raise ValueError(
                 "Invalid values for `alarm_statuses` [{0}], must be a subset of [{1}]"  # noqa: E501

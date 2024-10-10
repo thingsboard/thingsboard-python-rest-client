@@ -49,8 +49,9 @@ class EntityGroup(object):
         'owner_id': 'EntityId',
         'additional_info': 'JsonNode',
         'configuration': 'JsonNode',
-        'group_all': 'bool',
+        'version': 'int',
         'edge_group_all': 'bool',
+        'group_all': 'bool',
         'tenant_id': 'TenantId'
     }
 
@@ -62,12 +63,13 @@ class EntityGroup(object):
         'owner_id': 'ownerId',
         'additional_info': 'additionalInfo',
         'configuration': 'configuration',
-        'group_all': 'groupAll',
+        'version': 'version',
         'edge_group_all': 'edgeGroupAll',
+        'group_all': 'groupAll',
         'tenant_id': 'tenantId'
     }
 
-    def __init__(self, id=None, created_time=None, type=None, name=None, owner_id=None, additional_info=None, configuration=None, group_all=None, edge_group_all=None, tenant_id=None):  # noqa: E501
+    def __init__(self, id=None, created_time=None, type=None, name=None, owner_id=None, additional_info=None, configuration=None, version=None, edge_group_all=None, group_all=None, tenant_id=None):  # noqa: E501
         """EntityGroup - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._created_time = None
@@ -76,8 +78,9 @@ class EntityGroup(object):
         self._owner_id = None
         self._additional_info = None
         self._configuration = None
-        self._group_all = None
+        self._version = None
         self._edge_group_all = None
+        self._group_all = None
         self._tenant_id = None
         self.discriminator = None
         if id is not None:
@@ -92,10 +95,12 @@ class EntityGroup(object):
             self.additional_info = additional_info
         if configuration is not None:
             self.configuration = configuration
-        if group_all is not None:
-            self.group_all = group_all
+        if version is not None:
+            self.version = version
         if edge_group_all is not None:
             self.edge_group_all = edge_group_all
+        if group_all is not None:
+            self.group_all = group_all
         if tenant_id is not None:
             self.tenant_id = tenant_id
 
@@ -261,27 +266,25 @@ class EntityGroup(object):
         self._configuration = configuration
 
     @property
-    def group_all(self):
-        """Gets the group_all of this EntityGroup.  # noqa: E501
+    def version(self):
+        """Gets the version of this EntityGroup.  # noqa: E501
 
-        Indicates special group 'All' that contains all entities and can't be deleted.  # noqa: E501
 
-        :return: The group_all of this EntityGroup.  # noqa: E501
-        :rtype: bool
+        :return: The version of this EntityGroup.  # noqa: E501
+        :rtype: int
         """
-        return self._group_all
+        return self._version
 
-    @group_all.setter
-    def group_all(self, group_all):
-        """Sets the group_all of this EntityGroup.
+    @version.setter
+    def version(self, version):
+        """Sets the version of this EntityGroup.
 
-        Indicates special group 'All' that contains all entities and can't be deleted.  # noqa: E501
 
-        :param group_all: The group_all of this EntityGroup.  # noqa: E501
-        :type: bool
+        :param version: The version of this EntityGroup.  # noqa: E501
+        :type: int
         """
 
-        self._group_all = group_all
+        self._version = version
 
     @property
     def edge_group_all(self):
@@ -305,6 +308,29 @@ class EntityGroup(object):
         """
 
         self._edge_group_all = edge_group_all
+
+    @property
+    def group_all(self):
+        """Gets the group_all of this EntityGroup.  # noqa: E501
+
+        Indicates special group 'All' that contains all entities and can't be deleted.  # noqa: E501
+
+        :return: The group_all of this EntityGroup.  # noqa: E501
+        :rtype: bool
+        """
+        return self._group_all
+
+    @group_all.setter
+    def group_all(self, group_all):
+        """Sets the group_all of this EntityGroup.
+
+        Indicates special group 'All' that contains all entities and can't be deleted.  # noqa: E501
+
+        :param group_all: The group_all of this EntityGroup.  # noqa: E501
+        :type: bool
+        """
+
+        self._group_all = group_all
 
     @property
     def tenant_id(self):

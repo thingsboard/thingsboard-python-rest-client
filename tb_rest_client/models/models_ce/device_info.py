@@ -52,6 +52,7 @@ class DeviceInfo(object):
         'device_profile_id': 'DeviceProfileId',
         'firmware_id': 'OtaPackageId',
         'software_id': 'OtaPackageId',
+        'version': 'int',
         'customer_title': 'str',
         'customer_is_public': 'bool',
         'device_profile_name': 'str',
@@ -71,6 +72,7 @@ class DeviceInfo(object):
         'device_profile_id': 'deviceProfileId',
         'firmware_id': 'firmwareId',
         'software_id': 'softwareId',
+        'version': 'version',
         'customer_title': 'customerTitle',
         'customer_is_public': 'customerIsPublic',
         'device_profile_name': 'deviceProfileName',
@@ -79,7 +81,7 @@ class DeviceInfo(object):
         'device_data': 'deviceData'
     }
 
-    def __init__(self, id=None, created_time=None, tenant_id=None, customer_id=None, name=None, type=None, label=None, device_profile_id=None, firmware_id=None, software_id=None, customer_title=None, customer_is_public=None, device_profile_name=None, active=None, additional_info=None, device_data=None):  # noqa: E501
+    def __init__(self, id=None, created_time=None, tenant_id=None, customer_id=None, name=None, type=None, label=None, device_profile_id=None, firmware_id=None, software_id=None, version=None, customer_title=None, customer_is_public=None, device_profile_name=None, active=None, additional_info=None, device_data=None):  # noqa: E501
         """DeviceInfo - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._created_time = None
@@ -91,6 +93,7 @@ class DeviceInfo(object):
         self._device_profile_id = None
         self._firmware_id = None
         self._software_id = None
+        self._version = None
         self._customer_title = None
         self._customer_is_public = None
         self._device_profile_name = None
@@ -116,6 +119,8 @@ class DeviceInfo(object):
             self.firmware_id = firmware_id
         if software_id is not None:
             self.software_id = software_id
+        if version is not None:
+            self.version = version
         if customer_title is not None:
             self.customer_title = customer_title
         if customer_is_public is not None:
@@ -350,6 +355,27 @@ class DeviceInfo(object):
         """
 
         self._software_id = software_id
+
+    @property
+    def version(self):
+        """Gets the version of this DeviceInfo.  # noqa: E501
+
+
+        :return: The version of this DeviceInfo.  # noqa: E501
+        :rtype: int
+        """
+        return self._version
+
+    @version.setter
+    def version(self, version):
+        """Sets the version of this DeviceInfo.
+
+
+        :param version: The version of this DeviceInfo.  # noqa: E501
+        :type: int
+        """
+
+        self._version = version
 
     @property
     def customer_title(self):
