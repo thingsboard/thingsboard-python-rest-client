@@ -48,6 +48,8 @@ class WidgetType(object):
         'fqn': 'str',
         'name': 'str',
         'deprecated': 'bool',
+        'scada': 'bool',
+        'version': 'int',
         'descriptor': 'JsonNode'
     }
 
@@ -58,10 +60,12 @@ class WidgetType(object):
         'fqn': 'fqn',
         'name': 'name',
         'deprecated': 'deprecated',
+        'scada': 'scada',
+        'version': 'version',
         'descriptor': 'descriptor'
     }
 
-    def __init__(self, id=None, created_time=None, tenant_id=None, fqn=None, name=None, deprecated=None, descriptor=None):  # noqa: E501
+    def __init__(self, id=None, created_time=None, tenant_id=None, fqn=None, name=None, deprecated=None, scada=None, version=None, descriptor=None):  # noqa: E501
         """WidgetType - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._created_time = None
@@ -69,6 +73,8 @@ class WidgetType(object):
         self._fqn = None
         self._name = None
         self._deprecated = None
+        self._scada = None
+        self._version = None
         self._descriptor = None
         self.discriminator = None
         if id is not None:
@@ -83,6 +89,10 @@ class WidgetType(object):
             self.name = name
         if deprecated is not None:
             self.deprecated = deprecated
+        if scada is not None:
+            self.scada = scada
+        if version is not None:
+            self.version = version
         if descriptor is not None:
             self.descriptor = descriptor
 
@@ -219,6 +229,50 @@ class WidgetType(object):
         """
 
         self._deprecated = deprecated
+
+    @property
+    def scada(self):
+        """Gets the scada of this WidgetType.  # noqa: E501
+
+        Whether widget type is SCADA symbol.  # noqa: E501
+
+        :return: The scada of this WidgetType.  # noqa: E501
+        :rtype: bool
+        """
+        return self._scada
+
+    @scada.setter
+    def scada(self, scada):
+        """Sets the scada of this WidgetType.
+
+        Whether widget type is SCADA symbol.  # noqa: E501
+
+        :param scada: The scada of this WidgetType.  # noqa: E501
+        :type: bool
+        """
+
+        self._scada = scada
+
+    @property
+    def version(self):
+        """Gets the version of this WidgetType.  # noqa: E501
+
+
+        :return: The version of this WidgetType.  # noqa: E501
+        :rtype: int
+        """
+        return self._version
+
+    @version.setter
+    def version(self, version):
+        """Sets the version of this WidgetType.
+
+
+        :param version: The version of this WidgetType.  # noqa: E501
+        :type: int
+        """
+
+        self._version = version
 
     @property
     def descriptor(self):

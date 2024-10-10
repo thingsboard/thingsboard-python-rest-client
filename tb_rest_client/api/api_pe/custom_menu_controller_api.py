@@ -46,93 +46,6 @@ class CustomMenuControllerApi(object):
             api_client = ApiClient()
         self.api_client = api_client
 
-    def get_current_custom_menu_using_get(self, **kwargs):  # noqa: E501
-        """Get Custom Menu configuration (getCustomMenu)  # noqa: E501
-
-        Fetch the Custom Menu object that corresponds to the authority of the user. The API call is designed to load the custom menu items for edition. So, the result is NOT merged with the parent level configuration. Let's assume there is a custom menu configured on a system level. And there is no custom menu items configured on a tenant level. In such a case, the API call will return empty object for the tenant administrator.   Security check is performed to verify that the user has 'READ' permission for the white labeling resource.  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_current_custom_menu_using_get(async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool
-        :return: CustomMenu
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.get_current_custom_menu_using_get_with_http_info(**kwargs)  # noqa: E501
-        else:
-            (data) = self.get_current_custom_menu_using_get_with_http_info(**kwargs)  # noqa: E501
-            return data
-
-    def get_current_custom_menu_using_get_with_http_info(self, **kwargs):  # noqa: E501
-        """Get Custom Menu configuration (getCustomMenu)  # noqa: E501
-
-        Fetch the Custom Menu object that corresponds to the authority of the user. The API call is designed to load the custom menu items for edition. So, the result is NOT merged with the parent level configuration. Let's assume there is a custom menu configured on a system level. And there is no custom menu items configured on a tenant level. In such a case, the API call will return empty object for the tenant administrator.   Security check is performed to verify that the user has 'READ' permission for the white labeling resource.  # noqa: E501
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_current_custom_menu_using_get_with_http_info(async_req=True)
-        >>> result = thread.get()
-
-        :param async_req bool
-        :return: CustomMenu
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        all_params = []  # noqa: E501
-        all_params.append('async_req')
-        all_params.append('_return_http_data_only')
-        all_params.append('_preload_content')
-        all_params.append('_request_timeout')
-
-        params = locals()
-        for key, val in six.iteritems(params['kwargs']):
-            if key not in all_params:
-                raise TypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method get_current_custom_menu_using_get" % key
-                )
-            params[key] = val
-        del params['kwargs']
-
-        collection_formats = {}
-
-        path_params = {}
-
-        query_params = []
-
-        header_params = {}
-
-        form_params = []
-        local_var_files = {}
-
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['X-Authorization']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/api/customMenu/currentCustomMenu', 'GET',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='CustomMenu',  # noqa: E501
-            auth_settings=auth_settings,
-            async_req=params.get('async_req'),
-            _return_http_data_only=params.get('_return_http_data_only'),
-            _preload_content=params.get('_preload_content', True),
-            _request_timeout=params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
     def get_custom_menu_using_get(self, **kwargs):  # noqa: E501
         """Get end-user Custom Menu configuration (getCustomMenu)  # noqa: E501
 
@@ -220,45 +133,49 @@ class CustomMenuControllerApi(object):
             _request_timeout=params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def save_custom_menu_using_post(self, **kwargs):  # noqa: E501
-        """Create Or Update Custom Menu (saveCustomMenu)  # noqa: E501
+    def create_custom_menu(self, body, **kwargs):  # noqa: E501
+        """Create Custom Menu (createCustomMenu)  # noqa: E501
 
-        Creates or Updates the Custom Menu configuration.  Security check is performed to verify that the user has 'WRITE' permission for the white labeling resource.  # noqa: E501
+        The api is designed to create Custom Menu without configuration. Is not applicable for update.  Security check is performed to verify that the user has 'WRITE' permission for the custom menu with specified id.  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.save_custom_menu_using_post(async_req=True)
+        >>> thread = api.create_custom_menu(body, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param CustomMenu body:
+        :param CustomMenuInfo body: (required)
+        :param list[object] assign_to_list: A list of entity ids, separated by comma ','
+        :param bool force: Use force if you want to create default menu that conflicts with the existing one (old one will be update NO_ASSIGN assignee type)
         :return: CustomMenu
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.save_custom_menu_using_post_with_http_info(**kwargs)  # noqa: E501
+            return self.create_custom_menu_with_http_info(body, **kwargs)  # noqa: E501
         else:
-            (data) = self.save_custom_menu_using_post_with_http_info(**kwargs)  # noqa: E501
+            (data) = self.create_custom_menu_with_http_info(body, **kwargs)  # noqa: E501
             return data
 
-    def save_custom_menu_using_post_with_http_info(self, **kwargs):  # noqa: E501
-        """Create Or Update Custom Menu (saveCustomMenu)  # noqa: E501
+    def create_custom_menu_with_http_info(self, body, **kwargs):  # noqa: E501
+        """Create Custom Menu (createCustomMenu)  # noqa: E501
 
-        Creates or Updates the Custom Menu configuration.  Security check is performed to verify that the user has 'WRITE' permission for the white labeling resource.  # noqa: E501
+        The api is designed to create Custom Menu without configuration. Is not applicable for update.  Security check is performed to verify that the user has 'WRITE' permission for the custom menu with specified id.  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.save_custom_menu_using_post_with_http_info(async_req=True)
+        >>> thread = api.create_custom_menu_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param CustomMenu body:
+        :param CustomMenuInfo body: (required)
+        :param list[object] assign_to_list: A list of entity ids, separated by comma ','
+        :param bool force: Use force if you want to create default menu that conflicts with the existing one (old one will be update NO_ASSIGN assignee type)
         :return: CustomMenu
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['body']  # noqa: E501
+        all_params = ['body', 'assign_to_list', 'force']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -269,14 +186,762 @@ class CustomMenuControllerApi(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method save_custom_menu_using_post" % key
+                    " to method create_custom_menu" % key
                 )
             params[key] = val
         del params['kwargs']
+        # verify the required parameter 'body' is set
+        if ('body' not in params or
+                params['body'] is None):
+            raise ValueError("Missing the required parameter `body` when calling `create_custom_menu`")  # noqa: E501
 
         collection_formats = {}
 
         path_params = {}
+
+        query_params = []
+        if 'assign_to_list' in params:
+            query_params.append(('assignToList', params['assign_to_list']))  # noqa: E501
+            collection_formats['assignToList'] = 'multi'  # noqa: E501
+        if 'force' in params:
+            query_params.append(('force', params['force']))  # noqa: E501
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        if 'body' in params:
+            body_params = params['body']
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/customMenu{?assignToList,force}', 'POST',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='CustomMenu',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
+    def delete_custom_menu(self, custom_menu_id, **kwargs):  # noqa: E501
+        """Delete custom menu (deleteCustomMenu)  # noqa: E501
+
+        Deletes the custom menu based on the provided Custom Menu Id. Referencing non-existing custom menu Id will cause an error. If the custom menu is assigned to the list of users or customers bad request is returned.To delete a custom menu that has assignee list set 'force' request param to true   # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_custom_menu(custom_menu_id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str custom_menu_id: A string value representing the custom menu id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
+        :param bool force: Force set to true will unassign menu before deletion
+        :return: CustomMenuDeleteResult
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.delete_custom_menu_with_http_info(custom_menu_id, **kwargs)  # noqa: E501
+        else:
+            (data) = self.delete_custom_menu_with_http_info(custom_menu_id, **kwargs)  # noqa: E501
+            return data
+
+    def delete_custom_menu_with_http_info(self, custom_menu_id, **kwargs):  # noqa: E501
+        """Delete custom menu (deleteCustomMenu)  # noqa: E501
+
+        Deletes the custom menu based on the provided Custom Menu Id. Referencing non-existing custom menu Id will cause an error. If the custom menu is assigned to the list of users or customers bad request is returned.To delete a custom menu that has assignee list set 'force' request param to true   # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.delete_custom_menu_with_http_info(custom_menu_id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str custom_menu_id: A string value representing the custom menu id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
+        :param bool force: Force set to true will unassign menu before deletion
+        :return: CustomMenuDeleteResult
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['custom_menu_id', 'force']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method delete_custom_menu" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'custom_menu_id' is set
+        if ('custom_menu_id' not in params or
+                params['custom_menu_id'] is None):
+            raise ValueError(
+                "Missing the required parameter `custom_menu_id` when calling `delete_custom_menu`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+        if 'custom_menu_id' in params:
+            path_params['customMenuId'] = params['custom_menu_id']  # noqa: E501
+
+        query_params = []
+        if 'force' in params:
+            query_params.append(('force', params['force']))  # noqa: E501
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/customMenu/{customMenuId}{?force}', 'DELETE',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='CustomMenuDeleteResult',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
+    def get_custom_menu_assignee_list(self, custom_menu_id, **kwargs):  # noqa: E501
+        """Get Custom Menu assignee list (getCustomMenuAssigneeList)  # noqa: E501
+
+        Fetch the list of Entity Info objects that represents users or customers, or empty list if custom menu is not assigned or has NO_ASSIGN/ALL assignee type.  Security check is performed to verify that the user has 'READ' permission for the custom menu with specified id.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_custom_menu_assignee_list(custom_menu_id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str custom_menu_id: A string value representing the custom menu id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
+        :return: list[EntityInfo]
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.get_custom_menu_assignee_list_with_http_info(custom_menu_id, **kwargs)  # noqa: E501
+        else:
+            (data) = self.get_custom_menu_assignee_list_with_http_info(custom_menu_id, **kwargs)  # noqa: E501
+            return data
+
+    def get_custom_menu_assignee_list_with_http_info(self, custom_menu_id, **kwargs):  # noqa: E501
+        """Get Custom Menu assignee list (getCustomMenuAssigneeList)  # noqa: E501
+
+        Fetch the list of Entity Info objects that represents users or customers, or empty list if custom menu is not assigned or has NO_ASSIGN/ALL assignee type.  Security check is performed to verify that the user has 'READ' permission for the custom menu with specified id.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_custom_menu_assignee_list_with_http_info(custom_menu_id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str custom_menu_id: A string value representing the custom menu id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
+        :return: list[EntityInfo]
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['custom_menu_id']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method get_custom_menu_assignee_list" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'custom_menu_id' is set
+        if ('custom_menu_id' not in params or
+                params['custom_menu_id'] is None):
+            raise ValueError(
+                "Missing the required parameter `custom_menu_id` when calling `get_custom_menu_assignee_list`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+        if 'custom_menu_id' in params:
+            path_params['customMenuId'] = params['custom_menu_id']  # noqa: E501
+
+        query_params = []
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/customMenu/{customMenuId}/assigneeList', 'GET',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='list[EntityInfo]',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
+    def get_custom_menu_config(self, custom_menu_id, **kwargs):  # noqa: E501
+        """Get Custom Menu configuration by id (getCustomMenuConfig)  # noqa: E501
+
+        Fetch the Custom Menu configuration based on the provided Custom Menu Id.   Security check is performed to verify that the user has 'READ' permission for the custom menu with specified id.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_custom_menu_config(custom_menu_id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str custom_menu_id: A string value representing the custom menu id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
+        :return: CustomMenuConfig
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.get_custom_menu_config_with_http_info(custom_menu_id, **kwargs)  # noqa: E501
+        else:
+            (data) = self.get_custom_menu_config_with_http_info(custom_menu_id, **kwargs)  # noqa: E501
+            return data
+
+    def get_custom_menu_config_with_http_info(self, custom_menu_id, **kwargs):  # noqa: E501
+        """Get Custom Menu configuration by id (getCustomMenuConfig)  # noqa: E501
+
+        Fetch the Custom Menu configuration based on the provided Custom Menu Id.   Security check is performed to verify that the user has 'READ' permission for the custom menu with specified id.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_custom_menu_config_with_http_info(custom_menu_id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str custom_menu_id: A string value representing the custom menu id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
+        :return: CustomMenuConfig
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['custom_menu_id']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method get_custom_menu_config" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'custom_menu_id' is set
+        if ('custom_menu_id' not in params or
+                params['custom_menu_id'] is None):
+            raise ValueError(
+                "Missing the required parameter `custom_menu_id` when calling `get_custom_menu_config`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+        if 'custom_menu_id' in params:
+            path_params['customMenuId'] = params['custom_menu_id']  # noqa: E501
+
+        query_params = []
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/customMenu/{customMenuId}/config', 'GET',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='CustomMenuConfig',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
+    def get_custom_menu_info_by_id(self, custom_menu_id, **kwargs):  # noqa: E501
+        """Get Custom Menu Info (getCustomMenuInfoById)  # noqa: E501
+
+        Fetch the Custom Menu Info object based on the provided Custom Menu Id.   Security check is performed to verify that the user has 'READ' permission for the custom menu with specified id.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_custom_menu_info_by_id(custom_menu_id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str custom_menu_id: A string value representing the custom menu id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
+        :return: CustomMenuInfo
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.get_custom_menu_info_by_id_with_http_info(custom_menu_id, **kwargs)  # noqa: E501
+        else:
+            (data) = self.get_custom_menu_info_by_id_with_http_info(custom_menu_id, **kwargs)  # noqa: E501
+            return data
+
+    def get_custom_menu_info_by_id_with_http_info(self, custom_menu_id, **kwargs):  # noqa: E501
+        """Get Custom Menu Info (getCustomMenuInfoById)  # noqa: E501
+
+        Fetch the Custom Menu Info object based on the provided Custom Menu Id.   Security check is performed to verify that the user has 'READ' permission for the custom menu with specified id.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_custom_menu_info_by_id_with_http_info(custom_menu_id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str custom_menu_id: A string value representing the custom menu id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
+        :return: CustomMenuInfo
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['custom_menu_id']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method get_custom_menu_info_by_id" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'custom_menu_id' is set
+        if ('custom_menu_id' not in params or
+                params['custom_menu_id'] is None):
+            raise ValueError(
+                "Missing the required parameter `custom_menu_id` when calling `get_custom_menu_info_by_id`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+        if 'custom_menu_id' in params:
+            path_params['customMenuId'] = params['custom_menu_id']  # noqa: E501
+
+        query_params = []
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/customMenu/{customMenuId}/info', 'GET',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='CustomMenuInfo',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
+    def get_custom_menu_infos(self, page_size, page, **kwargs):  # noqa: E501
+        """Get all custom menus configured at user level (getCustomMenuInfos)  # noqa: E501
+
+        Returns a page of custom menu info objects owned by the tenant or the customer of a current user, scope and assigneeType request parameters can be used to filter the result.  Security check is performed to verify that the user has 'READ' permission for the white labeling resource.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_custom_menu_infos(page_size, page, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param int page_size: Maximum amount of entities in a one page (required)
+        :param int page: Sequence number of page starting from 0 (required)
+        :param str scope: Custom menu scope.
+        :param str assignee_type: Custom menu assignee type.
+        :param str text_search: The case insensitive 'substring' filter based on the custom menu name.
+        :param str sort_property: Property of entity to sort by
+        :param str sort_order: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        :return: PageDataCustomMenuInfo
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.get_custom_menu_infos_with_http_info(page_size, page, **kwargs)  # noqa: E501
+        else:
+            (data) = self.get_custom_menu_infos_with_http_info(page_size, page, **kwargs)  # noqa: E501
+            return data
+
+    def get_custom_menu_infos_with_http_info(self, page_size, page, **kwargs):  # noqa: E501
+        """Get all custom menus configured at user level (getCustomMenuInfos)  # noqa: E501
+
+        Returns a page of custom menu info objects owned by the tenant or the customer of a current user, scope and assigneeType request parameters can be used to filter the result.  Security check is performed to verify that the user has 'READ' permission for the white labeling resource.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_custom_menu_infos_with_http_info(page_size, page, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param int page_size: Maximum amount of entities in a one page (required)
+        :param int page: Sequence number of page starting from 0 (required)
+        :param str scope: Custom menu scope.
+        :param str assignee_type: Custom menu assignee type.
+        :param str text_search: The case insensitive 'substring' filter based on the custom menu name.
+        :param str sort_property: Property of entity to sort by
+        :param str sort_order: Sort order. ASC (ASCENDING) or DESC (DESCENDING)
+        :return: PageDataCustomMenuInfo
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['page_size', 'page', 'scope', 'assignee_type', 'text_search', 'sort_property',
+                      'sort_order']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method get_custom_menu_infos" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'page_size' is set
+        if ('page_size' not in params or
+                params['page_size'] is None):
+            raise ValueError(
+                "Missing the required parameter `page_size` when calling `get_custom_menu_infos`")  # noqa: E501
+        # verify the required parameter 'page' is set
+        if ('page' not in params or
+                params['page'] is None):
+            raise ValueError("Missing the required parameter `page` when calling `get_custom_menu_infos`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+
+        query_params = []
+        if 'scope' in params:
+            query_params.append(('scope', params['scope']))  # noqa: E501
+        if 'assignee_type' in params:
+            query_params.append(('assigneeType', params['assignee_type']))  # noqa: E501
+        if 'page_size' in params:
+            query_params.append(('pageSize', params['page_size']))  # noqa: E501
+        if 'page' in params:
+            query_params.append(('page', params['page']))  # noqa: E501
+        if 'text_search' in params:
+            query_params.append(('textSearch', params['text_search']))  # noqa: E501
+        if 'sort_property' in params:
+            query_params.append(('sortProperty', params['sort_property']))  # noqa: E501
+        if 'sort_order' in params:
+            query_params.append(('sortOrder', params['sort_order']))  # noqa: E501
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/customMenu/infos{?scope,assigneeType,pageSize,page,textSearch,sortProperty,sortOrder}', 'GET',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='PageDataCustomMenuInfo',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
+    def update_custom_menu_assignee_list(self, id, assignee_type, **kwargs):  # noqa: E501
+        """Update custom menu assignee list (updateCustomMenuAssigneeList)  # noqa: E501
+
+        The api designed to update the list of assignees or assignee type based on the provided Custom Menu Id. To change assignee type, put new assignee type in path parameter.  Security check is performed to verify that the user has 'WRITE' permission for the custom menu with specified id.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.update_custom_menu_assignee_list(id, assignee_type, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str id: (required)
+        :param str assignee_type: (required)
+        :param list[str] body:
+        :param bool force: Use force if you want to override default menu
+        :return: None
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.update_custom_menu_assignee_list_with_http_info(id, assignee_type, **kwargs)  # noqa: E501
+        else:
+            (data) = self.update_custom_menu_assignee_list_with_http_info(id, assignee_type, **kwargs)  # noqa: E501
+            return data
+
+    def update_custom_menu_assignee_list_with_http_info(self, id, assignee_type, **kwargs):  # noqa: E501
+        """Update custom menu assignee list (updateCustomMenuAssigneeList)  # noqa: E501
+
+        The api designed to update the list of assignees or assignee type based on the provided Custom Menu Id. To change assignee type, put new assignee type in path parameter.  Security check is performed to verify that the user has 'WRITE' permission for the custom menu with specified id.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.update_custom_menu_assignee_list_with_http_info(id, assignee_type, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str id: (required)
+        :param str assignee_type: (required)
+        :param list[str] body:
+        :param bool force: Use force if you want to override default menu
+        :return: None
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['id', 'assignee_type', 'body', 'force']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method update_custom_menu_assignee_list" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'id' is set
+        if ('id' not in params or
+                params['id'] is None):
+            raise ValueError(
+                "Missing the required parameter `id` when calling `update_custom_menu_assignee_list`")  # noqa: E501
+        # verify the required parameter 'assignee_type' is set
+        if ('assignee_type' not in params or
+                params['assignee_type'] is None):
+            raise ValueError(
+                "Missing the required parameter `assignee_type` when calling `update_custom_menu_assignee_list`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+        if 'id' in params:
+            path_params['id'] = params['id']  # noqa: E501
+        if 'assignee_type' in params:
+            path_params['assigneeType'] = params['assignee_type']  # noqa: E501
+
+        query_params = []
+        if 'force' in params:
+            query_params.append(('force', params['force']))  # noqa: E501
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        if 'body' in params:
+            body_params = params['body']
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/customMenu/{id}/assign/{assigneeType}{?force}', 'PUT',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type=None,  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
+    def update_custom_menu_config(self, body, custom_menu_id, **kwargs):  # noqa: E501
+        """Update Custom Menu configuration based on the provided Custom Menu Id (updateCustomMenuConfig)  # noqa: E501
+
+          Security check is performed to verify that the user has 'WRITE' permission for the custom menu with specified id.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.update_custom_menu_config(body, custom_menu_id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param CustomMenuConfig body: (required)
+        :param str custom_menu_id: A string value representing the custom menu id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
+        :return: CustomMenu
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.update_custom_menu_config_with_http_info(body, custom_menu_id, **kwargs)  # noqa: E501
+        else:
+            (data) = self.update_custom_menu_config_with_http_info(body, custom_menu_id, **kwargs)  # noqa: E501
+            return data
+
+    def update_custom_menu_config_with_http_info(self, body, custom_menu_id, **kwargs):  # noqa: E501
+        """Update Custom Menu configuration based on the provided Custom Menu Id (updateCustomMenuConfig)  # noqa: E501
+
+          Security check is performed to verify that the user has 'WRITE' permission for the custom menu with specified id.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.update_custom_menu_config_with_http_info(body, custom_menu_id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param CustomMenuConfig body: (required)
+        :param str custom_menu_id: A string value representing the custom menu id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
+        :return: CustomMenu
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['body', 'custom_menu_id']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method update_custom_menu_config" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'body' is set
+        if ('body' not in params or
+                params['body'] is None):
+            raise ValueError(
+                "Missing the required parameter `body` when calling `update_custom_menu_config`")  # noqa: E501
+        # verify the required parameter 'custom_menu_id' is set
+        if ('custom_menu_id' not in params or
+                params['custom_menu_id'] is None):
+            raise ValueError(
+                "Missing the required parameter `custom_menu_id` when calling `update_custom_menu_config`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+        if 'custom_menu_id' in params:
+            path_params['customMenuId'] = params['custom_menu_id']  # noqa: E501
 
         query_params = []
 
@@ -300,7 +965,7 @@ class CustomMenuControllerApi(object):
         auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
-            '/api/customMenu/customMenu', 'POST',
+            '/api/customMenu/{customMenuId}/config', 'PUT',
             path_params,
             query_params,
             header_params,
@@ -308,6 +973,115 @@ class CustomMenuControllerApi(object):
             post_params=form_params,
             files=local_var_files,
             response_type='CustomMenu',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
+    def update_custom_menu_name(self, body, custom_menu_id, **kwargs):  # noqa: E501
+        """Update Custom Menu name based on the provided Custom Menu Id (updateCustomMenuName)  # noqa: E501
+
+          Security check is performed to verify that the user has 'WRITE' permission for the custom menu with specified id.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.update_custom_menu_name(body, custom_menu_id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str body: (required)
+        :param str custom_menu_id: A string value representing the custom menu id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
+        :return: None
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.update_custom_menu_name_with_http_info(body, custom_menu_id, **kwargs)  # noqa: E501
+        else:
+            (data) = self.update_custom_menu_name_with_http_info(body, custom_menu_id, **kwargs)  # noqa: E501
+            return data
+
+    def update_custom_menu_name_with_http_info(self, body, custom_menu_id, **kwargs):  # noqa: E501
+        """Update Custom Menu name based on the provided Custom Menu Id (updateCustomMenuName)  # noqa: E501
+
+          Security check is performed to verify that the user has 'WRITE' permission for the custom menu with specified id.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.update_custom_menu_name_with_http_info(body, custom_menu_id, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param str body: (required)
+        :param str custom_menu_id: A string value representing the custom menu id. For example, '784f394c-42b6-435a-983c-b7beff2784f9' (required)
+        :return: None
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = ['body', 'custom_menu_id']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method update_custom_menu_name" % key
+                )
+            params[key] = val
+        del params['kwargs']
+        # verify the required parameter 'body' is set
+        if ('body' not in params or
+                params['body'] is None):
+            raise ValueError(
+                "Missing the required parameter `body` when calling `update_custom_menu_name`")  # noqa: E501
+        # verify the required parameter 'custom_menu_id' is set
+        if ('custom_menu_id' not in params or
+                params['custom_menu_id'] is None):
+            raise ValueError(
+                "Missing the required parameter `custom_menu_id` when calling `update_custom_menu_name`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+        if 'custom_menu_id' in params:
+            path_params['customMenuId'] = params['custom_menu_id']  # noqa: E501
+
+        query_params = []
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        if 'body' in params:
+            body_params = params['body']
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/customMenu/{customMenuId}/name', 'PUT',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type=None,  # noqa: E501
             auth_settings=auth_settings,
             async_req=params.get('async_req'),
             _return_http_data_only=params.get('_return_http_data_only'),

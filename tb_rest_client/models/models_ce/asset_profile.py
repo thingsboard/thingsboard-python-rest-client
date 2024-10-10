@@ -52,6 +52,7 @@ class AssetProfile(object):
         'default_dashboard_id': 'DashboardId',
         'default_queue_name': 'str',
         'default_edge_rule_chain_id': 'RuleChainId',
+        'version': 'int',
         'default': 'bool'
     }
 
@@ -66,10 +67,11 @@ class AssetProfile(object):
         'default_dashboard_id': 'defaultDashboardId',
         'default_queue_name': 'defaultQueueName',
         'default_edge_rule_chain_id': 'defaultEdgeRuleChainId',
+        'version': 'version',
         'default': 'default'
     }
 
-    def __init__(self, id=None, created_time=None, tenant_id=None, name=None, description=None, image=None, default_rule_chain_id=None, default_dashboard_id=None, default_queue_name=None, default_edge_rule_chain_id=None, default=None):  # noqa: E501
+    def __init__(self, id=None, created_time=None, tenant_id=None, name=None, description=None, image=None, default_rule_chain_id=None, default_dashboard_id=None, default_queue_name=None, default_edge_rule_chain_id=None, version=None, default=None):  # noqa: E501
         """AssetProfile - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._created_time = None
@@ -81,6 +83,7 @@ class AssetProfile(object):
         self._default_dashboard_id = None
         self._default_queue_name = None
         self._default_edge_rule_chain_id = None
+        self._version = None
         self._default = None
         self.discriminator = None
         if id is not None:
@@ -103,6 +106,8 @@ class AssetProfile(object):
             self.default_queue_name = default_queue_name
         if default_edge_rule_chain_id is not None:
             self.default_edge_rule_chain_id = default_edge_rule_chain_id
+        if version is not None:
+            self.version = version
         if default is not None:
             self.default = default
 
@@ -325,6 +330,27 @@ class AssetProfile(object):
         """
 
         self._default_edge_rule_chain_id = default_edge_rule_chain_id
+
+    @property
+    def version(self):
+        """Gets the version of this AssetProfile.  # noqa: E501
+
+
+        :return: The version of this AssetProfile.  # noqa: E501
+        :rtype: int
+        """
+        return self._version
+
+    @version.setter
+    def version(self, version):
+        """Sets the version of this AssetProfile.
+
+
+        :param version: The version of this AssetProfile.  # noqa: E501
+        :type: int
+        """
+
+        self._version = version
 
     @property
     def default(self):

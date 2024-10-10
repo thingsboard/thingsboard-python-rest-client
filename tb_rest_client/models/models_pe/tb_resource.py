@@ -48,6 +48,7 @@ class TbResource(object):
         'customer_id': 'CustomerId',
         'title': 'str',
         'resource_type': 'str',
+        'resource_sub_type': 'str',
         'resource_key': 'str',
         'public_resource_key': 'str',
         'etag': 'str',
@@ -68,6 +69,7 @@ class TbResource(object):
         'customer_id': 'customerId',
         'title': 'title',
         'resource_type': 'resourceType',
+        'resource_sub_type': 'resourceSubType',
         'resource_key': 'resourceKey',
         'public_resource_key': 'publicResourceKey',
         'etag': 'etag',
@@ -81,7 +83,7 @@ class TbResource(object):
         'public_link': 'publicLink'
     }
 
-    def __init__(self, id=None, created_time=None, tenant_id=None, customer_id=None, title=None, resource_type=None, resource_key=None, public_resource_key=None, etag=None, file_name=None, descriptor=None, data=None, preview=None, name=None, public=None, link=None, public_link=None):  # noqa: E501
+    def __init__(self, id=None, created_time=None, tenant_id=None, customer_id=None, title=None, resource_type=None, resource_sub_type=None, resource_key=None, public_resource_key=None, etag=None, file_name=None, descriptor=None, data=None, preview=None, name=None, public=None, link=None, public_link=None):  # noqa: E501
         """TbResource - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._created_time = None
@@ -89,6 +91,7 @@ class TbResource(object):
         self._customer_id = None
         self._title = None
         self._resource_type = None
+        self._resource_sub_type = None
         self._resource_key = None
         self._public_resource_key = None
         self._etag = None
@@ -113,6 +116,8 @@ class TbResource(object):
             self.title = title
         if resource_type is not None:
             self.resource_type = resource_type
+        if resource_sub_type is not None:
+            self.resource_sub_type = resource_sub_type
         if resource_key is not None:
             self.resource_key = resource_key
         if public_resource_key is not None:
@@ -273,6 +278,35 @@ class TbResource(object):
             )
 
         self._resource_type = resource_type
+
+    @property
+    def resource_sub_type(self):
+        """Gets the resource_sub_type of this TbResource.  # noqa: E501
+
+        Resource sub type.  # noqa: E501
+
+        :return: The resource_sub_type of this TbResource.  # noqa: E501
+        :rtype: str
+        """
+        return self._resource_sub_type
+
+    @resource_sub_type.setter
+    def resource_sub_type(self, resource_sub_type):
+        """Sets the resource_sub_type of this TbResource.
+
+        Resource sub type.  # noqa: E501
+
+        :param resource_sub_type: The resource_sub_type of this TbResource.  # noqa: E501
+        :type: str
+        """
+        allowed_values = ["IMAGE", "SCADA_SYMBOL"]  # noqa: E501
+        if resource_sub_type not in allowed_values:
+            raise ValueError(
+                "Invalid value for `resource_sub_type` ({0}), must be one of {1}"  # noqa: E501
+                .format(resource_sub_type, allowed_values)
+            )
+
+        self._resource_sub_type = resource_sub_type
 
     @property
     def resource_key(self):

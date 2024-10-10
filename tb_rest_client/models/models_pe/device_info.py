@@ -52,11 +52,12 @@ class DeviceInfo(object):
         'device_profile_id': 'DeviceProfileId',
         'firmware_id': 'OtaPackageId',
         'software_id': 'OtaPackageId',
+        'version': 'int',
         'owner_name': 'str',
         'groups': 'list[EntityInfo]',
         'active': 'bool',
-        'owner_id': 'EntityId',
         'additional_info': 'JsonNode',
+        'owner_id': 'EntityId',
         'device_data': 'DeviceData'
     }
 
@@ -71,15 +72,16 @@ class DeviceInfo(object):
         'device_profile_id': 'deviceProfileId',
         'firmware_id': 'firmwareId',
         'software_id': 'softwareId',
+        'version': 'version',
         'owner_name': 'ownerName',
         'groups': 'groups',
         'active': 'active',
-        'owner_id': 'ownerId',
         'additional_info': 'additionalInfo',
+        'owner_id': 'ownerId',
         'device_data': 'deviceData'
     }
 
-    def __init__(self, id=None, created_time=None, tenant_id=None, customer_id=None, name=None, type=None, label=None, device_profile_id=None, firmware_id=None, software_id=None, owner_name=None, groups=None, active=None, owner_id=None, additional_info=None, device_data=None):  # noqa: E501
+    def __init__(self, id=None, created_time=None, tenant_id=None, customer_id=None, name=None, type=None, label=None, device_profile_id=None, firmware_id=None, software_id=None, version=None, owner_name=None, groups=None, active=None, additional_info=None, owner_id=None, device_data=None):  # noqa: E501
         """DeviceInfo - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._created_time = None
@@ -91,11 +93,12 @@ class DeviceInfo(object):
         self._device_profile_id = None
         self._firmware_id = None
         self._software_id = None
+        self._version = None
         self._owner_name = None
         self._groups = None
         self._active = None
-        self._owner_id = None
         self._additional_info = None
+        self._owner_id = None
         self._device_data = None
         self.discriminator = None
         if id is not None:
@@ -117,16 +120,18 @@ class DeviceInfo(object):
             self.firmware_id = firmware_id
         if software_id is not None:
             self.software_id = software_id
+        if version is not None:
+            self.version = version
         if owner_name is not None:
             self.owner_name = owner_name
         if groups is not None:
             self.groups = groups
         if active is not None:
             self.active = active
-        if owner_id is not None:
-            self.owner_id = owner_id
         if additional_info is not None:
             self.additional_info = additional_info
+        if owner_id is not None:
+            self.owner_id = owner_id
         if device_data is not None:
             self.device_data = device_data
 
@@ -351,6 +356,27 @@ class DeviceInfo(object):
         self._software_id = software_id
 
     @property
+    def version(self):
+        """Gets the version of this DeviceInfo.  # noqa: E501
+
+
+        :return: The version of this DeviceInfo.  # noqa: E501
+        :rtype: int
+        """
+        return self._version
+
+    @version.setter
+    def version(self, version):
+        """Sets the version of this DeviceInfo.
+
+
+        :param version: The version of this DeviceInfo.  # noqa: E501
+        :type: int
+        """
+
+        self._version = version
+
+    @property
     def owner_name(self):
         """Gets the owner_name of this DeviceInfo.  # noqa: E501
 
@@ -420,27 +446,6 @@ class DeviceInfo(object):
         self._active = active
 
     @property
-    def owner_id(self):
-        """Gets the owner_id of this DeviceInfo.  # noqa: E501
-
-
-        :return: The owner_id of this DeviceInfo.  # noqa: E501
-        :rtype: EntityId
-        """
-        return self._owner_id
-
-    @owner_id.setter
-    def owner_id(self, owner_id):
-        """Sets the owner_id of this DeviceInfo.
-
-
-        :param owner_id: The owner_id of this DeviceInfo.  # noqa: E501
-        :type: EntityId
-        """
-
-        self._owner_id = owner_id
-
-    @property
     def additional_info(self):
         """Gets the additional_info of this DeviceInfo.  # noqa: E501
 
@@ -460,6 +465,27 @@ class DeviceInfo(object):
         """
 
         self._additional_info = additional_info
+
+    @property
+    def owner_id(self):
+        """Gets the owner_id of this DeviceInfo.  # noqa: E501
+
+
+        :return: The owner_id of this DeviceInfo.  # noqa: E501
+        :rtype: EntityId
+        """
+        return self._owner_id
+
+    @owner_id.setter
+    def owner_id(self, owner_id):
+        """Sets the owner_id of this DeviceInfo.
+
+
+        :param owner_id: The owner_id of this DeviceInfo.  # noqa: E501
+        :type: EntityId
+        """
+
+        self._owner_id = owner_id
 
     @property
     def device_data(self):

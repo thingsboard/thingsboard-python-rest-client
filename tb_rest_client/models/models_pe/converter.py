@@ -50,7 +50,8 @@ class Converter(object):
         'debug_mode': 'bool',
         'configuration': 'JsonNode',
         'additional_info': 'JsonNode',
-        'edge_template': 'bool'
+        'edge_template': 'bool',
+        'version': 'int'
     }
 
     attribute_map = {
@@ -62,10 +63,11 @@ class Converter(object):
         'debug_mode': 'debugMode',
         'configuration': 'configuration',
         'additional_info': 'additionalInfo',
-        'edge_template': 'edgeTemplate'
+        'edge_template': 'edgeTemplate',
+        'version': 'version'
     }
 
-    def __init__(self, id=None, created_time=None, tenant_id=None, name=None, type=None, debug_mode=None, configuration=None, additional_info=None, edge_template=None):  # noqa: E501
+    def __init__(self, id=None, created_time=None, tenant_id=None, name=None, type=None, debug_mode=None, configuration=None, additional_info=None, edge_template=None, version=None):  # noqa: E501
         """Converter - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._created_time = None
@@ -76,6 +78,7 @@ class Converter(object):
         self._configuration = None
         self._additional_info = None
         self._edge_template = None
+        self._version = None
         self.discriminator = None
         if id is not None:
             self.id = id
@@ -93,6 +96,8 @@ class Converter(object):
             self.additional_info = additional_info
         if edge_template is not None:
             self.edge_template = edge_template
+        if version is not None:
+            self.version = version
 
     @property
     def id(self):
@@ -302,6 +307,27 @@ class Converter(object):
         """
 
         self._edge_template = edge_template
+
+    @property
+    def version(self):
+        """Gets the version of this Converter.  # noqa: E501
+
+
+        :return: The version of this Converter.  # noqa: E501
+        :rtype: int
+        """
+        return self._version
+
+    @version.setter
+    def version(self, version):
+        """Sets the version of this Converter.
+
+
+        :param version: The version of this Converter.  # noqa: E501
+        :type: int
+        """
+
+        self._version = version
 
     def to_dict(self):
         """Returns the model properties as a dict"""

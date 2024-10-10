@@ -48,8 +48,10 @@ class WidgetsBundle(object):
         'alias': 'str',
         'title': 'str',
         'image': 'str',
+        'scada': 'bool',
         'description': 'str',
         'order': 'int',
+        'version': 'int',
         'name': 'str'
     }
 
@@ -60,12 +62,14 @@ class WidgetsBundle(object):
         'alias': 'alias',
         'title': 'title',
         'image': 'image',
+        'scada': 'scada',
         'description': 'description',
         'order': 'order',
+        'version': 'version',
         'name': 'name'
     }
 
-    def __init__(self, id=None, created_time=None, tenant_id=None, alias=None, title=None, image=None, description=None, order=None, name=None):  # noqa: E501
+    def __init__(self, id=None, created_time=None, tenant_id=None, alias=None, title=None, image=None, scada=None, description=None, order=None, version=None, name=None):  # noqa: E501
         """WidgetsBundle - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._created_time = None
@@ -73,8 +77,10 @@ class WidgetsBundle(object):
         self._alias = None
         self._title = None
         self._image = None
+        self._scada = None
         self._description = None
         self._order = None
+        self._version = None
         self._name = None
         self.discriminator = None
         if id is not None:
@@ -89,10 +95,14 @@ class WidgetsBundle(object):
             self.title = title
         if image is not None:
             self.image = image
+        if scada is not None:
+            self.scada = scada
         if description is not None:
             self.description = description
         if order is not None:
             self.order = order
+        if version is not None:
+            self.version = version
         if name is not None:
             self.name = name
 
@@ -231,6 +241,29 @@ class WidgetsBundle(object):
         self._image = image
 
     @property
+    def scada(self):
+        """Gets the scada of this WidgetsBundle.  # noqa: E501
+
+        Whether widgets bundle contains SCADA symbol widget types.  # noqa: E501
+
+        :return: The scada of this WidgetsBundle.  # noqa: E501
+        :rtype: bool
+        """
+        return self._scada
+
+    @scada.setter
+    def scada(self, scada):
+        """Sets the scada of this WidgetsBundle.
+
+        Whether widgets bundle contains SCADA symbol widget types.  # noqa: E501
+
+        :param scada: The scada of this WidgetsBundle.  # noqa: E501
+        :type: bool
+        """
+
+        self._scada = scada
+
+    @property
     def description(self):
         """Gets the description of this WidgetsBundle.  # noqa: E501
 
@@ -275,6 +308,27 @@ class WidgetsBundle(object):
         """
 
         self._order = order
+
+    @property
+    def version(self):
+        """Gets the version of this WidgetsBundle.  # noqa: E501
+
+
+        :return: The version of this WidgetsBundle.  # noqa: E501
+        :rtype: int
+        """
+        return self._version
+
+    @version.setter
+    def version(self, version):
+        """Sets the version of this WidgetsBundle.
+
+
+        :param version: The version of this WidgetsBundle.  # noqa: E501
+        :type: int
+        """
+
+        self._version = version
 
     @property
     def name(self):

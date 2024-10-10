@@ -459,3 +459,16 @@ from .entity_id_clearstart_timeend_time_body import EntityIdClearstartTimeendTim
 from .jwt_pair import JwtPair
 from .jwt_settings import JwtSettings
 from .alarm_notification_rule_trigger_config import AlarmNotificationRuleTriggerConfig
+from .domain import Domain
+from .domain_id import DomainId
+from .domain_info import DomainInfo
+from .mobile_app import MobileApp
+from .mobile_app_id import MobileAppId
+from .mobile_app_info import MobileAppInfo
+from .o_auth2_client import OAuth2Client
+from .o_auth2_client_id import OAuth2ClientId
+from .o_auth2_client_login_info import OAuth2ClientLoginInfo
+from .page_data_domain_info import PageDataDomainInfo
+from .page_data_mobile_app_info import PageDataMobileAppInfo
+from .page_data_o_auth2_client_info import PageDataOAuth2ClientInfo
+from .user_activation_link import UserActivationLink

@@ -45,6 +45,7 @@ class ImageExportData(object):
         'media_type': 'str',
         'file_name': 'str',
         'title': 'str',
+        'sub_type': 'str',
         'resource_key': 'str',
         'is_public': 'bool',
         'public_resource_key': 'str',
@@ -56,6 +57,7 @@ class ImageExportData(object):
         'media_type': 'mediaType',
         'file_name': 'fileName',
         'title': 'title',
+        'sub_type': 'subType',
         'resource_key': 'resourceKey',
         'is_public': 'isPublic',
         'public_resource_key': 'publicResourceKey',
@@ -63,11 +65,12 @@ class ImageExportData(object):
         'public': 'public'
     }
 
-    def __init__(self, media_type=None, file_name=None, title=None, resource_key=None, is_public=None, public_resource_key=None, data=None, public=None):  # noqa: E501
+    def __init__(self, media_type=None, file_name=None, title=None, sub_type=None, resource_key=None, is_public=None, public_resource_key=None, data=None, public=None):  # noqa: E501
         """ImageExportData - a model defined in Swagger"""  # noqa: E501
         self._media_type = None
         self._file_name = None
         self._title = None
+        self._sub_type = None
         self._resource_key = None
         self._is_public = None
         self._public_resource_key = None
@@ -80,6 +83,8 @@ class ImageExportData(object):
             self.file_name = file_name
         if title is not None:
             self.title = title
+        if sub_type is not None:
+            self.sub_type = sub_type
         if resource_key is not None:
             self.resource_key = resource_key
         if is_public is not None:
@@ -153,6 +158,27 @@ class ImageExportData(object):
         """
 
         self._title = title
+
+    @property
+    def sub_type(self):
+        """Gets the sub_type of this ImageExportData.  # noqa: E501
+
+
+        :return: The sub_type of this ImageExportData.  # noqa: E501
+        :rtype: str
+        """
+        return self._sub_type
+
+    @sub_type.setter
+    def sub_type(self, sub_type):
+        """Sets the sub_type of this ImageExportData.
+
+
+        :param sub_type: The sub_type of this ImageExportData.  # noqa: E501
+        :type: str
+        """
+
+        self._sub_type = sub_type
 
     @property
     def resource_key(self):

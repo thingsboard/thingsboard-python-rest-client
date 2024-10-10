@@ -50,8 +50,9 @@ class SchedulerEventInfo(object):
         'name': 'str',
         'type': 'str',
         'enabled': 'bool',
-        'owner_id': 'EntityId',
+        'version': 'int',
         'additional_info': 'JsonNode',
+        'owner_id': 'EntityId',
         'schedule': 'JsonNode'
     }
 
@@ -64,12 +65,13 @@ class SchedulerEventInfo(object):
         'name': 'name',
         'type': 'type',
         'enabled': 'enabled',
-        'owner_id': 'ownerId',
+        'version': 'version',
         'additional_info': 'additionalInfo',
+        'owner_id': 'ownerId',
         'schedule': 'schedule'
     }
 
-    def __init__(self, id=None, created_time=None, tenant_id=None, customer_id=None, originator_id=None, name=None, type=None, enabled=None, owner_id=None, additional_info=None, schedule=None):  # noqa: E501
+    def __init__(self, id=None, created_time=None, tenant_id=None, customer_id=None, originator_id=None, name=None, type=None, enabled=None, version=None, additional_info=None, owner_id=None, schedule=None):  # noqa: E501
         """SchedulerEventInfo - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._created_time = None
@@ -79,8 +81,9 @@ class SchedulerEventInfo(object):
         self._name = None
         self._type = None
         self._enabled = None
-        self._owner_id = None
+        self._version = None
         self._additional_info = None
+        self._owner_id = None
         self._schedule = None
         self.discriminator = None
         if id is not None:
@@ -99,10 +102,12 @@ class SchedulerEventInfo(object):
             self.type = type
         if enabled is not None:
             self.enabled = enabled
-        if owner_id is not None:
-            self.owner_id = owner_id
+        if version is not None:
+            self.version = version
         if additional_info is not None:
             self.additional_info = additional_info
+        if owner_id is not None:
+            self.owner_id = owner_id
         if schedule is not None:
             self.schedule = schedule
 
@@ -283,25 +288,25 @@ class SchedulerEventInfo(object):
         self._enabled = enabled
 
     @property
-    def owner_id(self):
-        """Gets the owner_id of this SchedulerEventInfo.  # noqa: E501
+    def version(self):
+        """Gets the version of this SchedulerEventInfo.  # noqa: E501
 
 
-        :return: The owner_id of this SchedulerEventInfo.  # noqa: E501
-        :rtype: EntityId
+        :return: The version of this SchedulerEventInfo.  # noqa: E501
+        :rtype: int
         """
-        return self._owner_id
+        return self._version
 
-    @owner_id.setter
-    def owner_id(self, owner_id):
-        """Sets the owner_id of this SchedulerEventInfo.
+    @version.setter
+    def version(self, version):
+        """Sets the version of this SchedulerEventInfo.
 
 
-        :param owner_id: The owner_id of this SchedulerEventInfo.  # noqa: E501
-        :type: EntityId
+        :param version: The version of this SchedulerEventInfo.  # noqa: E501
+        :type: int
         """
 
-        self._owner_id = owner_id
+        self._version = version
 
     @property
     def additional_info(self):
@@ -323,6 +328,27 @@ class SchedulerEventInfo(object):
         """
 
         self._additional_info = additional_info
+
+    @property
+    def owner_id(self):
+        """Gets the owner_id of this SchedulerEventInfo.  # noqa: E501
+
+
+        :return: The owner_id of this SchedulerEventInfo.  # noqa: E501
+        :rtype: EntityId
+        """
+        return self._owner_id
+
+    @owner_id.setter
+    def owner_id(self, owner_id):
+        """Sets the owner_id of this SchedulerEventInfo.
+
+
+        :param owner_id: The owner_id of this SchedulerEventInfo.  # noqa: E501
+        :type: EntityId
+        """
+
+        self._owner_id = owner_id
 
     @property
     def schedule(self):

@@ -50,6 +50,7 @@ class AssetInfo(object):
         'type': 'str',
         'label': 'str',
         'asset_profile_id': 'AssetProfileId',
+        'version': 'int',
         'customer_title': 'str',
         'customer_is_public': 'bool',
         'asset_profile_name': 'str',
@@ -65,13 +66,14 @@ class AssetInfo(object):
         'type': 'type',
         'label': 'label',
         'asset_profile_id': 'assetProfileId',
+        'version': 'version',
         'customer_title': 'customerTitle',
         'customer_is_public': 'customerIsPublic',
         'asset_profile_name': 'assetProfileName',
         'additional_info': 'additionalInfo'
     }
 
-    def __init__(self, id=None, created_time=None, tenant_id=None, customer_id=None, name=None, type=None, label=None, asset_profile_id=None, customer_title=None, customer_is_public=None, asset_profile_name=None, additional_info=None):  # noqa: E501
+    def __init__(self, id=None, created_time=None, tenant_id=None, customer_id=None, name=None, type=None, label=None, asset_profile_id=None, version=None, customer_title=None, customer_is_public=None, asset_profile_name=None, additional_info=None):  # noqa: E501
         """AssetInfo - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._created_time = None
@@ -81,6 +83,7 @@ class AssetInfo(object):
         self._type = None
         self._label = None
         self._asset_profile_id = None
+        self._version = None
         self._customer_title = None
         self._customer_is_public = None
         self._asset_profile_name = None
@@ -101,6 +104,8 @@ class AssetInfo(object):
             self.label = label
         if asset_profile_id is not None:
             self.asset_profile_id = asset_profile_id
+        if version is not None:
+            self.version = version
         if customer_title is not None:
             self.customer_title = customer_title
         if customer_is_public is not None:
@@ -287,6 +292,27 @@ class AssetInfo(object):
         """
 
         self._asset_profile_id = asset_profile_id
+
+    @property
+    def version(self):
+        """Gets the version of this AssetInfo.  # noqa: E501
+
+
+        :return: The version of this AssetInfo.  # noqa: E501
+        :rtype: int
+        """
+        return self._version
+
+    @version.setter
+    def version(self, version):
+        """Sets the version of this AssetInfo.
+
+
+        :param version: The version of this AssetInfo.  # noqa: E501
+        :type: int
+        """
+
+        self._version = version
 
     @property
     def customer_title(self):

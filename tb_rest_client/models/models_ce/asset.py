@@ -50,6 +50,7 @@ class Asset(object):
         'type': 'str',
         'label': 'str',
         'asset_profile_id': 'AssetProfileId',
+        'version': 'int',
         'additional_info': 'JsonNode'
     }
 
@@ -62,10 +63,11 @@ class Asset(object):
         'type': 'type',
         'label': 'label',
         'asset_profile_id': 'assetProfileId',
+        'version': 'version',
         'additional_info': 'additionalInfo'
     }
 
-    def __init__(self, id=None, created_time=None, tenant_id=None, customer_id=None, name=None, type=None, label=None, asset_profile_id=None, additional_info=None):  # noqa: E501
+    def __init__(self, id=None, created_time=None, tenant_id=None, customer_id=None, name=None, type=None, label=None, asset_profile_id=None, version=None, additional_info=None):  # noqa: E501
         """Asset - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._created_time = None
@@ -75,6 +77,7 @@ class Asset(object):
         self._type = None
         self._label = None
         self._asset_profile_id = None
+        self._version = None
         self._additional_info = None
         self.discriminator = None
         if id is not None:
@@ -92,6 +95,8 @@ class Asset(object):
             self.label = label
         if asset_profile_id is not None:
             self.asset_profile_id = asset_profile_id
+        if version is not None:
+            self.version = version
         if additional_info is not None:
             self.additional_info = additional_info
 
@@ -272,6 +277,27 @@ class Asset(object):
         """
 
         self._asset_profile_id = asset_profile_id
+
+    @property
+    def version(self):
+        """Gets the version of this Asset.  # noqa: E501
+
+
+        :return: The version of this Asset.  # noqa: E501
+        :rtype: int
+        """
+        return self._version
+
+    @version.setter
+    def version(self, version):
+        """Sets the version of this Asset.
+
+
+        :param version: The version of this Asset.  # noqa: E501
+        :type: int
+        """
+
+        self._version = version
 
     @property
     def additional_info(self):

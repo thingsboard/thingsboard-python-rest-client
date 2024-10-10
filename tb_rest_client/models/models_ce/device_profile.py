@@ -58,6 +58,7 @@ class DeviceProfile(object):
         'firmware_id': 'OtaPackageId',
         'software_id': 'OtaPackageId',
         'default_edge_rule_chain_id': 'RuleChainId',
+        'version': 'int',
         'default': 'bool',
         'profile_data': 'DeviceProfileData'
     }
@@ -79,11 +80,12 @@ class DeviceProfile(object):
         'firmware_id': 'firmwareId',
         'software_id': 'softwareId',
         'default_edge_rule_chain_id': 'defaultEdgeRuleChainId',
+        'version': 'version',
         'default': 'default',
         'profile_data': 'profileData'
     }
 
-    def __init__(self, id=None, created_time=None, tenant_id=None, name=None, description=None, image=None, type=None, transport_type=None, provision_type=None, default_rule_chain_id=None, default_dashboard_id=None, default_queue_name=None, provision_device_key=None, firmware_id=None, software_id=None, default_edge_rule_chain_id=None, default=None, profile_data=None):  # noqa: E501
+    def __init__(self, id=None, created_time=None, tenant_id=None, name=None, description=None, image=None, type=None, transport_type=None, provision_type=None, default_rule_chain_id=None, default_dashboard_id=None, default_queue_name=None, provision_device_key=None, firmware_id=None, software_id=None, default_edge_rule_chain_id=None, version=None, default=None, profile_data=None):  # noqa: E501
         """DeviceProfile - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._created_time = None
@@ -101,6 +103,7 @@ class DeviceProfile(object):
         self._firmware_id = None
         self._software_id = None
         self._default_edge_rule_chain_id = None
+        self._version = None
         self._default = None
         self._profile_data = None
         self.discriminator = None
@@ -136,6 +139,8 @@ class DeviceProfile(object):
             self.software_id = software_id
         if default_edge_rule_chain_id is not None:
             self.default_edge_rule_chain_id = default_edge_rule_chain_id
+        if version is not None:
+            self.version = version
         if default is not None:
             self.default = default
         if profile_data is not None:
@@ -512,6 +517,27 @@ class DeviceProfile(object):
         """
 
         self._default_edge_rule_chain_id = default_edge_rule_chain_id
+
+    @property
+    def version(self):
+        """Gets the version of this DeviceProfile.  # noqa: E501
+
+
+        :return: The version of this DeviceProfile.  # noqa: E501
+        :rtype: int
+        """
+        return self._version
+
+    @version.setter
+    def version(self, version):
+        """Sets the version of this DeviceProfile.
+
+
+        :param version: The version of this DeviceProfile.  # noqa: E501
+        :type: int
+        """
+
+        self._version = version
 
     @property
     def default(self):

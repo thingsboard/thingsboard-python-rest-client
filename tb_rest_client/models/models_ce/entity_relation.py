@@ -46,6 +46,7 @@ class EntityRelation(object):
         'to': 'EntityId',
         'type': 'str',
         'type_group': 'str',
+        'version': 'int',
         'additional_info': 'JsonNode'
     }
 
@@ -54,15 +55,17 @@ class EntityRelation(object):
         'to': 'to',
         'type': 'type',
         'type_group': 'typeGroup',
+        'version': 'version',
         'additional_info': 'additionalInfo'
     }
 
-    def __init__(self, _from=None, to=None, type=None, type_group=None, additional_info=None):  # noqa: E501
+    def __init__(self, _from=None, to=None, type=None, type_group=None, version=None, additional_info=None):  # noqa: E501
         """EntityRelation - a model defined in Swagger"""  # noqa: E501
         self.__from = None
         self._to = None
         self._type = None
         self._type_group = None
+        self._version = None
         self._additional_info = None
         self.discriminator = None
         if _from is not None:
@@ -73,6 +76,8 @@ class EntityRelation(object):
             self.type = type
         if type_group is not None:
             self.type_group = type_group
+        if version is not None:
+            self.version = version
         if additional_info is not None:
             self.additional_info = additional_info
 
@@ -169,6 +174,27 @@ class EntityRelation(object):
             )
 
         self._type_group = type_group
+
+    @property
+    def version(self):
+        """Gets the version of this EntityRelation.  # noqa: E501
+
+
+        :return: The version of this EntityRelation.  # noqa: E501
+        :rtype: int
+        """
+        return self._version
+
+    @version.setter
+    def version(self, version):
+        """Sets the version of this EntityRelation.
+
+
+        :param version: The version of this EntityRelation.  # noqa: E501
+        :type: int
+        """
+
+        self._version = version
 
     @property
     def additional_info(self):

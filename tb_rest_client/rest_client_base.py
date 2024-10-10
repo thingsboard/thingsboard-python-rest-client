@@ -72,6 +72,8 @@ from tb_rest_client.api.api_ce.mail_config_template_controller_api import MailCo
 from tb_rest_client.api.api_ce.image_controller_api import ImageControllerApi
 from tb_rest_client.api.api_ce.mobile_application_controller_api import MobileApplicationControllerApi
 from tb_rest_client.api.api_ce.queue_stats_controller_api import QueueStatsControllerApi
+from tb_rest_client.api.api_ce.domain_controller_api import DomainControllerApi
+from tb_rest_client.api.api_ce import MobileAppControllerApi
 # from tb_rest_client.models.models_pe import *
 from tb_rest_client.configuration import Configuration
 from tb_rest_client.api_client import ApiClient
@@ -837,6 +839,10 @@ class RestClientBase(Thread):
     def send_activation_email(self, email: str) -> None:
         return self.user_controller.send_activation_email_using_post(email=email)
 
+    def get_activation_link_info(self, user_id: UserId) -> UserActivationLink:
+        user_id = self.get_id(user_id)
+        return self.user_controller.get_activation_link_using_get(user_id=user_id)
+
     # Queue Controller
     def get_tenant_queues_by_service_type(self, service_type: str, page_size: int, page: int,
                                           type: Optional[str] = None,
@@ -1162,6 +1168,10 @@ class RestClientBase(Thread):
         return self.tb_resource_controller.download_pkcs12_resource_if_changed_using_get(resource_id=resource_id,
                                                                                          if_none_match=if_none_match)
 
+    def get_resource_by_id(self, resource_id: EntityId) -> TbResource:
+        resource_id = self.get_id(resource_id)
+        return self.tb_resource_controller.get_resource_by_id(resource_id=resource_id)
+
     def get_repository_settings_info(self) -> RepositorySettingsInfo:
         return self.admin_controller.get_repository_settings_info_using_get()
 
@@ -1177,6 +1187,24 @@ class RestClientBase(Thread):
 
     def get_o_auth2_clients(self, pkg_name: Optional[str] = None, platform: Optional[str] = None) -> List[OAuth2ClientInfo]:
         return self.o_auth2_controller.get_o_auth2_clients_using_post(pkg_name=pkg_name, platform=platform)
+
+    def delete_oauth2_client(self, id: OAuth2ClientId) -> None:
+        id = self.get_id(id)
+        return self.o_auth2_controller.delete_oauth2_client(id=id)
+
+    def find_tenant_o_auth2_client_infos(self, page_size: int, page: int, text_search: Optional[str] = None, sort_property: Optional[str] = None, sort_order: Optional[str] = None) -> PageDataOAuth2ClientInfo:
+        return self.o_auth2_controller.find_tenant_o_auth2_client_infos(page_size=page_size, page=page, text_search=text_search, sort_property=sort_property, sort_order=sort_order)
+
+    def find_tenant_o_auth2_client_infos_by_ids(self, ids: List[str]) -> List[OAuth2ClientInfo]:
+        ids = ','.join(ids)
+        return self.o_auth2_controller.find_tenant_o_auth2_client_infos_by_ids(client_ids=ids)
+
+    def get_o_auth2_client_by_id(self, id: OAuth2ClientId) -> OAuth2ClientInfo:
+        id = self.get_id(id)
+        return self.o_auth2_controller.get_o_auth2_client_by_id(id=id)
+
+    def save_o_auth2_client(self, body: Optional[OAuth2Client] = None) -> OAuth2Client:
+        return self.o_auth2_controller.save_o_auth2_client(body=body)
 
     # Tenant Profile Controller
     def get_default_tenant_profile_info(self) -> EntityInfo:
@@ -2024,6 +2052,52 @@ class RestClientBase(Thread):
                                                                   text_search=text_search, sort_property=sort_property,
                                                                   sort_order=sort_order)
 
+    def delete_domain(self, domain_id: DomainId) -> None:
+        domain_id = self.get_id(domain_id)
+        return self.domain_controller.delete_domain(id=domain_id)
+
+    def get_domain_info_by_id(self, domain_id: DomainId) -> DomainInfo:
+        domain_id = self.get_id(domain_id)
+        return self.domain_controller.get_domain_info_by_id(id=domain_id)
+
+    def get_tenant_domain_infos(self, page_size: int, page: int, text_search: Optional[str] = None,
+                                sort_property: Optional[str] = None,
+                                sort_order: Optional[str] = None) -> PageDataDomainInfo:
+        return self.domain_controller.get_tenant_domain_infos(page_size=page_size, page=page, text_search=text_search,
+                                                              sort_property=sort_property, sort_order=sort_order)
+
+    def save_domain(self, body: Domain, oauth2_client_ids: Optional[str] = None) -> Domain:
+        if oauth2_client_ids is not None:
+            oauth2_client_ids = ','.join(oauth2_client_ids)
+        return self.domain_controller.save_domain(body=body, oauth2_client_ids=oauth2_client_ids)
+
+    def update_oauth2_clients(self, body: List[str], id: str):
+        return self.domain_controller.update_oauth2_clients(body=body, id=id)
+
+    def delete_mobile_app(self, mobile_app_id: MobileAppId) -> None:
+        mobile_app_id = self.get_id(mobile_app_id)
+        return self.mobile_app_controller.delete_mobile_app(id=mobile_app_id)
+
+    def get_mobile_app_info_by_id(self, mobile_app_id: MobileAppId) -> MobileAppInfo:
+        mobile_app_id = self.get_id(mobile_app_id)
+        return self.mobile_app_controller.get_mobile_app_info_by_id(id=mobile_app_id)
+
+    def get_tenant_mobile_app_infos(self, page_size: int, page: int, text_search: Optional[str] = None,
+                                    sort_property: Optional[str] = None,
+                                    sort_order: Optional[str] = None) -> PageDataMobileAppInfo:
+        return self.mobile_app_controller.get_tenant_mobile_app_infos(page_size=page_size, page=page,
+                                                                      text_search=text_search,
+                                                                      sort_property=sort_property,
+                                                                      sort_order=sort_order)
+
+    def save_mobile_app(self, body: MobileApp, oauth2_client_ids: Optional[str] = None) -> MobileApp:
+        if oauth2_client_ids is not None:
+            oauth2_client_ids = ','.join(oauth2_client_ids)
+        return self.mobile_app_controller.save_mobile_app(body=body, oauth2_client_ids=oauth2_client_ids)
+
+    def mobile_app_update_oauth2_clients(self, body: List[str], id: str):
+        return self.mobile_app_controller.update_oauth2_clients(body=body, id=id)
+
     def __load_controllers(self):
         self.audit_log_controller = AuditLogControllerApi(self.api_client)
         self.o_auth2_config_template_controller = OAuth2ConfigTemplateControllerApi(self.api_client)
@@ -2073,6 +2147,8 @@ class RestClientBase(Thread):
         self.image_controller = ImageControllerApi(self.api_client)
         self.mobile_application_controller = MobileApplicationControllerApi(self.api_client)
         self.queue_stats_controller = QueueStatsControllerApi(self.api_client)
+        self.domain_controller = DomainControllerApi(self.api_client)
+        self.mobile_app_controller = MobileAppControllerApi(self.api_client)
 
     @staticmethod
     def get_type(type):

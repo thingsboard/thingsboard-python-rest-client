@@ -43,6 +43,7 @@ class RuleChainMetaData(object):
     """
     swagger_types = {
         'rule_chain_id': 'RuleChainId',
+        'version': 'int',
         'first_node_index': 'int',
         'nodes': 'list[RuleNode]',
         'connections': 'list[NodeConnectionInfo]',
@@ -51,21 +52,25 @@ class RuleChainMetaData(object):
 
     attribute_map = {
         'rule_chain_id': 'ruleChainId',
+        'version': 'version',
         'first_node_index': 'firstNodeIndex',
         'nodes': 'nodes',
         'connections': 'connections',
         'rule_chain_connections': 'ruleChainConnections'
     }
 
-    def __init__(self, rule_chain_id=None, first_node_index=None, nodes=None, connections=None, rule_chain_connections=None):  # noqa: E501
+    def __init__(self, rule_chain_id=None, version=None, first_node_index=None, nodes=None, connections=None, rule_chain_connections=None):  # noqa: E501
         """RuleChainMetaData - a model defined in Swagger"""  # noqa: E501
         self._rule_chain_id = None
+        self._version = None
         self._first_node_index = None
         self._nodes = None
         self._connections = None
         self._rule_chain_connections = None
         self.discriminator = None
         self.rule_chain_id = rule_chain_id
+        if version is not None:
+            self.version = version
         self.first_node_index = first_node_index
         self.nodes = nodes
         self.connections = connections
@@ -93,6 +98,29 @@ class RuleChainMetaData(object):
             raise ValueError("Invalid value for `rule_chain_id`, must not be `None`")  # noqa: E501
 
         self._rule_chain_id = rule_chain_id
+
+    @property
+    def version(self):
+        """Gets the version of this RuleChainMetaData.  # noqa: E501
+
+        Version of the Rule Chain  # noqa: E501
+
+        :return: The version of this RuleChainMetaData.  # noqa: E501
+        :rtype: int
+        """
+        return self._version
+
+    @version.setter
+    def version(self, version):
+        """Sets the version of this RuleChainMetaData.
+
+        Version of the Rule Chain  # noqa: E501
+
+        :param version: The version of this RuleChainMetaData.  # noqa: E501
+        :type: int
+        """
+
+        self._version = version
 
     @property
     def first_node_index(self):
@@ -189,6 +217,8 @@ class RuleChainMetaData(object):
         :param rule_chain_connections: The rule_chain_connections of this RuleChainMetaData.  # noqa: E501
         :type: list[RuleChainConnectionInfo]
         """
+        if rule_chain_connections is None:
+            raise ValueError("Invalid value for `rule_chain_connections`, must not be `None`")  # noqa: E501
 
         self._rule_chain_connections = rule_chain_connections
 

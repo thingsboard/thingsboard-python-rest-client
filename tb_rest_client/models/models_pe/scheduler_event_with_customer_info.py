@@ -50,10 +50,11 @@ class SchedulerEventWithCustomerInfo(object):
         'name': 'str',
         'type': 'str',
         'enabled': 'bool',
+        'version': 'int',
         'customer_title': 'str',
         'customer_is_public': 'bool',
-        'owner_id': 'EntityId',
         'additional_info': 'JsonNode',
+        'owner_id': 'EntityId',
         'schedule': 'JsonNode'
     }
 
@@ -66,14 +67,15 @@ class SchedulerEventWithCustomerInfo(object):
         'name': 'name',
         'type': 'type',
         'enabled': 'enabled',
+        'version': 'version',
         'customer_title': 'customerTitle',
         'customer_is_public': 'customerIsPublic',
-        'owner_id': 'ownerId',
         'additional_info': 'additionalInfo',
+        'owner_id': 'ownerId',
         'schedule': 'schedule'
     }
 
-    def __init__(self, id=None, created_time=None, tenant_id=None, customer_id=None, originator_id=None, name=None, type=None, enabled=None, customer_title=None, customer_is_public=None, owner_id=None, additional_info=None, schedule=None):  # noqa: E501
+    def __init__(self, id=None, created_time=None, tenant_id=None, customer_id=None, originator_id=None, name=None, type=None, enabled=None, version=None, customer_title=None, customer_is_public=None, additional_info=None, owner_id=None, schedule=None):  # noqa: E501
         """SchedulerEventWithCustomerInfo - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._created_time = None
@@ -83,10 +85,11 @@ class SchedulerEventWithCustomerInfo(object):
         self._name = None
         self._type = None
         self._enabled = None
+        self._version = None
         self._customer_title = None
         self._customer_is_public = None
-        self._owner_id = None
         self._additional_info = None
+        self._owner_id = None
         self._schedule = None
         self.discriminator = None
         if id is not None:
@@ -105,14 +108,16 @@ class SchedulerEventWithCustomerInfo(object):
             self.type = type
         if enabled is not None:
             self.enabled = enabled
+        if version is not None:
+            self.version = version
         if customer_title is not None:
             self.customer_title = customer_title
         if customer_is_public is not None:
             self.customer_is_public = customer_is_public
-        if owner_id is not None:
-            self.owner_id = owner_id
         if additional_info is not None:
             self.additional_info = additional_info
+        if owner_id is not None:
+            self.owner_id = owner_id
         if schedule is not None:
             self.schedule = schedule
 
@@ -293,6 +298,27 @@ class SchedulerEventWithCustomerInfo(object):
         self._enabled = enabled
 
     @property
+    def version(self):
+        """Gets the version of this SchedulerEventWithCustomerInfo.  # noqa: E501
+
+
+        :return: The version of this SchedulerEventWithCustomerInfo.  # noqa: E501
+        :rtype: int
+        """
+        return self._version
+
+    @version.setter
+    def version(self, version):
+        """Sets the version of this SchedulerEventWithCustomerInfo.
+
+
+        :param version: The version of this SchedulerEventWithCustomerInfo.  # noqa: E501
+        :type: int
+        """
+
+        self._version = version
+
+    @property
     def customer_title(self):
         """Gets the customer_title of this SchedulerEventWithCustomerInfo.  # noqa: E501
 
@@ -339,27 +365,6 @@ class SchedulerEventWithCustomerInfo(object):
         self._customer_is_public = customer_is_public
 
     @property
-    def owner_id(self):
-        """Gets the owner_id of this SchedulerEventWithCustomerInfo.  # noqa: E501
-
-
-        :return: The owner_id of this SchedulerEventWithCustomerInfo.  # noqa: E501
-        :rtype: EntityId
-        """
-        return self._owner_id
-
-    @owner_id.setter
-    def owner_id(self, owner_id):
-        """Sets the owner_id of this SchedulerEventWithCustomerInfo.
-
-
-        :param owner_id: The owner_id of this SchedulerEventWithCustomerInfo.  # noqa: E501
-        :type: EntityId
-        """
-
-        self._owner_id = owner_id
-
-    @property
     def additional_info(self):
         """Gets the additional_info of this SchedulerEventWithCustomerInfo.  # noqa: E501
 
@@ -379,6 +384,27 @@ class SchedulerEventWithCustomerInfo(object):
         """
 
         self._additional_info = additional_info
+
+    @property
+    def owner_id(self):
+        """Gets the owner_id of this SchedulerEventWithCustomerInfo.  # noqa: E501
+
+
+        :return: The owner_id of this SchedulerEventWithCustomerInfo.  # noqa: E501
+        :rtype: EntityId
+        """
+        return self._owner_id
+
+    @owner_id.setter
+    def owner_id(self, owner_id):
+        """Sets the owner_id of this SchedulerEventWithCustomerInfo.
+
+
+        :param owner_id: The owner_id of this SchedulerEventWithCustomerInfo.  # noqa: E501
+        :type: EntityId
+        """
+
+        self._owner_id = owner_id
 
     @property
     def schedule(self):

@@ -47,6 +47,7 @@ class TbResource(object):
         'tenant_id': 'TenantId',
         'title': 'str',
         'resource_type': 'str',
+        'resource_sub_type': 'str',
         'resource_key': 'str',
         'public_resource_key': 'str',
         'etag': 'str',
@@ -56,8 +57,8 @@ class TbResource(object):
         'preview': 'str',
         'name': 'str',
         'public': 'bool',
-        'public_link': 'str',
-        'link': 'str'
+        'link': 'str',
+        'public_link': 'str'
     }
 
     attribute_map = {
@@ -66,6 +67,7 @@ class TbResource(object):
         'tenant_id': 'tenantId',
         'title': 'title',
         'resource_type': 'resourceType',
+        'resource_sub_type': 'resourceSubType',
         'resource_key': 'resourceKey',
         'public_resource_key': 'publicResourceKey',
         'etag': 'etag',
@@ -75,17 +77,18 @@ class TbResource(object):
         'preview': 'preview',
         'name': 'name',
         'public': 'public',
-        'public_link': 'publicLink',
-        'link': 'link'
+        'link': 'link',
+        'public_link': 'publicLink'
     }
 
-    def __init__(self, id=None, created_time=None, tenant_id=None, title=None, resource_type=None, resource_key=None, public_resource_key=None, etag=None, file_name=None, descriptor=None, data=None, preview=None, name=None, public=None, public_link=None, link=None):  # noqa: E501
+    def __init__(self, id=None, created_time=None, tenant_id=None, title=None, resource_type=None, resource_sub_type=None, resource_key=None, public_resource_key=None, etag=None, file_name=None, descriptor=None, data=None, preview=None, name=None, public=None, link=None, public_link=None):  # noqa: E501
         """TbResource - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._created_time = None
         self._tenant_id = None
         self._title = None
         self._resource_type = None
+        self._resource_sub_type = None
         self._resource_key = None
         self._public_resource_key = None
         self._etag = None
@@ -95,8 +98,8 @@ class TbResource(object):
         self._preview = None
         self._name = None
         self._public = None
-        self._public_link = None
         self._link = None
+        self._public_link = None
         self.discriminator = None
         if id is not None:
             self.id = id
@@ -108,6 +111,8 @@ class TbResource(object):
             self.title = title
         if resource_type is not None:
             self.resource_type = resource_type
+        if resource_sub_type is not None:
+            self.resource_sub_type = resource_sub_type
         if resource_key is not None:
             self.resource_key = resource_key
         if public_resource_key is not None:
@@ -126,10 +131,10 @@ class TbResource(object):
             self.name = name
         if public is not None:
             self.public = public
-        if public_link is not None:
-            self.public_link = public_link
         if link is not None:
             self.link = link
+        if public_link is not None:
+            self.public_link = public_link
 
     @property
     def id(self):
@@ -247,6 +252,35 @@ class TbResource(object):
             )
 
         self._resource_type = resource_type
+
+    @property
+    def resource_sub_type(self):
+        """Gets the resource_sub_type of this TbResource.  # noqa: E501
+
+        Resource sub type.  # noqa: E501
+
+        :return: The resource_sub_type of this TbResource.  # noqa: E501
+        :rtype: str
+        """
+        return self._resource_sub_type
+
+    @resource_sub_type.setter
+    def resource_sub_type(self, resource_sub_type):
+        """Sets the resource_sub_type of this TbResource.
+
+        Resource sub type.  # noqa: E501
+
+        :param resource_sub_type: The resource_sub_type of this TbResource.  # noqa: E501
+        :type: str
+        """
+        allowed_values = ["IMAGE", "SCADA_SYMBOL"]  # noqa: E501
+        if resource_sub_type not in allowed_values:
+            raise ValueError(
+                "Invalid value for `resource_sub_type` ({0}), must be one of {1}"  # noqa: E501
+                .format(resource_sub_type, allowed_values)
+            )
+
+        self._resource_sub_type = resource_sub_type
 
     @property
     def resource_key(self):
@@ -446,27 +480,6 @@ class TbResource(object):
         self._public = public
 
     @property
-    def public_link(self):
-        """Gets the public_link of this TbResource.  # noqa: E501
-
-
-        :return: The public_link of this TbResource.  # noqa: E501
-        :rtype: str
-        """
-        return self._public_link
-
-    @public_link.setter
-    def public_link(self, public_link):
-        """Sets the public_link of this TbResource.
-
-
-        :param public_link: The public_link of this TbResource.  # noqa: E501
-        :type: str
-        """
-
-        self._public_link = public_link
-
-    @property
     def link(self):
         """Gets the link of this TbResource.  # noqa: E501
 
@@ -486,6 +499,27 @@ class TbResource(object):
         """
 
         self._link = link
+
+    @property
+    def public_link(self):
+        """Gets the public_link of this TbResource.  # noqa: E501
+
+
+        :return: The public_link of this TbResource.  # noqa: E501
+        :rtype: str
+        """
+        return self._public_link
+
+    @public_link.setter
+    def public_link(self, public_link):
+        """Sets the public_link of this TbResource.
+
+
+        :param public_link: The public_link of this TbResource.  # noqa: E501
+        :type: str
+        """
+
+        self._public_link = public_link
 
     def to_dict(self):
         """Returns the model properties as a dict"""

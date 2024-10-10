@@ -227,41 +227,6 @@ class RestClientPE(RestClientBase):
     def get_edges_by_ids(self, edge_ids: list) -> List[Edge]:
         return self.edge_controller.get_edges_by_ids_using_get(edge_ids=str(edge_ids))
 
-    def ocean_connect_process_request_v2_delete2(self, body: str, request_headers: dict, routing_key: str):
-        return self.ocean_connect_integration_controller.process_request_using_delete2(body=body,
-                                                                                       request_headers=request_headers,
-                                                                                       routing_key=routing_key)
-
-    def ocean_connect_process_request_v2_get2(self, body: str, request_headers: dict, routing_key: str):
-        return self.ocean_connect_integration_controller.process_request_using_get2(body=body,
-                                                                                    request_headers=request_headers,
-                                                                                    routing_key=routing_key)
-
-    def ocean_connect_process_request_v2_head2(self, body: str, request_headers: dict, routing_key: str):
-        return self.ocean_connect_integration_controller.process_request_using_head2(body=body,
-                                                                                     request_headers=request_headers,
-                                                                                     routing_key=routing_key)
-
-    def ocean_connect_process_request_v2_options2(self, body: str, request_headers: dict, routing_key: str):
-        return self.ocean_connect_integration_controller.process_request_using_options2(body=body,
-                                                                                        request_headers=request_headers,
-                                                                                        routing_key=routing_key)
-
-    def ocean_connect_process_request_v2_patch2(self, body: str, request_headers: dict, routing_key: str):
-        return self.ocean_connect_integration_controller.process_request_using_patch2(body=body,
-                                                                                      request_headers=request_headers,
-                                                                                      routing_key=routing_key)
-
-    def ocean_connect_process_request_v10_post10(self, body: str, request_headers: dict, routing_key: str):
-        return self.ocean_connect_integration_controller.process_request_using_post10(body=body,
-                                                                                      request_headers=request_headers,
-                                                                                      routing_key=routing_key)
-
-    def ocean_connect_process_request_v2_put2(self, body: str, request_headers: dict, routing_key: str):
-        return self.ocean_connect_integration_controller.process_request_using_put2(body=body,
-                                                                                    request_headers=request_headers,
-                                                                                    routing_key=routing_key)
-
     def get_allowed_permissions(self, ) -> AllowedPermissionsInfo:
         return self.user_permissions_controller.get_allowed_permissions_using_get()
 
@@ -627,6 +592,9 @@ class RestClientPE(RestClientBase):
         return self.integration_controller.find_edge_missing_attributes_using_get(edge_id=edge_id,
                                                                                   integration_ids=integration_ids)
 
+    def get_integrations_converters_info(self):
+        return self.integration_controller.get_integrations_converters_info()
+
     def save_converter(self, body: Optional[Converter] = None) -> Converter:
         return self.converter_controller.save_converter_using_post(body=body)
 
@@ -786,9 +754,6 @@ class RestClientPE(RestClientBase):
         device_profile_ids = ','.join(device_profile_ids)
         return self.device_profile_controller.get_device_profiles_by_ids_using_get(
             device_profile_ids=device_profile_ids)
-
-    def delete_device_v1(self, ) -> None:
-        return self.trail_controller.delete_device_using_delete1()
 
     def thing_park_process_request_tpe_delete(self, body: str, request_headers: dict, all_request_params: dict,
                                               routing_key: str):
@@ -1101,21 +1066,49 @@ class RestClientPE(RestClientBase):
     def save_integration(self, body: Optional[Integration] = None) -> Integration:
         return self.integration_controller.save_integration_using_post(body=body)
 
-    def get_current_custom_menu(self, ) -> CustomMenu:
-        return self.custom_menu_controller.get_current_custom_menu_using_get()
-
     def get_custom_menu(self, ) -> CustomMenu:
         return self.custom_menu_controller.get_custom_menu_using_get()
 
-    def save_custom_menu(self, body: Optional[CustomMenu] = None) -> CustomMenu:
-        return self.custom_menu_controller.save_custom_menu_using_post(body=body)
+    def create_custom_menu(self, body: Optional[CustomMenuInfo] = None, assign_to_list: Optional[List[str]] = None, force: Optional[bool] = None) -> CustomMenu:
+        if assign_to_list is not None:
+            assign_to_list = '.'.join(assign_to_list)
+
+        return self.custom_menu_controller.create_custom_menu(body=body, assign_to_list=assign_to_list, force=force)
+
+    def delete_custom_menu(self, custom_menu_id: CustomMenuId, force: Optional[bool] = None) -> None:
+        custom_menu_id = self.get_id(custom_menu_id)
+        return self.custom_menu_controller.delete_custom_menu(custom_menu_id=custom_menu_id, force=force)
+
+    def get_custom_menu_assignee_list(self, custom_menu_id: CustomMenuId) -> List[EntityInfo]:
+        custom_menu_id = self.get_id(custom_menu_id)
+        return self.custom_menu_controller.get_custom_menu_assignee_list(custom_menu_id=custom_menu_id)
+
+    def get_custom_menu_config(self, custom_menu_id: CustomMenuId) -> CustomMenuConfig:
+        custom_menu_id = self.get_id(custom_menu_id)
+        return self.custom_menu_controller.get_custom_menu_config(custom_menu_id=custom_menu_id)
+
+    def get_custom_menu_info_by_id(self, custom_menu_id: CustomMenuId) -> CustomMenuInfo:
+        custom_menu_id = self.get_id(custom_menu_id)
+        return self.custom_menu_controller.get_custom_menu_info_by_id(custom_menu_id=custom_menu_id)
+
+    def get_custom_menu_infos(self, page_size: int, page: int, scope: Optional[str] = None, assignee_type: Optional[str] = None, text_search: Optional[str] = None, sort_property: Optional[str] = None, sort_order: Optional[str] = None):
+        return self.custom_menu_controller.get_custom_menu_infos(page_size=page_size, page=page, scope=scope, assignee_type=assignee_type, text_search=text_search, sort_property=sort_property, sort_order=sort_order)
+
+    def update_custom_menu_assignee_list(self, id: CustomMenuId, assignee_type: str, body: List[str], force: Optional[bool] = None):
+        id = self.get_id(id)
+        return self.custom_menu_controller.update_custom_menu_assignee_list(id=id, assignee_type=assignee_type, body=body, force=force)
+
+    def update_custom_menu_config(self, id: CustomMenuId, body: CustomMenuConfig) -> CustomMenu:
+        id = self.get_id(id)
+        return self.custom_menu_controller.update_custom_menu_config(custom_menu_id=id, body=body)
+
+    def update_custom_menu_name(self, id: CustomMenuId, body: str):
+        id = self.get_id(id)
+        return self.custom_menu_controller.update_custom_menu_name(custom_menu_id=id, body=body)
 
     def get_lwm2m_bootstrap_security_info(self, is_bootstrap_server: bool) -> ServerSecurityConfig:
         return self.lwm2m_controller.get_lwm2m_bootstrap_security_info_using_get(
             is_bootstrap_server=is_bootstrap_server)
-
-    def get_current_custom_translation(self, ) -> CustomTranslation:
-        return self.custom_translation_controller.get_current_custom_translation_using_get()
 
     def get_custom_translation(self, locale_code: str) -> CustomTranslation:
         return self.custom_translation_controller.get_custom_translation_using_get(locale_code=locale_code)
@@ -1182,39 +1175,6 @@ class RestClientPE(RestClientBase):
     def get_blob_entity_info_by_id(self, blob_entity_id: BlobEntityId) -> BlobEntityWithCustomerInfo:
         blob_entity_id = self.get_id(blob_entity_id)
         return self.blob_entity_controller.get_blob_entity_info_by_id_using_get(blob_entity_id=blob_entity_id)
-
-    def loriot_process_request_v1_delete1(self, body: str, request_headers: dict, routing_key: str):
-        return self.loriot_integration_controller.process_request_using_delete1(body=body,
-                                                                                request_headers=request_headers,
-                                                                                routing_key=routing_key)
-
-    def loriot_process_request_v1_get1(self, body: str, request_headers: dict, routing_key: str):
-        return self.loriot_integration_controller.process_request_using_get1(body=body, request_headers=request_headers,
-                                                                             routing_key=routing_key)
-
-    def loriot_process_request_v1_head1(self, body: str, request_headers: dict, routing_key: str):
-        return self.loriot_integration_controller.process_request_using_head1(body=body,
-                                                                              request_headers=request_headers,
-                                                                              routing_key=routing_key)
-
-    def loriot_process_request_v1_options1(self, body: str, request_headers: dict, routing_key: str):
-        return self.loriot_integration_controller.process_request_using_options1(body=body,
-                                                                                 request_headers=request_headers,
-                                                                                 routing_key=routing_key)
-
-    def loriot_process_request_v1_patch1(self, body: str, request_headers: dict, routing_key: str):
-        return self.loriot_integration_controller.process_request_using_patch1(body=body,
-                                                                               request_headers=request_headers,
-                                                                               routing_key=routing_key)
-
-    def loriot_process_request_v9_post9(self, body: str, request_headers: dict, routing_key: str):
-        return self.loriot_integration_controller.process_request_using_post9(body=body,
-                                                                              request_headers=request_headers,
-                                                                              routing_key=routing_key)
-
-    def loriot_process_request_v1_put1(self, body: str, request_headers: dict, routing_key: str):
-        return self.loriot_integration_controller.process_request_using_put1(body=body, request_headers=request_headers,
-                                                                             routing_key=routing_key)
 
     def get_tenant_infos(self, page_size: int, page: int,text_search: Optional[str] = None, sort_property: Optional[str] = None, sort_order: Optional[str] = None,) -> PageDataTenantInfo:
         return self.tenant_controller.get_tenant_infos_using_get(page_size=page_size, page=page,
@@ -1818,6 +1778,38 @@ class RestClientPE(RestClientBase):
     def get_translation_infos(self) -> List[TranslationInfo]:
         return self.translation_controller.get_translation_infos()
 
+    def get_downlink_converter(self, integration_type: str, vendor_name: str, model: str) -> str:
+        return self.converter_library_controller.get_downlink_converter(integration_type=integration_type,
+                                                                        vendor_name=vendor_name, model=model)
+
+    def get_downlink_converter_metadata(self, integration_type: str, vendor_name: str, model: str) -> str:
+        return self.converter_library_controller.get_downlink_converter_metadata(integration_type=integration_type,
+                                                                                 vendor_name=vendor_name, model=model)
+
+    def get_downlink_payload(self, integration_type: str, vendor_name: str, model: str) -> str:
+        return self.converter_library_controller.get_downlink_payload(integration_type=integration_type,
+                                                                      vendor_name=vendor_name, model=model)
+
+    def get_uplink_converter(self, integration_type: str, vendor_name: str, model: str) -> str:
+        return self.converter_library_controller.get_uplink_converter(integration_type=integration_type,
+                                                                      vendor_name=vendor_name, model=model)
+
+    def get_uplink_converter_metadata(self, integration_type: str, vendor_name: str, model: str) -> str:
+        return self.converter_library_controller.get_uplink_converter_metadata(integration_type=integration_type,
+                                                                               vendor_name=vendor_name, model=model)
+
+    def get_uplink_payload(self, integration_type: str, vendor_name: str, model: str) -> str:
+        return self.converter_library_controller.get_uplink_payload(integration_type=integration_type,
+                                                                    vendor_name=vendor_name, model=model)
+
+    def get_vendor_models(self, integration_type: str, vendor_name: str, converter_type: str) -> List[Model]:
+        return self.converter_library_controller.get_vendor_models(integration_type=integration_type,
+                                                                   vendor_name=vendor_name,
+                                                                   converter_type=converter_type)
+
+    def get_vendors(self, integration_type: str) -> List[JsonNode]:
+        return self.converter_library_controller.get_vendors(integration_type=integration_type)
+
     def __load_controllers(self):
         self.dashboard_controller = DashboardControllerApi(self.api_client)
         self.device_profile_controller = DeviceProfileControllerApi(self.api_client)
@@ -1832,9 +1824,7 @@ class RestClientPE(RestClientBase):
         self.admin_controller = AdminControllerApi(self.api_client)
         self.edge_controller = EdgeControllerApi(self.api_client)
         self.tenant_controller = TenantControllerApi(self.api_client)
-        self.trail_controller = TrailControllerApi(self.api_client)
         self.report_controller = ReportControllerApi(self.api_client)
-        self.loriot_integration_controller = LoriotIntegrationControllerApi(self.api_client)
         self.entity_view_controller = EntityViewControllerApi(self.api_client)
         self.rpc_v2_controller = RpcV2ControllerApi(self.api_client)
         self.lwm2m_controller = Lwm2mControllerApi(self.api_client)
@@ -1842,7 +1832,6 @@ class RestClientPE(RestClientBase):
         self.custom_menu_controller = CustomMenuControllerApi(self.api_client)
         self.thing_park_integration_controller = ThingParkIntegrationControllerApi(self.api_client)
         self.rule_engine_controller = RuleEngineControllerApi(self.api_client)
-        self.ocean_connect_integration_controller = OceanConnectIntegrationControllerApi(self.api_client)
         self.integration_controller = IntegrationControllerApi(self.api_client)
         self.custom_translation_controller = CustomTranslationControllerApi(self.api_client)
         self.ota_package_controller = OtaPackageControllerApi(self.api_client)
@@ -1864,3 +1853,4 @@ class RestClientPE(RestClientBase):
         self.image_controller = ImageControllerApi(self.api_client)
         self.mobile_application_controller = MobileApplicationControllerApi(self.api_client)
         self.translation_controller = TranslationControllerApi(self.api_client)
+        self.converter_library_controller = ConverterLibraryControllerApi(self.api_client)

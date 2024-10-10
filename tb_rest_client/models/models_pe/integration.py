@@ -50,6 +50,7 @@ class Integration(object):
         'debug_mode': 'bool',
         'enabled': 'bool',
         'allow_create_devices_or_assets': 'bool',
+        'version': 'int',
         'default_converter_id': 'ConverterId',
         'downlink_converter_id': 'ConverterId',
         'routing_key': 'str',
@@ -69,6 +70,7 @@ class Integration(object):
         'debug_mode': 'debugMode',
         'enabled': 'enabled',
         'allow_create_devices_or_assets': 'allowCreateDevicesOrAssets',
+        'version': 'version',
         'default_converter_id': 'defaultConverterId',
         'downlink_converter_id': 'downlinkConverterId',
         'routing_key': 'routingKey',
@@ -79,7 +81,7 @@ class Integration(object):
         'remote': 'remote'
     }
 
-    def __init__(self, id=None, created_time=None, tenant_id=None, name=None, type=None, debug_mode=None, enabled=None, allow_create_devices_or_assets=None, default_converter_id=None, downlink_converter_id=None, routing_key=None, secret=None, configuration=None, additional_info=None, edge_template=None, remote=None):  # noqa: E501
+    def __init__(self, id=None, created_time=None, tenant_id=None, name=None, type=None, debug_mode=None, enabled=None, allow_create_devices_or_assets=None, version=None, default_converter_id=None, downlink_converter_id=None, routing_key=None, secret=None, configuration=None, additional_info=None, edge_template=None, remote=None):  # noqa: E501
         """Integration - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._created_time = None
@@ -89,6 +91,7 @@ class Integration(object):
         self._debug_mode = None
         self._enabled = None
         self._allow_create_devices_or_assets = None
+        self._version = None
         self._default_converter_id = None
         self._downlink_converter_id = None
         self._routing_key = None
@@ -112,6 +115,8 @@ class Integration(object):
             self.enabled = enabled
         if allow_create_devices_or_assets is not None:
             self.allow_create_devices_or_assets = allow_create_devices_or_assets
+        if version is not None:
+            self.version = version
         self.default_converter_id = default_converter_id
         if downlink_converter_id is not None:
             self.downlink_converter_id = downlink_converter_id
@@ -315,6 +320,27 @@ class Integration(object):
         """
 
         self._allow_create_devices_or_assets = allow_create_devices_or_assets
+
+    @property
+    def version(self):
+        """Gets the version of this Integration.  # noqa: E501
+
+
+        :return: The version of this Integration.  # noqa: E501
+        :rtype: int
+        """
+        return self._version
+
+    @version.setter
+    def version(self, version):
+        """Sets the version of this Integration.
+
+
+        :param version: The version of this Integration.  # noqa: E501
+        :type: int
+        """
+
+        self._version = version
 
     @property
     def default_converter_id(self):

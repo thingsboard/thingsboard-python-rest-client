@@ -45,6 +45,7 @@ class MicrosoftTeamsNotificationTargetConfig(NotificationTargetConfig):
     swagger_types = {
         'webhook_url': 'str',
         'channel_name': 'str',
+        'use_old_api': 'bool',
         'title': 'str',
         'id': 'object',
         'email': 'str',
@@ -57,6 +58,7 @@ class MicrosoftTeamsNotificationTargetConfig(NotificationTargetConfig):
     attribute_map = {
         'webhook_url': 'webhookUrl',
         'channel_name': 'channelName',
+        'use_old_api': 'useOldApi',
         'title': 'title',
         'id': 'id',
         'email': 'email',
@@ -66,10 +68,11 @@ class MicrosoftTeamsNotificationTargetConfig(NotificationTargetConfig):
     if hasattr(NotificationTargetConfig, "attribute_map"):
         attribute_map.update(NotificationTargetConfig.attribute_map)
 
-    def __init__(self, webhook_url=None, channel_name=None, title=None, id=None, email=None, first_name=None, last_name=None, *args, **kwargs):  # noqa: E501
+    def __init__(self, webhook_url=None, channel_name=None, use_old_api=None, title=None, id=None, email=None, first_name=None, last_name=None, *args, **kwargs):  # noqa: E501
         """MicrosoftTeamsNotificationTargetConfig - a model defined in Swagger"""  # noqa: E501
         self._webhook_url = None
         self._channel_name = None
+        self._use_old_api = None
         self._title = None
         self._id = None
         self._email = None
@@ -78,6 +81,8 @@ class MicrosoftTeamsNotificationTargetConfig(NotificationTargetConfig):
         self.discriminator = None
         self.webhook_url = webhook_url
         self.channel_name = channel_name
+        if use_old_api is not None:
+            self.use_old_api = use_old_api
         if title is not None:
             self.title = title
         if id is not None:
@@ -135,6 +140,27 @@ class MicrosoftTeamsNotificationTargetConfig(NotificationTargetConfig):
             raise ValueError("Invalid value for `channel_name`, must not be `None`")  # noqa: E501
 
         self._channel_name = channel_name
+
+    @property
+    def use_old_api(self):
+        """Gets the use_old_api of this MicrosoftTeamsNotificationTargetConfig.  # noqa: E501
+
+
+        :return: The use_old_api of this MicrosoftTeamsNotificationTargetConfig.  # noqa: E501
+        :rtype: bool
+        """
+        return self._use_old_api
+
+    @use_old_api.setter
+    def use_old_api(self, use_old_api):
+        """Sets the use_old_api of this MicrosoftTeamsNotificationTargetConfig.
+
+
+        :param use_old_api: The use_old_api of this MicrosoftTeamsNotificationTargetConfig.  # noqa: E501
+        :type: bool
+        """
+
+        self._use_old_api = use_old_api
 
     @property
     def title(self):

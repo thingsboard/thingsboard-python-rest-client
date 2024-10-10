@@ -47,7 +47,8 @@ class DeviceCredentials(object):
         'device_id': 'DeviceId',
         'credentials_type': 'str',
         'credentials_id': 'str',
-        'credentials_value': 'str'
+        'credentials_value': 'str',
+        'version': 'int'
     }
 
     attribute_map = {
@@ -56,10 +57,11 @@ class DeviceCredentials(object):
         'device_id': 'deviceId',
         'credentials_type': 'credentialsType',
         'credentials_id': 'credentialsId',
-        'credentials_value': 'credentialsValue'
+        'credentials_value': 'credentialsValue',
+        'version': 'version'
     }
 
-    def __init__(self, id=None, created_time=None, device_id=None, credentials_type=None, credentials_id=None, credentials_value=None):  # noqa: E501
+    def __init__(self, id=None, created_time=None, device_id=None, credentials_type=None, credentials_id=None, credentials_value=None, version=None):  # noqa: E501
         """DeviceCredentials - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._created_time = None
@@ -67,6 +69,7 @@ class DeviceCredentials(object):
         self._credentials_type = None
         self._credentials_id = None
         self._credentials_value = None
+        self._version = None
         self.discriminator = None
         self.id = id
         if created_time is not None:
@@ -77,6 +80,8 @@ class DeviceCredentials(object):
         self.credentials_id = credentials_id
         if credentials_value is not None:
             self.credentials_value = credentials_value
+        if version is not None:
+            self.version = version
 
     @property
     def id(self):
@@ -163,7 +168,7 @@ class DeviceCredentials(object):
         :param credentials_type: The credentials_type of this DeviceCredentials.  # noqa: E501
         :type: str
         """
-        allowed_values = ["ACCESS_TOKEN", "LWM2M_CREDENTIALS", "MQTT_BASIC", "X509_CERTIFICATE"]  # noqa: E501
+        allowed_values = ["ACCESS_TOKEN", "X509_CERTIFICATE", "MQTT_BASIC", "LWM2M_CREDENTIALS"]  # noqa: E501
         if credentials_type not in allowed_values:
             raise ValueError(
                 "Invalid value for `credentials_type` ({0}), must be one of {1}"  # noqa: E501
@@ -219,6 +224,27 @@ class DeviceCredentials(object):
         """
 
         self._credentials_value = credentials_value
+
+    @property
+    def version(self):
+        """Gets the version of this DeviceCredentials.  # noqa: E501
+
+
+        :return: The version of this DeviceCredentials.  # noqa: E501
+        :rtype: int
+        """
+        return self._version
+
+    @version.setter
+    def version(self, version):
+        """Sets the version of this DeviceCredentials.
+
+
+        :param version: The version of this DeviceCredentials.  # noqa: E501
+        :type: int
+        """
+
+        self._version = version
 
     def to_dict(self):
         """Returns the model properties as a dict"""

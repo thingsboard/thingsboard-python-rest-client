@@ -50,6 +50,7 @@ class EntityView(object):
         'keys': 'TelemetryEntityView',
         'start_time_ms': 'int',
         'end_time_ms': 'int',
+        'version': 'int',
         'id': 'EntityViewId',
         'created_time': 'int',
         'additional_info': 'JsonNode'
@@ -64,12 +65,13 @@ class EntityView(object):
         'keys': 'keys',
         'start_time_ms': 'startTimeMs',
         'end_time_ms': 'endTimeMs',
+        'version': 'version',
         'id': 'id',
         'created_time': 'createdTime',
         'additional_info': 'additionalInfo'
     }
 
-    def __init__(self, entity_id=None, tenant_id=None, customer_id=None, name=None, type=None, keys=None, start_time_ms=None, end_time_ms=None, id=None, created_time=None, additional_info=None):  # noqa: E501
+    def __init__(self, entity_id=None, tenant_id=None, customer_id=None, name=None, type=None, keys=None, start_time_ms=None, end_time_ms=None, version=None, id=None, created_time=None, additional_info=None):  # noqa: E501
         """EntityView - a model defined in Swagger"""  # noqa: E501
         self._entity_id = None
         self._tenant_id = None
@@ -79,6 +81,7 @@ class EntityView(object):
         self._keys = None
         self._start_time_ms = None
         self._end_time_ms = None
+        self._version = None
         self._id = None
         self._created_time = None
         self._additional_info = None
@@ -96,6 +99,8 @@ class EntityView(object):
             self.start_time_ms = start_time_ms
         if end_time_ms is not None:
             self.end_time_ms = end_time_ms
+        if version is not None:
+            self.version = version
         if id is not None:
             self.id = id
         if created_time is not None:
@@ -284,6 +289,27 @@ class EntityView(object):
         """
 
         self._end_time_ms = end_time_ms
+
+    @property
+    def version(self):
+        """Gets the version of this EntityView.  # noqa: E501
+
+
+        :return: The version of this EntityView.  # noqa: E501
+        :rtype: int
+        """
+        return self._version
+
+    @version.setter
+    def version(self, version):
+        """Sets the version of this EntityView.
+
+
+        :param version: The version of this EntityView.  # noqa: E501
+        :type: int
+        """
+
+        self._version = version
 
     @property
     def id(self):

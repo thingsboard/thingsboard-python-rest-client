@@ -44,42 +44,42 @@ class FeaturesInfo(object):
     swagger_types = {
         'sms_enabled': 'bool',
         'oauth_enabled': 'bool',
+        'notification_enabled': 'bool',
         'white_labeling_enabled': 'bool',
-        'two_fa_enabled': 'bool',
         'email_enabled': 'bool',
-        'notification_enabled': 'bool'
+        'two_fa_enabled': 'bool'
     }
 
     attribute_map = {
         'sms_enabled': 'smsEnabled',
         'oauth_enabled': 'oauthEnabled',
+        'notification_enabled': 'notificationEnabled',
         'white_labeling_enabled': 'whiteLabelingEnabled',
-        'two_fa_enabled': 'twoFaEnabled',
         'email_enabled': 'emailEnabled',
-        'notification_enabled': 'notificationEnabled'
+        'two_fa_enabled': 'twoFaEnabled'
     }
 
-    def __init__(self, sms_enabled=None, oauth_enabled=None, white_labeling_enabled=None, two_fa_enabled=None, email_enabled=None, notification_enabled=None):  # noqa: E501
+    def __init__(self, sms_enabled=None, oauth_enabled=None, notification_enabled=None, white_labeling_enabled=None, email_enabled=None, two_fa_enabled=None):  # noqa: E501
         """FeaturesInfo - a model defined in Swagger"""  # noqa: E501
         self._sms_enabled = None
         self._oauth_enabled = None
-        self._white_labeling_enabled = None
-        self._two_fa_enabled = None
-        self._email_enabled = None
         self._notification_enabled = None
+        self._white_labeling_enabled = None
+        self._email_enabled = None
+        self._two_fa_enabled = None
         self.discriminator = None
         if sms_enabled is not None:
             self.sms_enabled = sms_enabled
         if oauth_enabled is not None:
             self.oauth_enabled = oauth_enabled
-        if white_labeling_enabled is not None:
-            self.white_labeling_enabled = white_labeling_enabled
-        if two_fa_enabled is not None:
-            self.two_fa_enabled = two_fa_enabled
-        if email_enabled is not None:
-            self.email_enabled = email_enabled
         if notification_enabled is not None:
             self.notification_enabled = notification_enabled
+        if white_labeling_enabled is not None:
+            self.white_labeling_enabled = white_labeling_enabled
+        if email_enabled is not None:
+            self.email_enabled = email_enabled
+        if two_fa_enabled is not None:
+            self.two_fa_enabled = two_fa_enabled
 
     @property
     def sms_enabled(self):
@@ -124,6 +124,27 @@ class FeaturesInfo(object):
         self._oauth_enabled = oauth_enabled
 
     @property
+    def notification_enabled(self):
+        """Gets the notification_enabled of this FeaturesInfo.  # noqa: E501
+
+
+        :return: The notification_enabled of this FeaturesInfo.  # noqa: E501
+        :rtype: bool
+        """
+        return self._notification_enabled
+
+    @notification_enabled.setter
+    def notification_enabled(self, notification_enabled):
+        """Sets the notification_enabled of this FeaturesInfo.
+
+
+        :param notification_enabled: The notification_enabled of this FeaturesInfo.  # noqa: E501
+        :type: bool
+        """
+
+        self._notification_enabled = notification_enabled
+
+    @property
     def white_labeling_enabled(self):
         """Gets the white_labeling_enabled of this FeaturesInfo.  # noqa: E501
 
@@ -143,27 +164,6 @@ class FeaturesInfo(object):
         """
 
         self._white_labeling_enabled = white_labeling_enabled
-
-    @property
-    def two_fa_enabled(self):
-        """Gets the two_fa_enabled of this FeaturesInfo.  # noqa: E501
-
-
-        :return: The two_fa_enabled of this FeaturesInfo.  # noqa: E501
-        :rtype: bool
-        """
-        return self._two_fa_enabled
-
-    @two_fa_enabled.setter
-    def two_fa_enabled(self, two_fa_enabled):
-        """Sets the two_fa_enabled of this FeaturesInfo.
-
-
-        :param two_fa_enabled: The two_fa_enabled of this FeaturesInfo.  # noqa: E501
-        :type: bool
-        """
-
-        self._two_fa_enabled = two_fa_enabled
 
     @property
     def email_enabled(self):
@@ -187,25 +187,25 @@ class FeaturesInfo(object):
         self._email_enabled = email_enabled
 
     @property
-    def notification_enabled(self):
-        """Gets the notification_enabled of this FeaturesInfo.  # noqa: E501
+    def two_fa_enabled(self):
+        """Gets the two_fa_enabled of this FeaturesInfo.  # noqa: E501
 
 
-        :return: The notification_enabled of this FeaturesInfo.  # noqa: E501
+        :return: The two_fa_enabled of this FeaturesInfo.  # noqa: E501
         :rtype: bool
         """
-        return self._notification_enabled
+        return self._two_fa_enabled
 
-    @notification_enabled.setter
-    def notification_enabled(self, notification_enabled):
-        """Sets the notification_enabled of this FeaturesInfo.
+    @two_fa_enabled.setter
+    def two_fa_enabled(self, two_fa_enabled):
+        """Sets the two_fa_enabled of this FeaturesInfo.
 
 
-        :param notification_enabled: The notification_enabled of this FeaturesInfo.  # noqa: E501
+        :param two_fa_enabled: The two_fa_enabled of this FeaturesInfo.  # noqa: E501
         :type: bool
         """
 
-        self._notification_enabled = notification_enabled
+        self._two_fa_enabled = two_fa_enabled
 
     def to_dict(self):
         """Returns the model properties as a dict"""

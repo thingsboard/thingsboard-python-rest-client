@@ -50,6 +50,7 @@ class Dashboard(object):
         'assigned_customers': 'list[ShortCustomerInfo]',
         'mobile_hide': 'bool',
         'mobile_order': 'int',
+        'version': 'int',
         'configuration': 'JsonNode',
         'name': 'str'
     }
@@ -63,11 +64,12 @@ class Dashboard(object):
         'assigned_customers': 'assignedCustomers',
         'mobile_hide': 'mobileHide',
         'mobile_order': 'mobileOrder',
+        'version': 'version',
         'configuration': 'configuration',
         'name': 'name'
     }
 
-    def __init__(self, id=None, created_time=None, tenant_id=None, title=None, image=None, assigned_customers=None, mobile_hide=None, mobile_order=None, configuration=None, name=None):  # noqa: E501
+    def __init__(self, id=None, created_time=None, tenant_id=None, title=None, image=None, assigned_customers=None, mobile_hide=None, mobile_order=None, version=None, configuration=None, name=None):  # noqa: E501
         """Dashboard - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._created_time = None
@@ -77,6 +79,7 @@ class Dashboard(object):
         self._assigned_customers = None
         self._mobile_hide = None
         self._mobile_order = None
+        self._version = None
         self._configuration = None
         self._name = None
         self.discriminator = None
@@ -95,6 +98,8 @@ class Dashboard(object):
             self.mobile_hide = mobile_hide
         if mobile_order is not None:
             self.mobile_order = mobile_order
+        if version is not None:
+            self.version = version
         if configuration is not None:
             self.configuration = configuration
         if name is not None:
@@ -281,6 +286,27 @@ class Dashboard(object):
         """
 
         self._mobile_order = mobile_order
+
+    @property
+    def version(self):
+        """Gets the version of this Dashboard.  # noqa: E501
+
+
+        :return: The version of this Dashboard.  # noqa: E501
+        :rtype: int
+        """
+        return self._version
+
+    @version.setter
+    def version(self, version):
+        """Sets the version of this Dashboard.
+
+
+        :param version: The version of this Dashboard.  # noqa: E501
+        :type: int
+        """
+
+        self._version = version
 
     @property
     def configuration(self):

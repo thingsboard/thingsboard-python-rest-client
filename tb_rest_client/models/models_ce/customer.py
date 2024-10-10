@@ -54,6 +54,7 @@ class Customer(object):
         'email': 'str',
         'title': 'str',
         'tenant_id': 'TenantId',
+        'version': 'int',
         'name': 'str',
         'additional_info': 'JsonNode'
     }
@@ -71,11 +72,12 @@ class Customer(object):
         'email': 'email',
         'title': 'title',
         'tenant_id': 'tenantId',
+        'version': 'version',
         'name': 'name',
         'additional_info': 'additionalInfo'
     }
 
-    def __init__(self, id=None, created_time=None, country=None, state=None, city=None, address=None, address2=None, zip=None, phone=None, email=None, title=None, tenant_id=None, name=None, additional_info=None):  # noqa: E501
+    def __init__(self, id=None, created_time=None, country=None, state=None, city=None, address=None, address2=None, zip=None, phone=None, email=None, title=None, tenant_id=None, version=None, name=None, additional_info=None):  # noqa: E501
         """Customer - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._created_time = None
@@ -89,6 +91,7 @@ class Customer(object):
         self._email = None
         self._title = None
         self._tenant_id = None
+        self._version = None
         self._name = None
         self._additional_info = None
         self.discriminator = None
@@ -114,6 +117,8 @@ class Customer(object):
         self.title = title
         if tenant_id is not None:
             self.tenant_id = tenant_id
+        if version is not None:
+            self.version = version
         if name is not None:
             self.name = name
         if additional_info is not None:
@@ -392,6 +397,27 @@ class Customer(object):
         """
 
         self._tenant_id = tenant_id
+
+    @property
+    def version(self):
+        """Gets the version of this Customer.  # noqa: E501
+
+
+        :return: The version of this Customer.  # noqa: E501
+        :rtype: int
+        """
+        return self._version
+
+    @version.setter
+    def version(self, version):
+        """Sets the version of this Customer.
+
+
+        :param version: The version of this Customer.  # noqa: E501
+        :type: int
+        """
+
+        self._version = version
 
     @property
     def name(self):

@@ -46,6 +46,7 @@ class EntityRelationInfo(object):
         'to': 'EntityId',
         'type': 'str',
         'type_group': 'str',
+        'version': 'int',
         'from_name': 'str',
         'to_name': 'str',
         'additional_info': 'JsonNode'
@@ -56,17 +57,19 @@ class EntityRelationInfo(object):
         'to': 'to',
         'type': 'type',
         'type_group': 'typeGroup',
+        'version': 'version',
         'from_name': 'fromName',
         'to_name': 'toName',
         'additional_info': 'additionalInfo'
     }
 
-    def __init__(self, _from=None, to=None, type=None, type_group=None, from_name=None, to_name=None, additional_info=None):  # noqa: E501
+    def __init__(self, _from=None, to=None, type=None, type_group=None, version=None, from_name=None, to_name=None, additional_info=None):  # noqa: E501
         """EntityRelationInfo - a model defined in Swagger"""  # noqa: E501
         self.__from = None
         self._to = None
         self._type = None
         self._type_group = None
+        self._version = None
         self._from_name = None
         self._to_name = None
         self._additional_info = None
@@ -79,6 +82,8 @@ class EntityRelationInfo(object):
             self.type = type
         if type_group is not None:
             self.type_group = type_group
+        if version is not None:
+            self.version = version
         if from_name is not None:
             self.from_name = from_name
         if to_name is not None:
@@ -179,6 +184,27 @@ class EntityRelationInfo(object):
             )
 
         self._type_group = type_group
+
+    @property
+    def version(self):
+        """Gets the version of this EntityRelationInfo.  # noqa: E501
+
+
+        :return: The version of this EntityRelationInfo.  # noqa: E501
+        :rtype: int
+        """
+        return self._version
+
+    @version.setter
+    def version(self, version):
+        """Sets the version of this EntityRelationInfo.
+
+
+        :param version: The version of this EntityRelationInfo.  # noqa: E501
+        :type: int
+        """
+
+        self._version = version
 
     @property
     def from_name(self):

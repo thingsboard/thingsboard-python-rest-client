@@ -49,8 +49,8 @@ class BlobEntityInfo(object):
         'name': 'str',
         'type': 'str',
         'content_type': 'str',
-        'owner_id': 'EntityId',
-        'additional_info': 'JsonNode'
+        'additional_info': 'JsonNode',
+        'owner_id': 'EntityId'
     }
 
     attribute_map = {
@@ -61,11 +61,11 @@ class BlobEntityInfo(object):
         'name': 'name',
         'type': 'type',
         'content_type': 'contentType',
-        'owner_id': 'ownerId',
-        'additional_info': 'additionalInfo'
+        'additional_info': 'additionalInfo',
+        'owner_id': 'ownerId'
     }
 
-    def __init__(self, id=None, created_time=None, tenant_id=None, customer_id=None, name=None, type=None, content_type=None, owner_id=None, additional_info=None):  # noqa: E501
+    def __init__(self, id=None, created_time=None, tenant_id=None, customer_id=None, name=None, type=None, content_type=None, additional_info=None, owner_id=None):  # noqa: E501
         """BlobEntityInfo - a model defined in Swagger"""  # noqa: E501
         self._id = None
         self._created_time = None
@@ -74,8 +74,8 @@ class BlobEntityInfo(object):
         self._name = None
         self._type = None
         self._content_type = None
-        self._owner_id = None
         self._additional_info = None
+        self._owner_id = None
         self.discriminator = None
         if id is not None:
             self.id = id
@@ -91,10 +91,10 @@ class BlobEntityInfo(object):
             self.type = type
         if content_type is not None:
             self.content_type = content_type
-        if owner_id is not None:
-            self.owner_id = owner_id
         if additional_info is not None:
             self.additional_info = additional_info
+        if owner_id is not None:
+            self.owner_id = owner_id
 
     @property
     def id(self):
@@ -258,27 +258,6 @@ class BlobEntityInfo(object):
         self._content_type = content_type
 
     @property
-    def owner_id(self):
-        """Gets the owner_id of this BlobEntityInfo.  # noqa: E501
-
-
-        :return: The owner_id of this BlobEntityInfo.  # noqa: E501
-        :rtype: EntityId
-        """
-        return self._owner_id
-
-    @owner_id.setter
-    def owner_id(self, owner_id):
-        """Sets the owner_id of this BlobEntityInfo.
-
-
-        :param owner_id: The owner_id of this BlobEntityInfo.  # noqa: E501
-        :type: EntityId
-        """
-
-        self._owner_id = owner_id
-
-    @property
     def additional_info(self):
         """Gets the additional_info of this BlobEntityInfo.  # noqa: E501
 
@@ -298,6 +277,27 @@ class BlobEntityInfo(object):
         """
 
         self._additional_info = additional_info
+
+    @property
+    def owner_id(self):
+        """Gets the owner_id of this BlobEntityInfo.  # noqa: E501
+
+
+        :return: The owner_id of this BlobEntityInfo.  # noqa: E501
+        :rtype: EntityId
+        """
+        return self._owner_id
+
+    @owner_id.setter
+    def owner_id(self, owner_id):
+        """Sets the owner_id of this BlobEntityInfo.
+
+
+        :param owner_id: The owner_id of this BlobEntityInfo.  # noqa: E501
+        :type: EntityId
+        """
+
+        self._owner_id = owner_id
 
     def to_dict(self):
         """Returns the model properties as a dict"""
