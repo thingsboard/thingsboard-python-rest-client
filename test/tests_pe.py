@@ -1,4 +1,4 @@
-#  Copyright 2024. ThingsBoard
+#  Copyright 2025. ThingsBoard
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -1175,6 +1175,28 @@ class QueueStatsControllerTests(TBClientPETests):
         self.assertIsInstance(self.client.get_queue_stats_by_ids([self.queue_stats.id.id]), list)
 
 
+class MobileAppBundleControllerTests(TBClientPETests):
+    mobile_app_bundle = None
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        super(MobileAppBundleControllerTests, cls).setUpClass()
+
+        cls.mobile_app_bundle = MobileAppBundle(name='Test', title='Test')
+        cls.mobile_app_bundle = cls.client.save_mobile_app_bundle(cls.mobile_app_bundle)
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        cls.client.delete_mobile_app_bundle(cls.mobile_app_bundle.id)
+
+    def test_get_mobile_app_bundle_by_id(self):
+        self.assertIsInstance(self.client.get_mobile_app_bundle_by_id(self.mobile_app_bundle.id), MobileAppBundle)
+
+    def test_get_tenant_mobile_app_bundle_infos(self):
+        self.assertIsInstance(self.client.get_tenant_mobile_app_bundle_infos(10, 0),
+                              PageDataMobileAppBundleInfo)
+
+
 class TranslationControllerTests(TBClientPETests):
     @classmethod
     def setUpClass(cls) -> None:
@@ -1223,6 +1245,30 @@ class MobileAppControllerTests(TBClientPETests):
 
     def test_get_tenant_mobile_app_infos(self):
         self.assertIsInstance(self.client.get_tenant_mobile_app_infos(10, 0), PageDataMobileAppInfo)
+
+
+class BillingEndpointControllerTests(TBClientPETests):
+    @classmethod
+    def setUpClass(cls) -> None:
+        super(BillingEndpointControllerTests, cls).setUpClass()
+
+    def test_tenant_has_billing_read(self):
+        self.assertIsInstance(self.client.tenant_has_billing_read(), bool)
+
+    def test_tenant_has_billing_write(self):
+        self.assertIsInstance(self.client.tenant_has_billing_write(), bool)
+
+
+class CloudEndpointControllerTests(TBClientPETests):
+    @classmethod
+    def setUpClass(cls) -> None:
+        super(CloudEndpointControllerTests, cls).setUpClass()
+
+    def test_tenant_has_white_label_read(self):
+        self.assertIsInstance(self.client.tenant_has_white_label_read(), bool)
+
+    def test_tenant_has_white_label_write(self):
+        self.assertIsInstance(self.client.tenant_has_white_label_write(), bool)
 
 
 if __name__ == '__main__':

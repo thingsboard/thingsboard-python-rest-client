@@ -1,4 +1,4 @@
-#  Copyright 2024. ThingsBoard
+#  Copyright 2025. ThingsBoard
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -472,3 +472,22 @@ from .page_data_domain_info import PageDataDomainInfo
 from .page_data_mobile_app_info import PageDataMobileAppInfo
 from .page_data_o_auth2_client_info import PageDataOAuth2ClientInfo
 from .user_activation_link import UserActivationLink
+from .custom_mobile_page import CustomMobilePage
+from .dashboard_page import DashboardPage
+from .debug_settings import DebugSettings
+from .default_mobile_page import DefaultMobilePage
+from .login_mobile_info import LoginMobileInfo
+from .mobile_app_bundle_id import MobileAppBundleId
+from .mobile_app_bundle import MobileAppBundle
+from .mobile_app_bundle_info import MobileAppBundleInfo
+from .mobile_app_version_info import MobileAppVersionInfo
+from .mobile_layout_config import MobileLayoutConfig
+from .mobile_page import MobilePage
+from .page_data_mobile_app import PageDataMobileApp
+from .page_data_mobile_app_bundle_info import PageDataMobileAppBundleInfo
+from .qr_code_settings import QrCodeSettings
+from .qr_code_settings_id import QrCodeSettingsId
+from .resource_export_data import ResourceExportData
+from .store_info import StoreInfo
+from .user_mobile_info import UserMobileInfo
+from .web_view_page import WebViewPage

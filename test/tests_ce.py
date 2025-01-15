@@ -1,4 +1,4 @@
-#  Copyright 2024. ThingsBoard
+#  Copyright 2025. ThingsBoard
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@ from tb_rest_client.rest_client_base import *
 from tb_rest_client.models.models_ce import *
 
 
-TB_URL_CE = 'http://192.168.1.201:8380'
+TB_URL_CE = 'http://0.0.0.0:8080'
 
 TB_TENANT_USERNAME_CE = 'tenant@thingsboard.org'
 TB_TENANT_PASSWORD_CE = 'tenant'
@@ -1120,6 +1120,38 @@ class MobileApplicationControllerTests(TBClientCETests):
 
     def test_get_mobile_app_settings(self):
         self.assertIsInstance(self.client.get_mobile_app_settings(), MobileAppSettings)
+
+    def test_get_qr_code_settings(self):
+        self.assertIsInstance(self.client.get_qr_code_settings(), QrCodeSettings)
+
+    def test_save_qr_code_settings(self):
+        qr_code_config = QRCodeConfig()
+        qr_code_setting = QrCodeSettings(use_default_app=True, android_enabled=True, qr_code_config=qr_code_config,
+                                          google_play_link='https://play.google.com/store/apps/details?id=org.thingsboard.mobile',
+                                          ios_enabled=True,
+                                          app_store_link='https://apps.apple.com/us/app/thingsboard/id1456570833')
+        self.assertIsInstance(self.client.save_qr_code_settings(body=qr_code_setting), QrCodeSettings)
+
+class MobileAppBundleControllerTests(TBClientCETests):
+    mobile_app_bundle = None
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        super(MobileAppBundleControllerTests, cls).setUpClass()
+
+        cls.mobile_app_bundle = MobileAppBundle(name='Test', title='Test')
+        cls.mobile_app_bundle = cls.client.save_mobile_app_bundle(cls.mobile_app_bundle)
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        cls.client.delete_mobile_app_bundle(cls.mobile_app_bundle.id)
+
+    def test_get_mobile_app_bundle_by_id(self):
+        self.assertIsInstance(self.client.get_mobile_app_bundle_by_id(self.mobile_app_bundle.id), MobileAppBundle)
+
+    def test_get_tenant_mobile_app_bundle_infos(self):
+        self.assertIsInstance(self.client.get_tenant_mobile_app_bundle_infos(10, 0),
+                              PageDataMobileAppBundleInfo)
 
 
 class QueueStatsControllerTests(TBClientCETests):

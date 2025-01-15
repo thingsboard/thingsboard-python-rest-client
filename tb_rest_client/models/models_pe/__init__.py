@@ -1,4 +1,4 @@
-#  Copyright 2024. ThingsBoard
+#  Copyright 2025. ThingsBoard
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -399,3 +399,15 @@ from .home_menu_item import HomeMenuItem
 from .integration_converters_info import IntegrationConvertersInfo
 from .menu_item import MenuItem
 from .model import Model
+from .captcha_params import CaptchaParams
+from .default_dashboard_params import DefaultDashboardParams
+from .enterprise_captcha_params import EnterpriseCaptchaParams
+from .entity_export_data_object import EntityExportDataObject
+from .mobile_self_registration_params import MobileSelfRegistrationParams
+from .mobile_redirect_params import MobileRedirectParams
+from .notification_rule_trigger_config import NotificationRuleTriggerConfig
+from .sign_up_field import SignUpField
+from .task_processing_failure_notification_rule_trigger_config import TaskProcessingFailureNotificationRuleTriggerConfig
+from .v2_captcha_params import V2CaptchaParams
+from .v3_captcha_params import V3CaptchaParams
+from .web_self_registration_params import WebSelfRegistrationParams
