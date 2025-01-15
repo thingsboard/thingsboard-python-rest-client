@@ -1,4 +1,4 @@
-#  Copyright 2024. ThingsBoard
+#  Copyright 2025. ThingsBoard
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -74,6 +74,9 @@ from tb_rest_client.api.api_ce.mobile_application_controller_api import MobileAp
 from tb_rest_client.api.api_ce.queue_stats_controller_api import QueueStatsControllerApi
 from tb_rest_client.api.api_ce.domain_controller_api import DomainControllerApi
 from tb_rest_client.api.api_ce import MobileAppControllerApi
+from tb_rest_client.api.api_ce import MobileAppBundleControllerApi
+from tb_rest_client.api.api_ce import RuleEngineControllerApi
+from tb_rest_client.api.api_ce import QrCodeSettingsControllerApi
 # from tb_rest_client.models.models_pe import *
 from tb_rest_client.configuration import Configuration
 from tb_rest_client.api_client import ApiClient
@@ -2098,6 +2101,34 @@ class RestClientBase(Thread):
     def mobile_app_update_oauth2_clients(self, body: List[str], id: str):
         return self.mobile_app_controller.update_oauth2_clients(body=body, id=id)
 
+    def get_qr_code_settings(self) -> QrCodeSettings:
+        return self.qr_code_settings_controller.get_qr_code_settings()
+
+    def save_qr_code_settings(self, body: QrCodeSettings) -> QrCodeSettings:
+        return self.qr_code_settings_controller.save_qr_code_settings(body=body)
+
+    def delete_mobile_app_bundle(self, mobile_app_bundle_id: MobileAppBundleId):
+        mobile_app_bundle_id = self.get_id(mobile_app_bundle_id)
+        return self.mobile_app_bundle_controller.delete_mobile_app_bundle(id=mobile_app_bundle_id)
+
+    def get_mobile_app_bundle_info_by_id(self, mobile_app_bundle_id: MobileAppBundleId) -> MobileAppBundleInfo:
+        mobile_app_bundle_id = self.get_id(mobile_app_bundle_id)
+        return self.mobile_app_bundle_controller.get_mobile_app_bundle_info_by_id(id=mobile_app_bundle_id)
+
+    def get_tenant_mobile_app_bundle_infos(self, page_size: int, page: int, text_search: Optional[str] = None,
+                                           sort_property: Optional[str] = None,
+                                           sort_order: Optional[str] = None) -> PageDataMobileAppBundleInfo:
+        return self.mobile_app_bundle_controller.get_tenant_mobile_app_bundle_infos(page_size=page_size, page=page,
+                                                                                    text_search=text_search,
+                                                                                    sort_property=sort_property,
+                                                                                    sort_order=sort_order)
+
+    def save_mobile_app_bundle(self, body: MobileAppBundle, oauth2_client_ids: Optional[List] = None) -> MobileAppBundle:
+        if oauth2_client_ids:
+            oauth2_client_ids = ','.join(oauth2_client_ids)
+
+        return self.mobile_app_bundle_controller.save_mobile_app_bundle(body=body, oauth2_client_ids=oauth2_client_ids)
+
     def __load_controllers(self):
         self.audit_log_controller = AuditLogControllerApi(self.api_client)
         self.o_auth2_config_template_controller = OAuth2ConfigTemplateControllerApi(self.api_client)
@@ -2149,6 +2180,9 @@ class RestClientBase(Thread):
         self.queue_stats_controller = QueueStatsControllerApi(self.api_client)
         self.domain_controller = DomainControllerApi(self.api_client)
         self.mobile_app_controller = MobileAppControllerApi(self.api_client)
+        self.mobile_app_bundle_controller = MobileAppBundleControllerApi(self.api_client)
+        self.rule_engine_controller = RuleEngineControllerApi(self.api_client)
+        self.qr_code_settings_controller = QrCodeSettingsControllerApi(self.api_client)
 
     @staticmethod
     def get_type(type):

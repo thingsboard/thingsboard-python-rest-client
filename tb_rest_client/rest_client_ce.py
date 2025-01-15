@@ -1,4 +1,4 @@
-#  Copyright 2024. ThingsBoard
+#  Copyright 2025. ThingsBoard
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -1258,3 +1258,27 @@ class RestClientCE(RestClientBase):
 
     def set_default_asset_profile(self, asset_profile_id: str) -> AssetProfile:
         return self.asset_profile_controller.set_default_asset_profile_using_post(asset_profile_id=asset_profile_id)
+
+    # Rule Engine Controller
+
+    def handle_rule_engine_request(self, body, entity_id: EntityId):
+        entity_type = self.get_type(entity_id)
+        entity_id = self.get_id(entity_id)
+        return self.rule_engine_controller.handle_rule_engine_request_using_post(body=body, entity_type=entity_type,
+                                                                                 entity_id=entity_id)
+
+    def handle_rule_engine_request1(self, body, entity_id: EntityId, timeout: int):
+        entity_type = self.get_type(entity_id)
+        entity_id = self.get_id(entity_id)
+        return self.rule_engine_controller.handle_rule_engine_request_using_post1(body=body, entity_type=entity_type,
+                                                                                  entity_id=entity_id, timeout=timeout)
+
+    def handle_rule_engine_request2(self, body, entity_id: EntityId, timeout: int, queue_name: str):
+        entity_type = self.get_type(entity_id)
+        entity_id = self.get_id(entity_id)
+        return self.rule_engine_controller.handle_rule_engine_request_using_post2(body=body, entity_type=entity_type,
+                                                                                  entity_id=entity_id, timeout=timeout,
+                                                                                  queue_name=queue_name)
+
+    def handle_rule_engine_request3(self, body):
+        return self.rule_engine_controller.handle_rule_engine_request_using_post3(body=body)

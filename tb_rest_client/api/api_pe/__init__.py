@@ -1,4 +1,4 @@
-#  Copyright 2024. ThingsBoard
+#  Copyright 2025. ThingsBoard
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -61,3 +61,7 @@ from .translation_controller_api import TranslationControllerApi
 from .converter_library_controller_api import ConverterLibraryControllerApi
 from .domain_controller_api import DomainControllerApi
 from .mobile_app_controller_api import MobileAppControllerApi
+from .mobile_app_bundle_controller_api import MobileAppBundleControllerApi
+from .qr_code_settings_controller_api import QrCodeSettingsControllerApi
+from .billing_endpoint_controller_api import BillingEndpointControllerApi
+from .cloud_endpoint_controller_api import CloudEndpointControllerApi
