@@ -150,6 +150,7 @@ class RestClientBase(Thread):
         }
 
         self.__save_token(token_json)
+        self.logged_in = True
         self.__load_configuration()
 
     def refresh(self):
