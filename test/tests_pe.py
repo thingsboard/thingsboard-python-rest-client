@@ -1271,5 +1271,51 @@ class CloudEndpointControllerTests(TBClientPETests):
         self.assertIsInstance(self.client.tenant_has_white_label_write(), bool)
 
 
+class CalculatedFieldControllerTests(TBClientPETests):
+    calculated_field = None
+    device = None
+    device_profile_id = None
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        super(CalculatedFieldControllerTests, cls).setUpClass()
+
+        cls.device_profile_id = cls.client.get_default_device_profile_info().id
+        cls.device = Device(name='Test', label='Test', device_profile_id=cls.device_profile_id)
+        cls.device = cls.client.save_device(body=cls.device)
+
+        cls.calculated_field = CalculatedField(name='Test', entity_id=cls.device.id, type='SIMPLE',
+                                               configuration=CalculatedFieldConfiguration(
+                                                   arguments={
+                                                       'temperature': Argument(
+                                                           ref_entity_id=cls.device.id,
+                                                           ref_entity_key=ReferencedEntityKey(
+                                                               key='temperature',
+                                                               type='TS_LATEST',
+                                                               scope='CLIENT_SCOPE'
+                                                           )
+                                                       )
+                                                   },
+                                                   expression='(temperature - 32)/1.8',
+                                                   type='SIMPLE'
+                                               ))
+        cls.calculated_field = cls.client.save_calculated_field(cls.calculated_field)
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        cls.client.delete_calculated_field(cls.calculated_field.id)
+        cls.client.delete_device(cls.device.id)
+
+    def test_get_calculated_field_by_id(self):
+        self.assertIsInstance(self.client.get_calculated_field_by_id(self.calculated_field.id), CalculatedField)
+
+    def test_get_calculated_fields_by_entity_id(self):
+        self.assertIsInstance(self.client.get_calculated_fields_by_entity_id(self.device.id, 10, 0),
+                              PageDataCalculatedField)
+
+    def test_get_latest_calculated_field_debug_event(self):
+        self.assertIsInstance(self.client.get_latest_calculated_field_debug_event(self.calculated_field.id), bytes)
+
+
 if __name__ == '__main__':
     unittest.main()

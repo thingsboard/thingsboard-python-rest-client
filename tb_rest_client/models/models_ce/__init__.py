@@ -491,3 +491,10 @@ from .resource_export_data import ResourceExportData
 from .store_info import StoreInfo
 from .user_mobile_info import UserMobileInfo
 from .web_view_page import WebViewPage
+from .calculated_field import CalculatedField
+from .calculated_field_id import CalculatedFieldId
+from .page_data_calculated_field import PageDataCalculatedField
+from .to_core_edqs_request import ToCoreEdqsRequest
+from .calculated_field_configuration import CalculatedFieldConfiguration
+from .argument import Argument
+from .referenced_entity_key import ReferencedEntityKey
