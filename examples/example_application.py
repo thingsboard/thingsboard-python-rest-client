@@ -23,7 +23,7 @@ logging.basicConfig(level=logging.DEBUG,
                     datefmt='%Y-%m-%d %H:%M:%S')
 
 # ThingsBoard REST API URL
-url = "http://192.168.1.201:8380"
+url = "http://192.168.1.201:8400"
 
 # Default Tenant Administrator credentials
 username = "tenant@thingsboard.org"
@@ -37,38 +37,36 @@ def main():
             # Auth with credentials
             rest_client.login(username=username, password=password)
 
-            print(rest_client.save_device_attributes(DeviceId('34416c10-bba7-11ef-9c05-3598fcc4571c', 'DEVICE'), 'SHARED_SCOPE', {'temperature': 45.0}))
-
             # Creating an Asset
-            # default_asset_profile_id = rest_client.get_default_asset_profile_info().id
-            # asset = Asset(name="Building 1", label="Building 1",
-            #               asset_profile_id=default_asset_profile_id)
-            # asset = rest_client.save_asset(asset)
-            #
-            # logging.info("Asset was created:\n%r\n", asset)
-            #
-            # rest_client.process_devices_bulk_import()
-            #
-            # # Creating a Device
-            # # Also, you can use default Device Profile:
-            # # default_device_profile_id = rest_client.get_default_device_profile_info().id
-            # device_profile = DeviceProfile(name="Thermometer",
-            #                                type="DEFAULT",
-            #                                transport_type="DEFAULT",
-            #                                profile_data=DeviceProfileData(configuration={"type": "DEFAULT"},
-            #                                                               transport_configuration={"type": "DEFAULT"}))
-            # device_profile = rest_client.save_device_profile(device_profile)
-            # device = Device(name="Thermometer 1", label="Thermometer 1",
-            #                 device_profile_id=device_profile.id)
-            # device = rest_client.save_device(device)
-            #
-            # logging.info(" Device was created:\n%r\n", device)
-            #
-            # # Creating relations from device to asset
-            # relation = EntityRelation(_from=asset.id, to=device.id, type="Contains")
-            # rest_client.save_relation(relation)
-            #
-            # logging.info(" Relation was created:\n%r\n", relation)
+            default_asset_profile_id = rest_client.get_default_asset_profile_info().id
+            asset = Asset(name="Building 1", label="Building 1",
+                          asset_profile_id=default_asset_profile_id)
+            asset = rest_client.save_asset(asset)
+
+            logging.info("Asset was created:\n%r\n", asset)
+
+            rest_client.process_devices_bulk_import()
+
+            # Creating a Device
+            # Also, you can use default Device Profile:
+            # default_device_profile_id = rest_client.get_default_device_profile_info().id
+            device_profile = DeviceProfile(name="Thermometer",
+                                           type="DEFAULT",
+                                           transport_type="DEFAULT",
+                                           profile_data=DeviceProfileData(configuration={"type": "DEFAULT"},
+                                                                          transport_configuration={"type": "DEFAULT"}))
+            device_profile = rest_client.save_device_profile(device_profile)
+            device = Device(name="Thermometer 1", label="Thermometer 1",
+                            device_profile_id=device_profile.id)
+            device = rest_client.save_device(device)
+
+            logging.info(" Device was created:\n%r\n", device)
+
+            # Creating relations from device to asset
+            relation = EntityRelation(_from=asset.id, to=device.id, type="Contains")
+            rest_client.save_relation(relation)
+
+            logging.info(" Relation was created:\n%r\n", relation)
         except ApiException as e:
             logging.exception(e)
 
