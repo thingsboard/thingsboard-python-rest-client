@@ -77,6 +77,7 @@ from tb_rest_client.api.api_ce import MobileAppControllerApi
 from tb_rest_client.api.api_ce import MobileAppBundleControllerApi
 from tb_rest_client.api.api_ce import RuleEngineControllerApi
 from tb_rest_client.api.api_ce import QrCodeSettingsControllerApi
+from tb_rest_client.api.api_ce import CalculatedFieldControllerApi
 # from tb_rest_client.models.models_pe import *
 from tb_rest_client.configuration import Configuration
 from tb_rest_client.api_client import ApiClient
@@ -1175,6 +1176,12 @@ class RestClientBase(Thread):
         resource_id = self.get_id(resource_id)
         return self.tb_resource_controller.get_resource_by_id(resource_id=resource_id)
 
+    def download_resource_if_changed(self, resource_type: str, scope: str, key: str, if_none_match: Optional[str] = ''):
+        return self.tb_resource_controller.download_resource_if_changed(resource_type=resource_type,
+                                                                        scope=scope,
+                                                                        key=key,
+                                                                        if_none_match=if_none_match)
+
     def get_repository_settings_info(self) -> RepositorySettingsInfo:
         return self.admin_controller.get_repository_settings_info_using_get()
 
@@ -1410,6 +1417,12 @@ class RestClientBase(Thread):
 
     def find_entity_data_by_query(self, body: Optional[EntityDataQuery] = None) -> PageDataEntityData:
         return self.entity_query_controller.find_entity_data_by_query_using_post(body=body)
+
+    def is_edqs_api_enabled(self) -> bool:
+        return self.entity_query_controller.is_edqs_api_enabled()
+
+    def process_system_edqs_request(self, body: ToCoreEdqsRequest):
+        return self.entity_query_controller.process_system_edqs_request(body=body)
 
     # Widget Type Controller
     def get_bundle_widget_type_fqns(self, widgets_bundle_id: WidgetsBundleId) -> List[str]:
@@ -2059,6 +2072,13 @@ class RestClientBase(Thread):
         domain_id = self.get_id(domain_id)
         return self.domain_controller.delete_domain(id=domain_id)
 
+    def get_domain_infos(self, page_size: int, page: int, text_search: Optional[str] = None,
+                               sort_property: Optional[str] = None,
+                               sort_order: Optional[str] = None) -> PageDataDomainInfo:
+        return self.domain_controller.get_domain_infos(page_size=page_size, page=page,
+                                                                  text_search=text_search, sort_property=sort_property,
+                                                                  sort_order=sort_order)
+
     def get_domain_info_by_id(self, domain_id: DomainId) -> DomainInfo:
         domain_id = self.get_id(domain_id)
         return self.domain_controller.get_domain_info_by_id(id=domain_id)
@@ -2129,6 +2149,34 @@ class RestClientBase(Thread):
 
         return self.mobile_app_bundle_controller.save_mobile_app_bundle(body=body, oauth2_client_ids=oauth2_client_ids)
 
+    # Calculated Field Controller
+    def delete_calculated_field(self, calculated_field_id):
+        calculated_field_id = self.get_id(calculated_field_id)
+        return self.calculated_field_controller.delete_calculated_field(calculated_field_id=calculated_field_id)
+
+    def get_calculated_field_by_id(self, calculated_field_id) -> CalculatedField:
+        calculated_field_id = self.get_id(calculated_field_id)
+        return self.calculated_field_controller.get_calculated_field_by_id(calculated_field_id=calculated_field_id)
+
+    def get_calculated_fields_by_entity_id(self, entity_id: EntityId, page_size: int, page: int,
+                                           text_search: Optional[str] = None, sort_property: Optional[str] = None,
+                                           sort_order: Optional[str] = None) -> PageDataCalculatedField:
+        entity_type = self.get_type(entity_id)
+        entity_id = self.get_id(entity_id)
+        return self.calculated_field_controller.get_calculated_fields_by_entity_id(entity_id=entity_id,
+                                                                                   entity_type=entity_type,
+                                                                                   page_size=page_size, page=page,
+                                                                                   text_search=text_search,
+                                                                                   sort_property=sort_property,
+                                                                                   sort_order=sort_order)
+
+    def get_latest_calculated_field_debug_event(self, calculated_field_id: CalculatedFieldId) -> JsonNode:
+        calculated_field_id = self.get_id(calculated_field_id)
+        return self.calculated_field_controller.get_latest_calculated_field_debug_event(calculated_field_id=calculated_field_id)
+
+    def save_calculated_field(self, body: CalculatedField) -> CalculatedField:
+        return self.calculated_field_controller.save_calculated_field(body=body)
+
     def __load_controllers(self):
         self.audit_log_controller = AuditLogControllerApi(self.api_client)
         self.o_auth2_config_template_controller = OAuth2ConfigTemplateControllerApi(self.api_client)
@@ -2183,6 +2231,7 @@ class RestClientBase(Thread):
         self.mobile_app_bundle_controller = MobileAppBundleControllerApi(self.api_client)
         self.rule_engine_controller = RuleEngineControllerApi(self.api_client)
         self.qr_code_settings_controller = QrCodeSettingsControllerApi(self.api_client)
+        self.calculated_field_controller = CalculatedFieldControllerApi(self.api_client)
 
     @staticmethod
     def get_type(type):

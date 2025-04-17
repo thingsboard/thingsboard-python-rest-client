@@ -65,3 +65,4 @@ from .mobile_app_bundle_controller_api import MobileAppBundleControllerApi
 from .qr_code_settings_controller_api import QrCodeSettingsControllerApi
 from .billing_endpoint_controller_api import BillingEndpointControllerApi
 from .cloud_endpoint_controller_api import CloudEndpointControllerApi
+from .calculated_field_controller_api import CalculatedFieldControllerApi

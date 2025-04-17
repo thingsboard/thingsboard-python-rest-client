@@ -411,3 +411,5 @@ from .task_processing_failure_notification_rule_trigger_config import TaskProces
 from .v2_captcha_params import V2CaptchaParams
 from .v3_captcha_params import V3CaptchaParams
 from .web_self_registration_params import WebSelfRegistrationParams
+from .calculated_field_id import CalculatedFieldId
+from .calculated_field_configuration import CalculatedFieldConfiguration

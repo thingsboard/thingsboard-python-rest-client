@@ -1285,6 +1285,14 @@ class RestClientPE(RestClientBase):
     def save_white_label_params(self, body: Optional[WhiteLabelingParams] = None) -> WhiteLabelingParams:
         return self.white_labeling_controller.save_white_label_params_using_post(body=body)
 
+    def delete_current_login_white_label_params(self, customer_id: CustomerId) -> None:
+        customer_id = self.get_id(customer_id)
+        return self.white_labeling_controller.delete_current_login_white_label_params(customer_id=customer_id)
+
+    def delete_current_white_label_params(self, customer_id: CustomerId):
+        customer_id = self.get_id(customer_id)
+        return self.white_labeling_controller.delete_current_white_label_params(customer_id=customer_id)
+
     def delete_ota_package(self, ota_package_id: OtaPackageId) -> None:
         ota_package_id = self.get_id(ota_package_id)
         return self.ota_package_controller.delete_ota_package_using_delete(ota_package_id=ota_package_id)
