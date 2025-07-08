@@ -66,3 +66,7 @@ from .qr_code_settings_controller_api import QrCodeSettingsControllerApi
 from .billing_endpoint_controller_api import BillingEndpointControllerApi
 from .cloud_endpoint_controller_api import CloudEndpointControllerApi
 from .calculated_field_controller_api import CalculatedFieldControllerApi
+from .job_controller_api import JobControllerApi
+from .secret_controller_api import SecretControllerApi
+from .trendz_controller_api import TrendzControllerApi
+from .rule_chain_controller_api import RuleChainControllerApi

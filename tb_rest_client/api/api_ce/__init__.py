@@ -65,3 +65,5 @@ from .mobile_app_bundle_controller_api import MobileAppBundleControllerApi
 from .qr_code_settings_controller_api import QrCodeSettingsControllerApi
 from .rule_engine_controller_api import RuleEngineControllerApi
 from .calculated_field_controller_api import CalculatedFieldControllerApi
+from .job_controller_api import JobControllerApi
+from .trendz_controller_api import TrendzControllerApi

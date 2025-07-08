@@ -56,6 +56,15 @@ class RestClientPE(RestClientBase):
     def save_self_registration_params(self, body: Optional[SelfRegistrationParams] = None) -> SelfRegistrationParams:
         return self.self_registration_controller.save_self_registration_params_using_post(body=body)
 
+    def delete_web_self_registration_params(self) -> None:
+        return self.self_registration_controller.delete_web_self_registration_params()
+
+    def get_web_self_registration_params(self):
+        return self.self_registration_controller.get_web_self_registration_params()
+
+    def save_web_self_registration_params(self, body) -> WebSelfRegistrationParams:
+        return self.self_registration_controller.save_web_self_registration_params(body=body)
+
     # O Auth 2 Config Template Controller
     def delete_client_registration_template(self, client_registration_template_id: EntityId) -> None:
         client_registration_template_id = self.get_id(client_registration_template_id)
@@ -1870,6 +1879,57 @@ class RestClientPE(RestClientBase):
     def tenant_white_labeling_allowed(self):
         return self.cloud_endpoint_controller.tenant_white_labeling_allowed_using_get()
 
+    # Secret Controller
+    def delete_secret(self, secret_id: SecretId) -> None:
+        secret_id = self.get_id(secret_id)
+        return self.secret_controller.delete_secret(id=secret_id)
+
+    def get_secret_info_by_id(self, secret_id: SecretId) -> SecretInfo:
+        secret_id = self.get_id(secret_id)
+        return self.secret_controller.get_secret_info_by_id(id=secret_id)
+
+    def get_secret_info_by_name(self, name: str) -> SecretInfo:
+        return self.secret_controller.get_secret_info_by_name(name=name)
+
+    def get_secret_infos(self, page_size: int, page: int,text_search: Optional[str] = None,
+                         sort_property: Optional[str] = None, sort_order: Optional[str] = None) -> PageDataSecretInfo:
+        return self.secret_controller.get_secret_infos(page_size=page_size, page=page,
+                                                       text_search=text_search, sort_property=sort_property,
+                                                       sort_order=sort_order)
+
+    def get_secret_names(self) -> List[str]:
+        return self.secret_controller.get_secret_names()
+
+    def save_secret(self, body: Secret) -> SecretInfo:
+        return self.secret_controller.save_secret(body=body)
+
+    def update_secret_description(self, id: SecretId, description: str) -> SecretInfo:
+        id = self.get_id(id)
+        return self.secret_controller.update_secret_description(id=id, body=description)
+
+    def update_secret_value(self, id: SecretId, value: str) -> SecretInfo:
+        id = self.get_id(id)
+        return self.secret_controller.update_secret_value(id=id, body=value)
+
+    # Calculated Field Controller
+    def get_last_calculated_field_reprocessing_job(self, id: CalculatedFieldId) -> Job:
+        id = self.get_id(id)
+        return self.calculated_field_controller.get_last_calculated_field_reprocessing_job(calculated_field_id=id)
+
+    def reprocess_calculated_field(self, id: CalculatedFieldId, start_ts: int, end_ts: int) -> Job:
+        id = self.get_id(id)
+        return self.calculated_field_controller.reprocess_calculated_field(calculated_field_id=id, start_ts=start_ts,
+                                                                           end_ts=end_ts)
+
+    def validate_calculated_field_reprocessing(self, id: CalculatedFieldId) -> CfReprocessingValidationResult:
+        id = self.get_id(id)
+        return self.calculated_field_controller.validate_calculated_field_reprocessing(calculated_field_id=id)
+
+    # Rule Chain Controller
+    def get_rule_chains_by_ids(self, rule_chain_ids: List[str]) -> List[str]:
+        rule_chain_ids = ','.join(rule_chain_ids)
+        return self.rule_chain_controller.get_rule_chains_by_ids(rule_chain_ids=rule_chain_ids)
+
     def __load_controllers(self):
         self.dashboard_controller = DashboardControllerApi(self.api_client)
         self.device_profile_controller = DeviceProfileControllerApi(self.api_client)
@@ -1916,3 +1976,6 @@ class RestClientPE(RestClientBase):
         self.converter_library_controller = ConverterLibraryControllerApi(self.api_client)
         self.billing_endpoint_controller = BillingEndpointControllerApi(self.api_client)
         self.cloud_endpoint_controller = CloudEndpointControllerApi(self.api_client)
+        self.secret_controller = SecretControllerApi(self.api_client)
+        self.calculated_field_controller = CalculatedFieldControllerApi(self.api_client)
+        self.rule_chain_controller = RuleChainControllerApi(self.api_client)

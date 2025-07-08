@@ -498,3 +498,9 @@ from .to_core_edqs_request import ToCoreEdqsRequest
 from .calculated_field_configuration import CalculatedFieldConfiguration
 from .argument import Argument
 from .referenced_entity_key import ReferencedEntityKey
+from .trendz_settings import TrendzSettings
+from .job import Job
+from .job_id import JobId
+from .edqs_state import EdqsState
+from .job_configuration import JobConfiguration
+from .job_result import JobResult
