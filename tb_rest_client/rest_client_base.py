@@ -73,7 +73,7 @@ from tb_rest_client.api.api_ce.image_controller_api import ImageControllerApi
 from tb_rest_client.api.api_ce.mobile_application_controller_api import MobileApplicationControllerApi
 from tb_rest_client.api.api_ce.queue_stats_controller_api import QueueStatsControllerApi
 from tb_rest_client.api.api_ce.domain_controller_api import DomainControllerApi
-from tb_rest_client.api.api_ce import MobileAppControllerApi
+from tb_rest_client.api.api_ce import MobileAppControllerApi, TrendzControllerApi, JobControllerApi
 from tb_rest_client.api.api_ce import MobileAppBundleControllerApi
 from tb_rest_client.api.api_ce import RuleEngineControllerApi
 from tb_rest_client.api.api_ce import QrCodeSettingsControllerApi
@@ -1425,6 +1425,9 @@ class RestClientBase(Thread):
     def process_system_edqs_request(self, body: ToCoreEdqsRequest):
         return self.entity_query_controller.process_system_edqs_request(body=body)
 
+    def get_edqs_state(self) -> EdqsState:
+        return self.entity_query_controller.get_edqs_state()
+
     # Widget Type Controller
     def get_bundle_widget_type_fqns(self, widgets_bundle_id: WidgetsBundleId) -> List[str]:
         widgets_bundle_id = self.get_id(widgets_bundle_id)
@@ -1569,6 +1572,9 @@ class RestClientBase(Thread):
     def get_lwm2m_bootstrap_security_info(self, is_bootstrap_server: bool) -> ServerSecurityConfig:
         return self.lwm2m_controller.get_lwm2m_bootstrap_security_info_using_get(
             is_bootstrap_server=is_bootstrap_server)
+
+    def save_device_with_credentials(self, body) -> Device:
+        return self.lwm2m_controller.save_device_with_credentials(body=body)
 
     # Component Descriptor Controller
     def get_component_descriptors_by_type(self, component_type: str,
@@ -2178,6 +2184,36 @@ class RestClientBase(Thread):
     def save_calculated_field(self, body: CalculatedField) -> CalculatedField:
         return self.calculated_field_controller.save_calculated_field(body=body)
 
+    # Trendz Controller
+    def get_trendz_settings(self) -> TrendzSettings:
+        return self.trendz_controller.get_trendz_settings()
+
+    def save_trendz_settings(self, body: TrendzSettings) -> TrendzSettings:
+        return self.trendz_controller.save_trendz_settings(body=body)
+
+    # Job Controller
+    def cancel_job(self, id: JobId) -> None:
+        id = self.get_id(id)
+        return self.job_controller.cancel_job(id=id)
+
+    def delete_job(self, id: JobId) -> None:
+        id = self.get_id(id)
+        return self.job_controller.delete_job(id=id)
+
+    def get_job_by_id(self, id: JobId) -> Job:
+        id = self.get_id(id)
+        return self.job_controller.get_job_by_id(id=id)
+
+    def get_jobs(self, page_size: int, page: int, text_search: Optional[str] = None, sort_property: Optional[str] = None,
+                        sort_order: Optional[str] = None, start_time: Optional[int] = None, end_time: Optional[int] = None):
+        return self.job_controller.get_jobs(page_size=page_size, page=page, text_search=text_search,
+                                            sort_property=sort_property, sort_order=sort_order,
+                                            start_time=start_time, end_time=end_time)
+
+    def reprocess_job(self, id: JobId) -> None:
+        id = self.get_id(id)
+        return self.job_controller.reprocess_job(id=id)
+
     def __load_controllers(self):
         self.audit_log_controller = AuditLogControllerApi(self.api_client)
         self.o_auth2_config_template_controller = OAuth2ConfigTemplateControllerApi(self.api_client)
@@ -2233,6 +2269,8 @@ class RestClientBase(Thread):
         self.rule_engine_controller = RuleEngineControllerApi(self.api_client)
         self.qr_code_settings_controller = QrCodeSettingsControllerApi(self.api_client)
         self.calculated_field_controller = CalculatedFieldControllerApi(self.api_client)
+        self.trendz_controller = TrendzControllerApi(self.api_client)
+        self.job_controller = JobControllerApi(self.api_client)
 
     @staticmethod
     def get_type(type):

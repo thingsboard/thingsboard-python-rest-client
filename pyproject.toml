@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "tb-rest-client"
-version = "4.0.0"
+version = "4.1.0"
 description = "ThingsBoard REST API client"
 authors = ["ThingsBoard <info@thingsboard.io>"]
 license = "Apache-2.0"

@@ -1317,5 +1317,37 @@ class CalculatedFieldControllerTests(TBClientPETests):
         self.assertIsInstance(self.client.get_latest_calculated_field_debug_event(self.calculated_field.id), bytes)
 
 
+class SecretControllerTests(TBClientPETests):
+    secret_info = None
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        super(SecretControllerTests, cls).setUpClass()
+
+        cls.secret_info = cls.client.save_secret(Secret(name='Test Secret', value='Test Value', type='TEXT'))
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        cls.client.delete_secret(cls.secret_info.id)
+
+    def test_get_secret_by_id(self):
+        self.assertIsInstance(self.client.get_secret_info_by_id(self.secret_info.id), SecretInfo)
+
+    def test_get_secret_infos(self):
+        self.assertIsInstance(self.client.get_secret_infos(10, 0), PageDataSecretInfo)
+
+    def test_get_secret_names(self):
+        self.assertIsInstance(self.client.get_secret_names(), list)
+
+    def test_get_secret_info_by_name(self):
+        self.assertIsInstance(self.client.get_secret_info_by_name(self.secret_info.name), SecretInfo)
+
+    def test_update_secret_description(self):
+        updated_description = "Updated description"
+        self.secret_info.description = updated_description
+        updated_secret_info = self.client.update_secret_description(self.secret_info.id, updated_description)
+        self.assertEqual(updated_secret_info.description, f'"{updated_description}"')
+
+
 if __name__ == '__main__':
     unittest.main()
