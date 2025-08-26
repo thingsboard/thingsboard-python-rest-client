@@ -841,7 +841,7 @@ class DeviceControllerApi(object):
                  returns the request thread.
         """
 
-        all_params = ['customer_id', 'page_size', 'page', 'include_customers', 'device_profile_id', 'active', 'text_search', 'sort_property', 'sort_order']  # noqa: E501
+        all_params = ['customer_id', 'page_size', 'type', 'page', 'include_customers', 'device_profile_id', 'active', 'text_search', 'sort_property', 'sort_order']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -880,6 +880,8 @@ class DeviceControllerApi(object):
             query_params.append(('pageSize', params['page_size']))  # noqa: E501
         if 'page' in params:
             query_params.append(('page', params['page']))  # noqa: E501
+        if 'type' in params:
+            query_params.append(('type', params['type']))  # noqa: E501
         if 'include_customers' in params:
             query_params.append(('includeCustomers', params['include_customers']))  # noqa: E501
         if 'device_profile_id' in params:
@@ -907,7 +909,7 @@ class DeviceControllerApi(object):
         auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
-            '/api/customer/{customerId}/deviceInfos{?active,deviceProfileId,includeCustomers,page,pageSize,sortOrder,sortProperty,textSearch}', 'GET',
+            '/api/customer/{customerId}/deviceInfos{?active,deviceProfileId,includeCustomers,page,pageSize,sortOrder,sortProperty,textSearch,type}', 'GET',
             path_params,
             query_params,
             header_params,
