@@ -67,3 +67,4 @@ from .rule_engine_controller_api import RuleEngineControllerApi
 from .calculated_field_controller_api import CalculatedFieldControllerApi
 from .job_controller_api import JobControllerApi
 from .trendz_controller_api import TrendzControllerApi
+from .ai_model_controller_api import AiModelControllerApi

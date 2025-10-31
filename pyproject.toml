@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "tb-rest-client"
-version = "4.1.0"
+version = "4.2.1"
 description = "ThingsBoard REST API client"
 authors = ["ThingsBoard <info@thingsboard.io>"]
 license = "Apache-2.0"
@@ -10,7 +10,6 @@ repository = "https://github.com/thingsboard/thingsboard-python-rest-client"
 documentation = "https://thingsboard.io/docs/reference/python-rest-client/"
 keywords = ["tb-python-rest-client", "tb-rest-client"]
 maintainers = [
-    "Illia Barkov <ibarkov@thingsboard.io>",
     "Vitalii Bidochka <vbidochka@thingsboard.io>"
 ]
 
@@ -23,7 +22,6 @@ setuptools = ">=21.0.0"
 urllib3 = ">=2.0.7"
 requests = ">=2.31.0"
 pyjwt = ">=2.6.0"
-
 
 [build-system]
 requires = ["poetry-core"]
