@@ -78,6 +78,7 @@ from tb_rest_client.api.api_ce import MobileAppBundleControllerApi
 from tb_rest_client.api.api_ce import RuleEngineControllerApi
 from tb_rest_client.api.api_ce import QrCodeSettingsControllerApi
 from tb_rest_client.api.api_ce import CalculatedFieldControllerApi
+from tb_rest_client.api.api_ce import AiModelControllerApi
 # from tb_rest_client.models.models_pe import *
 from tb_rest_client.configuration import Configuration
 from tb_rest_client.api_client import ApiClient
@@ -1141,6 +1142,9 @@ class RestClientBase(Thread):
                                                                           sort_property=sort_property,
                                                                           sort_order=sort_order)
 
+    def get_system_or_tenant_resources_by_ids(self, resource_ids: list[EntityId]) -> PageDataTbResourceInfo:
+        return self.tb_resource_controller.get_system_or_tenant_resources_by_ids(resource_ids=str(resource_ids))
+
     def code_processing_url(self, code: str, state: str):
         return self.admin_controller.code_processing_url_using_get(code=code, state=state)
 
@@ -2128,6 +2132,24 @@ class RestClientBase(Thread):
     def mobile_app_update_oauth2_clients(self, body: List[str], id: str):
         return self.mobile_app_controller.update_oauth2_clients(body=body, id=id)
 
+    def get_login_mobile_info(self, pkg_name: str, platform: str) -> LoginMobileInfo:
+        return self.mobile_app_controller.get_login_mobile_info(pkg_name=pkg_name, platform=platform)
+
+    def get_mobile_app_by_id(self, mobile_app_id: MobileAppId) -> MobileApp:
+        mobile_app_id = self.get_id(mobile_app_id)
+        return self.mobile_app_controller.get_mobile_app_by_id(id=mobile_app_id)
+
+    def get_tenant_mobile_apps(self, page_size: int, page: int, text_search: Optional[str] = None,
+                               sort_property: Optional[str] = None,
+                               sort_order: Optional[str] = None) -> PageDataMobileApp:
+        return self.mobile_app_controller.get_tenant_mobile_apps(page_size=page_size, page=page,
+                                                                 text_search=text_search,
+                                                                 sort_property=sort_property,
+                                                                 sort_order=sort_order)
+
+    def get_user_mobile_info(self, pkg_name: str, platform: str) -> UserMobileInfo:
+        return self.mobile_app_controller.get_user_mobile_info(pkg_name=pkg_name, platform=platform)
+
     def get_qr_code_settings(self) -> QrCodeSettings:
         return self.qr_code_settings_controller.get_qr_code_settings()
 
@@ -2214,6 +2236,26 @@ class RestClientBase(Thread):
         id = self.get_id(id)
         return self.job_controller.reprocess_job(id=id)
 
+    # AI Model Controller
+    def delete_ai_model_by_id(self, ai_model_id: AiModelId) -> None:
+        ai_model_id = self.get_id(ai_model_id)
+        return self.ai_model_controller.delete_ai_model_by_id(model_uuid=ai_model_id)
+
+    def get_ai_model_by_id(self, ai_model_id: AiModelId) -> AiModel:
+        ai_model_id = self.get_id(ai_model_id)
+        return self.ai_model_controller.get_ai_model_by_id(model_uuid=ai_model_id)
+
+    def get_ai_models(self, page_size: int, page: int, text_search: Optional[str] = None,
+                        sort_property: Optional[str] = None, sort_order: Optional[str] = None) -> PageDataAiModel:
+        return self.ai_model_controller.get_ai_models(page_size=page_size, page=page, text_search=text_search,
+                                                     sort_property=sort_property, sort_order=sort_order)
+
+    def save_ai_model(self, body: AiModel) -> AiModel:
+        return self.ai_model_controller.save_ai_model(body=body)
+
+    def send_chat_request(self, body: TbChatRequest) -> None:
+        return self.ai_model_controller.send_chat_request(body=body)
+
     def __load_controllers(self):
         self.audit_log_controller = AuditLogControllerApi(self.api_client)
         self.o_auth2_config_template_controller = OAuth2ConfigTemplateControllerApi(self.api_client)
@@ -2271,6 +2313,7 @@ class RestClientBase(Thread):
         self.calculated_field_controller = CalculatedFieldControllerApi(self.api_client)
         self.trendz_controller = TrendzControllerApi(self.api_client)
         self.job_controller = JobControllerApi(self.api_client)
+        self.ai_model_controller = AiModelControllerApi(self.api_client)
 
     @staticmethod
     def get_type(type):

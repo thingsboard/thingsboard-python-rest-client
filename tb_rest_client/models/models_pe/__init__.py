@@ -419,3 +419,8 @@ from .secret_info import SecretInfo
 from .page_data_secret_info import PageDataSecretInfo
 from .cf_reprocessing_validation_result import CfReprocessingValidationResult
 from .tb_secret_delete_result import TbSecretDeleteResult
+from .report_template import ReportTemplate
+from .report_template_config import ReportTemplateConfig
+from .report_template_id import ReportTemplateId
+from .report_template_info import ReportTemplateInfo
+from .page_data_report_template_info import PageDataReportTemplateInfo

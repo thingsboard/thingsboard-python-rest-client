@@ -1087,17 +1087,17 @@ class ImageControllerTests(TBClientCETests):
     def setUpClass(cls) -> None:
         super(ImageControllerTests, cls).setUpClass()
 
-        cls.image_info = cls.client.upload_image('test', 'data/images/task_done.png')
+        cls.image_info = cls.client.upload_image('test', 'test/data/images/task_done.png')
 
     @classmethod
     def tearDownClass(cls) -> None:
         cls.client.delete_image('tenant', 'task_done.png')
 
     def test_upload_image(self):
-        self.assertIsInstance(self.client.upload_image('tenant', 'data/images/task_done.png'), TbResourceInfo)
+        self.assertIsInstance(self.client.upload_image('tenant', 'test/data/images/task_done.png'), TbResourceInfo)
 
     def test_update_image(self):
-        self.assertIsInstance(self.client.update_image('tenant', 'task_done.png', 'data/images/task_done.png'),
+        self.assertIsInstance(self.client.update_image('tenant', 'task_done.png', 'test/data/images/task_done.png'),
                               TbResourceInfo)
 
     def test_get_image_info(self):

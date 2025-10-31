@@ -963,11 +963,12 @@ class RestClientPE(RestClientBase):
     def download_dashboard_report(self, dashboard_id: DashboardId,
                                   body: Union[dict, str, list, bytes, None, RESTResponse, tuple, Any] = None):
         dashboard_id = self.get_id(dashboard_id)
-        return self.report_controller.download_dashboard_report_using_post(dashboard_id=dashboard_id, body=body)
+        return self.dashboard_report_controller.download_dashboard_report(dashboard_id=dashboard_id,
+                                                                                     body=body)
 
     def download_test_report(self, body: Optional[ReportConfig], reports_server_endpoint_url: Optional[str] = None):
-        return self.report_controller.download_test_report_using_post(body=body,
-                                                                      reports_server_endpoint_url=reports_server_endpoint_url)
+        return self.dashboard_report_controller.download_test_report(body=body,
+                                                                     reports_server_endpoint_url=reports_server_endpoint_url)
 
     def get_server_time(self, ) -> int:
         return self.dashboard_controller.get_server_time_using_get()
@@ -1930,6 +1931,40 @@ class RestClientPE(RestClientBase):
         rule_chain_ids = ','.join(rule_chain_ids)
         return self.rule_chain_controller.get_rule_chains_by_ids(rule_chain_ids=rule_chain_ids)
 
+    # Report Template Controller
+    def delete_report_template(self, report_template_id: ReportTemplateId) -> None:
+        report_template_id = self.get_id(report_template_id)
+        return self.report_template_controller.delete_report_template(report_template_id=report_template_id)
+
+    def get_all_report_template_infos(self, page_size: int, page: int, text_search: Optional[str] = None,
+                                      sort_property: Optional[str] = None,
+                                      sort_order: Optional[str] = None,
+                                      type_list: Optional[str] = None,
+                                      format_list: Optional[str] = None,
+                                      include_customers: Optional[bool] = None) -> PageDataReportTemplateInfo:
+        return self.report_template_controller.get_all_report_template_infos(page_size=page_size, page=page,
+                                                                            text_search=text_search,
+                                                                            sort_property=sort_property,
+                                                                            sort_order=sort_order,
+                                                                            type_list=type_list,
+                                                                            format_list=format_list,
+                                                                            include_customers=include_customers)
+
+    def get_report_template_by_id(self, report_template_id: ReportTemplateId) -> ReportTemplate:
+        report_template_id = self.get_id(report_template_id)
+        return self.report_template_controller.get_report_template_by_id(report_template_id=report_template_id)
+
+    def get_report_template_info_by_id(self, report_template_id: ReportTemplateId) -> ReportTemplateInfo:
+        report_template_id = self.get_id(report_template_id)
+        return self.report_template_controller.get_report_template_info_by_id(report_template_id=report_template_id)
+
+    def get_report_templates_by_ids(self, report_template_ids: List[str]) -> List[ReportTemplate]:
+        report_template_ids = ','.join(report_template_ids)
+        return self.report_template_controller.get_report_templates_by_ids(report_template_ids=report_template_ids)
+
+    def save_report_template(self, body: ReportTemplate) -> ReportTemplate:
+        return self.report_template_controller.save_report_template(body=body)
+
     def __load_controllers(self):
         self.dashboard_controller = DashboardControllerApi(self.api_client)
         self.device_profile_controller = DeviceProfileControllerApi(self.api_client)
@@ -1979,3 +2014,5 @@ class RestClientPE(RestClientBase):
         self.secret_controller = SecretControllerApi(self.api_client)
         self.calculated_field_controller = CalculatedFieldControllerApi(self.api_client)
         self.rule_chain_controller = RuleChainControllerApi(self.api_client)
+        self.dashboard_report_controller = DashboardReportControllerApi(self.api_client)
+        self.report_template_controller = ReportTemplateControllerApi(self.api_client)

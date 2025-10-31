@@ -70,3 +70,6 @@ from .job_controller_api import JobControllerApi
 from .secret_controller_api import SecretControllerApi
 from .trendz_controller_api import TrendzControllerApi
 from .rule_chain_controller_api import RuleChainControllerApi
+from .ai_model_controller_api import AiModelControllerApi
+from .dashboard_report_controller_api import DashboardReportControllerApi
+from .report_template_controller_api import ReportTemplateControllerApi
