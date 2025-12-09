@@ -144,6 +144,11 @@ class RestClientBase(Thread):
         self.__save_token(token_json)
         self.__load_configuration()
 
+    def api_key_login(self, api_key: str):
+        self.configuration.api_key_prefix["X-Authorization"] = "ApiKey"
+        self.configuration.api_key["X-Authorization"] = api_key
+        self.__load_configuration()
+
     def token_login(self, token, refresh_token=None):
         token_json = {
             "token": token,
