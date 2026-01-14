@@ -1,5 +1,6 @@
 # ThingsBoard Python REST API client
 
+[![Join our Discord](https://img.shields.io/badge/Discord-Join%20our%20server-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/mJxDjAM3PF)
 
 The ThingsBoard REST API Client helps you interact with [ThingsBoard REST API](https://thingsboard.io/docs/reference/rest-api/) from your Python script.  
 With [Python Rest Client](https://thingsboard.io/docs/reference/python-rest-client/) you can programmatically create assets, devices, customers, users and other entities and their relations in ThingsBoard.
@@ -38,6 +39,7 @@ If you use the wrong version of the REST client, it could work unexpectedly.
 
 ## Support
 
+ - [Join our Discord](https://discord.gg/mJxDjAM3PF)
  - [Community chat](https://gitter.im/thingsboard/chat)
  - [Q&A forum](https://groups.google.com/forum/#!forum/thingsboard)
  - [Stackoverflow](http://stackoverflow.com/questions/tagged/thingsboard)
