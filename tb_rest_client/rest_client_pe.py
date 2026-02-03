@@ -1,4 +1,4 @@
-#  Copyright 2025. ThingsBoard
+#  Copyright 2026. ThingsBoard
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -76,18 +76,6 @@ class RestClientPE(RestClientBase):
 
     def save_client_registration_template(self, body: Optional[OAuth2ClientRegistrationTemplate] = None) -> OAuth2ClientRegistrationTemplate:
         return self.o_auth2_config_template_controller.save_client_registration_template_using_post(body=body)
-
-    # HTTP Integration Controller
-    def http_check_status_get(self, routing_key: str, request_params: dict, request_headers: dict):
-        return self.http_integration_controller.check_status_using_get(routing_key=routing_key,
-                                                                       request_params=request_params,
-                                                                       request_headers=request_headers)
-
-    def http_process_request_v1_post1(self, routing_key: str, suffix: str):
-        return self.http_integration_controller.process_request_using_post1(routing_key=routing_key, suffix=suffix)
-
-    def http_process_request_v2_post2(self, routing_key: str, suffix: str):
-        return self.http_integration_controller.process_request_using_post2(routing_key=routing_key, suffix=suffix)
 
     def get_asset_types(self, ) -> List[EntitySubtype]:
         return self.asset_controller.get_asset_types_using_get()
@@ -239,6 +227,12 @@ class RestClientPE(RestClientBase):
     def get_allowed_permissions(self, ) -> AllowedPermissionsInfo:
         return self.user_permissions_controller.get_allowed_permissions_using_get()
 
+    def has_entity_permission(self, entity_id: EntityId, operation: str) -> bool:
+        entity_type = self.get_type(entity_id)
+        entity_id = self.get_id(entity_id)
+        return self.user_permissions_controller.has_entity_permission(entity_id=entity_id, entity_type=entity_type,
+                                                                      operation=operation)
+
     def change_owner_to_customer(self, owner_id: UserId, entity_id: EntityId, body: Optional[List[str]] = None) -> None:
         owner_id = self.get_id(owner_id)
         entity_type = self.get_type(entity_id)
@@ -384,9 +378,6 @@ class RestClientPE(RestClientBase):
 
     def is_user_token_access_enabled(self, ) -> bool:
         return self.user_controller.is_user_token_access_enabled_using_get()
-
-    def get_users_by_ids(self, user_ids: list) -> List[User]:
-        return self.user_controller.get_users_by_ids_using_get(user_ids=str(user_ids))
 
     def save_user(self, body: Optional[User] = None, send_activation_mail: Optional[bool] = None,
                   entity_group_id: Optional[EntityGroupId] = None,
@@ -712,41 +703,6 @@ class RestClientPE(RestClientBase):
     def get_admin_settings(self, key: str, system_by_default=None) -> AdminSettings:
         return self.admin_controller.get_admin_settings_using_get(key=key, system_by_default=system_by_default)
 
-    def t_mobile_iot_cdp_process_request_v4_delete4(self, body: str, request_headers: dict, routing_key: str):
-        return self.t_mobile_iot_cdp_integration_controller.process_request_using_delete4(body=body,
-                                                                                          request_headers=request_headers,
-                                                                                          routing_key=routing_key)
-
-    def t_mobile_iot_cdp_process_request_v4_get4(self, body: str, request_headers: dict, routing_key: str):
-        return self.t_mobile_iot_cdp_integration_controller.process_request_using_get4(body=body,
-                                                                                       request_headers=request_headers,
-                                                                                       routing_key=routing_key)
-
-    def t_mobile_iot_cdp_process_request_v4_head4(self, body: str, request_headers: dict, routing_key: str):
-        return self.t_mobile_iot_cdp_integration_controller.process_request_using_head4(body=body,
-                                                                                        request_headers=request_headers,
-                                                                                        routing_key=routing_key)
-
-    def t_mobile_iot_cdp_process_request_v4_options4(self, body: str, request_headers: dict, routing_key: str):
-        return self.t_mobile_iot_cdp_integration_controller.process_request_using_options4(body=body,
-                                                                                           request_headers=request_headers,
-                                                                                           routing_key=routing_key)
-
-    def t_mobile_iot_cdp_process_request_v4_patch4(self, body: str, request_headers: dict, routing_key: str):
-        return self.t_mobile_iot_cdp_integration_controller.process_request_using_patch4(body=body,
-                                                                                         request_headers=request_headers,
-                                                                                         routing_key=routing_key)
-
-    def t_mobile_iot_cdp_process_request_v12_post12(self, body: str, request_headers: dict, routing_key: str):
-        return self.t_mobile_iot_cdp_integration_controller.process_request_using_post12(body=body,
-                                                                                         request_headers=request_headers,
-                                                                                         routing_key=routing_key)
-
-    def t_mobile_iot_cdp_process_request_v4_put4(self, body: str, request_headers: dict, routing_key: str):
-        return self.t_mobile_iot_cdp_integration_controller.process_request_using_put4(body=body,
-                                                                                       request_headers=request_headers,
-                                                                                       routing_key=routing_key)
-
     def sign_up(self, body: Optional[SignUpRequest] = None) -> str:
         return self.sign_up_controller.sign_up_using_post(body=body)
 
@@ -777,139 +733,6 @@ class RestClientPE(RestClientBase):
         device_profile_ids = ','.join(device_profile_ids)
         return self.device_profile_controller.get_device_profiles_by_ids_using_get(
             device_profile_ids=device_profile_ids)
-
-    def thing_park_process_request_tpe_delete(self, body: str, request_headers: dict, all_request_params: dict,
-                                              routing_key: str):
-        return self.thing_park_integration_controller.process_request_tpe_using_delete(body=body,
-                                                                                       request_headers=request_headers,
-                                                                                       all_request_params=all_request_params,
-                                                                                       routing_key=routing_key)
-
-    def thing_park_process_request_tpe_get(self, body: str, request_headers: dict, all_request_params: dict,
-                                           routing_key: str):
-        return self.thing_park_integration_controller.process_request_tpe_using_get(body=body,
-                                                                                    request_headers=request_headers,
-                                                                                    all_request_params=all_request_params,
-                                                                                    routing_key=routing_key)
-
-    def thing_park_process_request_tpe_head(self, body: str, request_headers: dict, all_request_params: dict,
-                                            routing_key: str):
-        return self.thing_park_integration_controller.process_request_tpe_using_head(body=body,
-                                                                                     request_headers=request_headers,
-                                                                                     all_request_params=all_request_params,
-                                                                                     routing_key=routing_key)
-
-    def thing_park_process_request_tpe_options(self, body: str, request_headers: dict, all_request_params: dict,
-                                               routing_key: str):
-        return self.thing_park_integration_controller.process_request_tpe_using_options(body=body,
-                                                                                        request_headers=request_headers,
-                                                                                        all_request_params=all_request_params,
-                                                                                        routing_key=routing_key)
-
-    def thing_park_process_request_tpe_patch(self, body: str, request_headers: dict, all_request_params: dict,
-                                             routing_key: str):
-        return self.thing_park_integration_controller.process_request_tpe_using_patch(body=body,
-                                                                                      request_headers=request_headers,
-                                                                                      all_request_params=all_request_params,
-                                                                                      routing_key=routing_key)
-
-    def thing_park_process_request_tpe_post(self, body: str, request_headers: dict, all_request_params: dict,
-                                            routing_key: str):
-        return self.thing_park_integration_controller.process_request_tpe_using_post(body=body,
-                                                                                     request_headers=request_headers,
-                                                                                     all_request_params=all_request_params,
-                                                                                     routing_key=routing_key)
-
-    def thing_park_process_request_tpe_put(self, body: str, request_headers: dict, all_request_params: dict,
-                                           routing_key: str):
-        return self.thing_park_integration_controller.process_request_tpe_using_put(body=body,
-                                                                                    request_headers=request_headers,
-                                                                                    all_request_params=all_request_params,
-                                                                                    routing_key=routing_key)
-
-    def thing_park_process_request_v5_delete5(self, body: str, request_headers: dict, all_request_params: dict,
-                                              routing_key: str):
-        return self.thing_park_integration_controller.process_request_using_delete5(body=body,
-                                                                                    request_headers=request_headers,
-                                                                                    all_request_params=all_request_params,
-                                                                                    routing_key=routing_key)
-
-    def thing_park_process_request_v5_get5(self, body: str, request_headers: dict, all_request_params: dict,
-                                           routing_key: str):
-        return self.thing_park_integration_controller.process_request_using_get5(body=body,
-                                                                                 request_headers=request_headers,
-                                                                                 all_request_params=all_request_params,
-                                                                                 routing_key=routing_key)
-
-    def thing_park_process_request_v5_head5(self, body: str, request_headers: dict, all_request_params: dict,
-                                            routing_key: str):
-        return self.thing_park_integration_controller.process_request_using_head5(body=body,
-                                                                                  request_headers=request_headers,
-                                                                                  all_request_params=all_request_params,
-                                                                                  routing_key=routing_key)
-
-    def thing_park_process_request_v5_options5(self, body: str, request_headers: dict, all_request_params: dict,
-                                               routing_key: str):
-        return self.thing_park_integration_controller.process_request_using_options5(body=body,
-                                                                                     request_headers=request_headers,
-                                                                                     all_request_params=all_request_params,
-                                                                                     routing_key=routing_key)
-
-    def thing_park_process_request_v5_patch5(self, body: str, request_headers: dict, all_request_params: dict,
-                                             routing_key: str):
-        return self.thing_park_integration_controller.process_request_using_patch5(body=body,
-                                                                                   request_headers=request_headers,
-                                                                                   all_request_params=all_request_params,
-                                                                                   routing_key=routing_key)
-
-    def thing_park_process_request_v13_post13(self, body: str, request_headers: dict, all_request_params: dict,
-                                              routing_key: str):
-        return self.thing_park_integration_controller.process_request_using_post13(body=body,
-                                                                                   request_headers=request_headers,
-                                                                                   all_request_params=all_request_params,
-                                                                                   routing_key=routing_key)
-
-    def thing_park_process_request_v5_put5(self, body: str, request_headers: dict, all_request_params: dict,
-                                           routing_key: str):
-        return self.thing_park_integration_controller.process_request_using_put5(body=body,
-                                                                                 request_headers=request_headers,
-                                                                                 all_request_params=all_request_params,
-                                                                                 routing_key=routing_key)
-
-    def sig_fox_process_request_v3_delete3(self, body: str, request_headers: dict, routing_key: str):
-        return self.sig_fox_integration_controller.process_request_using_delete3(body=body,
-                                                                                 request_headers=request_headers,
-                                                                                 routing_key=routing_key)
-
-    def sig_fox_process_request_v3_get3(self, body: str, request_headers: dict, routing_key: str):
-        return self.sig_fox_integration_controller.process_request_using_get3(body=body,
-                                                                              request_headers=request_headers,
-                                                                              routing_key=routing_key)
-
-    def sig_fox_process_request_v3_head3(self, body: str, request_headers: dict, routing_key: str):
-        return self.sig_fox_integration_controller.process_request_using_head3(body=body,
-                                                                               request_headers=request_headers,
-                                                                               routing_key=routing_key)
-
-    def sig_fox_process_request_v3_options3(self, body: str, request_headers: dict, routing_key: str):
-        return self.sig_fox_integration_controller.process_request_using_options3(body=body,
-                                                                                  request_headers=request_headers,
-                                                                                  routing_key=routing_key)
-
-    def sig_fox_process_request_v3_patch3(self, body: str, request_headers: dict, routing_key: str):
-        return self.sig_fox_integration_controller.process_request_using_patch3(body=body,
-                                                                                request_headers=request_headers,
-                                                                                routing_key=routing_key)
-
-    def sig_fox_process_request_v11_post11(self, body: str, request_headers: dict, routing_key: str):
-        return self.sig_fox_integration_controller.process_request_using_post11(body=body,
-                                                                                request_headers=request_headers,
-                                                                                routing_key=routing_key)
-
-    def sig_fox_process_request_v3_put3(self, body: str, request_headers: dict, routing_key: str):
-        return self.sig_fox_integration_controller.process_request_using_put3(body=body,
-                                                                              request_headers=request_headers,
-                                                                              routing_key=routing_key)
 
     def assign_scheduler_event_to_edge(self, edge_id: EdgeId, scheduler_event_id: SchedulerEventId) -> SchedulerEventInfo:
         edge_id = self.get_id(edge_id)
@@ -959,6 +782,29 @@ class RestClientPE(RestClientBase):
         scheduler_event_id = self.get_id(scheduler_event_id)
         return self.scheduler_event_controller.unassign_scheduler_event_from_edge_using_delete(edge_id=edge_id,
                                                                                                scheduler_event_id=scheduler_event_id)
+
+    def get_all_edge_scheduler_events(self, edge_id: EdgeId) -> List[SchedulerEventInfo]:
+        edge_id = self.get_id(edge_id)
+        return self.scheduler_event_controller.get_all_edge_scheduler_events(edge_id=edge_id)
+
+    def get_scheduled_report_events(self, page_size: int, page: int,
+                                    report_template_id: Optional[ReportTemplateId] = None,
+                                    user_id: Optional[UserId] = None, include_customers: Optional[bool] = None,
+                                    text_search: Optional[str] = None, sort_property: Optional[str] = None,
+                                    sort_order: Optional[str] = None) -> PageDataScheduledReportInfo:
+        if report_template_id is not None:
+            report_template_id = self.get_id(report_template_id)
+
+        if user_id is not None:
+            user_id = self.get_id(user_id)
+
+        return self.scheduler_event_controller.get_scheduled_report_events(page_size=page_size, page=page,
+                                                                           report_template_id=report_template_id,
+                                                                           user_id=user_id,
+                                                                           include_customers=include_customers,
+                                                                           text_search=text_search,
+                                                                           sort_property=sort_property,
+                                                                           sort_order=sort_order)
 
     def download_dashboard_report(self, dashboard_id: DashboardId,
                                   body: Union[dict, str, list, bytes, None, RESTResponse, tuple, Any] = None):
@@ -1216,9 +1062,6 @@ class RestClientPE(RestClientBase):
         return self.tenant_controller.get_tenants_using_get(page_size=page_size, page=page, text_search=text_search,
                                                             sort_property=sort_property, sort_order=sort_order)
 
-    def get_tenants_by_ids(self, tenant_ids: list) -> List[Tenant]:
-        return self.tenant_controller.get_tenants_by_ids_using_get(tenant_ids=str(tenant_ids))
-
     def get_tenant_info_by_id(self, tenant_id: TenantId) -> TenantInfo:
         tenant_id = self.get_id(tenant_id)
         return self.tenant_controller.get_tenant_info_by_id_using_get(tenant_id=tenant_id)
@@ -1226,41 +1069,6 @@ class RestClientPE(RestClientBase):
     def delete_tenant(self, tenant_id: TenantId) -> None:
         tenant_id = self.get_id(tenant_id)
         return self.tenant_controller.delete_tenant_using_delete(tenant_id=tenant_id)
-
-    def chirp_stack_process_request_delete(self, body: str, request_headers: dict, routing_key: str):
-        return self.chirp_stack_integration_controller.process_request_using_delete(body=body,
-                                                                                    request_headers=request_headers,
-                                                                                    routing_key=routing_key)
-
-    def chirp_stack_process_request_get(self, body: str, request_headers: dict, routing_key: str):
-        return self.chirp_stack_integration_controller.process_request_using_get(body=body,
-                                                                                 request_headers=request_headers,
-                                                                                 routing_key=routing_key)
-
-    def chirp_stack_process_request_head(self, body: str, request_headers: dict, routing_key: str):
-        return self.chirp_stack_integration_controller.process_request_using_head(body=body,
-                                                                                  request_headers=request_headers,
-                                                                                  routing_key=routing_key)
-
-    def chirp_stack_process_request_options(self, body: str, request_headers: dict, routing_key: str):
-        return self.chirp_stack_integration_controller.process_request_using_options(body=body,
-                                                                                     request_headers=request_headers,
-                                                                                     routing_key=routing_key)
-
-    def chirp_stack_process_request_patch(self, body: str, request_headers: dict, routing_key: str):
-        return self.chirp_stack_integration_controller.process_request_using_patch(body=body,
-                                                                                   request_headers=request_headers,
-                                                                                   routing_key=routing_key)
-
-    def chirp_stack_process_request_post(self, body: str, request_headers: dict, routing_key: str):
-        return self.chirp_stack_integration_controller.process_request_using_post(body=body,
-                                                                                  request_headers=request_headers,
-                                                                                  routing_key=routing_key)
-
-    def chirp_stack_process_request_put(self, body: str, request_headers: dict, routing_key: str):
-        return self.chirp_stack_integration_controller.process_request_using_put(body=body,
-                                                                                 request_headers=request_headers,
-                                                                                 routing_key=routing_key)
 
     def get_current_login_white_label_params(self, ) -> LoginWhiteLabelingParams:
         return self.white_labeling_controller.get_current_login_white_label_params_using_get()
@@ -1275,10 +1083,6 @@ class RestClientPE(RestClientBase):
     def get_white_label_params(self, logo_image_checksum: str, favicon_checksum: str) -> WhiteLabelingParams:
         return self.white_labeling_controller.get_white_label_params_using_get(logo_image_checksum=logo_image_checksum,
                                                                                favicon_checksum=favicon_checksum)
-
-    def get_widgets_bundles_by_ids(self, widget_bundle_ids: List[str]) -> List[WidgetsBundle]:
-        widget_bundle_ids = ','.join(widget_bundle_ids)
-        return self.widgets_bundle_controller.get_widgets_bundles_by_ids_using_get(widget_bundle_ids=widget_bundle_ids)
 
     def is_customer_white_labeling_allowed(self, ) -> bool:
         return self.white_labeling_controller.is_customer_white_labeling_allowed_using_get()
@@ -1490,17 +1294,6 @@ class RestClientPE(RestClientBase):
         return self.entity_group_controller.unassign_entity_group_from_edge_using_delete(edge_id=edge_id,
                                                                                          group_type=group_type,
                                                                                          entity_group_id=entity_group_id)
-
-    # Subscription Controller
-    def get_tenant_profile_data_by_id(self, tenant_profile_id: TenantProfileId) -> TenantProfileData:
-        tenant_profile_id = self.get_id(tenant_profile_id)
-        return self.subscription_controller.get_tenant_profile_data_by_id_using_get(tenant_profile_id=tenant_profile_id)
-
-    def get_tenant_profile_data(self, ) -> TenantProfileData:
-        return self.subscription_controller.get_tenant_profile_data_using_get()
-
-    def get_tenant_subscription_usage(self) -> SubscriptionUsage:
-        return self.subscription_controller.get_tenant_subscription_usage_using_get()
 
     # Solution Controller
     def get_solution_template_details(self, solution_template_id) -> TenantSolutionTemplateDetails:
@@ -1789,9 +1582,6 @@ class RestClientPE(RestClientBase):
         return self.scheduler_event_controller.enable_scheduler_event_using_put(scheduler_event_id=scheduler_event_id,
                                                                                 enabled_value=enabled_value)
 
-    def get_merged_mobile_app_settings(self) -> MobileAppSettings:
-        return self.mobile_application_controller.get_merged_mobile_app_settings()
-
     def download_full_translation(self, locale_code: str) -> str:
         return self.translation_controller.download_full_translation(locale_code=locale_code)
 
@@ -1850,36 +1640,6 @@ class RestClientPE(RestClientBase):
     def get_vendors(self, integration_type: str) -> List[JsonNode]:
         return self.converter_library_controller.get_vendors(integration_type=integration_type)
 
-    def check_tenant_can_update_plan(self, body):
-        return self.billing_endpoint_controller.check_tenant_can_update_plan_using_post(body=body)
-
-    def notify_tenant_plan_changed(self, body):
-        return self.billing_endpoint_controller.notify_tenant_plan_changed_using_post(body=body)
-
-    def notify_tenant_state_changed(self, body):
-        return self.billing_endpoint_controller.notify_tenant_state_changed_using_post(body=body)
-
-    def send_password_was_reset_email(self, body):
-        return self.billing_endpoint_controller.send_password_was_reset_email_using_post(body=body)
-
-    def send_reset_password_email(self, body):
-        return self.billing_endpoint_controller.send_reset_password_email_using_post(body=body)
-
-    def tenant_has_billing_read(self) -> bool:
-        return self.billing_endpoint_controller.tenant_has_billing_read_using_get()
-
-    def tenant_has_billing_write(self) -> bool:
-        return self.billing_endpoint_controller.tenant_has_billing_write_using_get()
-
-    def tenant_has_white_label_read(self) -> bool:
-        return self.cloud_endpoint_controller.tenant_has_white_label_read_using_get()
-
-    def tenant_has_white_label_write(self) -> bool:
-        return self.cloud_endpoint_controller.tenant_has_white_label_write_using_get()
-
-    def tenant_white_labeling_allowed(self):
-        return self.cloud_endpoint_controller.tenant_white_labeling_allowed_using_get()
-
     # Secret Controller
     def delete_secret(self, secret_id: SecretId) -> None:
         secret_id = self.get_id(secret_id)
@@ -1926,11 +1686,6 @@ class RestClientPE(RestClientBase):
         id = self.get_id(id)
         return self.calculated_field_controller.validate_calculated_field_reprocessing(calculated_field_id=id)
 
-    # Rule Chain Controller
-    def get_rule_chains_by_ids(self, rule_chain_ids: List[str]) -> List[str]:
-        rule_chain_ids = ','.join(rule_chain_ids)
-        return self.rule_chain_controller.get_rule_chains_by_ids(rule_chain_ids=rule_chain_ids)
-
     # Report Template Controller
     def delete_report_template(self, report_template_id: ReportTemplateId) -> None:
         report_template_id = self.get_id(report_template_id)
@@ -1965,14 +1720,61 @@ class RestClientPE(RestClientBase):
     def save_report_template(self, body: ReportTemplate) -> ReportTemplate:
         return self.report_template_controller.save_report_template(body=body)
 
+    def send_addon_access_error(self, addon_type: str):
+        return self.notification_controller.send_addon_access_error(addon_type=addon_type)
+
+    def test_report_and_download(self, body: ReportRequest):
+        return self.report_controller.test_report_and_download(body=body)
+
+    def get_timeseries_by_read_ts_kv_queries(self, body, entity_id: EntityId):
+        entity_type = self.get_type(entity_id)
+        entity_id = self.get_id(entity_id)
+
+        return self.telemetry_controller.get_timeseries_by_read_ts_kv_queries(body=body, entity_id=entity_id,
+                                                                              entity_type=entity_type)
+
+    def get_trendz_summary(self) -> TrendzSummary:
+        return self.trendz_api_controller.get_trendz_summary()
+
+    def get_trendz_usage(self) -> TrendzUsage:
+        return self.trendz_api_controller.get_trendz_usage()
+
+    def get_trendz_view_by_id(self, view_id) -> TrendzViewConfig:
+        view_id = self.get_id(view_id)
+        return self.trendz_api_controller.get_trendz_view_by_id(view_id=view_id)
+
+    def get_trendz_views(self, page_size: int, page: int, text_search: Optional[str] = None,
+                         sort_property: Optional[str] = None,
+                         sort_order: Optional[str] = None) -> PageDataTrendzViewConfigLite:
+        return self.trendz_api_controller.get_trendz_views(page_size=page_size, page=page,
+                                                           text_search=text_search,
+                                                           sort_property=sort_property,
+                                                           sort_order=sort_order)
+
+    def connect_to_trendz(self) -> TrendzSynchronizationResult:
+        return self.trendz_controller.connect_to_trendz()
+
+    def get_trendz_config(self) -> TrendzConfiguration:
+        return self.trendz_controller.get_trendz_config()
+
+    def get_trendz_sync_result(self) -> TrendzSynchronizationResult:
+        return self.trendz_controller.get_trendz_sync_result()
+
+    def perform_trendz_healthcheck(self) -> TrendzHealthcheckResult:
+        return self.trendz_controller.perform_trendz_healthcheck()
+
+    def public_connect_to_trendz(self):
+        return self.trendz_controller.public_connect_to_trendz()
+
+    def save_trendz_config(self, body: TrendzConfiguration) -> TrendzConfiguration:
+        return self.trendz_controller.save_trendz_config(body=body)
+
     def __load_controllers(self):
         self.dashboard_controller = DashboardControllerApi(self.api_client)
         self.device_profile_controller = DeviceProfileControllerApi(self.api_client)
-        self.http_integration_controller = HttpIntegrationControllerApi(self.api_client)
         self.user_permissions_controller = UserPermissionsControllerApi(self.api_client)
         self.device_group_ota_package_controller = DeviceGroupOtaPackageControllerApi(self.api_client)
         self.converter_controller = ConverterControllerApi(self.api_client)
-        self.t_mobile_iot_cdp_integration_controller = TMobileIotCdpIntegrationControllerApi(self.api_client)
         self.customer_controller = CustomerControllerApi(self.api_client)
         self.role_controller = RoleControllerApi(self.api_client)
         self.entity_group_controller = EntityGroupControllerApi(self.api_client)
@@ -1985,7 +1787,6 @@ class RestClientPE(RestClientBase):
         self.lwm2m_controller = Lwm2mControllerApi(self.api_client)
         self.scheduler_event_controller = SchedulerEventControllerApi(self.api_client)
         self.custom_menu_controller = CustomMenuControllerApi(self.api_client)
-        self.thing_park_integration_controller = ThingParkIntegrationControllerApi(self.api_client)
         self.rule_engine_controller = RuleEngineControllerApi(self.api_client)
         self.integration_controller = IntegrationControllerApi(self.api_client)
         self.custom_translation_controller = CustomTranslationControllerApi(self.api_client)
@@ -1993,26 +1794,24 @@ class RestClientPE(RestClientBase):
         self.edge_event_controller = EdgeEventControllerApi(self.api_client)
         self.device_controller = DeviceControllerApi(self.api_client)
         self.group_permission_controller = GroupPermissionControllerApi(self.api_client)
-        self.chirp_stack_integration_controller = ChirpStackIntegrationControllerApi(self.api_client)
         self.user_controller = UserControllerApi(self.api_client)
         self.white_labeling_controller = WhiteLabelingControllerApi(self.api_client)
         self.sign_up_controller = SignUpControllerApi(self.api_client)
         self.blob_entity_controller = BlobEntityControllerApi(self.api_client)
         self.owner_controller = OwnerControllerApi(self.api_client)
         self.self_registration_controller = SelfRegistrationControllerApi(self.api_client)
-        self.sig_fox_integration_controller = SigFoxIntegrationControllerApi(self.api_client)
         self.asset_controller = AssetControllerApi(self.api_client)
-        self.subscription_controller = SubscriptionControllerApi(self.api_client)
         self.solution_controller = SolutionControllerApi(self.api_client)
         self.asset_profile_controller = AssetProfileControllerApi(self.api_client)
         self.image_controller = ImageControllerApi(self.api_client)
-        self.mobile_application_controller = MobileApplicationControllerApi(self.api_client)
         self.translation_controller = TranslationControllerApi(self.api_client)
         self.converter_library_controller = ConverterLibraryControllerApi(self.api_client)
-        self.billing_endpoint_controller = BillingEndpointControllerApi(self.api_client)
-        self.cloud_endpoint_controller = CloudEndpointControllerApi(self.api_client)
         self.secret_controller = SecretControllerApi(self.api_client)
         self.calculated_field_controller = CalculatedFieldControllerApi(self.api_client)
         self.rule_chain_controller = RuleChainControllerApi(self.api_client)
         self.dashboard_report_controller = DashboardReportControllerApi(self.api_client)
         self.report_template_controller = ReportTemplateControllerApi(self.api_client)
+        self.notification_controller = NotificationControllerApi(self.api_client)
+        self.telemetry_controller = TelemetryControllerApi(self.api_client)
+        self.trendz_api_controller = TrendzApiControllerApi(self.api_client)
+        self.trendz_controller = TrendzControllerApi(self.api_client)

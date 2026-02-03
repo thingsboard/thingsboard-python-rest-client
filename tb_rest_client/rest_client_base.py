@@ -1,4 +1,4 @@
-#  Copyright 2025. ThingsBoard
+#  Copyright 2026. ThingsBoard
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -70,7 +70,6 @@ from tb_rest_client.api.api_ce.two_factor_auth_config_controller_api import TwoF
 from tb_rest_client.api.api_ce.device_connectivity_controller_api import DeviceConnectivityControllerApi
 from tb_rest_client.api.api_ce.mail_config_template_controller_api import MailConfigTemplateControllerApi
 from tb_rest_client.api.api_ce.image_controller_api import ImageControllerApi
-from tb_rest_client.api.api_ce.mobile_application_controller_api import MobileApplicationControllerApi
 from tb_rest_client.api.api_ce.queue_stats_controller_api import QueueStatsControllerApi
 from tb_rest_client.api.api_ce.domain_controller_api import DomainControllerApi
 from tb_rest_client.api.api_ce import MobileAppControllerApi, TrendzControllerApi, JobControllerApi
@@ -777,6 +776,10 @@ class RestClientBase(Thread):
                                   update_related: Optional[bool] = None) -> RuleChainMetaData:
         return self.rule_chain_controller.save_rule_chain_meta_data_using_post(body=body, update_related=update_related)
 
+    def get_rule_chains_by_ids(self, rule_chain_ids: List[str]) -> List[str]:
+        rule_chain_ids = ','.join(rule_chain_ids)
+        return self.rule_chain_controller.get_rule_chains_by_ids(rule_chain_ids=rule_chain_ids)
+
     def delete_rpc(self, rpc_id: RpcId) -> None:
         rpc_id = self.get_id(rpc_id)
         return self.rpc_v2_controller.delete_rpc_using_delete(rpc_id=rpc_id)
@@ -806,6 +809,10 @@ class RestClientBase(Thread):
     def delete_customer(self, customer_id: CustomerId) -> None:
         customer_id = self.get_id(customer_id)
         return self.customer_controller.delete_customer_using_delete(customer_id=customer_id)
+
+    def get_customers_by_ids(self, customer_ids: List[str]) -> list:
+        customer_ids = ','.join(customer_ids)
+        return self.customer_controller.get_customers_by_ids(customer_ids=customer_ids)
 
     # User Controller #
     def get_user_token(self, user_id: UserId) -> JwtPair:
@@ -853,6 +860,9 @@ class RestClientBase(Thread):
     def get_activation_link_info(self, user_id: UserId) -> UserActivationLink:
         user_id = self.get_id(user_id)
         return self.user_controller.get_activation_link_using_get(user_id=user_id)
+
+    def get_users_by_ids(self, user_ids: list) -> List[User]:
+        return self.user_controller.get_users_by_ids(user_ids=str(user_ids))
 
     # Queue Controller
     def get_tenant_queues_by_service_type(self, service_type: str, page_size: int, page: int,
@@ -1056,6 +1066,10 @@ class RestClientBase(Thread):
                                                                                sort_property=sort_property,
                                                                                sort_order=sort_order)
 
+    def get_entity_views_by_ids(self, entity_view_ids: list[str]):
+        entity_view_ids = ','.join(entity_view_ids)
+        return self.entity_view_controller.get_entity_views_by_ids(entity_view_ids=entity_view_ids)
+
     # Admin Controller
     def send_test_sms(self, body: Optional[TestSmsRequest] = None) -> None:
         return self.admin_controller.send_test_sms_using_post(body=body)
@@ -1192,6 +1206,19 @@ class RestClientBase(Thread):
                                                                         key=key,
                                                                         if_none_match=if_none_match)
 
+    def upload_resource(self, title, resource_type, descriptor, resource_sub_type, file) -> TbResourceInfo:
+        return self.tb_resource_controller.upload_resource(title=title, resource_type=resource_type,
+                                                           descriptor=descriptor, resource_sub_type=resource_sub_type,
+                                                           file=file)
+
+    def update_resource_info(self, body: TbResourceInfo, resource_id: EntityId) -> TbResourceInfo:
+        resource_id = self.get_id(resource_id)
+        return self.tb_resource_controller.update_resource_info(id=resource_id, body=body)
+
+    def update_resource_data(self, id: EntityId, file: str) -> TbResourceInfo:
+        id = self.get_id(id)
+        return self.tb_resource_controller.update_resource_data(id=id, file=file)
+
     def get_repository_settings_info(self) -> RepositorySettingsInfo:
         return self.admin_controller.get_repository_settings_info_using_get()
 
@@ -1304,6 +1331,10 @@ class RestClientBase(Thread):
 
     def get_widgets_bundles(self, ):
         return self.widgets_bundle_controller.get_widgets_bundles_using_get()
+
+    def get_widgets_bundles_by_ids(self, widget_bundle_ids: List[str]) -> List[WidgetsBundle]:
+        widget_bundle_ids = ','.join(widget_bundle_ids)
+        return self.widgets_bundle_controller.get_widgets_bundles_by_ids(widgets_bundle_ids=widget_bundle_ids)
 
     # Device Profile Controller
     def get_device_profile_infos(self, page_size: int, page: int, text_search: Optional[str] = None,
@@ -1436,6 +1467,11 @@ class RestClientBase(Thread):
 
     def get_edqs_state(self) -> EdqsState:
         return self.entity_query_controller.get_edqs_state()
+
+    def find_available_entity_keys_by_query(self, body: EntityDataQuery, timeseries: bool, attributes: bool,
+                                            scope: Optional[str] = None) -> AvailableEntityKeys:
+        return self.entity_query_controller.find_available_entity_keys_by_query(body=body, timeseries=timeseries,
+                                                                                attributes=attributes, scope=scope)
 
     # Widget Type Controller
     def get_bundle_widget_type_fqns(self, widgets_bundle_id: WidgetsBundleId) -> List[str]:
@@ -1674,6 +1710,10 @@ class RestClientBase(Thread):
         tenant_id = self.get_id(tenant_id)
         return self.tenant_controller.delete_tenant_using_delete(tenant_id=tenant_id)
 
+    def get_tenants_by_ids(self, tenant_ids: list) -> List[Tenant]:
+        tenant_ids = ','.join(tenant_ids)
+        return self.tenant_controller.get_tenants_by_ids(tenant_ids=str(tenant_ids))
+
     # OTA Package Controller
     def delete_ota_package(self, ota_package_id: OtaPackageId) -> None:
         ota_package_id = self.get_id(ota_package_id)
@@ -1809,6 +1849,9 @@ class RestClientBase(Thread):
     def request_two_fa_verification_code(self, provider_type: str) -> None:
         return self.two_factor_auth_controller.request_two_fa_verification_code_using_post(provider_type=provider_type)
 
+    def authenticate_by_two_fa_configuration_token(self) -> JwtPair:
+        return self.two_factor_auth_controller.authenticate_by_two_fa_configuration_token()
+
     # Tow Factor Auth Config Controller
     def delete_two_fa_account_config(self, provider_type: str) -> AccountTwoFaSettings:
         return self.two_factor_auth_config_controller.delete_two_fa_account_config_using_delete(provider_type=provider_type)
@@ -1898,6 +1941,9 @@ class RestClientBase(Thread):
 
     def save_user_notification_settings(self, body: UserNotificationSettings) -> UserNotificationSettings:
         return self.notification_controller.save_user_notification_settings_using_post(body=body)
+
+    def send_entities_limit_increase_request(self, entity_type: str):
+        return self.notification_controller.send_entities_limit_increase_request(entity_type=entity_type)
 
     def delete_notification_rule(self, id: str):
         return self.notification_rule_controller.delete_notification_rule_using_delete(id=id)
@@ -2036,6 +2082,10 @@ class RestClientBase(Thread):
     def get_asset_profile_by_names(self, active_only: Optional[bool]) -> List[EntityInfo]:
         return self.asset_profile_controller.get_asset_profile_names_using_get(active_only=active_only)
 
+    def get_asset_profiles_by_ids(self, asset_profile_ids: List[str]):
+        asset_profile_ids = ','.join(asset_profile_ids)
+        return self.asset_profile_controller.get_asset_profiles_by_ids(asset_profile_ids=asset_profile_ids)
+
     def download_gateway_docker_compose(self, device_id: DeviceId) -> Resource:
         device_id = self.get_id(device_id)
         return self.device_connectivity_controller.download_gateway_docker_compose_using_get(device_id=device_id)
@@ -2053,21 +2103,6 @@ class RestClientBase(Thread):
     def is_edge_upgrade_available(self, edge_id: EdgeId) -> bool:
         edge_id = self.get_id(edge_id)
         return self.edge_controller.is_edge_upgrade_available_using_get(edge_id=edge_id)
-
-    def get_application_redirect(self, user_agent: str):
-        return self.mobile_application_controller.get_application_redirect(user_agent=user_agent)
-
-    def get_mobile_app_deep_link(self) -> str:
-        return self.mobile_application_controller.get_mobile_app_deep_link()
-
-    def get_mobile_app_settings(self) -> MobileAppSettings:
-        return self.mobile_application_controller.get_mobile_app_settings()
-
-    def get_user_token_by_mobile_secret(self, secret: str) -> JwtPair:
-        return self.mobile_application_controller.get_user_token_by_mobile_secret(secret=secret)
-
-    def save_mobile_app_settings(self, body: MobileAppSettings) -> MobileAppSettings:
-        return self.mobile_application_controller.save_mobile_app_settings(body=body)
 
     def get_queue_stats_by_id(self, queue_stats_id: QueueId) -> QueueStats:
         queue_stats_id = self.get_id(queue_stats_id)
@@ -2211,6 +2246,14 @@ class RestClientBase(Thread):
     def save_calculated_field(self, body: CalculatedField) -> CalculatedField:
         return self.calculated_field_controller.save_calculated_field(body=body)
 
+    def get_calculated_field_names(self, calculated_filed_type: str, page_size: int, page: int,
+                                   text_search: Optional[str] = None,
+                                   sort_order: Optional[str] = None) -> PageDataString:
+        return self.calculated_field_controller.get_calculated_field_names(type=calculated_filed_type,
+                                                                           page_size=page_size, page=page,
+                                                                           text_search=text_search,
+                                                                           sort_order=sort_order)
+
     # Trendz Controller
     def get_trendz_settings(self) -> TrendzSettings:
         return self.trendz_controller.get_trendz_settings()
@@ -2308,7 +2351,6 @@ class RestClientBase(Thread):
         self.device_connectivity_controller = DeviceConnectivityControllerApi(self.api_client)
         self.mail_config_template_controller = MailConfigTemplateControllerApi(self.api_client)
         self.image_controller = ImageControllerApi(self.api_client)
-        self.mobile_application_controller = MobileApplicationControllerApi(self.api_client)
         self.queue_stats_controller = QueueStatsControllerApi(self.api_client)
         self.domain_controller = DomainControllerApi(self.api_client)
         self.mobile_app_controller = MobileAppControllerApi(self.api_client)

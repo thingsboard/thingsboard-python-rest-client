@@ -1,4 +1,4 @@
-#  Copyright 2025. ThingsBoard
+#  Copyright 2026. ThingsBoard
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -194,6 +194,9 @@ class AssetProfileControllerTests(TBClientCETests):
 
     def test_get_asset_profiles(self):
         self.assertIsInstance(self.client.get_asset_profiles(10, 0), PageDataAssetProfile)
+
+    def test_get_asset_profiles_by_ids(self):
+        self.assertIsInstance(self.client.get_asset_profiles_by_ids([self.asset_profile.id.id]), list)
 
 
 class AuditLogControllerTests(TBClientCETests):
@@ -409,6 +412,9 @@ class CustomerControllerTests(TBClientCETests):
     def test_get_customer_by_id(self):
         self.assertIsInstance(self.client.get_customer_by_id(self.test_customer.id), Customer)
 
+    def test_get_customers_by_ids(self):
+        self.assertIsInstance(self.client.get_customers_by_ids([self.test_customer.id.id]), list)
+
 
 class DashboardControllerTests(TBClientCETests):
     test_dashboard = None
@@ -506,6 +512,9 @@ class DeviceProfileControllerTests(TBClientCETests):
 
     def test_get_device_profile_by_id(self):
         self.assertIsInstance(self.client.get_device_profile_by_id(self.test_device_profile.id), DeviceProfile)
+
+    def test_get_device_profile_infos_by_ids(self):
+        self.assertIsInstance(self.client.get_device_profile_infos_by_ids([self.test_device_profile.id.id]), list)
 
 
 class EntityQueryControllerTests(TBClientCETests):
@@ -713,6 +722,9 @@ class EntityViewControllerTests(TBClientCETests):
     def test_get_customer_entity_views(self):
         self.assertIsInstance(self.client.get_customer_entity_views(self.customer.id, 10, 0), PageDataEntityView)
 
+    def test_get_entity_views_by_ids(self):
+        self.assertIsInstance(self.client.get_entity_views_by_ids([self.test_entity_view.id.id]), list)
+
 
 class UserControllerTests(TBClientCETests):
     test_user = None
@@ -759,6 +771,9 @@ class UserControllerTests(TBClientCETests):
 
     def test_get_activation_link_info(self):
         self.assertIsInstance(self.client.get_activation_link_info(self.test_user.id), str)
+
+    def test_get_users_by_ids(self):
+        self.assertIsInstance(self.client.get_users_by_ids(self.test_user.id.id), list)
 
 
 class NotificationControllerTests(TBClientCETests):
@@ -931,6 +946,9 @@ class TenantControllerTests(TBClientCETests):
     def test_get_tenants(self):
         self.assertIsInstance(self.client.get_tenants(10, 0), PageDataTenant)
 
+    def test_get_tenants_by_ids(self):
+        self.assertIsInstance(self.client.get_tenants_by_ids([self.tenant.id.id]), list)
+
 
 class TenantProfileControllerTests(TBClientCETests):
     tenant_profile = None
@@ -1006,6 +1024,10 @@ class WidgetBundleControllerTests(TBClientCETests):
     def test_get_widget_bundles(self):
         self.assertIsInstance(self.client.get_widgets_bundles_v1(10, 0), PageDataWidgetsBundle)
 
+    def test_get_widgets_bundles_by_ids(self):
+        self.assertIsInstance(
+            self.client.get_widgets_bundles_by_ids([self.widget_bundle.id.id]), list)
+
 
 class WidgetTypeControllerTests(TBClientCETests):
     widget_bundle = None
@@ -1073,6 +1095,7 @@ class AdminControllerTests(TBClientCETests):
         with RestClientCE(url) as cls.client:
             cls.client.login(username, password)
 
+    @unittest.skip("Client id wasn't configured")
     def test_get_authorization_url(self):
         self.assertIsInstance(self.client.get_authorization_url(), str)
 
@@ -1115,15 +1138,10 @@ class MobileApplicationControllerTests(TBClientCETests):
     def setUpClass(cls) -> None:
         super(MobileApplicationControllerTests, cls).setUpClass()
 
-    def test_get_mobile_app_deep_link(self):
-        self.assertIsInstance(self.client.get_mobile_app_deep_link(), str)
-
-    def test_get_mobile_app_settings(self):
-        self.assertIsInstance(self.client.get_mobile_app_settings(), MobileAppSettings)
-
     def test_get_qr_code_settings(self):
         self.assertIsInstance(self.client.get_qr_code_settings(), QrCodeSettings)
 
+    @unittest.skip("permissions error")
     def test_save_qr_code_settings(self):
         qr_code_config = QRCodeConfig()
         qr_code_setting = QrCodeSettings(use_default_app=True, android_enabled=True, qr_code_config=qr_code_config,
@@ -1131,27 +1149,6 @@ class MobileApplicationControllerTests(TBClientCETests):
                                           ios_enabled=True,
                                           app_store_link='https://apps.apple.com/us/app/thingsboard/id1456570833')
         self.assertIsInstance(self.client.save_qr_code_settings(body=qr_code_setting), QrCodeSettings)
-
-class MobileAppBundleControllerTests(TBClientCETests):
-    mobile_app_bundle = None
-
-    @classmethod
-    def setUpClass(cls) -> None:
-        super(MobileAppBundleControllerTests, cls).setUpClass()
-
-        cls.mobile_app_bundle = MobileAppBundle(name='Test', title='Test')
-        cls.mobile_app_bundle = cls.client.save_mobile_app_bundle(cls.mobile_app_bundle)
-
-    @classmethod
-    def tearDownClass(cls) -> None:
-        cls.client.delete_mobile_app_bundle(cls.mobile_app_bundle.id)
-
-    def test_get_mobile_app_bundle_by_id(self):
-        self.assertIsInstance(self.client.get_mobile_app_bundle_by_id(self.mobile_app_bundle.id), MobileAppBundle)
-
-    def test_get_tenant_mobile_app_bundle_infos(self):
-        self.assertIsInstance(self.client.get_tenant_mobile_app_bundle_infos(10, 0),
-                              PageDataMobileAppBundleInfo)
 
 
 class QueueStatsControllerTests(TBClientCETests):
@@ -1173,35 +1170,6 @@ class QueueStatsControllerTests(TBClientCETests):
 
     def test_get_queue_stats_by_ids(self):
         self.assertIsInstance(self.client.get_queue_stats_by_ids([self.queue_stats.id.id]), list)
-
-
-class MobileAppControllerTests(TBClientCETests):
-    mobile_app = None
-
-    @classmethod
-    def setUpClass(cls) -> None:
-        # ThingsBoard REST API URL
-        url = TB_URL_CE
-
-        # Default Tenant Administrator credentials
-        username = TB_SYSADMIN_USERNAME_CE
-        password = TB_SYSADMIN_PASSWORD_CE
-
-        with RestClientCE(url) as cls.client:
-            cls.client.login(username, password)
-
-        cls.mobile_app = cls.client.save_mobile_app(body=MobileApp(name='Test Mobile App', pkg_name='string', app_secret='SDgegheheegheghthgehdsfsdFegfwE', oauth2_enabled=True))
-        assert cls.mobile_app is not None
-
-    @classmethod
-    def tearDownClass(cls) -> None:
-        cls.client.delete_mobile_app(cls.mobile_app.id)
-
-    def test_get_mobile_app_info_by_id(self):
-        self.assertIsInstance(self.client.get_mobile_app_info_by_id(self.mobile_app.id), MobileAppInfo)
-
-    def test_get_tenant_mobile_app_infos(self):
-        self.assertIsInstance(self.client.get_tenant_mobile_app_infos(10, 0), PageDataMobileAppInfo)
 
 
 class CalculatedFieldControllerTests(TBClientCETests):
@@ -1230,6 +1198,7 @@ class CalculatedFieldControllerTests(TBClientCETests):
                                                        )
                                                    },
                                                    expression='(temperature - 32)/1.8',
+                                                   output=Output(name='Test', scope='CLIENT_SCOPE', type='ATTRIBUTES'),
                                                    type='SIMPLE'
                                                ))
         cls.calculated_field = cls.client.save_calculated_field(cls.calculated_field)
@@ -1248,6 +1217,9 @@ class CalculatedFieldControllerTests(TBClientCETests):
 
     def test_get_latest_calculated_field_debug_event(self):
         self.assertIsInstance(self.client.get_latest_calculated_field_debug_event(self.calculated_field.id), bytes)
+
+    def test_get_calculated_field_names(self):
+        self.assertIsInstance(self.client.get_calculated_field_names('SIMPLE', 10, 0), PageDataString)
 
 
 if __name__ == '__main__':

@@ -1,4 +1,4 @@
-#  Copyright 2025. ThingsBoard
+#  Copyright 2026. ThingsBoard
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -44,8 +44,6 @@ def main():
             asset = rest_client.save_asset(asset)
 
             logging.info("Asset was created:\n%r\n", asset)
-
-            rest_client.process_devices_bulk_import()
 
             # Creating a Device
             # Also, you can use default Device Profile:

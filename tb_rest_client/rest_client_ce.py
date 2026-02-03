@@ -1,4 +1,4 @@
-#  Copyright 2025. ThingsBoard
+#  Copyright 2026. ThingsBoard
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -973,6 +973,10 @@ class RestClientCE(RestClientBase):
                                                                             text_search=text_search,
                                                                             sort_property=sort_property,
                                                                             sort_order=sort_order)
+
+    def get_device_profile_infos_by_ids(self, device_profile_ids: list[str]):
+        device_profile_ids = ','.join(device_profile_ids)
+        return self.device_profile_controller.get_device_profile_infos_by_ids(device_profile_ids=device_profile_ids)
 
     # Dashboard Controller
     def add_dashboard_customers(self, dashboard_id: DashboardId, body: Optional[List[str]] = None) -> Dashboard:
