@@ -1,4 +1,4 @@
-#  Copyright 2025. ThingsBoard
+#  Copyright 2026. ThingsBoard
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -424,3 +424,14 @@ from .report_template_config import ReportTemplateConfig
 from .report_template_id import ReportTemplateId
 from .report_template_info import ReportTemplateInfo
 from .page_data_report_template_info import PageDataReportTemplateInfo
+from .page_data_scheduler_report_info import PageDataScheduledReportInfo
+from .scheduler_report_info import ScheduledReportInfo
+from .report_request import ReportRequest
+from .trendz_configuration import TrendzConfiguration
+from .trendz_healthcheck_result import TrendzHealthcheckResult
+from .trendz_summary import TrendzSummary
+from .trendz_synchronization_result import TrendzSynchronizationResult
+from .trendz_usage import TrendzUsage
+from .trendz_view_config import TrendzViewConfig
+from .trendz_view_config_lite import TrendzViewConfigLite
+from .page_data_trendz_view_config_lite import PageDataTrendzViewConfigLite

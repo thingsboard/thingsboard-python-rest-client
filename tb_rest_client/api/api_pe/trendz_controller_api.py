@@ -32,38 +32,38 @@ class TrendzControllerApi(object):
             api_client = ApiClient()
         self.api_client = api_client
 
-    def get_trendz_settings(self, **kwargs):  # noqa: E501
-        """Get Trendz Settings (getTrendzSettings)  # noqa: E501
+    def connect_to_trendz(self, **kwargs):  # noqa: E501
+        """Connect to Trendz (connectToTrendz)  # noqa: E501
 
-        Retrieves Trendz settings for this tenant.  Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority.  # noqa: E501
+        Initiates synchronization with Trendz (Connect button action). Uses Trendz configuration from settings or falls back to environment variables. Generates API key, saves configuration, checks Trendz version, and performs initial sync.   Available for users with 'SYS_ADMIN' authority.  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_trendz_settings(async_req=True)
+        >>> thread = api.connect_to_trendz(async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :return: TrendzSettings
+        :return: TrendzSynchronizationResult
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.get_trendz_settings_with_http_info(**kwargs)  # noqa: E501
+            return self.connect_to_trendz_with_http_info(**kwargs)  # noqa: E501
         else:
-            (data) = self.get_trendz_settings_with_http_info(**kwargs)  # noqa: E501
+            (data) = self.connect_to_trendz_with_http_info(**kwargs)  # noqa: E501
             return data
 
-    def get_trendz_settings_with_http_info(self, **kwargs):  # noqa: E501
-        """Get Trendz Settings (getTrendzSettings)  # noqa: E501
+    def connect_to_trendz_with_http_info(self, **kwargs):  # noqa: E501
+        """Connect to Trendz (connectToTrendz)  # noqa: E501
 
-        Retrieves Trendz settings for this tenant.  Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority.  # noqa: E501
+        Initiates synchronization with Trendz (Connect button action). Uses Trendz configuration from settings or falls back to environment variables. Generates API key, saves configuration, checks Trendz version, and performs initial sync.   Available for users with 'SYS_ADMIN' authority.  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.get_trendz_settings_with_http_info(async_req=True)
+        >>> thread = api.connect_to_trendz_with_http_info(async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :return: TrendzSettings
+        :return: TrendzSynchronizationResult
                  If the method is called asynchronously,
                  returns the request thread.
         """
@@ -79,7 +79,7 @@ class TrendzControllerApi(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method get_trendz_settings" % key
+                    " to method connect_to_trendz" % key
                 )
             params[key] = val
         del params['kwargs']
@@ -104,14 +104,14 @@ class TrendzControllerApi(object):
         auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
-            '/api/trendz/settings', 'GET',
+            '/api/trendz/connect', 'POST',
             path_params,
             query_params,
             header_params,
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type='TrendzSettings',  # noqa: E501
+            response_type='TrendzSynchronizationResult',  # noqa: E501
             auth_settings=auth_settings,
             async_req=params.get('async_req'),
             _return_http_data_only=params.get('_return_http_data_only'),
@@ -119,40 +119,388 @@ class TrendzControllerApi(object):
             _request_timeout=params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def save_trendz_settings(self, body, **kwargs):  # noqa: E501
-        """Save Trendz settings (saveTrendzSettings)  # noqa: E501
+    def get_trendz_config(self, **kwargs):  # noqa: E501
+        """Get Trendz configuration (getTrendzConfig)  # noqa: E501
 
-        Saves Trendz settings for this tenant.   Here is an example of the Trendz settings: ```json {   \"enabled\": true,   \"baseUrl\": \"https://some.domain.com:18888/also_necessary_prefix\" } ```  Available for users with 'TENANT_ADMIN' authority.  # noqa: E501
+        Retrieves Trendz configuration (URLs). Returns trendzUrl and tbUrl.  Available for users with 'SYS_ADMIN' authority.  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.save_trendz_settings(body, async_req=True)
+        >>> thread = api.get_trendz_config(async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param TrendzSettings body: (required)
-        :return: TrendzSettings
+        :return: TrendzConfiguration
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.save_trendz_settings_with_http_info(body, **kwargs)  # noqa: E501
+            return self.get_trendz_config_with_http_info(**kwargs)  # noqa: E501
         else:
-            (data) = self.save_trendz_settings_with_http_info(body, **kwargs)  # noqa: E501
+            (data) = self.get_trendz_config_with_http_info(**kwargs)  # noqa: E501
             return data
 
-    def save_trendz_settings_with_http_info(self, body, **kwargs):  # noqa: E501
-        """Save Trendz settings (saveTrendzSettings)  # noqa: E501
+    def get_trendz_config_with_http_info(self, **kwargs):  # noqa: E501
+        """Get Trendz configuration (getTrendzConfig)  # noqa: E501
 
-        Saves Trendz settings for this tenant.   Here is an example of the Trendz settings: ```json {   \"enabled\": true,   \"baseUrl\": \"https://some.domain.com:18888/also_necessary_prefix\" } ```  Available for users with 'TENANT_ADMIN' authority.  # noqa: E501
+        Retrieves Trendz configuration (URLs). Returns trendzUrl and tbUrl.  Available for users with 'SYS_ADMIN' authority.  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.save_trendz_settings_with_http_info(body, async_req=True)
+        >>> thread = api.get_trendz_config_with_http_info(async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param TrendzSettings body: (required)
-        :return: TrendzSettings
+        :return: TrendzConfiguration
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = []  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method get_trendz_config" % key
+                )
+            params[key] = val
+        del params['kwargs']
+
+        collection_formats = {}
+
+        path_params = {}
+
+        query_params = []
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/trendz/config', 'GET',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='TrendzConfiguration',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
+    def get_trendz_sync_result(self, **kwargs):  # noqa: E501
+        """Get Trendz synchronization result (getTrendzSyncResult)  # noqa: E501
+
+        Retrieves Trendz synchronization result and status. Returns trendzVersion, updatedTs, resultType, and status.  Available for any authorized user.   # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_trendz_sync_result(async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :return: TrendzSynchronizationResult
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.get_trendz_sync_result_with_http_info(**kwargs)  # noqa: E501
+        else:
+            (data) = self.get_trendz_sync_result_with_http_info(**kwargs)  # noqa: E501
+            return data
+
+    def get_trendz_sync_result_with_http_info(self, **kwargs):  # noqa: E501
+        """Get Trendz synchronization result (getTrendzSyncResult)  # noqa: E501
+
+        Retrieves Trendz synchronization result and status. Returns trendzVersion, updatedTs, resultType, and status.  Available for any authorized user.   # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.get_trendz_sync_result_with_http_info(async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :return: TrendzSynchronizationResult
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = []  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method get_trendz_sync_result" % key
+                )
+            params[key] = val
+        del params['kwargs']
+
+        collection_formats = {}
+
+        path_params = {}
+
+        query_params = []
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/trendz/sync', 'GET',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='TrendzSynchronizationResult',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
+    def perform_trendz_healthcheck(self, **kwargs):  # noqa: E501
+        """Perform Trendz healthcheck (performTrendzHealthcheck)  # noqa: E501
+
+        Performs healthcheck for Trendz integration. Returns version, type, status, and message. Can only be performed if Trendz is already synchronized and integration is enabled.  Available for any authorized user.   # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.perform_trendz_healthcheck(async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :return: TrendzHealthcheckResult
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.perform_trendz_healthcheck_with_http_info(**kwargs)  # noqa: E501
+        else:
+            (data) = self.perform_trendz_healthcheck_with_http_info(**kwargs)  # noqa: E501
+            return data
+
+    def perform_trendz_healthcheck_with_http_info(self, **kwargs):  # noqa: E501
+        """Perform Trendz healthcheck (performTrendzHealthcheck)  # noqa: E501
+
+        Performs healthcheck for Trendz integration. Returns version, type, status, and message. Can only be performed if Trendz is already synchronized and integration is enabled.  Available for any authorized user.   # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.perform_trendz_healthcheck_with_http_info(async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :return: TrendzHealthcheckResult
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = []  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method perform_trendz_healthcheck" % key
+                )
+            params[key] = val
+        del params['kwargs']
+
+        collection_formats = {}
+
+        path_params = {}
+
+        query_params = []
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/trendz/healthcheck', 'GET',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type='TrendzHealthcheckResult',  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
+    def public_connect_to_trendz(self, **kwargs):  # noqa: E501
+        """Public connect to Trendz (publicConnectToTrendz)  # noqa: E501
+
+        Initiates synchronization with Trendz if Trendz is not synced yet. Uses Trendz configuration from settings or falls back to environment variables. Generates API key, saves configuration, checks Trendz version, and performs initial sync.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.public_connect_to_trendz(async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :return: None
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.public_connect_to_trendz_with_http_info(**kwargs)  # noqa: E501
+        else:
+            (data) = self.public_connect_to_trendz_with_http_info(**kwargs)  # noqa: E501
+            return data
+
+    def public_connect_to_trendz_with_http_info(self, **kwargs):  # noqa: E501
+        """Public connect to Trendz (publicConnectToTrendz)  # noqa: E501
+
+        Initiates synchronization with Trendz if Trendz is not synced yet. Uses Trendz configuration from settings or falls back to environment variables. Generates API key, saves configuration, checks Trendz version, and performs initial sync.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.public_connect_to_trendz_with_http_info(async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :return: None
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        all_params = []  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        params = locals()
+        for key, val in six.iteritems(params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method public_connect_to_trendz" % key
+                )
+            params[key] = val
+        del params['kwargs']
+
+        collection_formats = {}
+
+        path_params = {}
+
+        query_params = []
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['X-Authorization']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/api/trendz/public/connect', 'POST',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type=None,  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=params.get('async_req'),
+            _return_http_data_only=params.get('_return_http_data_only'),
+            _preload_content=params.get('_preload_content', True),
+            _request_timeout=params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
+    def save_trendz_config(self, body, **kwargs):  # noqa: E501
+        """Save Trendz configuration (saveTrendzConfig)  # noqa: E501
+
+        Saves Trendz configuration (URLs only, without triggering synchronization). Request body example: ```json {   \"trendzUrl\": \"https://trendz.domain.com\",   \"tbUrl\": \"https://thingsboard.domain.com\" } ```  Available for users with 'SYS_ADMIN' authority.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.save_trendz_config(body, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param TrendzConfiguration body: (required)
+        :return: TrendzConfiguration
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.save_trendz_config_with_http_info(body, **kwargs)  # noqa: E501
+        else:
+            (data) = self.save_trendz_config_with_http_info(body, **kwargs)  # noqa: E501
+            return data
+
+    def save_trendz_config_with_http_info(self, body, **kwargs):  # noqa: E501
+        """Save Trendz configuration (saveTrendzConfig)  # noqa: E501
+
+        Saves Trendz configuration (URLs only, without triggering synchronization). Request body example: ```json {   \"trendzUrl\": \"https://trendz.domain.com\",   \"tbUrl\": \"https://thingsboard.domain.com\" } ```  Available for users with 'SYS_ADMIN' authority.  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.save_trendz_config_with_http_info(body, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param TrendzConfiguration body: (required)
+        :return: TrendzConfiguration
                  If the method is called asynchronously,
                  returns the request thread.
         """
@@ -168,14 +516,14 @@ class TrendzControllerApi(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method save_trendz_settings" % key
+                    " to method save_trendz_config" % key
                 )
             params[key] = val
         del params['kwargs']
         # verify the required parameter 'body' is set
         if ('body' not in params or
                 params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `save_trendz_settings`")  # noqa: E501
+            raise ValueError("Missing the required parameter `body` when calling `save_trendz_config`")  # noqa: E501
 
         collection_formats = {}
 
@@ -203,17 +551,18 @@ class TrendzControllerApi(object):
         auth_settings = ['X-Authorization']  # noqa: E501
 
         return self.api_client.call_api(
-            '/api/trendz/settings', 'POST',
+            '/api/trendz/config', 'POST',
             path_params,
             query_params,
             header_params,
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type='TrendzSettings',  # noqa: E501
+            response_type='TrendzConfiguration',  # noqa: E501
             auth_settings=auth_settings,
             async_req=params.get('async_req'),
             _return_http_data_only=params.get('_return_http_data_only'),
             _preload_content=params.get('_preload_content', True),
             _request_timeout=params.get('_request_timeout'),
             collection_formats=collection_formats)
+

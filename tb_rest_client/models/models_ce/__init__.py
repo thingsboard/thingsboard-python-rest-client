@@ -1,4 +1,4 @@
-#  Copyright 2025. ThingsBoard
+#  Copyright 2026. ThingsBoard
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -546,3 +546,5 @@ from .tb_text_content import TbTextContent
 from .tb_user_message import TbUserMessage
 from .token import Token
 from .widget_bundle_info import WidgetBundleInfo
+from .available_entity_keys import AvailableEntityKeys
+from .page_data_string import PageDataString

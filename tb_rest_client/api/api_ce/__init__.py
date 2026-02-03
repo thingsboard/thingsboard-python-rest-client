@@ -1,4 +1,4 @@
-#  Copyright 2025. ThingsBoard
+#  Copyright 2026. ThingsBoard
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -57,7 +57,6 @@ from .notification_template_controller_api import NotificationTemplateController
 from .usage_info_controller_api import UsageInfoControllerApi
 from .two_factor_auth_config_controller_api import TwoFactorAuthConfigControllerApi
 from .image_controller_api import ImageControllerApi
-from .mobile_application_controller_api import MobileApplicationControllerApi
 from .queue_stats_controller_api import QueueStatsControllerApi
 from .domain_controller_api import DomainControllerApi
 from .mobile_app_controller_api import MobileAppControllerApi
@@ -68,3 +67,4 @@ from .calculated_field_controller_api import CalculatedFieldControllerApi
 from .job_controller_api import JobControllerApi
 from .trendz_controller_api import TrendzControllerApi
 from .ai_model_controller_api import AiModelControllerApi
+from .api_key_controller_api import ApiKeyControllerApi
