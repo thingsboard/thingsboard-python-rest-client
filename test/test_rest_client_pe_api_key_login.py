@@ -14,6 +14,7 @@
 
 import unittest
 
+from tb_rest_client.api.api_ce.device_controller_api import DeviceControllerApi as CEDeviceControllerApi
 from tb_rest_client.api.api_pe.device_controller_api import DeviceControllerApi
 from tb_rest_client.api.api_pe.self_registration_controller_api import SelfRegistrationControllerApi
 from tb_rest_client.rest_client_pe import RestClientPE
@@ -29,6 +30,7 @@ class RestClientPEApiKeyLoginTests(unittest.TestCase):
         self.assertEqual("ApiKey", client.configuration.api_key_prefix["X-Authorization"])
         self.assertEqual("test-api-key", client.configuration.api_key["X-Authorization"])
         self.assertIsInstance(client.device_controller, DeviceControllerApi)
+        self.assertNotIsInstance(client.device_controller, CEDeviceControllerApi)
         self.assertIsInstance(client.self_registration_controller, SelfRegistrationControllerApi)
 
 
