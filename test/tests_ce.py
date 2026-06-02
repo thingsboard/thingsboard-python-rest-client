@@ -27,9 +27,12 @@ TB_TENANT_PASSWORD_CE = 'tenant'
 TB_SYSADMIN_USERNAME_CE = 'sysadmin@thingsboard.org'
 TB_SYSADMIN_PASSWORD_CE = 'sysadmin'
 
+API_KEY_CE = "tb_api_key"
+
 
 class TBClientCETests(unittest.TestCase):
     client = None
+    login_method = 'login'
 
     @classmethod
     def setUpClass(cls) -> None:
@@ -40,8 +43,14 @@ class TBClientCETests(unittest.TestCase):
         username = TB_TENANT_USERNAME_CE
         password = TB_TENANT_PASSWORD_CE
 
+        # Tenant Administrator API Key
+        api_key = API_KEY_CE
+
         with RestClientCE(url) as cls.client:
-            cls.client.login(username, password)
+            if cls.login_method == 'login':
+                cls.client.login(username, password)
+            elif  cls.login_method == 'ApiKey':
+                cls.client.api_key_login(api_key)
 
 
 class AlarmControllerTests(TBClientCETests):
@@ -1220,6 +1229,97 @@ class CalculatedFieldControllerTests(TBClientCETests):
 
     def test_get_calculated_field_names(self):
         self.assertIsInstance(self.client.get_calculated_field_names('SIMPLE', 10, 0), PageDataString)
+
+
+class KeyAPILoginAlarmControllerTests(AlarmControllerTests):
+    login_method = "ApiKey"
+
+class KeyAPILoginAlarmCommentControllerTests(AlarmCommentControllerTests):
+    login_method = "ApiKey"
+
+class KeyAPILoginAssetControllerTests(AssetControllerTests):
+    login_method = "ApiKey"
+
+class KeyAPILoginAssetProfileControllerTests(AssetProfileControllerTests):
+    login_method = "ApiKey"
+
+class KeyAPILoginAuditLogControllerTests(AuditLogControllerTests):
+    login_method = "ApiKey"
+
+class KeyAPILoginTelemetryControllerTests(TelemetryControllerTests):
+    login_method = "ApiKey"
+
+class KeyAPILoginDeviceControllerTests(DeviceControllerTests):
+    login_method = "ApiKey"
+
+class KeyAPILoginCustomerControllerTests(CustomerControllerTests):
+    login_method = "ApiKey"
+
+class KeyAPILoginDashboardControllerTests(DashboardControllerTests):
+    login_method = "ApiKey"
+
+class KeyAPILoginDeviceProfileControllerTests(DeviceProfileControllerTests):
+    login_method = "ApiKey"
+
+class KeyAPILoginEntityQueryControllerTests(EntityQueryControllerTests):
+    login_method = "ApiKey"
+
+class KeyAPILoginEntityRelationControllerTests(EntityRelationControllerTests):
+    login_method = "ApiKey"
+
+class KeyAPILoginEntityViewControllerTests(EntityViewControllerTests):
+    login_method = "ApiKey"
+
+class KeyAPILoginUserControllerTests(UserControllerTests):
+    login_method = "ApiKey"
+
+class KeyAPILoginNotificationControllerTests(NotificationControllerTests):
+    login_method = "ApiKey"
+
+class KeyAPILoginNotificationTemplateControllerTests(NotificationTemplateControllerTests):
+    login_method = "ApiKey"
+
+class KeyAPILoginNotificationTargetControllerTests(NotificationTargetControllerTests):
+    login_method = "ApiKey"
+
+class KeyAPILoginNotificationRuleControllerTests(NotificationRuleControllerTests):
+    login_method = "ApiKey"
+
+class KeyAPILoginTenantControllerTests(TenantControllerTests):
+    login_method = "ApiKey"
+
+class KeyAPILoginTenantProfileControllerTests(TenantProfileControllerTests):
+    login_method = "ApiKey"
+
+class KeyAPILoginUiSettingsControllerTests(UiSettingsControllerTests):
+    login_method = "ApiKey"
+
+class KeyAPILoginUsageInfoControllerTests(UsageInfoControllerTests):
+    login_method = "ApiKey"
+
+class KeyAPILoginWidgetBundleControllerTests(WidgetBundleControllerTests):
+    login_method = "ApiKey"
+
+class KeyAPILoginWidgetTypeControllerTests(WidgetTypeControllerTests):
+    login_method = "ApiKey"
+
+class KeyAPILoginDeviceConnectivityControllerTests(DeviceConnectivityControllerTests):
+    login_method = "ApiKey"
+
+class KeyAPILoginAdminControllerTests(AdminControllerTests):
+    login_method = "ApiKey"
+
+class KeyAPILoginImageControllerTests(ImageControllerTests):
+    login_method = "ApiKey"
+
+class KeyAPILoginMobileApplicationControllerTests(MobileApplicationControllerTests):
+    login_method = "ApiKey"
+
+class KeyAPILoginQueueStatsControllerTests(QueueStatsControllerTests):
+    login_method = "ApiKey"
+
+class KeyAPILoginCalculatedFieldControllerTests(CalculatedFieldControllerTests):
+    login_method = "ApiKey"
 
 
 if __name__ == '__main__':

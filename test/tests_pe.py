@@ -19,20 +19,34 @@ from tb_rest_client.rest_client_base import *
 from tb_rest_client.models.models_pe import *
 
 
+TB_URL_PE = "http://0.0.0.0:8080"
+
+TB_TENANT_USERNAME_PE = "tenant@thingsboard.org"
+TB_TENANT_PASSWORD_PE = "tenant"
+
+API_KEY_PE = "tb_api_key"
+
+
 class TBClientPETests(unittest.TestCase):
     client = None
+    login_method = 'login'
 
     @classmethod
     def setUpClass(cls) -> None:
-        # ThingsBoard REST API URL
-        url = "http://0.0.0.0:8080"
+        url = TB_URL_PE
 
-        # Default Tenant Administrator credentials
-        username = "tenant@thingsboard.org"
-        password = "tenant"
+        # Tenant Administrator credentials
+        username = TB_TENANT_USERNAME_PE
+        password = TB_TENANT_PASSWORD_PE
+
+        # Tenant Administrator API Key
+        api_key = API_KEY_PE
 
         with RestClientPE(url) as cls.client:
-            cls.client.login(username, password)
+            if cls.login_method == 'login':
+                cls.client.login(username, password)
+            elif  cls.login_method == 'ApiKey':
+                cls.client.api_key_login(api_key)
 
 
 class DeviceConnectivityControllerTests(TBClientPETests):
@@ -279,6 +293,9 @@ class DeviceControllerTest(TBClientPETests):
         self.client.delete_device(test_device.id)
         sleep(0.5)
 
+    def test_get_all_device_infos_using_get(self):
+        pd = self.client.get_all_device_infos(page_size=100, page=0, include_customers=True)
+        self.assertIsInstance(pd, PageDataDeviceInfo)
 
 class AssetControllerTests(TBClientPETests):
     test_asset = None
@@ -1347,6 +1364,150 @@ class SecretControllerTests(TBClientPETests):
         self.secret_info.description = updated_description
         updated_secret_info = self.client.update_secret_description(self.secret_info.id, updated_description)
         self.assertEqual(updated_secret_info.description, f'"{updated_description}"')
+
+
+class KeyAPILoginDeviceConnectivityControllerTests(DeviceConnectivityControllerTests):
+    login_method = "ApiKey"
+
+
+class KeyAPILoginAdminControllerTests(AdminControllerTests):
+    login_method = "ApiKey"
+
+
+class KeyAPILoginAlarmCommentControllerTests(AlarmCommentControllerTests):
+    login_method = "ApiKey"
+
+
+class KeyAPILoginTelemetryControllerTests(TelemetryControllerTests):
+    login_method = "ApiKey"
+
+
+class KeyAPILoginDeviceControllerTest(DeviceControllerTest):
+    login_method = "ApiKey"
+
+
+class KeyAPILoginAssetControllerTests(AssetControllerTests):
+    login_method = "ApiKey"
+
+
+class KeyAPILoginAssetProfileControllerTests(AssetProfileControllerTests):
+    login_method = "ApiKey"
+
+
+class KeyAPILoginAuditLogControllerTests(AuditLogControllerTests):
+    login_method = "ApiKey"
+
+
+class KeyAPILoginEntityGroupControllerTests(EntityGroupControllerTests):
+    login_method = "ApiKey"
+
+
+class KeyAPILoginCustomerControllerTests(CustomerControllerTests):
+    login_method = "ApiKey"
+
+
+class KeyAPILoginDashboardControllerTests(DashboardControllerTests):
+    login_method = "ApiKey"
+
+
+class KeyAPILoginConverterControllerTests(ConverterControllerTests):
+    login_method = "ApiKey"
+
+
+class KeyAPILoginIntegrationControllerTests(IntegrationControllerTests):
+    login_method = "ApiKey"
+
+
+class KeyAPILoginAlarmControllerTests(AlarmControllerTests):
+    login_method = "ApiKey"
+
+
+class KeyAPILoginDeviceProfileControllerTests(DeviceProfileControllerTests):
+    login_method = "ApiKey"
+
+
+class KeyAPILoginEntityRelationControllerTests(EntityRelationControllerTests):
+    login_method = "ApiKey"
+
+
+class KeyAPILoginEntityViewControllerTests(EntityViewControllerTests):
+    login_method = "ApiKey"
+
+
+class KeyAPILoginRoleControllerTests(RoleControllerTests):
+    login_method = "ApiKey"
+
+
+class KeyAPILoginUserPermissionsControllerTests(UserPermissionsControllerTests):
+    login_method = "ApiKey"
+
+
+class KeyAPILoginUiSettingsControllerTests(UiSettingsControllerTests):
+    login_method = "ApiKey"
+
+
+class KeyAPILoginUsageInfoControllerTests(UsageInfoControllerTests):
+    login_method = "ApiKey"
+
+
+class KeyAPILoginWidgetBundleControllerTests(WidgetBundleControllerTests):
+    login_method = "ApiKey"
+
+
+class KeyAPILoginWidgetTypeControllerTests(WidgetTypeControllerTests):
+    login_method = "ApiKey"
+
+
+class KeyAPILoginNotificationControllerTests(NotificationControllerTests):
+    login_method = "ApiKey"
+
+
+class KeyAPILoginNotificationTemplateControllerTests(NotificationTemplateControllerTests):
+    login_method = "ApiKey"
+
+
+class KeyAPILoginNotificationTargetControllerTests(NotificationTargetControllerTests):
+    login_method = "ApiKey"
+
+
+class KeyAPILoginNotificationRuleControllerTests(NotificationRuleControllerTests):
+    login_method = "ApiKey"
+
+
+class KeyAPILoginImageControllerTests(ImageControllerTests):
+    login_method = "ApiKey"
+
+
+class KeyAPILoginQueueStatsControllerTests(QueueStatsControllerTests):
+    login_method = "ApiKey"
+
+
+class KeyAPILoginMobileAppBundleControllerTests(MobileAppBundleControllerTests):
+    login_method = "ApiKey"
+
+
+class KeyAPILoginTranslationControllerTests(TranslationControllerTests):
+    login_method = "ApiKey"
+
+
+class KeyAPILoginMobileAppControllerTests(MobileAppControllerTests):
+    login_method = "ApiKey"
+
+
+class KeyAPILoginBillingEndpointControllerTests(BillingEndpointControllerTests):
+    login_method = "ApiKey"
+
+
+class KeyAPILoginCloudEndpointControllerTests(CloudEndpointControllerTests):
+    login_method = "ApiKey"
+
+
+class KeyAPILoginCalculatedFieldControllerTests(CalculatedFieldControllerTests):
+    login_method = "ApiKey"
+
+
+class KeyAPILoginSecretControllerTests(SecretControllerTests):
+    login_method = "ApiKey"
 
 
 if __name__ == '__main__':
