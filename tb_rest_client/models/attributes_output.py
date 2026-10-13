@@ -46,7 +46,8 @@ class AttributesOutput(Output):
         'strategy': 'AttributesOutputStrategy'
     }
     if hasattr(Output, "swagger_types"):
-        swagger_types.update(Output.swagger_types)
+        # the type of strategy here is more precise than in Output: it must not be overwritten
+        swagger_types = dict(Output.swagger_types, **swagger_types)
 
     attribute_map = {
         'strategy': 'strategy'
@@ -60,7 +61,8 @@ class AttributesOutput(Output):
         self.discriminator = None
         if strategy is not None:
             self.strategy = strategy
-        Output.__init__(self, *args, **kwargs)
+        # strategy is also a field of Output: passed on, Output.__init__ would reset it to None
+        Output.__init__(self, *args, strategy=strategy, **kwargs)
 
     @property
     def strategy(self):
