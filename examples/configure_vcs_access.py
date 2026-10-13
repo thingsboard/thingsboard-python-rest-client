@@ -16,9 +16,9 @@ import logging
 from argparse import ArgumentParser
 from os.path import pathsep
 
-from tb_rest_client.models.models_ce.repository_settings import RepositorySettings
+from tb_rest_client.models.repository_settings import RepositorySettings
 from tb_rest_client.rest import ApiException
-from tb_rest_client.rest_client_ce import RestClientCE
+from tb_rest_client.rest_client import RestClient
 
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(levelname)s - %(module)s - %(lineno)d - %(message)s',
@@ -35,7 +35,7 @@ def main(github_password, private_key, private_key_password, user: str, password
             else:
                 url = "https://" + host + ":443"
 
-    with RestClientCE(base_url=url) as rest_client:
+    with RestClient(base_url=url) as rest_client:
         try:
             # Auth with credentials
             logging.info("Logging in...")

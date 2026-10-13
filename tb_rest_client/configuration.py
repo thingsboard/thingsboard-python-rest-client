@@ -185,7 +185,7 @@ class Configuration(object):
     def get_api_key_with_prefix(self, identifier):
         """Gets API key (with prefix if set).
         :param identifier: The identifier of apiKey.
-        :return: The token for api_pe key authentication.
+        :return: The token for api key authentication.
         """
 
         if self.refresh_api_key_hook:
@@ -203,23 +203,32 @@ class Configuration(object):
         """Gets HTTP basic authentication header (string).
         :return: The token for basic HTTP authentication.
         """
-        return urllib3.util.make_headers(
-            basic_auth=self.username + ':' + self.password
-        ).get('authorization')
+        token = ""
+        if self.username or self.password:
+            token = urllib3.util.make_headers(
+                basic_auth=self.username + ':' + self.password
+            ).get('authorization')
+        return token
 
     def auth_settings(self):
-        """Gets Auth Settings dict for api_pe client.
+        """Gets Auth Settings dict for api client.
         :return: The Auth Settings information dict.
         """
         return {
-            'X-Authorization':
+            'ApiKeyForm':
                 {
                     'type': 'api_key',
                     'in': 'header',
                     'key': 'X-Authorization',
                     'value': self.get_api_key_with_prefix('X-Authorization')
                 },
-
+            'HttpLoginForm':
+                {
+                    'type': 'basic',
+                    'in': 'header',
+                    'key': 'Authorization',
+                    'value': self.get_basic_auth_token()
+                },
         }
 
     def to_debug_report(self):

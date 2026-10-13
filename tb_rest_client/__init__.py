@@ -12,5 +12,4 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-from .rest_client_ce import RestClientCE
-from .rest_client_pe import RestClientPE
+from .rest_client import RestClient

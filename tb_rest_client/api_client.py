@@ -28,8 +28,7 @@ import six
 from six.moves.urllib.parse import quote
 
 from tb_rest_client.configuration import Configuration
-import tb_rest_client.models.models_ce
-import tb_rest_client.models.models_pe
+import tb_rest_client.models
 from tb_rest_client import rest
 
 
@@ -110,6 +109,8 @@ class ApiClient(object):
             header_params['Cookie'] = self.cookie
         if header_params:
             header_params = self.sanitize_for_serialization(header_params)
+            # optional params passed explicitly as None are not sent
+            header_params = {k: v for k, v in header_params.items() if v is not None}
             header_params = dict(self.parameters_to_tuples(header_params,
                                                            collection_formats))
 
@@ -122,45 +123,10 @@ class ApiClient(object):
                 if isinstance(v, dict) and v.get("entityType") is not None and v.get('id') is not None:
                     v = v["id"]
                 # specified safe chars, encode everything
-                if v is not None:
-                    resource_path = resource_path.replace(
-                        '{%s}' % k,
-                        quote(str(v) if v is not None else "", safe=config.safe_chars_for_path_param)
-                    ).replace(
-                        '{?%s}' % k,
-                        quote(str("?"+k+"="+v) if v is not None else "", safe=config.safe_chars_for_path_param)
-                    ).replace(
-                        '{?%s,' % k,
-                        quote(str("?"+k+"="+v) if v is not None else "", safe=config.safe_chars_for_path_param)
-                    ).replace(
-                        ',%s' % k,
-                        quote(str("&"+k+"="+v) if v is not None else "", safe=config.safe_chars_for_path_param)
-                    ).replace(
-                        ',?%s' % k,
-                        quote(str("&"+k+"="+v) if v is not None else "", safe=config.safe_chars_for_path_param)
-                    ).replace(
-                        ',%s}' % k,
-                        quote("}" + str(v) if v is not None else "", safe=config.safe_chars_for_path_param)
-                    )
-                # resource_path = resource_path.replace(
-                #     '{%s}' % k,
-                #     quote(str(k+"="+v), safe=config.safe_chars_for_path_param)
-                # ).replace(
-                #     '{?%s}' % k,
-                #     quote(str("?"+k+"="+v), safe=config.safe_chars_for_path_param)
-                # ).replace(
-                #     '{?%s,' % k,
-                #     quote(str("?"+k+"="+v) + "{", safe=config.safe_chars_for_path_param)
-                # ).replace(
-                #     ',%s,' % k,
-                #     quote("}" + str("&"+k+"="+v) + "{", safe=config.safe_chars_for_path_param)
-                # ).replace(
-                #     ',?%s,' % k,
-                #     quote("}" + str("&"+k+"="+v) + "{", safe=config.safe_chars_for_path_param)
-                # ).replace(
-                #     ',%s}' % k,
-                #     quote("}" + str(v), safe=config.safe_chars_for_path_param)
-                # )
+                resource_path = resource_path.replace(
+                    '{%s}' % k,
+                    quote(str(v), safe=config.safe_chars_for_path_param)
+                )
 
         # query parameters
         if query_params:
@@ -185,8 +151,7 @@ class ApiClient(object):
             body = self.sanitize_for_serialization(body)
 
         # request url
-        clean_path = self.sanitize_path(resource_path)
-        url = self.configuration.host + clean_path
+        url = self.configuration.host + resource_path
 
         # perform request and return response
         response_data = self.request(
@@ -210,16 +175,6 @@ class ApiClient(object):
         else:
             return (return_data, response_data.status,
                     response_data.getheaders())
-
-    def sanitize_path(self, url):
-        pattern = r'(\{[\?a-zA-Z,]{1,}\})'
-        matching = re.search(pattern, url)
-        if matching is not None and len(matching.groups()) > 0:
-            for match in matching.groups():
-                clean_url = url.replace(match, "")
-        else:
-            clean_url = url
-        return clean_url
 
     def sanitize_for_serialization(self, obj):
         """Builds a JSON POST object.
@@ -272,12 +227,23 @@ class ApiClient(object):
         # save response body into a tmp file and return the instance
         if response_type == "file":
             return self.__deserialize_file(response)
+        # a file ('format: binary' in the spec): the raw body, even if it is text or JSON
+        if response_type == 'bytes':
+            return response.data
 
         # fetch data from response object
         try:
             data = json.loads(response.data)
         except ValueError:
             data = response.data
+            # plain-text body of a 'str' response: decode it instead of returning "b'...'"
+            if response_type == 'str' and isinstance(data, bytes):
+                try:
+                    return data.decode('utf-8')
+                except UnicodeDecodeError:
+                    return data  # binary content, e.g. a downloaded file
+            if not data:
+                return None  # empty body, e.g. a one-way RPC answered with 200
 
         return self.__deserialize(data, response_type)
 
@@ -290,23 +256,7 @@ class ApiClient(object):
         if data is None:
             return None
 
-        if "Deferred" in str(klass):
-            return self.__deserialize(data, type(data))
-        #
-        # elif type(klass) == str:
-        #     # convert str to class
-        elif klass in self.NATIVE_TYPES_MAPPING:
-            klass = self.NATIVE_TYPES_MAPPING[klass]
-        elif klass == list:
-            return_data = [self.__deserialize(sub_data, type(sub_data))
-                    for sub_data in data]
-            return return_data
-
-        elif klass == dict:
-            return_data = {k: self.__deserialize(v, type(v))
-                    for k, v in six.iteritems(data)}
-            return return_data
-        elif type(klass) == str:
+        if type(klass) == str:
             if klass.startswith('list['):
                 sub_kls = re.match(r'list\[(.*)\]', klass).group(1)
                 return [self.__deserialize(sub_data, sub_kls)
@@ -320,47 +270,19 @@ class ApiClient(object):
             # convert str to class
             if klass in self.NATIVE_TYPES_MAPPING:
                 klass = self.NATIVE_TYPES_MAPPING[klass]
-            try:
-                found_class = getattr(tb_rest_client.models.models_pe, klass)
-                if sorted(list(found_class.attribute_map.values())) == sorted(list(data.keys())):
-                    klass = found_class
-
-                # if all(attr in list(found_class.attribute_map.values()) for attr in list(data.keys())):
-                #     klass = found_class
-                else:
-                    found_class = getattr(tb_rest_client.models.models_ce, klass)
-                    # if sorted(list(found_class.attribute_map.values())) == sorted(list(data.keys())):
-                    klass = found_class
-
-            except AttributeError:
-                try:
-                    found_class = getattr(tb_rest_client.models.models_ce, klass)
-                    # if all(attr in list(found_class.attribute_map.values()) for attr in list(data.keys())):
-                    # if sorted(list(found_class.attribute_map.values())) == sorted(list(data.keys())):
-                    klass = found_class
-                except AttributeError:
-                    print('WARNING: received data fields not the same as in the {0} model (dyn fields problem)'.format(
-                        klass))
-                    found_class = getattr(tb_rest_client.models.models_pe, klass)
-                    klass = found_class
-        # else:
-        #     return self.__deserialize(data, type(data))
-        return self.__deserialize_data(data, klass)
-
-    def __deserialize_data(self, data, klass):
-        try:
-            if klass in self.PRIMITIVE_TYPES:
-                return self.__deserialize_primitive(data, klass)
-            elif klass == object:
-                return self.__deserialize_object(data)
-            elif klass == datetime.date:
-                return self.__deserialize_date(data)
-            elif klass == datetime.datetime:
-                return self.__deserialize_datatime(data)
             else:
-                return self.__deserialize_model(data, klass)
-        except Exception as e:
-            return e
+                klass = getattr(tb_rest_client.models, klass)
+
+        if klass in self.PRIMITIVE_TYPES:
+            return self.__deserialize_primitive(data, klass)
+        elif klass == object:
+            return self.__deserialize_object(data)
+        elif klass == datetime.date:
+            return self.__deserialize_date(data)
+        elif klass == datetime.datetime:
+            return self.__deserialize_datatime(data)
+        else:
+            return self.__deserialize_model(data, klass)
 
     def call_api(self, resource_path, method,
                  path_params=None, query_params=None, header_params=None,
@@ -491,7 +413,8 @@ class ApiClient(object):
         if collection_formats is None:
             collection_formats = {}
         for k, v in six.iteritems(params) if isinstance(params, dict) else params:  # noqa: E501
-            if k in collection_formats:
+            # a comma-separated string (the wrappers join id lists) is one value, not a collection
+            if k in collection_formats and not isinstance(v, six.string_types):
                 collection_format = collection_formats[k]
                 if collection_format == 'multi':
                     new_params.extend((k, value) for value in v)
@@ -547,10 +470,10 @@ class ApiClient(object):
 
         accepts = [x.lower() for x in accepts]
 
-        if 'application/json' in accepts:
-            return 'application/json'
-        else:
-            return ', '.join(accepts)
+        # every listed type: the 4.4 spec adds application/json (the error body) to the media type of
+        # file and text answers (image/*, application/pdf, text/plain, ...), and asking for
+        # application/json only made the server answer 406 Not Acceptable (4.3 listed the file type only)
+        return ', '.join(accepts)
 
     def select_header_content_type(self, content_types):
         """Returns `Content-Type` based on an array of content_types provided.
