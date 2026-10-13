@@ -13,7 +13,9 @@
 #  limitations under the License.
 
 import os
+import socket
 import tempfile
+import threading
 import unittest
 from uuid import uuid4
 
@@ -1183,6 +1185,7 @@ class WidgetTypeControllerTests(TBClientTests):
     @classmethod
     def tearDownClass(cls) -> None:
         cls.client.delete_widget_type(cls.widget_type.id)
+        cls.client.delete_widgets_bundle(cls.widget_bundle.id)
 
     def test_get_widget_type_by_id(self):
         self.assertIsInstance(self.client.get_widget_type_by_id(self.widget_type.id), WidgetTypeDetails)
@@ -2398,6 +2401,22 @@ class AuthControllerTests(TBClientTests):
         finally:
             self.client.delete_user(user.id)
 
+    def test_login_timeout(self):
+        # a server that accepts the connection and never answers the TLS handshake: login fails instead of hanging
+        server = socket.socket()
+        server.bind(('127.0.0.1', 0))
+        server.listen()
+        connections = []
+        threading.Thread(target=lambda: connections.append(server.accept()[0]), daemon=True).start()
+        try:
+            client = RestClient('https://127.0.0.1:%d' % server.getsockname()[1], timeout=1)
+            started = time()
+            with self.assertRaises(Exception):
+                client.login('test@example.com', 'test')
+            self.assertLess(time() - started, 5)
+        finally:
+            server.close()
+
 
 class BlobEntityControllerTests(TBClientTests):
     def test_get_blob_entities_by_ids(self):
@@ -2685,10 +2704,15 @@ class SolutionExportImportControllerTests(TBClientTests):
 
     def test_export_solution_with_export_data_subclasses(self):
         rule_chain = self.client.get_rule_chains(10, 0).data[0]
-        bundle = self.client.get_widgets_bundles(10, 0).data[0]
+        # a bundle of the tenant: the system bundles cannot be exported
+        bundle = self.client.save_widgets_bundle(WidgetsBundle(name='Test Solution Bundle', alias='test_solution',
+                                                               title='Test Solution Bundle'))
         group = self.client.get_entity_groups_by_type('DEVICE')[0]
-        solution = self.client.export_solution(SolutionExportRequest(
-            internal_ids=[self.device.id, rule_chain.id, bundle.id, group.id])).solution
+        try:
+            solution = self.client.export_solution(SolutionExportRequest(
+                internal_ids=[self.device.id, rule_chain.id, bundle.id, group.id])).solution
+        finally:
+            self.client.delete_widgets_bundle(bundle.id)
         types = {type(e).__name__ for entities in solution.entities.values() for e in entities}
         for expected in ('DeviceExportData', 'RuleChainExportData', 'WidgetsBundleExportData', 'EntityGroupExportData'):
             self.assertIn(expected, types)

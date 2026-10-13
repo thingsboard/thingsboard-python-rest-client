@@ -89,6 +89,8 @@ class Configuration(object):
 
         # Proxy URL
         self.proxy = None
+        # Default timeout of a request in seconds: a number, a (connect, read) pair, or None to wait forever
+        self.timeout = None
         # Safe chars for path_param
         self.safe_chars_for_path_param = ''
 
