@@ -127,7 +127,9 @@ logger = getLogger(__name__)
 
 
 class RestClient(Thread):
-    def __init__(self, base_url):
+    def __init__(self, base_url, timeout=(10, None)):
+        """timeout: seconds for every request, a number or a (connect, read) pair. The default limits connecting
+        (the TLS handshake included) to 10 s and lets an answer take as long as it needs; None waits forever."""
         super().__init__()
         if base_url.startswith("http"):
             self.base_url = base_url
@@ -139,6 +141,7 @@ class RestClient(Thread):
         self.stopped = True
         self.configuration = Configuration()
         self.configuration.host = self.base_url
+        self.configuration.timeout = timeout
 
     def run(self):
         self.stopped = False
@@ -170,7 +173,7 @@ class RestClient(Thread):
     def login(self, username, password):
         """Authorization on the host and saving the toke information"""
         token_json = post(self.base_url + "/api/auth/login", json={"username": username, "password": password},
-                          verify=self.configuration.verify_ssl).json()
+                          verify=self.configuration.verify_ssl, timeout=self.configuration.timeout).json()
         self.__save_token(token_json)
 
         self.logged_in = True
@@ -179,7 +182,7 @@ class RestClient(Thread):
 
     def public_login(self, public_id):
         token_json = post(self.base_url + "/api/auth/login/public", json={"publicId": public_id},
-                          verify=self.configuration.verify_ssl).json()
+                          verify=self.configuration.verify_ssl, timeout=self.configuration.timeout).json()
 
         self.__save_token(token_json)
         self.__load_configuration()
@@ -204,7 +207,7 @@ class RestClient(Thread):
             return
 
         token_json = post(self.base_url + "/api/auth/token", json={"refreshToken": self.token_info["refreshToken"]},
-                          verify=self.configuration.verify_ssl).json()
+                          verify=self.configuration.verify_ssl, timeout=self.configuration.timeout).json()
 
         self.__save_token(token_json)
         self.__load_configuration()
