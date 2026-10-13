@@ -14,8 +14,8 @@
 #
 
 import logging
-# Importing models and REST client class from Community Edition version
-from tb_rest_client.rest_client_ce import *
+# Importing models and REST client class
+from tb_rest_client.rest_client import *
 from tb_rest_client.rest import ApiException
 
 logging.basicConfig(level=logging.DEBUG,
@@ -32,7 +32,7 @@ password = "tenant"
 
 def main():
     # Creating the REST client object with context manager to get auto token refresh
-    with RestClientCE(base_url=url) as rest_client:
+    with RestClient(base_url=url) as rest_client:
         try:
             # Auth with credentials
             rest_client.login(username=username, password=password)
@@ -61,7 +61,7 @@ def main():
             logging.info(" Device was created:\n%r\n", device)
 
             # Creating relations from device to asset
-            relation = EntityRelation(_from=asset.id, to=device.id, type="Contains")
+            relation = EntityRelation(_from=asset.id, to=device.id, type="Contains", type_group="COMMON")
             rest_client.save_relation(relation)
 
             logging.info(" Relation was created:\n%r\n", relation)

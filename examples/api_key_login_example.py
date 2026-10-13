@@ -14,8 +14,8 @@
 #
 
 import logging
-# Importing models and REST client class from Community Edition version
-from tb_rest_client.rest_client_ce import *
+# Importing models and REST client class
+from tb_rest_client.rest_client import *
 from tb_rest_client.rest import ApiException
 
 logging.basicConfig(level=logging.DEBUG,
@@ -30,7 +30,7 @@ api_key = "YOUR_API_KEY_HERE"
 
 def main():
     # Creating the REST client object with context manager
-    with RestClientCE(base_url=url) as rest_client:
+    with RestClient(base_url=url) as rest_client:
         try:
             # Auth with API Key
             rest_client.api_key_login(api_key)

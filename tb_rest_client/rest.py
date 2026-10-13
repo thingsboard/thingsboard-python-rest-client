@@ -28,7 +28,7 @@
 """
     ThingsBoard REST API
 
-     ThingsBoard open-source IoT platform REST API documentation.  # noqa: E501
+     ThingsBoard IoT platform REST API documentation.  # noqa: E501
 
     OpenAPI spec version: 3.3.3
     Contact: info@thingsboard.io
@@ -67,11 +67,11 @@ class RESTResponse(io.IOBase):
 
     def getheaders(self):
         """Returns a dictionary of the response headers."""
-        return self.urllib3_response.getheaders()
+        return self.urllib3_response.headers
 
     def getheader(self, name, default=None):
         """Returns a given response header."""
-        return self.urllib3_response.getheader(name, default)
+        return self.urllib3_response.headers.get(name, default)
 
 
 class RESTClientObject(object):
@@ -180,7 +180,9 @@ class RESTClientObject(object):
                 if query_params:
                     url += '?' + urlencode(query_params)
                 if re.search('json', headers['Content-Type'], re.IGNORECASE):
-                    request_body = '{}'
+                    # no body when none is given: '{}' changed the meaning of optional bodies
+                    # (e.g. mergeAgentApplicationForPreview merged into an empty application)
+                    request_body = None
                     if body is not None:
                         request_body = json.dumps(body)
                     r = self.pool_manager.request(
@@ -212,8 +214,10 @@ class RESTClientObject(object):
                 # Pass a `string` parameter directly in the body to support
                 # other content types than Json when `body` argument is
                 # provided in serialized form
-                elif isinstance(body, str):
-                    request_body = body
+                elif isinstance(body, (str, dict, list)):
+                    # a dict or list in a text/plain request (e.g. the telemetry and attributes bodies, which
+                    # the spec types as a string holding JSON) is sent as its JSON text
+                    request_body = body if isinstance(body, str) else json.dumps(body)
                     r = self.pool_manager.request(
                         method, url,
                         body=request_body,

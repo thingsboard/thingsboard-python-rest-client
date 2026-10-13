@@ -15,8 +15,8 @@
 
 import logging
 from json import load
-# Importing models and REST client class from Professional Edition version
-from tb_rest_client.rest_client_pe import *
+# Importing models and REST client class
+from tb_rest_client.rest_client import *
 from tb_rest_client.rest import ApiException
 
 
@@ -35,7 +35,7 @@ password = "tenant"
 
 # Creating the REST client object with context manager to get auto token refresh
 def main():
-    with RestClientPE(base_url=url) as rest_client:
+    with RestClient(base_url=url) as rest_client:
         try:
             # Auth with credentials
             rest_client.login(username=username, password=password)
@@ -103,7 +103,7 @@ def main():
                         additional_info=additional_info)
             user = rest_client.save_user(user, send_activation_mail=False)
             activation_link = rest_client.get_activation_link(user.id.id)
-            activate_token = activation_link.split('=')[-1][:-1]
+            activate_token = activation_link.split('=')[-1]
             rest_client.activate_user(body=ActivateUserRequest(activate_token, user_password),
                                       send_activation_mail=False)
 
