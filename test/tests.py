@@ -61,6 +61,17 @@ def tearDownModule():
                 client.delete_customer(customer.id)
 
 
+def call_ai(test, function, *args, **kwargs):
+    """Calls an AI endpoint. They need a base URL in the general settings of the sysadmin that is not "localhost"
+    (checked on 4.4: with http://127.0.0.1:8080 they work, with http://localhost:8080 the server answers 400 "Please
+    configure the base URL"). Without it only the route is reached. Calls that need an LLM are not made."""
+    try:
+        return function(*args, **kwargs)
+    except ApiException as e:
+        test.assertEqual(e.status, 400)
+        test.assertIn('base URL', str(e.body))
+
+
 class TBClientTests(unittest.TestCase):
     client = None
 
@@ -96,6 +107,16 @@ class DeviceConnectivityControllerTests(TBClientTests):
 
     def test_get_device_publish_telemetry_commands(self):
         self.assertIsInstance(self.client.get_device_publish_telemetry_commands(self.device.id), dict)
+
+    def test_download_gateway_docker_compose(self):
+        gateway = self.client.save_device(Device(name='Test binary gateway', additional_info={'gateway': True},
+                                                 device_profile_id=self.client.get_default_device_profile_info().id))
+        try:
+            compose = self.client.download_gateway_docker_compose(gateway.id)
+            self.assertIsInstance(compose, bytes)
+            self.assertIn(b'services', compose)
+        finally:
+            self.client.delete_device(gateway.id)
 
 
 class AdminControllerTests(TBClientTests):
@@ -138,6 +159,14 @@ class AdminControllerTests(TBClientTests):
         with self.assertRaises(ApiException) as error:
             self.client.send_test_sms(request)
         self.assertIn(error.exception.status, (400, 500))
+
+    def test_refresh_license(self):
+        # not refreshed here (it reaches the license server): a tenant administrator is refused
+        with RestClient(TB_URL) as client:
+            login(client, TB_TENANT_USERNAME, TB_TENANT_PASSWORD, TB_TENANT_TOKEN)
+            with self.assertRaises(ApiException) as error:
+                client.refresh_license()
+        self.assertEqual(error.exception.status, 403)
 
 
 class AlarmCommentControllerTests(TBClientTests):
@@ -249,6 +278,17 @@ class TelemetryControllerTests(TBClientTests):
     def test_save_device_attributes(self):
         self.assertIsNone(self.client.save_device_attributes(self.device.id, 'SHARED_SCOPE', {'shared1': 12}))
 
+    def test_get_timeseries_by_read_ts_kv_queries(self):
+        now = int(time() * 1000)
+        self.client.save_entity_telemetry(self.device.id, 'ANY', {'ts': now - 1000, 'values': {'temperature': 21}})
+        result = self.client.get_timeseries_by_read_ts_kv_queries(
+            [BaseReadTsKvQuery(id=1, key='temperature', start_ts=now - 60000, end_ts=now, limit=10, order='DESC',
+                               # the server needs aggParameters (500 without them)
+                               agg_parameters=AggregationParams(aggregation='NONE', interval_type='MILLISECONDS',
+                                                                interval=0, tz_id='UTC'))], self.device.id)
+        self.assertIsInstance(result, list)
+        self.assertIsInstance(result[0], ReadTsKvQueryResult)
+
 
 class DeviceControllerTests(TBClientTests):
     device = None
@@ -348,6 +388,28 @@ class DeviceControllerTests(TBClientTests):
     def test_get_tenant_device_infos(self):
         self.assertIsInstance(self.client.get_tenant_device_infos(10, 0), PageDataDeviceInfo)
 
+    def test_process_devices_bulk_import(self):
+        request = BulkImportRequest(file='name,type\nTest Bulk Device,default\n',
+                                    mapping=Mapping(columns=[ColumnMapping(type='NAME'), ColumnMapping(type='TYPE')],
+                                                    delimiter=',', update=False, header=True))
+        result = self.client.process_devices_bulk_import(request)
+        self.assertIsInstance(result, BulkImportResultDevice)
+        self.assertEqual(result.created, 1)
+        for device in self.client.get_tenant_devices(10, 0, text_search='Test Bulk Device').data:
+            self.client.delete_device(device.id)
+
+    def test_find_by_query_v1(self):
+        parameters = RelationsSearchParameters(root_id=self.device.id.id, root_type='DEVICE', direction='FROM',
+                                               relation_type_group='COMMON', max_level=1)
+        self.assertIsInstance(self.client.find_by_query_v1(
+            DeviceSearchQuery(parameters=parameters, relation_type='Contains', device_types=['default'])), list)
+
+    def test_claim_device_by_name(self):
+        # only a customer user can claim a device
+        with self.assertRaises(ApiException) as error:
+            self.client.claim_device_by_name(self.device.name, ClaimRequest(secret_key='test'))
+        self.assertEqual(error.exception.status, 403)
+
 
 class AssetControllerTests(TBClientTests):
     test_asset = None
@@ -405,6 +467,22 @@ class AssetControllerTests(TBClientTests):
 
     def test_get_asset_info_by_id(self):
         self.assertIsInstance(self.client.get_asset_info_by_id(self.test_asset.id), AssetInfo)
+
+    def test_process_asset_bulk_import(self):
+        request = BulkImportRequest(file='name,type\nTest Bulk Asset,default\n',
+                                    mapping=Mapping(columns=[ColumnMapping(type='NAME'), ColumnMapping(type='TYPE')],
+                                                    delimiter=',', update=False, header=True))
+        result = self.client.process_asset_bulk_import(request)
+        self.assertIsInstance(result, BulkImportResultAsset)
+        self.assertEqual(result.created, 1)
+        for asset in self.client.get_tenant_assets(10, 0, text_search='Test Bulk Asset').data:
+            self.client.delete_asset(asset.id)
+
+    def test_find_by_query(self):
+        parameters = RelationsSearchParameters(root_id=self.test_asset.id.id, root_type='ASSET', direction='FROM',
+                                               relation_type_group='COMMON', max_level=1)
+        self.assertIsInstance(self.client.find_by_query(
+            AssetSearchQuery(parameters=parameters, relation_type='Contains', asset_types=['default'])), list)
 
 
 class AssetProfileControllerTests(TBClientTests):
@@ -832,6 +910,12 @@ class AlarmControllerTests(TBClientTests):
     def test_get_alarm_types_using_get(self):
         self.assertIsInstance(self.client.get_alarm_types(10, 0), PageDataEntitySubtype)
 
+    def test_get_all_alarms_v2(self):
+        self.assertIsInstance(self.client.get_all_alarms_v2(10, 0), PageDataAlarmInfo)
+
+    def test_get_alarms_v2(self):
+        self.assertIsInstance(self.client.get_alarms_v2(self.device.id, 10, 0), PageDataAlarmInfo)
+
 
 class DeviceProfileControllerTests(TBClientTests):
     test_device_profile = None
@@ -931,6 +1015,12 @@ class EntityRelationControllerTests(TBClientTests):
         self.assertIsInstance(self.client.get_relation(self.test_asset.id, 'Contains', self.test_device.id),
                               EntityRelation)
 
+    def test_find_info_by_query(self):
+        query = EntityRelationsQuery(parameters=RelationsSearchParameters(
+            root_id=self.test_device.id.id, root_type='DEVICE', direction='FROM', relation_type_group='COMMON', max_level=1),
+            filters=[])
+        self.assertIsInstance(self.client.find_info_by_query(query), list)
+
 
 class EntityViewControllerTests(TBClientTests):
     test_entity_view = None
@@ -987,6 +1077,13 @@ class EntityViewControllerTests(TBClientTests):
         self.assertIsInstance(
             self.client.get_customer_entity_views(customer.id, 10,
                                                   0), PageDataEntityView)
+
+    def test_find_by_query_v4(self):
+        parameters = RelationsSearchParameters(root_id=self.device.id.id, root_type='DEVICE', direction='FROM',
+                                               relation_type_group='COMMON', max_level=1)
+        self.assertIsInstance(self.client.find_by_query_v4(
+            EntityViewSearchQuery(parameters=parameters, relation_type='Contains', entity_view_types=['default'])),
+            list)
 
 
 class RoleControllerTests(TBClientTests):
@@ -1267,6 +1364,19 @@ class ImageControllerTests(TBClientTests):
     def test_download_image(self):
         self.assertIsInstance(self.client.download_image('tenant', 'task_done.png'), bytes)
 
+    def test_download_image_preview_and_public_image(self):
+        image = self.client.upload_image(file=TASK_DONE_IMAGE, title='Test binary image')
+        try:
+            preview = self.client.download_image_preview('tenant', image.resource_key)
+            self.assertIsInstance(preview, bytes)
+            self.assertTrue(preview.startswith(b'\x89PNG'))
+            public = self.client.update_image_public_status('tenant', image.resource_key, True)
+            data = self.client.download_public_image(public.public_resource_key)
+            with open(TASK_DONE_IMAGE, 'rb') as f:
+                self.assertEqual(data, f.read())
+        finally:
+            self.client.delete_image('tenant', image.resource_key, force=True)
+
 
 class QueueStatsControllerTests(TBClientTests):
     queue_stats = None
@@ -1367,10 +1477,6 @@ class MobileAppControllerTests(TBClientTests):
         self.assertIsInstance(self.client.get_tenant_mobile_app_infos(10, 0), PageDataMobileApp)
 
 
-
-
-
-
 class CalculatedFieldControllerTests(TBClientTests):
     calculated_field = None
     device = None
@@ -1426,6 +1532,55 @@ class CalculatedFieldControllerTests(TBClientTests):
 
     def test_get_calculated_field_names(self):
         self.assertIsInstance(self.client.get_calculated_field_names('SIMPLE', 10, 0), PageDataString)
+
+    def test_get_calculated_fields(self):
+        self.assertIsInstance(self.client.get_calculated_fields(10, 0), PageDataCalculatedFieldInfo)
+
+    def test_test_calculated_field_script(self):
+        self.assertIsInstance(self.client.test_calculated_field_script({'expression': 'return 1;',
+                                                                         'arguments': {}}), dict)
+
+    def test_calculated_field_output_strategies(self):
+        def save(output):
+            return self.client.save_calculated_field(CalculatedField(
+                name='Test Output Strategy', entity_id=self.device.id, type='SIMPLE',
+                configuration=SimpleCalculatedFieldConfiguration(
+                    arguments={'t': Argument(ref_entity_key=ReferencedEntityKey(key='t', type='TS_LATEST'))},
+                    expression='t + 1', output=output, type='SIMPLE')))
+        for output in (TimeSeriesOutput(name='t2', type='TIME_SERIES', strategy=TimeSeriesImmediateOutputStrategy(
+                           type='IMMEDIATE', save_time_series=True, save_latest=True)),
+                       TimeSeriesOutput(name='t2', type='TIME_SERIES',
+                                        strategy=TimeSeriesRuleChainOutputStrategy(type='RULE_CHAIN')),
+                       AttributesOutput(name='t2', type='ATTRIBUTES', scope='SERVER_SCOPE',
+                                        strategy=AttributesImmediateOutputStrategy(type='IMMEDIATE',
+                                                                                   save_attribute=True)),
+                       AttributesOutput(name='t2', type='ATTRIBUTES', scope='SERVER_SCOPE',
+                                        strategy=AttributesRuleChainOutputStrategy(type='RULE_CHAIN'))):
+            field = save(output)
+            try:
+                read = self.client.get_calculated_field_by_id(field.id)
+                self.assertIsInstance(read.configuration.output.strategy, type(output.strategy))
+            finally:
+                self.client.delete_calculated_field(field.id)
+
+    def test_entity_aggregation_calculated_field(self):
+        configuration = EntityAggregationCalculatedFieldConfiguration(
+            type='ENTITY_AGGREGATION',
+            arguments={'t': Argument(ref_entity_key=ReferencedEntityKey(key='t', type='TS_LATEST'))},
+            metrics={'avg_t': AggMetric(function='AVG', input=AggKeyInput(type='key', key='t'))},
+            interval=HourInterval(type='HOUR', tz='UTC'),
+            output=TimeSeriesOutput(name='avg_t', type='TIME_SERIES'))
+        field = self.client.save_calculated_field(CalculatedField(
+            name='Test Aggregation', entity_id=self.device.id, type='ENTITY_AGGREGATION', configuration=configuration))
+        try:
+            read = self.client.get_calculated_field_by_id(field.id).configuration
+            self.assertIsInstance(read, EntityAggregationCalculatedFieldConfiguration)
+            self.assertIsInstance(read.interval, HourInterval)
+            self.assertIsInstance(read.metrics['avg_t'].input, AggKeyInput)
+        finally:
+            self.client.delete_calculated_field(field.id)
+        with self.assertRaises(ValueError):  # output is required for this configuration type
+            EntityAggregationCalculatedFieldConfiguration(**{'type': 'ENTITY_AGGREGATION'})
 
 
 class SecretControllerTests(TBClientTests):
@@ -1580,6 +1735,11 @@ class EntityQueryControllerTests(TBClientTests):
                                                                             body=entity_data_query),
             AvailableEntityKeys)
 
+    def test_find_available_entity_keys_by_query_v2(self):
+        query = EntityDataQuery(entity_filter=SingleEntityFilter(single_entity=self.user.id, type='singleEntity'),
+                                page_link=EntityDataPageLink(page_size=10, page=0))
+        self.assertIsInstance(self.client.find_available_entity_keys_by_query_v2(query), AvailableEntityKeysV2)
+
 
 class UserControllerTests(TBClientTests):
     test_user = None
@@ -1628,7 +1788,16 @@ class UserControllerTests(TBClientTests):
         self.assertIsInstance(self.client.get_activation_link_info(self.test_user.id), UserActivationLink)
 
     def test_get_users_by_ids(self):
-        self.assertIsInstance(self.client.get_users_by_ids([self.test_user.id.id]), list)
+        self.assertEqual([u.id.id for u in self.client.get_users_by_ids([self.test_user.id.id])],
+                         [self.test_user.id.id])
+
+    def test_user_settings_by_type(self):
+        self.assertIsNone(self.client.put_user_settings_by_type({'testKey': 1}, 'general'))
+        try:
+            self.assertEqual(self.client.get_user_settings_by_type('general')['testKey'], 1)
+        finally:
+            self.assertIsNone(self.client.delete_general_user_settings('testKey'))
+        self.assertNotIn('testKey', self.client.get_user_settings_by_type('general'))
 
 
 class TenantControllerTests(TBClientTests):
@@ -1727,7 +1896,7 @@ class MobileApplicationControllerTests(TBClientTests):
         self.assertIsInstance(self.client.save_qr_code_settings(body=qr_code_setting), QrCodeSettings)
 
 
-class AgentFixture(TBClientTests):
+class TBAgentClientTests(TBClientTests):
     """An agent profile, an agent, an application profile assigned to it and an installed application."""
     agent_profile = None
     agent = None
@@ -1738,7 +1907,7 @@ class AgentFixture(TBClientTests):
 
     @classmethod
     def setUpClass(cls) -> None:
-        super(AgentFixture, cls).setUpClass()
+        super(TBAgentClientTests, cls).setUpClass()
 
         cls.agent_profile = cls.client.save_agent_profile(
             AgentProfile(name='Test Agent Profile', provision_type='AUTO_INSTALL_PER_APP_TYPE'))
@@ -1773,135 +1942,7 @@ class AgentFixture(TBClientTests):
         cls.client.delete_device(cls.device.id)
 
 
-class AgentControllerTests(AgentFixture):
-    def test_get_agent_by_id(self):
-        self.assertIsInstance(self.client.get_agent_by_id(self.agent.id), Agent)
-
-    def test_get_agent_info_by_id(self):
-        self.assertIsInstance(self.client.get_agent_info_by_id(self.agent.id), AgentInfo)
-
-    def test_get_agent_infos_by_ids(self):
-        agents = self.client.get_agent_infos_by_ids([self.agent.id.id])
-        self.assertIsInstance(agents, list)
-        self.assertIsInstance(agents[0], AgentInfo)
-
-    def test_get_tenant_agents(self):
-        self.assertIsInstance(self.client.get_tenant_agents(10, 0), PageDataAgent)
-
-    def test_get_tenant_agent_infos(self):
-        self.assertIsInstance(self.client.get_tenant_agent_infos(10, 0), PageDataAgentInfo)
-
-    def test_get_customer_agents(self):
-        customer = ensure_customer(self.client)
-        self.assertIsInstance(self.client.get_customer_agents(customer.id, 10, 0), PageDataAgent)
-
-    def test_get_customer_agent_infos(self):
-        customer = ensure_customer(self.client)
-        self.assertIsInstance(self.client.get_customer_agent_infos(customer.id, 10, 0), PageDataAgentInfo)
-
-    def test_get_agent_install_instructions(self):
-        self.assertIsInstance(self.client.get_agent_install_instructions(self.agent.id, 'docker'),
-                              AgentInstructions)
-
-    def test_get_latest_agent_image_ref(self):
-        self.assertIsInstance(self.client.get_latest_agent_image_ref(), str)
-
-    def test_get_agent_upgrade_target(self):
-        self.assertIsInstance(self.client.get_agent_upgrade_target(self.agent.id), str)
-
-    def test_is_agent_upgrade_available(self):
-        self.assertIsInstance(self.client.is_agent_upgrade_available(self.agent.id), bool)
-
-    def test_get_agent_app_events_by_agent_id(self):
-        self.assertIsInstance(self.client.get_agent_app_events_by_agent_id(self.agent.id, 10, 0),
-                              PageDataAgentAppEvent)
-
-    def test_get_agent_app_event_infos_by_agent_id(self):
-        self.assertIsInstance(self.client.get_agent_app_event_infos_by_agent_id(self.agent.id, 10, 0),
-                              PageDataAgentAppEventInfo)
-
-    @classmethod
-    def setUpClass(cls) -> None:
-        super(AgentControllerTests, cls).setUpClass()
-
-        # the server refuses a new event of an agent while the INSTALL event of the fixture is processed
-        cls.client.cancel_agent_app_event(cls.application.id, cls.event.id)
-
-    def test_upgrade_agent(self):
-        self.assertIsInstance(
-            self.client.upgrade_agent(AgentUpgradeRequest(image_ref=self.client.get_latest_agent_image_ref()),
-                                      self.agent.id), AgentAppEvent)
-
-
-class AgentProfileControllerTests(AgentFixture):
-    def test_get_agent_profile_by_id(self):
-        self.assertIsInstance(self.client.get_agent_profile_by_id(self.agent_profile.id), AgentProfile)
-
-    def test_get_agent_profile_info_by_id(self):
-        self.assertIsInstance(self.client.get_agent_profile_info_by_id(self.agent_profile.id), AgentProfileInfo)
-
-    def test_get_default_agent_profile_info(self):
-        self.assertIsInstance(self.client.get_default_agent_profile_info(), AgentProfileInfo)
-
-    def test_get_tenant_agent_profiles(self):
-        self.assertIsInstance(self.client.get_tenant_agent_profiles(10, 0), PageDataAgentProfile)
-
-    def test_get_tenant_agent_profile_infos(self):
-        self.assertIsInstance(self.client.get_tenant_agent_profile_infos(10, 0), PageDataAgentProfileInfo)
-
-    def test_get_agent_provision_instructions(self):
-        self.assertIsInstance(self.client.get_agent_provision_instructions(self.agent_profile.id, 'docker'),
-                              AgentInstructions)
-
-    def test_get_agent_profile_app_profile_infos(self):
-        infos = self.client.get_agent_profile_app_profile_infos(self.agent_profile.id)
-        self.assertIsInstance(infos, list)
-        self.assertIsInstance(infos[0], AgentAppProfileRelationInfo)
-
-    def test_assign_app_profiles_to_agent_profile(self):
-        self.assertIsNone(self.client.assign_app_profiles_to_agent_profile(self.agent_profile.id,
-                                                                           [self.app_profile.id.id]))
-
-    def test_set_app_profile_relates_on_auto_discovery(self):
-        self.assertIsNone(self.client.set_app_profile_relates_on_auto_discovery(
-            self.agent_profile.id, self.app_profile.id.id, True))
-
-    def test_unassign_and_assign_app_profile(self):
-        self.assertIsNone(self.client.unassign_app_profile_from_agent_profile(self.agent_profile.id,
-                                                                              self.app_profile.id.id))
-        self.assertIsNone(self.client.assign_app_profile_to_agent_profile(self.agent_profile.id,
-                                                                          self.app_profile.id.id))
-
-    def test_preview_bulk_operation(self):
-        self.assertIsInstance(self.client.preview_bulk_operation(BulkOperationRequest(action_type='RESTART'),
-                                                                 self.agent_profile.id, self.app_profile.id.id),
-                              BulkOperationPreview)
-
-    def test_bulk_operation(self):
-        bulk_action = self.client.bulk_operation(BulkOperationRequest(action_type='RESTART'),
-                                                 self.agent_profile.id, self.app_profile.id.id)
-        self.assertIsInstance(bulk_action, AgentBulkAction)
-        self.assertIsInstance(self.client.get_agent_bulk_action(bulk_action.id), AgentBulkAction)
-        self.assertIsInstance(self.client.get_agent_bulk_action_event_stats(bulk_action.id),
-                              AgentBulkActionEventStats)
-        self.assertIsInstance(self.client.get_agent_bulk_action_events(bulk_action.id, 10, 0),
-                              PageDataAgentAppEventInfo)
-
-    def test_get_agent_profile_bulk_actions(self):
-        self.assertIsInstance(self.client.get_agent_profile_bulk_actions(self.agent_profile.id, 10, 0),
-                              PageDataAgentBulkAction)
-
-    def test_get_agent_profile_app_profile_bulk_actions(self):
-        self.assertIsInstance(self.client.get_agent_profile_app_profile_bulk_actions(
-            self.agent_profile.id, self.app_profile.id.id, 10, 0), PageDataAgentBulkAction)
-
-    def test_set_default_agent_profile(self):
-        default = self.client.get_default_agent_profile_info()
-        self.assertIsInstance(self.client.set_default_agent_profile(self.agent_profile.id), AgentProfile)
-        self.assertIsInstance(self.client.set_default_agent_profile(default.id), AgentProfile)
-
-
-class AgentAppProfileControllerTests(AgentFixture):
+class AgentAppProfileControllerTests(TBAgentClientTests):
     def test_get_agent_app_profile_by_id(self):
         self.assertIsInstance(self.client.get_agent_app_profile_by_id(self.app_profile.id), AgentAppProfile)
 
@@ -1952,7 +1993,7 @@ class AgentAppTemplateControllerTests(TBClientTests):
             AgentAppTemplate)
 
 
-class AgentApplicationControllerTests(AgentFixture):
+class AgentApplicationControllerTests(TBAgentClientTests):
     def test_get_agent_application_by_id(self):
         self.assertIsInstance(self.client.get_agent_application_by_id(self.application.id), AgentApplicationInfo)
 
@@ -2017,6 +2058,232 @@ class AgentApplicationControllerTests(AgentFixture):
         self.assertEqual(error.exception.status, 404)
 
 
+class AgentBulkActionControllerTests(TBAgentClientTests):
+    bulk_action = None
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        super(AgentBulkActionControllerTests, cls).setUpClass()
+
+        cls.bulk_action = cls.client.bulk_operation(BulkOperationRequest(action_type='RESTART'), cls.agent_profile.id,
+                                                    cls.app_profile.id.id)
+
+    def test_get_agent_bulk_action(self):
+        self.assertIsInstance(self.client.get_agent_bulk_action(self.bulk_action.id), AgentBulkAction)
+
+    def test_get_agent_bulk_action_event_stats(self):
+        self.assertIsInstance(self.client.get_agent_bulk_action_event_stats(self.bulk_action.id),
+                              AgentBulkActionEventStats)
+
+    def test_get_agent_bulk_action_events(self):
+        self.assertIsInstance(self.client.get_agent_bulk_action_events(self.bulk_action.id, 10, 0),
+                              PageDataAgentAppEventInfo)
+
+
+class AgentControllerTests(TBAgentClientTests):
+    def test_get_agent_by_id(self):
+        self.assertIsInstance(self.client.get_agent_by_id(self.agent.id), Agent)
+
+    def test_get_agent_info_by_id(self):
+        self.assertIsInstance(self.client.get_agent_info_by_id(self.agent.id), AgentInfo)
+
+    def test_get_agent_infos_by_ids(self):
+        agents = self.client.get_agent_infos_by_ids([self.agent.id.id])
+        self.assertIsInstance(agents, list)
+        self.assertIsInstance(agents[0], AgentInfo)
+
+    def test_get_tenant_agents(self):
+        self.assertIsInstance(self.client.get_tenant_agents(10, 0), PageDataAgent)
+
+    def test_get_tenant_agent_infos(self):
+        self.assertIsInstance(self.client.get_tenant_agent_infos(10, 0), PageDataAgentInfo)
+
+    def test_get_customer_agents(self):
+        customer = ensure_customer(self.client)
+        self.assertIsInstance(self.client.get_customer_agents(customer.id, 10, 0), PageDataAgent)
+
+    def test_get_customer_agent_infos(self):
+        customer = ensure_customer(self.client)
+        self.assertIsInstance(self.client.get_customer_agent_infos(customer.id, 10, 0), PageDataAgentInfo)
+
+    def test_get_agent_install_instructions(self):
+        self.assertIsInstance(self.client.get_agent_install_instructions(self.agent.id, 'docker'),
+                              AgentInstructions)
+
+    def test_get_latest_agent_image_ref(self):
+        self.assertIsInstance(self.client.get_latest_agent_image_ref(), str)
+
+    def test_get_agent_upgrade_target(self):
+        self.assertIsInstance(self.client.get_agent_upgrade_target(self.agent.id), str)
+
+    def test_is_agent_upgrade_available(self):
+        self.assertIsInstance(self.client.is_agent_upgrade_available(self.agent.id), bool)
+
+    def test_get_agent_app_events_by_agent_id(self):
+        self.assertIsInstance(self.client.get_agent_app_events_by_agent_id(self.agent.id, 10, 0),
+                              PageDataAgentAppEvent)
+
+    def test_get_agent_app_event_infos_by_agent_id(self):
+        self.assertIsInstance(self.client.get_agent_app_event_infos_by_agent_id(self.agent.id, 10, 0),
+                              PageDataAgentAppEventInfo)
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        super(AgentControllerTests, cls).setUpClass()
+
+        # the server refuses a new event of an agent while the INSTALL event of the fixture is processed
+        cls.client.cancel_agent_app_event(cls.application.id, cls.event.id)
+
+    def test_upgrade_agent(self):
+        self.assertIsInstance(
+            self.client.upgrade_agent(AgentUpgradeRequest(image_ref=self.client.get_latest_agent_image_ref()),
+                                      self.agent.id), AgentAppEvent)
+
+
+class AgentProfileControllerTests(TBAgentClientTests):
+    def test_get_agent_profile_by_id(self):
+        self.assertIsInstance(self.client.get_agent_profile_by_id(self.agent_profile.id), AgentProfile)
+
+    def test_get_agent_profile_info_by_id(self):
+        self.assertIsInstance(self.client.get_agent_profile_info_by_id(self.agent_profile.id), AgentProfileInfo)
+
+    def test_get_default_agent_profile_info(self):
+        self.assertIsInstance(self.client.get_default_agent_profile_info(), AgentProfileInfo)
+
+    def test_get_tenant_agent_profiles(self):
+        self.assertIsInstance(self.client.get_tenant_agent_profiles(10, 0), PageDataAgentProfile)
+
+    def test_get_tenant_agent_profile_infos(self):
+        self.assertIsInstance(self.client.get_tenant_agent_profile_infos(10, 0), PageDataAgentProfileInfo)
+
+    def test_get_agent_provision_instructions(self):
+        self.assertIsInstance(self.client.get_agent_provision_instructions(self.agent_profile.id, 'docker'),
+                              AgentInstructions)
+
+    def test_get_agent_profile_app_profile_infos(self):
+        infos = self.client.get_agent_profile_app_profile_infos(self.agent_profile.id)
+        self.assertIsInstance(infos, list)
+        self.assertIsInstance(infos[0], AgentAppProfileRelationInfo)
+
+    def test_assign_app_profiles_to_agent_profile(self):
+        self.assertIsNone(self.client.assign_app_profiles_to_agent_profile(self.agent_profile.id,
+                                                                           [self.app_profile.id.id]))
+
+    def test_set_app_profile_relates_on_auto_discovery(self):
+        self.assertIsNone(self.client.set_app_profile_relates_on_auto_discovery(
+            self.agent_profile.id, self.app_profile.id.id, True))
+
+    def test_unassign_and_assign_app_profile(self):
+        self.assertIsNone(self.client.unassign_app_profile_from_agent_profile(self.agent_profile.id,
+                                                                              self.app_profile.id.id))
+        self.assertIsNone(self.client.assign_app_profile_to_agent_profile(self.agent_profile.id,
+                                                                          self.app_profile.id.id))
+
+    def test_preview_bulk_operation(self):
+        self.assertIsInstance(self.client.preview_bulk_operation(BulkOperationRequest(action_type='RESTART'),
+                                                                 self.agent_profile.id, self.app_profile.id.id),
+                              BulkOperationPreview)
+
+    def test_bulk_operation(self):
+        self.assertIsInstance(self.client.bulk_operation(BulkOperationRequest(action_type='RESTART'),
+                                                         self.agent_profile.id, self.app_profile.id.id),
+                              AgentBulkAction)
+
+    def test_get_agent_profile_bulk_actions(self):
+        self.assertIsInstance(self.client.get_agent_profile_bulk_actions(self.agent_profile.id, 10, 0),
+                              PageDataAgentBulkAction)
+
+    def test_get_agent_profile_app_profile_bulk_actions(self):
+        self.assertIsInstance(self.client.get_agent_profile_app_profile_bulk_actions(
+            self.agent_profile.id, self.app_profile.id.id, 10, 0), PageDataAgentBulkAction)
+
+    def test_set_default_agent_profile(self):
+        default = self.client.get_default_agent_profile_info()
+        self.assertIsInstance(self.client.set_default_agent_profile(self.agent_profile.id), AgentProfile)
+        self.assertIsInstance(self.client.set_default_agent_profile(default.id), AgentProfile)
+
+
+class AiChatControllerTests(TBClientTests):
+    def test_list_chats(self):
+        self.assertIn(type(call_ai(self, self.client.list_chats)), (dict, list, type(None)))
+
+    def test_create_chat(self):
+        chat_id = call_ai(self, self.client.create_chat, {'title': 'Test chat'})
+        if chat_id:  # the answer is the id of the new chat
+            self.assertIsInstance(chat_id, str)
+            try:
+                self.assertIsNone(self.client.update_chat({'title': 'Test chat 2'}, chat_id))
+                self.assertIsNotNone(self.client.get_chat_messages(chat_id))
+            finally:
+                self.assertIsNone(self.client.delete_chat(chat_id))
+
+
+class AiDeviceDashboardControllerTests(TBClientTests):
+    device = None
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        super(AiDeviceDashboardControllerTests, cls).setUpClass()
+
+        cls.device = cls.client.save_device(
+            Device(name='Test AI Dashboard Device', device_profile_id=cls.client.get_default_device_profile_info().id))
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        cls.client.delete_device(cls.device.id)
+
+    def test_generate_dashboard(self):
+        try:
+            self.client.generate_dashboard({'prompt': 'test'}, self.device.id)
+        except ApiException as e:
+            # 400: no base URL; 500 "Request blocked": no LLM behind the AI model of this server
+            self.assertIn(e.status, (400, 500))
+
+
+class AiModelControllerTests(TBClientTests):
+    def test_save_ai_model(self):
+        model = self.client.save_ai_model(AiModel(name='Test AI model', configuration=OpenAiChatModelConfig(
+            provider='OPENAI', model_type='CHAT', model_id='gpt-4o-mini',
+            provider_config=OpenAiProviderConfig(api_key='test-key'))))
+        self.assertIsInstance(model, AiModel)
+        try:
+            self.assertIsInstance(self.client.get_ai_model_by_id(model.id).configuration, OpenAiChatModelConfig)
+        finally:
+            self.assertTrue(self.client.delete_ai_model_by_id(model.id))
+
+
+class AiSolutionControllerTests(TBClientTests):
+    def test_start_new(self):
+        solution = call_ai(self, self.client.start_new)
+        if solution:
+            try:
+                self.assertIsInstance(self.client.get_solution(solution['id']), dict)
+                self.assertIsInstance(self.client.get_solutions(), list)
+                self.assertIsNone(self.client.clear_step(solution['id'], 'INITIAL_CONFIGURATION'))
+            finally:
+                self.assertIsNone(self.client.delete_solution(solution['id']))
+            return
+        # not configured: the routes are reached with a random id
+        solution_id = str(uuid4())
+        call_ai(self, self.client.get_solutions)
+        call_ai(self, self.client.get_solution, solution_id)
+        call_ai(self, self.client.create_solution, solution_id)
+        call_ai(self, self.client.chat, 'hello', solution_id, 'INITIAL_CONFIGURATION')
+        call_ai(self, self.client.update_data, {'a': 1}, solution_id, 'test')
+        call_ai(self, self.client.clear_step, solution_id, 'INITIAL_CONFIGURATION')
+        call_ai(self, self.client.install_solution, solution_id)
+        call_ai(self, self.client.uninstall_solution, solution_id)
+        call_ai(self, self.client.delete_solution, solution_id)
+
+
+class AiToolControllerTests(TBClientTests):
+    def test_resolve_tool_approval(self):
+        try:
+            self.client.resolve_tool_approval({'toolCallId': 'none', 'approved': False})
+        except ApiException as e:
+            self.assertIn(e.status, (400, 404, 500))
+
+
 class AlarmRuleControllerTests(TBClientTests):
     device = None
     alarm_rule = None
@@ -2070,15 +2337,6 @@ class AlarmRuleControllerTests(TBClientTests):
         self.assertIsInstance(self.client.test_alarm_rule_script({'expression': 'return 1;', 'arguments': {}}), dict)
 
 
-class AlarmControllerV2Tests(TBClientTests):
-    def test_get_all_alarms_v2(self):
-        self.assertIsInstance(self.client.get_all_alarms_v2(10, 0), PageDataAlarmInfo)
-
-    def test_get_alarms_v2(self):
-        device = self.client.get_tenant_devices(1, 0).data[0]
-        self.assertIsInstance(self.client.get_alarms_v2(device.id, 10, 0), PageDataAlarmInfo)
-
-
 class ApiKeyControllerTests(TBClientTests):
     api_key = None
 
@@ -2106,6 +2364,146 @@ class ApiKeyControllerTests(TBClientTests):
 
     def test_update_api_key_description(self):
         self.assertIsInstance(self.client.update_api_key_description(self.api_key.id, 'Test API key 2'), ApiKeyInfo)
+
+
+class AuthControllerTests(TBClientTests):
+    customer = None
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        super(AuthControllerTests, cls).setUpClass()
+
+        cls.customer = cls.client.save_customer(Customer(title='Test Auth Customer'))
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        cls.client.delete_customer(cls.customer.id)
+
+    def test_change_password(self):
+        group = self.client.get_entity_group_by_owner_and_name_and_type(self.customer.id, 'USER', 'Customer Users')
+        user = self.client.save_user(User(authority='CUSTOMER_USER', customer_id=self.customer.id,
+                                          email='test-change-password@example.com'),
+                                     send_activation_mail=False, entity_group_id=group.id)
+        try:
+            link = self.client.get_activation_link(user.id)
+            self.client.activate_user(ActivateUserRequest(activate_token=link.split('=')[-1], password='OldPassw0rd!'),
+                                      send_activation_mail=False)
+            with RestClient(TB_URL) as user_client:
+                user_client.login('test-change-password@example.com', 'OldPassw0rd!')
+                self.assertIsInstance(user_client.change_password(
+                    ChangePasswordRequest(current_password='OldPassw0rd!', new_password='NewPassw0rd!')), JwtPair)
+            with RestClient(TB_URL) as user_client:
+                user_client.login('test-change-password@example.com', 'NewPassw0rd!')
+                self.assertEqual(user_client.get_user().email, 'test-change-password@example.com')
+        finally:
+            self.client.delete_user(user.id)
+
+
+class BlobEntityControllerTests(TBClientTests):
+    def test_get_blob_entities_by_ids(self):
+        self.assertEqual(self.client.get_blob_entities_by_ids([str(uuid4())]), [])
+
+
+class CustomMenuControllerTests(TBClientTests):
+    def test_create_custom_menu(self):
+        menu = self.client.create_custom_menu(CustomMenuInfo(name='Test Custom Menu', scope='TENANT',
+                                                             assignee_type='NO_ASSIGN'))
+        self.assertIsInstance(menu, CustomMenu)
+        try:
+            self.assertIsInstance(self.client.get_custom_menu_info_by_id(menu.id), CustomMenuInfo)
+            self.assertIsNone(self.client.update_custom_menu_name(menu.id, 'Test Custom Menu 2'))
+        finally:
+            self.assertIsInstance(self.client.delete_custom_menu(menu.id, force=True), CustomMenuDeleteResult)
+
+
+class DomainControllerTests(TBClientTests):
+    def test_save_domain(self):
+        domain = self.client.save_domain(Domain(name='test-domain.example.com', oauth2_enabled=False,
+                                                propagate_to_edge=False))
+        self.assertIsInstance(domain, Domain)
+        try:
+            self.assertIsInstance(self.client.get_domain_info_by_id(domain.id), DomainInfo)
+        finally:
+            self.assertIsNone(self.client.delete_domain(domain.id))
+
+
+class EdgeControllerTests(TBClientTests):
+    def test_get_edges_by_ids(self):
+        self.assertEqual(self.client.get_edges_by_ids([str(uuid4())]), [])
+
+    def test_get_edges_by_entity_group_id(self):
+        entity_group = self.client.get_entity_groups_by_type('EDGE')[0]
+        self.assertIsInstance(self.client.get_edges_by_entity_group_id(entity_group.id, '10', '0'), PageDataEdge)
+
+    def test_find_by_query_v2(self):
+        tenant_id = self.client.get_user().tenant_id
+        parameters = RelationsSearchParameters(root_id=tenant_id.id, root_type='TENANT', direction='FROM',
+                                               relation_type_group='COMMON', max_level=1)
+        self.assertIsInstance(self.client.find_by_query_v2(
+            EdgeSearchQuery(parameters=parameters, relation_type='Contains', edge_types=['default'])), list)
+
+
+class EventControllerTests(TBClientTests):
+    device = None
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        super(EventControllerTests, cls).setUpClass()
+
+        cls.device = cls.client.save_device(
+            Device(name='Test Event Device', device_profile_id=cls.client.get_default_device_profile_info().id))
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        cls.client.delete_device(cls.device.id)
+
+    def test_get_events_post(self):
+        user = self.client.get_user()
+        for event_filter in (RuleNodeDebugEventFilter(event_type='DEBUG_RULE_NODE'),
+                             CalculatedFieldDebugEventFilter(event_type='DEBUG_CALCULATED_FIELD'),
+                             RawDataEventFilter(event_type='RAW_DATA')):
+            self.assertIsInstance(self.client.get_events_post(user.tenant_id, 10, 0, self.device.id, event_filter),
+                                  PageDataEventInfo)
+
+
+class OtaPackageControllerTests(TBClientTests):
+    def test_download_ota_package(self):
+        profile_id = self.client.get_default_device_profile_info().id
+        package = self.client.save_ota_package_info(SaveOtaPackageInfoRequest(
+            device_profile_id=profile_id, title='Test binary OTA', version='1.0', type='FIRMWARE', uses_url=False))
+        try:
+            path = os.path.join(tempfile.mkdtemp(), 'firmware.bin')
+            with open(path, 'wb') as f:
+                f.write(b'\x00\x01firmware')
+            self.client.save_ota_package_data(ota_package_id=package.id, checksum_algorithm='SHA256', file=path)
+            self.assertEqual(self.client.download_ota_package(package.id), b'\x00\x01firmware')
+        finally:
+            self.client.delete_ota_package(package.id)
+
+
+class OwnerControllerTests(TBClientTests):
+    device = None
+    customer = None
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        super(OwnerControllerTests, cls).setUpClass()
+
+        cls.device = cls.client.save_device(
+            Device(name='Test Owner Device', device_profile_id=cls.client.get_default_device_profile_info().id))
+        cls.customer = cls.client.save_customer(Customer(title='Test Owner Customer'))
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        cls.client.delete_device(cls.device.id)
+        cls.client.delete_customer(cls.customer.id)
+
+    def test_change_owner_to_customer_and_tenant(self):
+        self.assertIsNone(self.client.change_owner_to_customer(self.customer.id, self.device.id))
+        self.assertEqual(self.client.get_device_by_id(self.device.id).owner_id.id, self.customer.id.id)
+        user = self.client.get_user()
+        self.assertIsNone(self.client.change_owner_to_tenant(user.tenant_id, self.device.id))
+        self.assertEqual(self.client.get_device_by_id(self.device.id).owner_id.id, user.tenant_id.id)
 
 
 class ReportControllerTests(TBClientTests):
@@ -2168,384 +2566,96 @@ class ReportControllerTests(TBClientTests):
         self.client.delete_report(report.id)
 
 
-class AIControllersTests(TBClientTests):
-    """The AI endpoints need a base URL in the general settings of the sysadmin that is not "localhost" (checked on
-    4.4: with http://127.0.0.1:8080 they work, with http://localhost:8080 the server answers 400 "Please configure the
-    base URL"). Without it only the route is reached. Calls that need an LLM (chat, generate_dashboard) are not made."""
+class RpcV1ControllerTests(TBClientTests):
+    device = None
 
-    def call(self, function, *args, **kwargs):
-        try:
-            return function(*args, **kwargs)
-        except ApiException as e:
-            self.assertEqual(e.status, 400)
-            self.assertIn('base URL', str(e.body))
+    @classmethod
+    def setUpClass(cls) -> None:
+        super(RpcV1ControllerTests, cls).setUpClass()
 
-    def test_list_chats(self):
-        self.assertIn(type(self.call(self.client.list_chats)), (dict, list, type(None)))
+        cls.device = cls.client.save_device(
+            Device(name='Test RPC v1 Device', device_profile_id=cls.client.get_default_device_profile_info().id))
 
-    def test_create_update_delete_chat(self):
-        chat_id = self.call(self.client.create_chat, {'title': 'Test chat'})
-        if chat_id:  # the answer is the id of the new chat
-            self.assertIsInstance(chat_id, str)
-            try:
-                self.assertIsNone(self.client.update_chat({'title': 'Test chat 2'}, chat_id))
-                self.assertIsNotNone(self.client.get_chat_messages(chat_id))
-            finally:
-                self.assertIsNone(self.client.delete_chat(chat_id))
+    @classmethod
+    def tearDownClass(cls) -> None:
+        cls.client.delete_device(cls.device.id)
 
-    def test_solutions(self):
-        solution = self.call(self.client.start_new)
-        if solution:
-            try:
-                self.assertIsInstance(self.client.get_solution(solution['id']), dict)
-                self.assertIsInstance(self.client.get_solutions(), list)
-                self.assertIsNone(self.client.clear_step(solution['id'], 'INITIAL_CONFIGURATION'))
-            finally:
-                self.assertIsNone(self.client.delete_solution(solution['id']))
-            return
-        # not configured: the routes are reached with a random id
-        solution_id = str(uuid4())
-        self.call(self.client.get_solutions)
-        self.call(self.client.get_solution, solution_id)
-        self.call(self.client.create_solution, solution_id)
-        self.call(self.client.chat, 'hello', solution_id, 'INITIAL_CONFIGURATION')
-        self.call(self.client.update_data, {'a': 1}, solution_id, 'test')
-        self.call(self.client.clear_step, solution_id, 'INITIAL_CONFIGURATION')
-        self.call(self.client.install_solution, solution_id)
-        self.call(self.client.uninstall_solution, solution_id)
-        self.call(self.client.delete_solution, solution_id)
+    # nobody answers: 409 for a device that is not connected, 504 when a two-way request times out
+    def test_handle_one_way_device_rpc_request(self):
+        with self.assertRaises(ApiException) as error:
+            self.client.handle_one_way_device_rpc_request(self.device.id, {'method': 'test', 'params': {},
+                                                                           'timeout': 1000})
+        self.assertIn(error.exception.status, (409, 504))
 
-    def test_generate_dashboard(self):
-        device = self.client.get_tenant_devices(1, 0).data[0]
-        try:
-            self.client.generate_dashboard({'prompt': 'test'}, device.id)
-        except ApiException as e:
-            # 400: no base URL; 500 "Request blocked": no LLM behind the AI model of this server
-            self.assertIn(e.status, (400, 500))
-
-    def test_resolve_tool_approval(self):
-        try:
-            self.client.resolve_tool_approval({'toolCallId': 'none', 'approved': False})
-        except ApiException as e:
-            self.assertIn(e.status, (400, 404, 500))
+    def test_handle_two_way_device_rpc_request(self):
+        with self.assertRaises(ApiException) as error:
+            self.client.handle_two_way_device_rpc_request(self.device.id, {'method': 'test', 'params': {},
+                                                                           'timeout': 1000})
+        self.assertIn(error.exception.status, (409, 504))
 
 
-class IdListWrappersTests(TBClientTests):
-    """Wrappers that take a list of ids and send it as one comma-separated value."""
+class RpcV2ControllerTests(TBClientTests):
+    device = None
 
-    def test_get_users_by_ids(self):
-        user = self.client.get_user()
-        self.assertEqual([u.id.id for u in self.client.get_users_by_ids([user.id.id])], [user.id.id])
+    @classmethod
+    def setUpClass(cls) -> None:
+        super(RpcV2ControllerTests, cls).setUpClass()
 
-    def test_get_system_or_tenant_resources_by_ids(self):
-        image = self.client.upload_image(file=TASK_DONE_IMAGE, title='Test ids')
-        try:
-            found = self.client.get_system_or_tenant_resources_by_ids([image.id.id])
-            self.assertEqual([r.id.id for r in found], [image.id.id])
-        finally:
-            self.client.delete_image('tenant', image.resource_key, force=True)
+        cls.device = cls.client.save_device(
+            Device(name='Test RPC v2 Device', device_profile_id=cls.client.get_default_device_profile_info().id))
 
-    def test_get_edges_by_ids(self):
-        self.assertEqual(self.client.get_edges_by_ids([str(uuid4())]), [])
+    @classmethod
+    def tearDownClass(cls) -> None:
+        cls.client.delete_device(cls.device.id)
 
+    def test_handle_two_way_device_rpc_request_v1(self):
+        # nobody answers: 409 for a device that is not connected, 504 when the request times out
+        with self.assertRaises(ApiException) as error:
+            self.client.handle_two_way_device_rpc_request_v1(self.device.id, {'method': 'test', 'params': {},
+                                                                              'timeout': 1000})
+        self.assertIn(error.exception.status, (409, 504))
+
+
+class RuleEngineControllerTests(TBClientTests):
+    """Nothing answers a request in the rule chain of a new device: the server times out (408)."""
+    device = None
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        super(RuleEngineControllerTests, cls).setUpClass()
+
+        cls.device = cls.client.save_device(
+            Device(name='Test Rule Engine Device', device_profile_id=cls.client.get_default_device_profile_info().id))
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        cls.client.delete_device(cls.device.id)
+
+    def test_handle_rule_engine_request_for_entity(self):
+        with self.assertRaises(ApiException) as error:
+            self.client.handle_rule_engine_request_for_entity(self.device.id, {'test': 1})
+        self.assertEqual(error.exception.status, 408)
+
+    def test_handle_rule_engine_request_for_entity_with_timeout(self):
+        with self.assertRaises(ApiException) as error:
+            self.client.handle_rule_engine_request_for_entity_with_timeout(self.device.id, 1000, {'test': 1})
+        self.assertEqual(error.exception.status, 408)
+
+    def test_handle_rule_engine_request_for_entity_with_queue_and_timeout(self):
+        with self.assertRaises(ApiException) as error:
+            self.client.handle_rule_engine_request_for_entity_with_queue_and_timeout(self.device.id, 'Main', 1000,
+                                                                                    {'test': 1})
+        self.assertEqual(error.exception.status, 408)
+
+    def test_handle_rule_engine_request_for_user(self):
+        with self.assertRaises(ApiException) as error:
+            self.client.handle_rule_engine_request_for_user({'test': 1})
+        self.assertEqual(error.exception.status, 408)
+
+
+class SchedulerEventControllerTests(TBClientTests):
     def test_get_scheduler_events_by_ids(self):
         self.assertEqual(self.client.get_scheduler_events_by_ids([str(uuid4())]), [])
-
-    def test_get_blob_entities_by_ids(self):
-        self.assertEqual(self.client.get_blob_entities_by_ids([str(uuid4())]), [])
-
-
-class UncoveredEndpointsTests(TBClientTests):
-    """Operations and models that no other test reached: owner change, bulk import, event filters, read ts queries,
-    relation queries, custom menus and domains."""
-    device = None
-    customer = None
-
-    @classmethod
-    def setUpClass(cls) -> None:
-        super(UncoveredEndpointsTests, cls).setUpClass()
-
-        cls.device = cls.client.save_device(
-            Device(name='Test Uncovered Device', device_profile_id=cls.client.get_default_device_profile_info().id))
-        cls.customer = cls.client.save_customer(Customer(title='Test Uncovered Customer'))
-
-    @classmethod
-    def tearDownClass(cls) -> None:
-        cls.client.delete_device(cls.device.id)
-        cls.client.delete_customer(cls.customer.id)
-
-    def test_change_owner_to_customer_and_back(self):
-        self.assertIsNone(self.client.change_owner_to_customer(self.customer.id, self.device.id))
-        self.assertEqual(self.client.get_device_by_id(self.device.id).owner_id.id, self.customer.id.id)
-        user = self.client.get_user()
-        self.assertIsNone(self.client.change_owner_to_tenant(user.tenant_id, self.device.id))
-        self.assertEqual(self.client.get_device_by_id(self.device.id).owner_id.id, user.tenant_id.id)
-
-    def test_process_devices_bulk_import(self):
-        request = BulkImportRequest(file='name,type\nTest Bulk Device,default\n',
-                                    mapping=Mapping(columns=[ColumnMapping(type='NAME'), ColumnMapping(type='TYPE')],
-                                                    delimiter=',', update=False, header=True))
-        result = self.client.process_devices_bulk_import(request)
-        self.assertIsInstance(result, BulkImportResultDevice)
-        self.assertEqual(result.created, 1)
-        for device in self.client.get_tenant_devices(10, 0, text_search='Test Bulk Device').data:
-            self.client.delete_device(device.id)
-
-    def test_get_events_post_with_debug_filters(self):
-        user = self.client.get_user()
-        for event_filter in (RuleNodeDebugEventFilter(event_type='DEBUG_RULE_NODE'),
-                             CalculatedFieldDebugEventFilter(event_type='DEBUG_CALCULATED_FIELD'),
-                             RawDataEventFilter(event_type='RAW_DATA')):
-            self.assertIsInstance(self.client.get_events_post(user.tenant_id, 10, 0, self.device.id, event_filter),
-                                  PageDataEventInfo)
-
-    def test_get_timeseries_by_read_ts_kv_queries(self):
-        now = int(time() * 1000)
-        self.client.save_entity_telemetry(self.device.id, 'ANY', {'ts': now - 1000, 'values': {'temperature': 21}})
-        result = self.client.get_timeseries_by_read_ts_kv_queries(
-            [BaseReadTsKvQuery(id=1, key='temperature', start_ts=now - 60000, end_ts=now, limit=10, order='DESC',
-                               # the server needs aggParameters (500 without them)
-                               agg_parameters=AggregationParams(aggregation='NONE', interval_type='MILLISECONDS',
-                                                                interval=0, tz_id='UTC'))], self.device.id)
-        self.assertIsInstance(result, list)
-        self.assertIsInstance(result[0], ReadTsKvQueryResult)
-
-    def test_find_relation_infos_by_query(self):
-        query = EntityRelationsQuery(parameters=RelationsSearchParameters(
-            root_id=self.device.id.id, root_type='DEVICE', direction='FROM', relation_type_group='COMMON', max_level=1),
-            filters=[])
-        self.assertIsInstance(self.client.find_info_by_query(query), list)
-
-    def test_custom_menu(self):
-        menu = self.client.create_custom_menu(CustomMenuInfo(name='Test Custom Menu', scope='TENANT',
-                                                             assignee_type='NO_ASSIGN'))
-        self.assertIsInstance(menu, CustomMenu)
-        try:
-            self.assertIsInstance(self.client.get_custom_menu_info_by_id(menu.id), CustomMenuInfo)
-            self.assertIsNone(self.client.update_custom_menu_name(menu.id, 'Test Custom Menu 2'))
-        finally:
-            self.assertIsInstance(self.client.delete_custom_menu(menu.id, force=True), CustomMenuDeleteResult)
-
-    def test_domain(self):
-        domain = self.client.save_domain(Domain(name='test-uncovered.example.com', oauth2_enabled=False,
-                                                propagate_to_edge=False))
-        self.assertIsInstance(domain, Domain)
-        try:
-            self.assertIsInstance(self.client.get_domain_info_by_id(domain.id), DomainInfo)
-        finally:
-            self.assertIsNone(self.client.delete_domain(domain.id))
-
-
-class UncoveredEndpointsSecondTests(TBClientTests):
-    """Second batch of operations and models no other test reached."""
-    device = None
-    customer = None
-
-    @classmethod
-    def setUpClass(cls) -> None:
-        super(UncoveredEndpointsSecondTests, cls).setUpClass()
-
-        cls.device = cls.client.save_device(
-            Device(name='Test Uncovered Device 2', device_profile_id=cls.client.get_default_device_profile_info().id))
-        cls.customer = cls.client.save_customer(Customer(title='Test Uncovered Customer 2'))
-
-    @classmethod
-    def tearDownClass(cls) -> None:
-        cls.client.delete_device(cls.device.id)
-        cls.client.delete_customer(cls.customer.id)
-
-    def search_parameters(self):
-        return RelationsSearchParameters(root_id=self.device.id.id, root_type='DEVICE', direction='FROM',
-                                         relation_type_group='COMMON', max_level=1)
-
-    def test_find_by_query_of_assets_devices_edges_entity_views(self):
-        self.assertIsInstance(self.client.find_by_query(
-            AssetSearchQuery(parameters=self.search_parameters(), relation_type='Contains', asset_types=['default'])),
-            list)
-        self.assertIsInstance(self.client.find_by_query_v1(
-            DeviceSearchQuery(parameters=self.search_parameters(), relation_type='Contains', device_types=['default'])),
-            list)
-        self.assertIsInstance(self.client.find_by_query_v2(
-            EdgeSearchQuery(parameters=self.search_parameters(), relation_type='Contains', edge_types=['default'])),
-            list)
-        self.assertIsInstance(self.client.find_by_query_v4(
-            EntityViewSearchQuery(parameters=self.search_parameters(), relation_type='Contains',
-                                  entity_view_types=['default'])), list)
-
-    def test_rpc_to_a_device_that_is_not_connected(self):
-        # nobody answers: 409 for a device that is not connected, 504 when the two-way request times out
-        request = {'method': 'test', 'params': {}, 'timeout': 1000}
-        for call in (lambda: self.client.handle_one_way_device_rpc_request(self.device.id, request),
-                     lambda: self.client.handle_two_way_device_rpc_request(self.device.id, request),
-                     lambda: self.client.handle_two_way_device_rpc_request_v1(self.device.id, request)):
-            with self.assertRaises(ApiException) as error:
-                call()
-            self.assertIn(error.exception.status, (409, 504))
-
-    def test_process_asset_bulk_import(self):
-        request = BulkImportRequest(file='name,type\nTest Bulk Asset,default\n',
-                                    mapping=Mapping(columns=[ColumnMapping(type='NAME'), ColumnMapping(type='TYPE')],
-                                                    delimiter=',', update=False, header=True))
-        result = self.client.process_asset_bulk_import(request)
-        self.assertIsInstance(result, BulkImportResultAsset)
-        self.assertEqual(result.created, 1)
-        for asset in self.client.get_tenant_assets(10, 0, text_search='Test Bulk Asset').data:
-            self.client.delete_asset(asset.id)
-
-    def test_calculated_field_output_strategies(self):
-        def save(output):
-            return self.client.save_calculated_field(CalculatedField(
-                name='Test Output Strategy', entity_id=self.device.id, type='SIMPLE',
-                configuration=SimpleCalculatedFieldConfiguration(
-                    arguments={'t': Argument(ref_entity_key=ReferencedEntityKey(key='t', type='TS_LATEST'))},
-                    expression='t + 1', output=output, type='SIMPLE')))
-        for output in (TimeSeriesOutput(name='t2', type='TIME_SERIES', strategy=TimeSeriesImmediateOutputStrategy(
-                           type='IMMEDIATE', save_time_series=True, save_latest=True)),
-                       TimeSeriesOutput(name='t2', type='TIME_SERIES',
-                                        strategy=TimeSeriesRuleChainOutputStrategy(type='RULE_CHAIN')),
-                       AttributesOutput(name='t2', type='ATTRIBUTES', scope='SERVER_SCOPE',
-                                        strategy=AttributesImmediateOutputStrategy(type='IMMEDIATE',
-                                                                                   save_attribute=True)),
-                       AttributesOutput(name='t2', type='ATTRIBUTES', scope='SERVER_SCOPE',
-                                        strategy=AttributesRuleChainOutputStrategy(type='RULE_CHAIN'))):
-            field = save(output)
-            try:
-                read = self.client.get_calculated_field_by_id(field.id)
-                self.assertIsInstance(read.configuration.output.strategy, type(output.strategy))
-            finally:
-                self.client.delete_calculated_field(field.id)
-
-    def test_entity_aggregation_calculated_field(self):
-        configuration = EntityAggregationCalculatedFieldConfiguration(
-            type='ENTITY_AGGREGATION',
-            arguments={'t': Argument(ref_entity_key=ReferencedEntityKey(key='t', type='TS_LATEST'))},
-            metrics={'avg_t': AggMetric(function='AVG', input=AggKeyInput(type='key', key='t'))},
-            interval=HourInterval(type='HOUR', tz='UTC'),
-            output=TimeSeriesOutput(name='avg_t', type='TIME_SERIES'))
-        field = self.client.save_calculated_field(CalculatedField(
-            name='Test Aggregation', entity_id=self.device.id, type='ENTITY_AGGREGATION', configuration=configuration))
-        try:
-            read = self.client.get_calculated_field_by_id(field.id).configuration
-            self.assertIsInstance(read, EntityAggregationCalculatedFieldConfiguration)
-            self.assertIsInstance(read.interval, HourInterval)
-            self.assertIsInstance(read.metrics['avg_t'].input, AggKeyInput)
-        finally:
-            self.client.delete_calculated_field(field.id)
-        with self.assertRaises(ValueError):  # output is required for this configuration type
-            EntityAggregationCalculatedFieldConfiguration(**{'type': 'ENTITY_AGGREGATION'})
-
-    def test_change_password(self):
-        group = self.client.get_entity_group_by_owner_and_name_and_type(self.customer.id, 'USER', 'Customer Users')
-        user = self.client.save_user(User(authority='CUSTOMER_USER', customer_id=self.customer.id,
-                                          email='test-change-password@example.com'),
-                                     send_activation_mail=False, entity_group_id=group.id)
-        try:
-            link = self.client.get_activation_link(user.id)
-            self.client.activate_user(ActivateUserRequest(activate_token=link.split('=')[-1], password='OldPassw0rd!'),
-                                      send_activation_mail=False)
-            with RestClient(TB_URL) as user_client:
-                user_client.login('test-change-password@example.com', 'OldPassw0rd!')
-                self.assertIsInstance(user_client.change_password(
-                    ChangePasswordRequest(current_password='OldPassw0rd!', new_password='NewPassw0rd!')), JwtPair)
-            with RestClient(TB_URL) as user_client:
-                user_client.login('test-change-password@example.com', 'NewPassw0rd!')
-                self.assertEqual(user_client.get_user().email, 'test-change-password@example.com')
-        finally:
-            self.client.delete_user(user.id)
-
-    def test_upload_and_delete_resource(self):
-        path = os.path.join(tempfile.mkdtemp(), 'test_resource.js')
-        with open(path, 'w') as f:
-            f.write('var test = 1;')
-        resource = self.client.upload_resource(resource_type='JS_MODULE', file=path, title='Test resource')
-        self.assertIsInstance(self.client.delete_resource_v1(resource.id, force=True), TbResourceDeleteResult)
-
-    def test_save_and_delete_ai_model(self):
-        model = self.client.save_ai_model(AiModel(name='Test AI model', configuration=OpenAiChatModelConfig(
-            provider='OPENAI', model_type='CHAT', model_id='gpt-4o-mini',
-            provider_config=OpenAiProviderConfig(api_key='test-key'))))
-        self.assertIsInstance(model, AiModel)
-        try:
-            self.assertIsInstance(self.client.get_ai_model_by_id(model.id).configuration, OpenAiChatModelConfig)
-        finally:
-            self.assertTrue(self.client.delete_ai_model_by_id(model.id))
-
-
-class BinaryDownloadsTests(TBClientTests):
-    """Answers the client returns as raw bytes (files): images, resources, OTA packages, gateway compose files."""
-
-    def test_download_image_preview_and_public_image(self):
-        image = self.client.upload_image(file=TASK_DONE_IMAGE, title='Test binary image')
-        try:
-            preview = self.client.download_image_preview('tenant', image.resource_key)
-            self.assertIsInstance(preview, bytes)
-            self.assertTrue(preview.startswith(b'\x89PNG'))
-            public = self.client.update_image_public_status('tenant', image.resource_key, True)
-            data = self.client.download_public_image(public.public_resource_key)
-            with open(TASK_DONE_IMAGE, 'rb') as f:
-                self.assertEqual(data, f.read())
-        finally:
-            self.client.delete_image('tenant', image.resource_key, force=True)
-
-    def test_download_resource(self):
-        path = os.path.join(tempfile.mkdtemp(), 'test_download.js')
-        with open(path, 'w') as f:
-            f.write('var downloaded = 1;')
-        resource = self.client.upload_resource(resource_type='JS_MODULE', file=path, title='Test download')
-        try:
-            self.assertEqual(self.client.download_resource(resource.id), b'var downloaded = 1;')
-            self.assertEqual(self.client.download_js_resource_if_changed(resource.id), b'var downloaded = 1;')
-            self.assertEqual(self.client.download_resource_if_changed('js_module', 'tenant', resource.resource_key),
-                             b'var downloaded = 1;')
-        finally:
-            self.client.delete_resource_v1(resource.id, force=True)
-
-    def test_download_ota_package(self):
-        profile_id = self.client.get_default_device_profile_info().id
-        package = self.client.save_ota_package_info(SaveOtaPackageInfoRequest(
-            device_profile_id=profile_id, title='Test binary OTA', version='1.0', type='FIRMWARE', uses_url=False))
-        try:
-            path = os.path.join(tempfile.mkdtemp(), 'firmware.bin')
-            with open(path, 'wb') as f:
-                f.write(b'\x00\x01firmware')
-            self.client.save_ota_package_data(ota_package_id=package.id, checksum_algorithm='SHA256', file=path)
-            self.assertEqual(self.client.download_ota_package(package.id), b'\x00\x01firmware')
-        finally:
-            self.client.delete_ota_package(package.id)
-
-    def test_download_gateway_docker_compose(self):
-        gateway = self.client.save_device(Device(name='Test binary gateway', additional_info={'gateway': True},
-                                                 device_profile_id=self.client.get_default_device_profile_info().id))
-        try:
-            compose = self.client.download_gateway_docker_compose(gateway.id)
-            self.assertIsInstance(compose, bytes)
-            self.assertIn(b'services', compose)
-        finally:
-            self.client.delete_device(gateway.id)
-
-
-class CalculatedFieldNewEndpointsTests(TBClientTests):
-    def test_get_calculated_fields(self):
-        self.assertIsInstance(self.client.get_calculated_fields(10, 0), PageDataCalculatedFieldInfo)
-
-    def test_test_calculated_field_script(self):
-        self.assertIsInstance(self.client.test_calculated_field_script({'expression': 'return 1;',
-                                                                         'arguments': {}}), dict)
-
-
-class NewEndpointsMiscTests(TBClientTests):
-    device = None
-
-    @classmethod
-    def setUpClass(cls) -> None:
-        super(NewEndpointsMiscTests, cls).setUpClass()
-
-        cls.device = cls.client.save_device(
-            Device(name='Test New Endpoints Device', device_profile_id=cls.client.get_default_device_profile_info().id))
-
-    @classmethod
-    def tearDownClass(cls) -> None:
-        cls.client.delete_device(cls.device.id)
 
     def test_get_scheduler_events_all(self):
         self.assertIsInstance(self.client.get_scheduler_events_all(), list)
@@ -2553,45 +2663,20 @@ class NewEndpointsMiscTests(TBClientTests):
     def test_get_scheduler_events_by_range(self):
         self.assertIsInstance(self.client.get_scheduler_events_by_range(0, 9999999999999), list)
 
-    def test_get_all_widgets_bundles(self):
-        self.assertIsInstance(self.client.get_all_widgets_bundles(), list)
 
-    def test_get_edges_by_entity_group_id(self):
-        entity_group = self.client.get_entity_groups_by_type('EDGE')[0]
-        self.assertIsInstance(self.client.get_edges_by_entity_group_id(entity_group.id, '10', '0'), PageDataEdge)
+class SolutionExportImportControllerTests(TBClientTests):
+    device = None
 
-    def test_find_available_entity_keys_by_query_v2(self):
-        query = EntityDataQuery(entity_filter=SingleEntityFilter(single_entity=self.device.id, type='singleEntity'),
-                                page_link=EntityDataPageLink(page_size=10, page=0))
-        self.assertIsInstance(self.client.find_available_entity_keys_by_query_v2(query), AvailableEntityKeysV2)
+    @classmethod
+    def setUpClass(cls) -> None:
+        super(SolutionExportImportControllerTests, cls).setUpClass()
 
-    def test_user_settings_by_type(self):
-        self.assertIsNone(self.client.put_user_settings_by_type({'testKey': 1}, 'general'))
-        try:
-            self.assertEqual(self.client.get_user_settings_by_type('general')['testKey'], 1)
-        finally:
-            self.assertIsNone(self.client.delete_general_user_settings('testKey'))
-        self.assertNotIn('testKey', self.client.get_user_settings_by_type('general'))
+        cls.device = cls.client.save_device(
+            Device(name='Test Solution Device', device_profile_id=cls.client.get_default_device_profile_info().id))
 
-    def test_get_resource_info(self):
-        image = self.client.upload_image(file=TASK_DONE_IMAGE, title='Test resource info')
-        try:
-            self.assertIsInstance(self.client.get_resource_info('IMAGE', 'tenant', image.resource_key),
-                                  TbResourceInfo)
-        finally:
-            self.client.delete_image('tenant', image.resource_key, force=True)
-
-    def test_handle_rule_engine_request_for_entity_with_timeout(self):
-        # nothing answers the request in the rule chain of a new device: the server times out
-        with self.assertRaises(ApiException) as error:
-            self.client.handle_rule_engine_request_for_entity_with_timeout(self.device.id, 1000, {'test': 1})
-        self.assertEqual(error.exception.status, 408)
-
-    def test_claim_device_by_name(self):
-        # only a customer user can claim a device
-        with self.assertRaises(ApiException) as error:
-            self.client.claim_device_by_name(self.device.name, ClaimRequest(secret_key='test'))
-        self.assertEqual(error.exception.status, 403)
+    @classmethod
+    def tearDownClass(cls) -> None:
+        cls.client.delete_device(cls.device.id)
 
     def test_export_and_validate_solution(self):
         solution = self.client.export_solution(SolutionExportRequest(internal_ids=[self.device.id]))
@@ -2608,28 +2693,6 @@ class NewEndpointsMiscTests(TBClientTests):
         for expected in ('DeviceExportData', 'RuleChainExportData', 'WidgetsBundleExportData', 'EntityGroupExportData'):
             self.assertIn(expected, types)
 
-    def test_get_and_save_mail_templates(self):
-        templates = self.client.get_mail_templates()
-        self.assertIsInstance(templates, dict)
-        # the same templates are saved back, nothing changes
-        self.assertIsInstance(self.client.save_mail_templates(templates), dict)
-
-    def test_handle_rule_engine_request_for_entity(self):
-        with self.assertRaises(ApiException) as error:
-            self.client.handle_rule_engine_request_for_entity(self.device.id, {'test': 1})
-        self.assertEqual(error.exception.status, 408)
-
-    def test_handle_rule_engine_request_for_entity_with_queue_and_timeout(self):
-        with self.assertRaises(ApiException) as error:
-            self.client.handle_rule_engine_request_for_entity_with_queue_and_timeout(self.device.id, 'Main', 1000,
-                                                                                    {'test': 1})
-        self.assertEqual(error.exception.status, 408)
-
-    def test_handle_rule_engine_request_for_user(self):
-        with self.assertRaises(ApiException) as error:
-            self.client.handle_rule_engine_request_for_user({'test': 1})
-        self.assertEqual(error.exception.status, 408)
-
     def test_import_solution(self):
         exported = self.client.export_solution(SolutionExportRequest(internal_ids=[self.device.id]))
         self.client.delete_device(self.device.id)
@@ -2642,16 +2705,51 @@ class NewEndpointsMiscTests(TBClientTests):
             for device in self.client.get_tenant_devices(100, 0, text_search=self.device.name).data:
                 type(self).device = device
 
-    def test_get_subscription_info(self):
-        # the license endpoints are available to the sysadmin only
-        with self.assertRaises(ApiException) as error:
-            self.client.get_subscription_info()
-        self.assertEqual(error.exception.status, 403)
 
-    def test_refresh_license(self):
-        with self.assertRaises(ApiException) as error:
-            self.client.refresh_license()
-        self.assertEqual(error.exception.status, 403)
+class TbResourceControllerTests(TBClientTests):
+    def test_upload_resource(self):
+        path = os.path.join(tempfile.mkdtemp(), 'test_resource.js')
+        with open(path, 'w') as f:
+            f.write('var test = 1;')
+        resource = self.client.upload_resource(resource_type='JS_MODULE', file=path, title='Test resource')
+        self.assertIsInstance(self.client.delete_resource_v1(resource.id, force=True), TbResourceDeleteResult)
+
+    def test_download_resource(self):
+        path = os.path.join(tempfile.mkdtemp(), 'test_download.js')
+        with open(path, 'w') as f:
+            f.write('var downloaded = 1;')
+        resource = self.client.upload_resource(resource_type='JS_MODULE', file=path, title='Test download')
+        try:
+            self.assertEqual(self.client.download_resource(resource.id), b'var downloaded = 1;')
+            self.assertEqual(self.client.download_js_resource_if_changed(resource.id), b'var downloaded = 1;')
+            self.assertEqual(self.client.download_resource_if_changed('js_module', 'tenant', resource.resource_key),
+                             b'var downloaded = 1;')
+        finally:
+            self.client.delete_resource_v1(resource.id, force=True)
+
+    def test_get_system_or_tenant_resources_by_ids(self):
+        image = self.client.upload_image(file=TASK_DONE_IMAGE, title='Test ids')
+        try:
+            found = self.client.get_system_or_tenant_resources_by_ids([image.id.id])
+            self.assertEqual([r.id.id for r in found], [image.id.id])
+        finally:
+            self.client.delete_image('tenant', image.resource_key, force=True)
+
+    def test_get_resource_info(self):
+        image = self.client.upload_image(file=TASK_DONE_IMAGE, title='Test resource info')
+        try:
+            self.assertIsInstance(self.client.get_resource_info('IMAGE', 'tenant', image.resource_key),
+                                  TbResourceInfo)
+        finally:
+            self.client.delete_image('tenant', image.resource_key, force=True)
+
+
+class WhiteLabelingControllerTests(TBClientTests):
+    def test_get_and_save_mail_templates(self):
+        templates = self.client.get_mail_templates()
+        self.assertIsInstance(templates, dict)
+        # the same templates are saved back, nothing changes
+        self.assertIsInstance(self.client.save_mail_templates(templates), dict)
 
 
 if __name__ == '__main__':
