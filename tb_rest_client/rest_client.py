@@ -127,10 +127,12 @@ logger = getLogger(__name__)
 
 
 class RestClient(Thread):
-    def __init__(self, base_url, timeout=(10, None), refresh_retry_delay=5):
+    def __init__(self, base_url, timeout=(10, None), refresh_retry_delay=5, refresh_max_attempts=3):
         """timeout: seconds for every request, a number or a (connect, read) pair. The default limits connecting
         (the TLS handshake included) to 10 s and lets an answer take as long as it needs; None waits forever.
-        refresh_retry_delay: seconds between the attempts to refresh the token while the server can't be reached."""
+        refresh_retry_delay: seconds between the attempts to refresh the token while the server can't be reached.
+        refresh_max_attempts: failed attempts in a row after which the token is not refreshed any more; 0 tries until
+        the refresh succeeds."""
         super().__init__()
         if base_url.startswith("http"):
             self.base_url = base_url
@@ -140,6 +142,7 @@ class RestClient(Thread):
         self.api_client = None
         self.logged_in = False
         self.refresh_retry_delay = refresh_retry_delay
+        self.refresh_max_attempts = refresh_max_attempts
         self.__stop_event = Event()
         self.configuration = Configuration()
         self.configuration.host = self.base_url
@@ -159,12 +162,12 @@ class RestClient(Thread):
                             failures = 0
                     else:
                         logger.error("No username or password provided!")
-            except Exception as e:
-                if failures:
-                    logger.error("Token refresh failed again, retrying in %s s: %s", self.refresh_retry_delay, e)
-                else:
-                    logger.exception(e)
+            except Exception:
                 failures += 1
+                logger.exception("Token refresh failed (attempt %d)", failures)
+                if failures == self.refresh_max_attempts:
+                    logger.error("Token refresh failed %d times in a row, the token is not refreshed any more", failures)
+                    break
                 delay = self.refresh_retry_delay
             except KeyboardInterrupt:
                 break

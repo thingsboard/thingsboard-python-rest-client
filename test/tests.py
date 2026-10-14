@@ -2427,7 +2427,7 @@ class AuthControllerTests(TBClientTests):
     def test_token_refresh_survives_network_failure(self):
         if TB_TENANT_TOKEN:
             self.skipTest('a token login has no refresh token')
-        with RestClient(TB_URL, refresh_retry_delay=0.2) as client:
+        with RestClient(TB_URL, refresh_retry_delay=0.2, refresh_max_attempts=0) as client:
             client.login(TB_TENANT_USERNAME, TB_TENANT_PASSWORD)
             server_url = client.base_url
             client.base_url = unreachable_url()
@@ -2439,8 +2439,9 @@ class AuthControllerTests(TBClientTests):
                     sleep(0.1)
             self.assertTrue(client.is_alive())
             self.assertGreaterEqual(len(logs.records), 3)
-            self.assertEqual([record.exc_info is not None for record in logs.records],
-                             [True] + [False] * (len(logs.records) - 1))
+            for number, record in enumerate(logs.records, 1):
+                self.assertEqual(record.getMessage(), 'Token refresh failed (attempt %d)' % number)
+                self.assertTrue(record.exc_info)
             client.base_url = server_url
             for _ in range(20):
                 if client.token_info['exp'] > time():
@@ -2450,6 +2451,19 @@ class AuthControllerTests(TBClientTests):
             self.assertIsInstance(client.get_user(), User)
         client.join(5)
         self.assertFalse(client.is_alive())
+
+    def test_token_refresh_stops_after_max_attempts(self):
+        if TB_TENANT_TOKEN:
+            self.skipTest('a token login has no refresh token')
+        with RestClient(TB_URL, refresh_retry_delay=0.1, refresh_max_attempts=3) as client:
+            client.login(TB_TENANT_USERNAME, TB_TENANT_PASSWORD)
+            client.base_url = unreachable_url()
+            with self.assertLogs('tb_rest_client.rest_client', 'ERROR') as logs:
+                client.token_info['exp'] = 0
+                client.join(5)
+            self.assertFalse(client.is_alive())
+            self.assertEqual(len(logs.records), 4)
+            self.assertIn('3 times in a row', logs.records[-1].getMessage())
 
     def test_stop_interrupts_token_refresh_retry(self):
         if TB_TENANT_TOKEN:
