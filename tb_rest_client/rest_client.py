@@ -20,7 +20,7 @@ import jwt
 from time import time, sleep
 
 from requests import post
-from threading import Thread
+from threading import Thread, Event
 from logging import getLogger
 
 from typing import List, Optional, Union, Any, Dict
@@ -127,9 +127,12 @@ logger = getLogger(__name__)
 
 
 class RestClient(Thread):
-    def __init__(self, base_url, timeout=(10, None)):
+    def __init__(self, base_url, timeout=(10, None), refresh_retry_delay=5, refresh_max_attempts=3):
         """timeout: seconds for every request, a number or a (connect, read) pair. The default limits connecting
-        (the TLS handshake included) to 10 s and lets an answer take as long as it needs; None waits forever."""
+        (the TLS handshake included) to 10 s and lets an answer take as long as it needs; None waits forever.
+        refresh_retry_delay: seconds between the attempts to refresh the token while the server can't be reached.
+        refresh_max_attempts: failed attempts in a row after which the token is not refreshed any more; 0 tries until
+        the refresh succeeds."""
         super().__init__()
         if base_url.startswith("http"):
             self.base_url = base_url
@@ -138,30 +141,40 @@ class RestClient(Thread):
         self.token_info = {"token": "", "refreshToken": "", "exp": 0}
         self.api_client = None
         self.logged_in = False
-        self.stopped = True
+        self.refresh_retry_delay = refresh_retry_delay
+        self.refresh_max_attempts = refresh_max_attempts
+        self.__stop_event = Event()
         self.configuration = Configuration()
         self.configuration.host = self.base_url
         self.configuration.timeout = timeout
 
     def run(self):
-        self.stopped = False
-        while not self.stopped:
+        failures = 0
+        while not self.__stop_event.is_set():
+            delay = 1
             try:
                 check_time = time()
                 if check_time >= self.token_info["exp"] and self.logged_in:
                     if self.token_info["refreshToken"]:
                         self.refresh()
+                        if failures:
+                            logger.info("Token refreshed after %d failed attempts", failures)
+                            failures = 0
                     else:
                         logger.error("No username or password provided!")
-                sleep(1)
-            except Exception as e:
-                logger.exception(e)
-                break
+            except Exception:
+                failures += 1
+                logger.exception("Token refresh failed (attempt %d)", failures)
+                if failures == self.refresh_max_attempts:
+                    logger.error("Token refresh failed %d times in a row, the token is not refreshed any more", failures)
+                    break
+                delay = self.refresh_retry_delay
             except KeyboardInterrupt:
                 break
+            self.__stop_event.wait(delay)
 
     def stop(self):
-        self.stopped = True
+        self.__stop_event.set()
 
     def __enter__(self):
         self.start()
