@@ -1559,6 +1559,7 @@ class CalculatedFieldControllerTests(TBClientTests):
                                                                                    save_attribute=True)),
                        AttributesOutput(name='t2', type='ATTRIBUTES', scope='SERVER_SCOPE',
                                         strategy=AttributesRuleChainOutputStrategy(type='RULE_CHAIN'))):
+            self.assertIsNotNone(output.strategy)  # the constructor must keep it
             field = save(output)
             try:
                 read = self.client.get_calculated_field_by_id(field.id)
@@ -2433,6 +2434,22 @@ class CustomMenuControllerTests(TBClientTests):
             self.assertIsNone(self.client.update_custom_menu_name(menu.id, 'Test Custom Menu 2'))
         finally:
             self.assertIsInstance(self.client.delete_custom_menu(menu.id, force=True), CustomMenuDeleteResult)
+
+    def test_update_custom_menu_config(self):
+        menu = self.client.create_custom_menu(CustomMenuInfo(name='Test Custom Menu Config', scope='TENANT',
+                                                             assignee_type='NO_ASSIGN'))
+        try:
+            # hidden items: visible is a field of MenuItem too and must survive the constructors
+            config = CustomMenuConfig(items=[
+                DefaultMenuItem(id='home', type='DEFAULT', visible=False),
+                CustomMenuItem(name='Test link', type='CUSTOM', menu_item_type='LINK', link_type='URL',
+                               url='https://example.com', visible=False)])
+            self.assertIsInstance(self.client.update_custom_menu_config(menu.id, config), CustomMenu)
+            items = self.client.get_custom_menu_config(menu.id).items
+            self.assertEqual([(type(item), item.visible) for item in items],
+                             [(DefaultMenuItem, False), (CustomMenuItem, False)])
+        finally:
+            self.client.delete_custom_menu(menu.id, force=True)
 
 
 class DomainControllerTests(TBClientTests):

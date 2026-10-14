@@ -103,7 +103,8 @@ class CustomMenuItem(MenuItem):
             self.visible = visible
         if pages is not None:
             self.pages = pages
-        MenuItem.__init__(self, *args, **kwargs)
+        # visible is also a field of MenuItem: passed on, MenuItem.__init__ would reset it to None
+        MenuItem.__init__(self, *args, visible=visible, **kwargs)
 
     @property
     def name(self):
