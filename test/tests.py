@@ -63,6 +63,12 @@ def tearDownModule():
                 client.delete_customer(customer.id)
 
 
+def unreachable_url():
+    with socket.socket() as free:
+        free.bind(('127.0.0.1', 0))
+        return 'http://127.0.0.1:%d' % free.getsockname()[1]
+
+
 def call_ai(test, function, *args, **kwargs):
     """Calls an AI endpoint. They need a base URL in the general settings of the sysadmin that is not "localhost"
     (checked on 4.4: with http://127.0.0.1:8080 they work, with http://localhost:8080 the server answers 400 "Please
@@ -2417,6 +2423,48 @@ class AuthControllerTests(TBClientTests):
             self.assertLess(time() - started, 5)
         finally:
             server.close()
+
+    def test_token_refresh_survives_network_failure(self):
+        if TB_TENANT_TOKEN:
+            self.skipTest('a token login has no refresh token')
+        with RestClient(TB_URL) as client:
+            client.refresh_retry_delay = 0.2
+            client.login(TB_TENANT_USERNAME, TB_TENANT_PASSWORD)
+            server_url = client.base_url
+            client.base_url = unreachable_url()
+            with self.assertLogs('tb_rest_client.rest_client', 'ERROR') as logs:
+                client.token_info['exp'] = 0
+                for _ in range(50):
+                    if len(logs.records) >= 3:
+                        break
+                    sleep(0.1)
+            self.assertTrue(client.is_alive())
+            self.assertGreaterEqual(len(logs.records), 3)
+            self.assertEqual([record.exc_info is not None for record in logs.records],
+                             [True] + [False] * (len(logs.records) - 1))
+            client.base_url = server_url
+            for _ in range(20):
+                if client.token_info['exp'] > time():
+                    break
+                sleep(0.25)
+            self.assertGreater(client.token_info['exp'], time())
+            self.assertIsInstance(client.get_user(), User)
+        client.join(5)
+        self.assertFalse(client.is_alive())
+
+    def test_stop_interrupts_token_refresh_retry(self):
+        if TB_TENANT_TOKEN:
+            self.skipTest('a token login has no refresh token')
+        with RestClient(TB_URL) as client:
+            client.refresh_retry_delay = 60
+            client.login(TB_TENANT_USERNAME, TB_TENANT_PASSWORD)
+            client.base_url = unreachable_url()
+            with self.assertLogs('tb_rest_client.rest_client', 'ERROR'):
+                client.token_info['exp'] = 0
+                sleep(1.5)
+            self.assertTrue(client.is_alive())
+        client.join(2)
+        self.assertFalse(client.is_alive())
 
 
 class BlobEntityControllerTests(TBClientTests):

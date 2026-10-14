@@ -20,7 +20,7 @@ import jwt
 from time import time, sleep
 
 from requests import post
-from threading import Thread
+from threading import Thread, Event
 from logging import getLogger
 
 from typing import List, Optional, Union, Any, Dict
@@ -139,29 +139,41 @@ class RestClient(Thread):
         self.api_client = None
         self.logged_in = False
         self.stopped = True
+        self.refresh_retry_delay = 5
+        self.__stop_event = Event()
         self.configuration = Configuration()
         self.configuration.host = self.base_url
         self.configuration.timeout = timeout
 
     def run(self):
         self.stopped = False
+        failures = 0
         while not self.stopped:
+            delay = 1
             try:
                 check_time = time()
                 if check_time >= self.token_info["exp"] and self.logged_in:
                     if self.token_info["refreshToken"]:
                         self.refresh()
+                        if failures:
+                            logger.info("Token refreshed after %d failed attempts", failures)
+                            failures = 0
                     else:
                         logger.error("No username or password provided!")
-                sleep(1)
             except Exception as e:
-                logger.exception(e)
-                break
+                if failures:
+                    logger.error("Token refresh failed again, retrying in %s s: %s", self.refresh_retry_delay, e)
+                else:
+                    logger.exception(e)
+                failures += 1
+                delay = self.refresh_retry_delay
             except KeyboardInterrupt:
                 break
+            self.__stop_event.wait(delay)
 
     def stop(self):
         self.stopped = True
+        self.__stop_event.set()
 
     def __enter__(self):
         self.start()
