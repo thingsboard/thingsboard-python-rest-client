@@ -127,9 +127,10 @@ logger = getLogger(__name__)
 
 
 class RestClient(Thread):
-    def __init__(self, base_url, timeout=(10, None)):
+    def __init__(self, base_url, timeout=(10, None), refresh_retry_delay=5):
         """timeout: seconds for every request, a number or a (connect, read) pair. The default limits connecting
-        (the TLS handshake included) to 10 s and lets an answer take as long as it needs; None waits forever."""
+        (the TLS handshake included) to 10 s and lets an answer take as long as it needs; None waits forever.
+        refresh_retry_delay: seconds between the attempts to refresh the token while the server can't be reached."""
         super().__init__()
         if base_url.startswith("http"):
             self.base_url = base_url
@@ -138,17 +139,15 @@ class RestClient(Thread):
         self.token_info = {"token": "", "refreshToken": "", "exp": 0}
         self.api_client = None
         self.logged_in = False
-        self.stopped = True
-        self.refresh_retry_delay = 5
+        self.refresh_retry_delay = refresh_retry_delay
         self.__stop_event = Event()
         self.configuration = Configuration()
         self.configuration.host = self.base_url
         self.configuration.timeout = timeout
 
     def run(self):
-        self.stopped = False
         failures = 0
-        while not self.stopped:
+        while not self.__stop_event.is_set():
             delay = 1
             try:
                 check_time = time()
@@ -172,7 +171,6 @@ class RestClient(Thread):
             self.__stop_event.wait(delay)
 
     def stop(self):
-        self.stopped = True
         self.__stop_event.set()
 
     def __enter__(self):

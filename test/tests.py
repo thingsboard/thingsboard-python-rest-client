@@ -2427,8 +2427,7 @@ class AuthControllerTests(TBClientTests):
     def test_token_refresh_survives_network_failure(self):
         if TB_TENANT_TOKEN:
             self.skipTest('a token login has no refresh token')
-        with RestClient(TB_URL) as client:
-            client.refresh_retry_delay = 0.2
+        with RestClient(TB_URL, refresh_retry_delay=0.2) as client:
             client.login(TB_TENANT_USERNAME, TB_TENANT_PASSWORD)
             server_url = client.base_url
             client.base_url = unreachable_url()
@@ -2455,8 +2454,7 @@ class AuthControllerTests(TBClientTests):
     def test_stop_interrupts_token_refresh_retry(self):
         if TB_TENANT_TOKEN:
             self.skipTest('a token login has no refresh token')
-        with RestClient(TB_URL) as client:
-            client.refresh_retry_delay = 60
+        with RestClient(TB_URL, refresh_retry_delay=60) as client:
             client.login(TB_TENANT_USERNAME, TB_TENANT_PASSWORD)
             client.base_url = unreachable_url()
             with self.assertLogs('tb_rest_client.rest_client', 'ERROR'):
