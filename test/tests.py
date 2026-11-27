@@ -924,6 +924,11 @@ class AlarmControllerTests(TBClientTests):
     def test_get_alarms_v2(self):
         self.assertIsInstance(self.client.get_alarms_v2(self.device.id, 10, 0), PageDataAlarmInfo)
 
+    def test_assign_and_unassign_alarm(self):
+        user_id = self.client.get_user().id.id
+        self.assertIsInstance(self.client.assign_alarm(self.test_alarm.id, user_id), AlarmInfo)
+        self.assertIsInstance(self.client.unassign_alarm(self.test_alarm.id), AlarmInfo)
+
 
 class DeviceProfileControllerTests(TBClientTests):
     test_device_profile = None
@@ -2227,6 +2232,28 @@ class AiChatControllerTests(TBClientTests):
             finally:
                 self.assertIsNone(self.client.delete_chat(chat_id))
 
+    def test_resume_chat(self):
+        chat_id = call_ai(self, self.client.create_chat, {'title': 'Test chat'})
+        if chat_id:
+            try:
+                self.assertEqual(list(self.client.resume_chat(chat_id)), [])
+                with self.assertRaises(ApiException) as error:
+                    self.client.resume_chat('not-a-uuid')
+                self.assertEqual(error.exception.status, 400)
+            finally:
+                self.assertIsNone(self.client.delete_chat(chat_id))
+
+    def test_send_chat_message(self):
+        chat_id = call_ai(self, self.client.create_chat, {'title': 'Test chat'})
+        if chat_id:
+            try:
+                # a blank message is refused before the AI model is called: an error event, not an HTTP error
+                events = list(self.client.send_chat_message({'message': ''}, chat_id))
+                self.assertEqual([event for event, _ in events], ['error'])
+                self.assertIn('message', events[0][1])
+            finally:
+                self.assertIsNone(self.client.delete_chat(chat_id))
+
 
 class AiDeviceDashboardControllerTests(TBClientTests):
     device = None
@@ -2261,6 +2288,73 @@ class AiModelControllerTests(TBClientTests):
         finally:
             self.assertTrue(self.client.delete_ai_model_by_id(model.id))
 
+    def test_get_ai_model_infos(self):
+        model = self.client.save_ai_model(AiModel(name='Test AI model infos', configuration=OpenAiChatModelConfig(
+            provider='OPENAI', model_type='CHAT', model_id='gpt-4o-mini',
+            provider_config=OpenAiProviderConfig(api_key='test-key'))))
+        try:
+            infos = self.client.get_ai_model_infos(10, 0, text_search=model.name)
+            self.assertIsInstance(infos, PageDataAiModelInfo)
+            info = next(i for i in infos.data if i.id.id == model.id.id)
+            # the infos come without the credentials: providerConfig is null
+            self.assertIsNone(info.configuration.provider_config)
+        finally:
+            self.assertTrue(self.client.delete_ai_model_by_id(model.id))
+
+    def test_save_ai_model_from_infos(self):
+        model = self.client.save_ai_model(AiModel(name='Test AI model resave', configuration=OpenAiChatModelConfig(
+            provider='OPENAI', model_type='CHAT', model_id='gpt-4o-mini',
+            provider_config=OpenAiProviderConfig(api_key='test-key'))))
+        try:
+            info = next(i for i in self.client.get_ai_model_infos(10, 0, text_search=model.name).data
+                        if i.id.id == model.id.id)
+            with self.assertRaises(ValueError):
+                self.client.save_ai_model(AiModel(id=info.id, name=info.name, configuration=info.configuration))
+            self.assertEqual(self.client.get_ai_model_by_id(model.id).configuration.provider_config.api_key, 'test-key')
+        finally:
+            self.assertTrue(self.client.delete_ai_model_by_id(model.id))
+
+    def test_get_ai_model_infos_with_unsupported_sort_property(self):
+        with self.assertRaises(ApiException) as error:
+            self.client.get_ai_model_infos(10, 0, sort_property='tenantId')
+        self.assertEqual(error.exception.status, 400)
+
+    def test_send_chat_request_to_ai_model(self):
+        model = self.client.save_ai_model(AiModel(name='Test AI model chat', configuration=OllamaChatModelConfig(
+            provider='OLLAMA', model_type='CHAT', model_id='llama3', max_retries=0,
+            provider_config=OllamaProviderConfig(base_url='http://127.0.0.1:9', auth=ModelNone(type='NONE')))))
+        try:
+            # nothing listens on the port: the provider error comes as a Failure answer, not as an HTTP error
+            response = self.client.send_chat_request_to_ai_model(TbChatPrompt(user_message=TbUserMessage(
+                contents=[TbTextContent(content_type='TEXT', text='hi')])), model.id)
+            self.assertIsInstance(response, Failure)
+            self.assertTrue(response.error_details)
+        finally:
+            self.assertTrue(self.client.delete_ai_model_by_id(model.id))
+
+
+class AiResourceControllerTests(TBClientTests):
+    def test_get_ai_resources_config(self):
+        self.assertIn(type(call_ai(self, self.client.get_ai_resources_config)), (dict, list, type(None)))
+
+    def test_upload_ai_resource(self):
+        path = os.path.join(tempfile.mkdtemp(), 'test_ai_resource.txt')
+        with open(path, 'w') as f:
+            f.write('test')
+        resource = self.client.upload_ai_resource(path)
+        try:
+            self.assertEqual(self.client.download_ai_resource(resource['id']), b'test')
+        finally:
+            self.assertIsNone(self.client.delete_ai_resource(resource['id']))
+
+    def test_upload_ai_resource_of_unsupported_type(self):
+        path = os.path.join(tempfile.mkdtemp(), 'test_ai_resource.exe')
+        with open(path, 'wb') as f:
+            f.write(b'MZ')
+        with self.assertRaises(ApiException) as error:
+            self.client.upload_ai_resource(path)
+        self.assertEqual(error.exception.status, 400)
+
 
 class AiSolutionControllerTests(TBClientTests):
     def test_start_new(self):
@@ -2279,6 +2373,8 @@ class AiSolutionControllerTests(TBClientTests):
         call_ai(self, self.client.get_solution, solution_id)
         call_ai(self, self.client.create_solution, solution_id)
         call_ai(self, self.client.chat, 'hello', solution_id, 'INITIAL_CONFIGURATION')
+        call_ai(self, self.client.send_message, SolutionChatMessage(message='hello'), solution_id,
+                'INITIAL_CONFIGURATION')
         call_ai(self, self.client.update_data, {'a': 1}, solution_id, 'test')
         call_ai(self, self.client.clear_step, solution_id, 'INITIAL_CONFIGURATION')
         call_ai(self, self.client.install_solution, solution_id)
@@ -2529,7 +2625,7 @@ class EdgeControllerTests(TBClientTests):
 
     def test_get_edges_by_entity_group_id(self):
         entity_group = self.client.get_entity_groups_by_type('EDGE')[0]
-        self.assertIsInstance(self.client.get_edges_by_entity_group_id(entity_group.id, '10', '0'), PageDataEdge)
+        self.assertIsInstance(self.client.get_edges_by_entity_group_id(entity_group.id, 10, 0), PageDataEdge)
 
     def test_find_by_query_v2(self):
         tenant_id = self.client.get_user().tenant_id
@@ -2711,6 +2807,9 @@ class RpcV2ControllerTests(TBClientTests):
                                                                               'timeout': 1000})
         self.assertIn(error.exception.status, (409, 504))
 
+    def test_get_persisted_rpc_by_device(self):
+        self.assertIsInstance(self.client.get_persisted_rpc_by_device(self.device.id, 10, 0), PageDataRpc)
+
 
 class RuleEngineControllerTests(TBClientTests):
     """Nothing answers a request in the rule chain of a new device: the server times out (408)."""
@@ -2805,6 +2904,11 @@ class SolutionExportImportControllerTests(TBClientTests):
             # the imported device gets a new id; the fixture deletes the device by the old one in tearDownClass
             for device in self.client.get_tenant_devices(100, 0, text_search=self.device.name).data:
                 type(self).device = device
+
+
+class SystemInfoControllerTests(TBClientTests):
+    def test_get_system_version_info(self):
+        self.assertIsInstance(self.client.get_system_version_info(), SystemVersionInfo)
 
 
 class TbResourceControllerTests(TBClientTests):

@@ -253,6 +253,8 @@ class RESTClientObject(object):
             logger.debug("response body: %s", r.data)
 
         if not 200 <= r.status <= 299:
+            if not _preload_content:
+                r = RESTResponse(r)
             raise ApiException(http_resp=r)
 
         return r
