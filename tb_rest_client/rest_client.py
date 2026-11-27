@@ -27,6 +27,7 @@ from typing import List, Optional, Union, Any, Dict
 
 from tb_rest_client.models import *
 from tb_rest_client.rest import RESTResponse
+from tb_rest_client.server_sent_event_stream import ServerSentEventStream
 from tb_rest_client.configuration import Configuration
 from tb_rest_client.api_client import ApiClient
 
@@ -116,11 +117,13 @@ from tb_rest_client.api.agent_controller_api import AgentControllerApi
 from tb_rest_client.api.agent_profile_controller_api import AgentProfileControllerApi
 from tb_rest_client.api.ai_chat_controller_api import AiChatControllerApi
 from tb_rest_client.api.ai_device_dashboard_controller_api import AiDeviceDashboardControllerApi
+from tb_rest_client.api.ai_resource_controller_api import AiResourceControllerApi
 from tb_rest_client.api.ai_solution_controller_api import AiSolutionControllerApi
 from tb_rest_client.api.ai_tool_controller_api import AiToolControllerApi
 from tb_rest_client.api.alarm_rule_controller_api import AlarmRuleControllerApi
 from tb_rest_client.api.api_key_controller_api import ApiKeyControllerApi
 from tb_rest_client.api.solution_export_import_controller_api import SolutionExportImportControllerApi
+from tb_rest_client.api.system_info_controller_api import SystemInfoControllerApi
 
 
 logger = getLogger(__name__)
@@ -230,7 +233,7 @@ class RestClient(Thread):
         refresh_token = None
         if isinstance(token_json, dict) and token_json.get("token") is not None:
             token = token_json["token"]
-            refresh_token = token_json["refreshToken"]
+            refresh_token = token_json.get("refreshToken")
         self.configuration.api_key_prefix["X-Authorization"] = "Bearer"
         self.configuration.api_key["X-Authorization"] = token
         self.token_info['token'] = token
@@ -600,7 +603,7 @@ class RestClient(Thread):
                                                           start_time=start_time, end_time=end_time,
                                                           fetch_originator=fetch_originator, assignee_id=assignee_id)
 
-    def unassign_alarm(self, id: AlarmId) -> Alarm:
+    def unassign_alarm(self, id: AlarmId) -> AlarmInfo:
         id = self.get_id(id)
         return self.alarm_controller.unassign_alarm(alarm_id=id)
 
@@ -806,7 +809,8 @@ class RestClient(Thread):
 
     def get_persisted_rpc_by_device(self, device_id: DeviceId, page_size: int, page: int,
                                     rpc_status: Optional[str] = None, text_search: Optional[str] = None,
-                                    sort_property: Optional[str] = None, sort_order: Optional[str] = None) -> Dict:
+                                    sort_property: Optional[str] = None,
+                                    sort_order: Optional[str] = None) -> PageDataRpc:
         device_id = self.get_id(device_id)
         return self.rpc_v2_controller.get_persisted_rpc_by_device(device_id=device_id, page_size=page_size,
                                                                   page=page, rpc_status=rpc_status,
@@ -2349,11 +2353,25 @@ class RestClient(Thread):
         return self.ai_model_controller.get_ai_models(page_size=page_size, page=page, text_search=text_search,
                                                      sort_property=sort_property, sort_order=sort_order)
 
+    def get_ai_model_infos(self, page_size: int, page: int, text_search: Optional[str] = None,
+                           sort_property: Optional[str] = None,
+                           sort_order: Optional[str] = None) -> PageDataAiModelInfo:
+        return self.ai_model_controller.get_ai_model_infos(page_size=page_size, page=page, text_search=text_search,
+                                                           sort_property=sort_property, sort_order=sort_order)
+
     def save_ai_model(self, body: AiModel) -> AiModel:
+        configuration = getattr(body, 'configuration', None)
+        if hasattr(configuration, 'provider_config') and configuration.provider_config is None:
+            raise ValueError("Invalid value for `provider_config`, must not be `None`: get_ai_model_infos returns "
+                             "the models without their credentials, take the model to save from get_ai_model_by_id")
         return self.ai_model_controller.save_ai_model(body=body)
 
     def send_chat_request(self, body: TbChatRequest) -> TbChatResponse:
         return self.ai_model_controller.send_chat_request(body=body)
+
+    def send_chat_request_to_ai_model(self, body: TbChatPrompt, ai_model_id: AiModelId) -> TbChatResponse:
+        ai_model_id = self.get_id(ai_model_id)
+        return self.ai_model_controller.send_chat_request_to_ai_model(body=body, model_uuid=ai_model_id)
 
     def __load_controllers(self):
         self.audit_log_controller = AuditLogControllerApi(self.api_client)
@@ -2442,11 +2460,13 @@ class RestClient(Thread):
         self.agent_profile_controller = AgentProfileControllerApi(self.api_client)
         self.ai_chat_controller = AiChatControllerApi(self.api_client)
         self.ai_device_dashboard_controller = AiDeviceDashboardControllerApi(self.api_client)
+        self.ai_resource_controller = AiResourceControllerApi(self.api_client)
         self.ai_solution_controller = AiSolutionControllerApi(self.api_client)
         self.ai_tool_controller = AiToolControllerApi(self.api_client)
         self.alarm_rule_controller = AlarmRuleControllerApi(self.api_client)
         self.api_key_controller = ApiKeyControllerApi(self.api_client)
         self.solution_export_import_controller = SolutionExportImportControllerApi(self.api_client)
+        self.system_info_controller = SystemInfoControllerApi(self.api_client)
 
     @staticmethod
     def get_type(type):
@@ -2990,8 +3010,7 @@ class RestClient(Thread):
     def privacy_policy_accepted(self, ) -> bool:
         return self.sign_up_controller.privacy_policy_accepted()
 
-    def accept_terms_of_use(self, ) -> Union[
-            dict, str, list, bytes, None, RESTResponse, tuple, Any]:
+    def accept_terms_of_use(self) -> JwtPair:
         return self.sign_up_controller.accept_terms_of_use()
 
     def activate_email(self, email_code: str, pkg_name: Optional[str] = None,
@@ -3527,7 +3546,7 @@ class RestClient(Thread):
     def get_system_info(self) -> SystemInfo:
         return self.admin_controller.get_system_info()
 
-    def assign_alarm(self, alarm_id: AlarmId, assignee_id: str) -> Alarm:
+    def assign_alarm(self, alarm_id: AlarmId, assignee_id: str) -> AlarmInfo:
         alarm_id = self.get_id(alarm_id)
         return self.alarm_controller.assign_alarm(alarm_id=alarm_id, assignee_id=assignee_id)
 
@@ -4368,6 +4387,17 @@ class RestClient(Thread):
     def list_chats(self) -> JsonNode:
         return self.ai_chat_controller.list_chats()
 
+    def resume_chat(self, chat_id: str, accept_language: Optional[str] = None) -> ServerSentEventStream:
+        return ServerSentEventStream(self.ai_chat_controller.resume_chat(
+            chat_id=chat_id, x_authorization=self.configuration.get_api_key_with_prefix('X-Authorization'),
+            accept_language=accept_language, _preload_content=False))
+
+    def send_chat_message(self, body: Any, chat_id: str,
+                          accept_language: Optional[str] = None) -> ServerSentEventStream:
+        return ServerSentEventStream(self.ai_chat_controller.send_chat_message(
+            body=body, x_authorization=self.configuration.get_api_key_with_prefix('X-Authorization'),
+            chat_id=chat_id, accept_language=accept_language, _preload_content=False))
+
     def update_chat(self, body: Any, chat_id: str) -> None:
         return self.ai_chat_controller.update_chat(body=body, chat_id=chat_id)
 
@@ -4377,6 +4407,19 @@ class RestClient(Thread):
         return self.ai_device_dashboard_controller.generate_dashboard(
             body=body, x_authorization=self.configuration.get_api_key_with_prefix('X-Authorization'),
             device_id=device_id)
+
+    # AI Resource Controller
+    def delete_ai_resource(self, resource_id: str) -> None:
+        return self.ai_resource_controller.delete_ai_resource(resource_id=resource_id)
+
+    def download_ai_resource(self, resource_id: str) -> bytes:
+        return self.ai_resource_controller.download_ai_resource(resource_id=resource_id)
+
+    def get_ai_resources_config(self) -> JsonNode:
+        return self.ai_resource_controller.get_ai_resources_config()
+
+    def upload_ai_resource(self, file: str) -> JsonNode:
+        return self.ai_resource_controller.upload_ai_resource(file=file)
 
     # AI Solution Controller
     def chat(self, body: str, solution_id: str, step: str) -> JsonNode:
@@ -4400,6 +4443,9 @@ class RestClient(Thread):
     def install_solution(self, solution_id: str) -> JsonNode:
         return self.ai_solution_controller.install_solution(
             solution_id=solution_id, x_authorization=self.configuration.get_api_key_with_prefix('X-Authorization'))
+
+    def send_message(self, body: SolutionChatMessage, solution_id: str, step: str) -> JsonNode:
+        return self.ai_solution_controller.send_message(body=body, solution_id=solution_id, step=step)
 
     def start_new(self) -> JsonNode:
         return self.ai_solution_controller.start_new()
@@ -4530,11 +4576,19 @@ class RestClient(Thread):
 
     # Device Controller
     def claim_device_by_name(self, device_name: str, body: Optional[ClaimRequest] = None,
-                             sub_customer_id: Optional[str] = None) -> Any:
+                             sub_customer_id: Optional[str] = None) -> ClaimResult:
         return self.device_controller.claim_device(device_name=device_name, body=body, sub_customer_id=sub_customer_id)
 
     # Edge Controller
-    def get_edges_by_entity_group_id(self, entity_group_id: EntityGroupId, page_size: str, page: str,
+    def activate_instance_v2(self, license_secret: str, release_date: str, cluster_id: str,
+                             protocol_version: Optional[str] = None) -> JsonNode:
+        return self.edge_controller.activate_instance_v2(license_secret=license_secret, release_date=release_date,
+                                                         cluster_id=cluster_id, protocol_version=protocol_version)
+
+    def check_instance_v2(self, body: Any) -> JsonNode:
+        return self.edge_controller.check_instance_v2(body=body)
+
+    def get_edges_by_entity_group_id(self, entity_group_id: EntityGroupId, page_size: int, page: int,
                                      text_search: Optional[str] = None, sort_property: Optional[str] = None,
                                      sort_order: Optional[str] = None) -> PageDataEdge:
         entity_group_id = self.get_id(entity_group_id)
@@ -4638,7 +4692,7 @@ class RestClient(Thread):
                                                                              text_search=text_search)
 
     # Sign Up Controller
-    def accept_privacy_policy(self) -> JsonNode:
+    def accept_privacy_policy(self) -> JwtPair:
         return self.sign_up_controller.accept_privacy_policy()
 
     # Solution Export Import Controller
@@ -4650,6 +4704,10 @@ class RestClient(Thread):
 
     def validate_solution(self, body: SolutionData) -> SolutionValidationResult:
         return self.solution_export_import_controller.validate_solution(body=body)
+
+    # System Info Controller
+    def get_system_version_info(self) -> SystemVersionInfo:
+        return self.system_info_controller.get_system_version_info()
 
     # TB Resource Controller
     def get_resource_info(self, resource_type: str, scope: str, key: str) -> TbResourceInfo:
